@@ -55,7 +55,7 @@ my-portfolio/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/my-portfolio.git
+   git clone https://github.com/Nabi-Rahmani/my-portfolio.git
    cd my-portfolio
    ```
 
@@ -138,9 +138,11 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 👨‍💻 Author
 
 **Noor Mohammad Rahmani**
-- Portfolio: [Your Portfolio URL]
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
+- Portfolio: [codewithnabi.dev](https://your-portfolio-url.vercel.app)
+- GitHub: [@Nabi-Rahmani](https://github.com/Nabi-Rahmani)
+- LinkedIn: [Muhammad Nabi Rahmani 🇵🇸](https://www.linkedin.com/in/muhammad-nabi-rahmani-%F0%9F%87%B5%F0%9F%87%B8-8945b21ba/)
+- Twitter: [@nabirahmani_dev](https://x.com/nabirahmani_dev)
+- Email: [codewithnabi@gmail.com](mailto:codewithnabi@gmail.com)
 
 ---
 
