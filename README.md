@@ -1,36 +1,147 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💼 Modern Portfolio Website
 
-## Getting Started
+A sleek, modern portfolio website built with **Next.js 15**, **TypeScript**, and **Tailwind CSS**, featuring a beautiful dark/light theme toggle and responsive design.
 
-First, run the development server:
+![Portfolio Preview](https://img.shields.io/badge/Next.js-15.4.7-black?style=for-the-badge&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-Latest-blue?style=for-the-badge&logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?style=for-the-badge&logo=tailwindcss)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Features
+
+- 🎨 **Modern Design**: Clean, professional layout with glassmorphism effects
+- 🌙 **Dark/Light Theme**: Seamless theme switching with system preference detection
+- 📱 **Fully Responsive**: Optimized for desktop, tablet, and mobile devices
+- ⚡ **Fast Performance**: Built with Next.js 15 and optimized for speed
+- 🎯 **Multi-Page Layout**: Home, Projects, and About pages with smooth navigation
+- 🔥 **Separated Brand Navigation**: Clean brand positioning with centered popup navigation
+- 💅 **Custom Color Scheme**: Beautiful peachy-pink gradient (#fcb4b0) theme
+- ✨ **Smooth Animations**: Hover effects and transitions throughout
+
+## 🚀 Tech Stack
+
+- **Framework**: Next.js 15.4.7 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4 + Custom CSS Properties
+- **Theme System**: Custom dark/light mode implementation
+- **Animations**: CSS3 transitions and transforms
+- **Icons**: Custom SVG icons
+- **Deployment Ready**: Vercel/Netlify compatible
+
+## 🏗️ Project Structure
+
+```
+my-portfolio/
+├── src/
+│   └── app/
+│       ├── about/
+│       │   └── page.tsx          # About page with experience & skills
+│       ├── projects/
+│       │   └── page.tsx          # Projects showcase
+│       ├── globals.css           # Global styles & theme variables
+│       ├── layout.tsx            # Root layout component
+│       └── page.tsx              # Home page with hero section
+├── public/                       # Static assets
+├── package.json                  # Dependencies & scripts
+└── README.md                     # Project documentation
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
+- Node.js 18+ installed
+- npm or yarn package manager
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Installation
 
-## Learn More
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/my-portfolio.git
+   cd my-portfolio
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Run the development server**
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Open your browser**
+   Visit [http://localhost:3000](http://localhost:3000) to see your portfolio
 
-## Deploy on Vercel
+## 🎨 Customization
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Theme Colors
+The portfolio uses custom CSS properties for theming. You can modify colors in `src/app/globals.css`:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```css
+:root {
+  --bg-primary: #ffffff;
+  --text-primary: #000000;
+  --accent-gradient: linear-gradient(135deg, #fcb4b0 0%, #ffc0cb 100%);
+  /* ... more variables */
+}
+```
+
+### Content Updates
+- **Personal Info**: Update `src/app/page.tsx` for hero section
+- **Projects**: Modify `src/app/projects/page.tsx` to showcase your work
+- **About**: Edit `src/app/about/page.tsx` with your experience
+- **Brand**: Change "codewithnabi" to your brand name across components
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+1. Push your code to GitHub
+2. Connect your repository to [Vercel](https://vercel.com)
+3. Deploy automatically with zero configuration
+
+### Netlify
+1. Build the project: `npm run build`
+2. Deploy the `out` folder to [Netlify](https://netlify.com)
+
+### Manual Deployment
+```bash
+npm run build
+npm run start
+```
+
+## 🎯 Features Breakdown
+
+- **🏠 Home Page**: Hero section with call-to-action and tech stack showcase
+- **📂 Projects Page**: Interactive project cards with hover effects
+- **👨‍💻 About Page**: Professional experience, skills, and background
+- **🧭 Navigation**: Popup navigation with glassmorphism and theme toggle
+- **🎨 Brand Identity**: Separated logo positioning for better visual hierarchy
+
+## 📱 Responsive Design
+
+- **Desktop**: Full-width layout with optimal spacing
+- **Tablet**: Adjusted grid layouts and navigation
+- **Mobile**: Stacked layouts with touch-friendly interactions
+
+## 🤝 Contributing
+
+Feel free to fork this project and customize it for your own portfolio! If you make improvements, pull requests are welcome.
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 👨‍💻 Author
+
+**Noor Mohammad Rahmani**
+- Portfolio: [Your Portfolio URL]
+- GitHub: [@yourusername](https://github.com/yourusername)
+- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
+
+---
+
+⭐ **Star this repo if you found it helpful!**
