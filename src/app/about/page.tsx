@@ -6,6 +6,7 @@ import Image from 'next/image';
 
 export default function About() {
     const [isDark, setIsDark] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -16,6 +17,16 @@ export default function About() {
 
             setIsDark(shouldBeDark);
             updateTheme(shouldBeDark);
+
+            // Check initial screen size
+            const checkScreenSize = () => {
+                setIsMobile(window.innerWidth <= 768);
+            };
+
+            checkScreenSize();
+            window.addEventListener('resize', checkScreenSize);
+
+            return () => window.removeEventListener('resize', checkScreenSize);
         }
     }, []);
 
@@ -56,9 +67,10 @@ export default function About() {
             backgroundColor: 'var(--bg-primary)',
             color: 'var(--text-primary)',
             minHeight: '100vh',
-            transition: 'all 0.3s ease'
+            transition: 'all 0.3s ease',
+            paddingBottom: isMobile ? '100px' : '0'
         }}>
-            {/* Brand Logo */}
+            {/* Brand Logo - Always visible at top left */}
             <div style={{
                 position: 'fixed',
                 top: '1rem',
@@ -78,571 +90,701 @@ export default function About() {
                 </Link>
             </div>
 
-            {/* Navigation */}
-            <nav style={{
-                position: 'fixed',
-                top: '1rem',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                zIndex: 50,
-                backgroundColor: `${isDark ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.9)'}`,
-                backdropFilter: 'blur(16px)',
-                border: `1px solid var(--border-color)`,
-                borderRadius: '2rem',
-                padding: '0.75rem 1.5rem',
-                transition: 'all 0.3s ease',
-                boxShadow: isDark
-                    ? '0 8px 32px rgba(0,0,0,0.3)'
-                    : '0 8px 32px rgba(0,0,0,0.1)',
-                width: 'auto',
-                minWidth: '300px'
-            }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.5rem' }}>
-                    <div style={{ display: 'flex', gap: '1.5rem' }}>
-                        <Link href="/" style={{
-                            color: 'var(--text-secondary)',
-                            fontSize: '0.8rem',
-                            transition: 'color 0.3s ease',
-                            textDecoration: 'none',
-                            padding: '0.25rem 0.5rem',
-                            borderRadius: '0.5rem'
-                        }}
-                            onMouseEnter={(e) => (e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)'}
-                            onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = 'transparent'}>
-                            Home
-                        </Link>
-                        <Link href="/projects" style={{
-                            color: 'var(--text-secondary)',
-                            fontSize: '0.8rem',
-                            transition: 'color 0.3s ease',
-                            textDecoration: 'none',
-                            padding: '0.25rem 0.5rem',
-                            borderRadius: '0.5rem'
-                        }}
-                            onMouseEnter={(e) => (e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)'}
-                            onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = 'transparent'}>
-                            Projects
-                        </Link>
-                        <Link href="/about" style={{
-                            color: 'var(--text-primary)',
-                            fontSize: '0.8rem',
-                            transition: 'color 0.3s ease',
-                            textDecoration: 'none',
-                            fontWeight: '600',
-                            padding: '0.25rem 0.5rem',
-                            borderRadius: '0.5rem',
-                            backgroundColor: 'var(--bg-secondary)'
-                        }}>
-                            About
-                        </Link>
+            {/* Desktop Navigation - Top Center */}
+            {!isMobile && (
+                <nav style={{
+                    position: 'fixed',
+                    top: '1rem',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    zIndex: 50,
+                    backgroundColor: `${isDark ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.9)'}`,
+                    backdropFilter: 'blur(16px)',
+                    border: `1px solid var(--border-color)`,
+                    borderRadius: '2rem',
+                    padding: '0.75rem 1.5rem',
+                    transition: 'all 0.3s ease',
+                    boxShadow: isDark
+                        ? '0 8px 32px rgba(0,0,0,0.3)'
+                        : '0 8px 32px rgba(0,0,0,0.1)',
+                    width: 'auto',
+                    minWidth: '300px'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.5rem' }}>
+                        <div style={{ display: 'flex', gap: '1.5rem' }}>
+                            <Link href="/" style={{
+                                color: 'var(--text-secondary)',
+                                fontSize: '0.8rem',
+                                transition: 'color 0.3s ease',
+                                textDecoration: 'none',
+                                padding: '0.25rem 0.5rem',
+                                borderRadius: '0.5rem'
+                            }}
+                                onMouseEnter={(e) => (e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)'}
+                                onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = 'transparent'}>
+                                Home
+                            </Link>
+                            <Link href="/projects" style={{
+                                color: 'var(--text-secondary)',
+                                fontSize: '0.8rem',
+                                transition: 'color 0.3s ease',
+                                textDecoration: 'none',
+                                padding: '0.25rem 0.5rem',
+                                borderRadius: '0.5rem'
+                            }}
+                                onMouseEnter={(e) => (e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)'}
+                                onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = 'transparent'}>
+                                Projects
+                            </Link>
+                            <Link href="/about" style={{
+                                color: 'var(--text-primary)',
+                                fontSize: '0.8rem',
+                                transition: 'color 0.3s ease',
+                                textDecoration: 'none',
+                                fontWeight: '600',
+                                padding: '0.25rem 0.5rem',
+                                borderRadius: '0.5rem',
+                                backgroundColor: 'var(--bg-secondary)'
+                            }}>
+                                About
+                            </Link>
+                        </div>
+
+                        <button
+                            onClick={toggleTheme}
+                            style={{
+                                padding: '6px',
+                                borderRadius: '50%',
+                                border: `1px solid var(--border-color)`,
+                                backgroundColor: 'var(--bg-secondary)',
+                                color: isDark ? '#fbbf24' : '#f59e0b',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
+                                width: '32px',
+                                height: '32px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                            onMouseEnter={(e) => {
+                                (e.target as HTMLElement).style.transform = 'scale(1.1)';
+                                (e.target as HTMLElement).style.color = isDark ? '#fcd34d' : '#d97706';
+                            }}
+                            onMouseLeave={(e) => {
+                                (e.target as HTMLElement).style.transform = 'scale(1)';
+                                (e.target as HTMLElement).style.color = isDark ? '#fbbf24' : '#f59e0b';
+                            }}>
+                            {isDark ? (
+                                <svg style={{ width: '16px', height: '16px' }} fill="currentColor" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                            ) : (
+                                <svg style={{ width: '16px', height: '16px' }} fill="currentColor" stroke="none" viewBox="0 0 24 24">
+                                    <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                                </svg>
+                            )}
+                        </button>
                     </div>
+                </nav>
+            )}
 
-                    <button
-                        onClick={toggleTheme}
-                        style={{
-                            padding: '6px',
-                            borderRadius: '50%',
-                            border: `1px solid var(--border-color)`,
-                            backgroundColor: 'var(--bg-secondary)',
-                            color: isDark ? '#fbbf24' : '#f59e0b', // Better contrast for both modes
-                            cursor: 'pointer',
-                            transition: 'all 0.3s ease',
-                            width: '32px',
-                            height: '32px',
+            {/* Mobile Bottom Navigation */}
+            {isMobile && (
+                <nav style={{
+                    position: 'fixed',
+                    bottom: '0',
+                    left: '0',
+                    right: '0',
+                    zIndex: 50,
+                    backgroundColor: `${isDark ? 'rgba(0,0,0,0.95)' : 'rgba(255,255,255,0.95)'}`,
+                    backdropFilter: 'blur(16px)',
+                    borderTop: `1px solid var(--border-color)`,
+                    padding: '0.75rem 1rem 1.5rem',
+                    transition: 'all 0.3s ease',
+                    boxShadow: isDark
+                        ? '0 -8px 32px rgba(0,0,0,0.3)'
+                        : '0 -8px 32px rgba(0,0,0,0.1)'
+                }}>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-around',
+                        alignItems: 'center',
+                        maxWidth: '400px',
+                        margin: '0 auto'
+                    }}>
+                        <Link href="/" style={{
                             display: 'flex',
+                            flexDirection: 'column',
                             alignItems: 'center',
-                            justifyContent: 'center'
-                        }}
-                        onMouseEnter={(e) => {
-                            (e.target as HTMLElement).style.transform = 'scale(1.1)';
-                            (e.target as HTMLElement).style.color = isDark ? '#fcd34d' : '#d97706';
-                        }}
-                        onMouseLeave={(e) => {
-                            (e.target as HTMLElement).style.transform = 'scale(1)';
-                            (e.target as HTMLElement).style.color = isDark ? '#fbbf24' : '#f59e0b';
-                        }}>
-                        {isDark ? (
-                            <svg style={{ width: '16px', height: '16px' }} fill="currentColor" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                            </svg>
-                        ) : (
-                            <svg style={{ width: '16px', height: '16px' }} fill="currentColor" stroke="none" viewBox="0 0 24 24">
-                                <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                            </svg>
-                        )}
-                    </button>
-                </div>
-            </nav>
-
-            {/* About Content */}
-            <main style={{ paddingTop: '5rem', padding: '5rem 1.5rem 4rem' }}>
-                <div className="max-w-6xl mx-auto">
-                    <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-                        <h1 style={{
-                            fontSize: 'clamp(2.5rem, 8vw, 4rem)',
-                            fontWeight: '300',
-                            marginBottom: '1.5rem',
-                            color: 'var(--text-primary)'
-                        }}>
-                            About Me
-                        </h1>
-                        <p style={{
-                            fontSize: 'clamp(1rem, 3vw, 1.25rem)',
+                            gap: '0.25rem',
                             color: 'var(--text-secondary)',
-                            maxWidth: '600px',
-                            margin: '0 auto',
-                            lineHeight: '1.6'
+                            textDecoration: 'none',
+                            padding: '0.5rem',
+                            borderRadius: '0.75rem',
+                            transition: 'all 0.3s ease',
+                            minWidth: '60px'
                         }}>
-                            My journey as a Flutter developer and expertise in shipping
-                            production-ready apps with modern DevOps practices.
-                        </p>
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                            </svg>
+                            <span style={{ fontSize: '0.7rem' }}>Home</span>
+                        </Link>
 
-                        {/* Profile Picture */}
-                        <div style={{
+                        <Link href="/projects" style={{
                             display: 'flex',
-                            justifyContent: 'center',
-                            marginTop: '3rem'
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            gap: '0.25rem',
+                            color: 'var(--text-secondary)',
+                            textDecoration: 'none',
+                            padding: '0.5rem',
+                            borderRadius: '0.75rem',
+                            transition: 'all 0.3s ease',
+                            minWidth: '60px'
+                        }}>
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+                            </svg>
+                            <span style={{ fontSize: '0.7rem' }}>Projects</span>
+                        </Link>
+
+                        <Link href="/about" style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            gap: '0.25rem',
+                            color: 'rgba(252, 180, 176, 1)',
+                            textDecoration: 'none',
+                            padding: '0.5rem',
+                            borderRadius: '0.75rem',
+                            backgroundColor: 'rgba(252, 180, 176, 0.1)',
+                            transition: 'all 0.3s ease',
+                            minWidth: '60px'
+                        }}>
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                            </svg>
+                            <span style={{ fontSize: '0.7rem', fontWeight: '600' }}>About</span>
+                        </Link>
+
+                        <button
+                            onClick={toggleTheme}
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                gap: '0.25rem',
+                                padding: '0.5rem',
+                                borderRadius: '0.75rem',
+                                border: 'none',
+                                backgroundColor: 'transparent',
+                                color: isDark ? '#fbbf24' : '#f59e0b',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease',
+                                minWidth: '60px'
+                            }}>
+                            {isDark ? (
+                                <svg width="20" height="20" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                            ) : (
+                                <svg width="20" height="20" fill="currentColor" stroke="none" viewBox="0 0 24 24">
+                                    <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                                </svg>
+                            )}
+                            <span style={{ fontSize: '0.7rem' }}>Theme</span>
+                        </button>
+                    </div>
+                </nav>
+            )}
+
+            <main style={{ paddingTop: '5rem', padding: '5rem 1.5rem 4rem' }}>
+                <div style={{
+                    maxWidth: '1200px',
+                    margin: '0 auto',
+                    display: 'grid',
+                    gridTemplateColumns: isMobile ? '1fr' : '1fr 2fr',
+                    gap: '4rem',
+                    alignItems: 'start'
+                }}>
+                    {/* Left Column - Profile Photo */}
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        position: 'sticky',
+                        top: '6rem'
+                    }}>
+                        <div style={{
+                            position: 'relative',
+                            width: '280px',
+                            height: '280px',
+                            borderRadius: '50%',
+                            overflow: 'hidden',
+                            border: `4px solid var(--border-color)`,
+                            boxShadow: isDark
+                                ? '0 20px 60px rgba(0,0,0,0.4), 0 0 0 8px rgba(252, 180, 176, 0.1)'
+                                : '0 20px 60px rgba(0,0,0,0.15), 0 0 0 8px rgba(252, 180, 176, 0.1)',
+                            transition: 'all 0.3s ease',
+                            cursor: 'pointer'
+                        }}
+                            onMouseEnter={(e) => {
+                                (e.target as HTMLElement).style.transform = 'scale(1.05)';
+                                (e.target as HTMLElement).style.boxShadow = isDark
+                                    ? '0 25px 80px rgba(0,0,0,0.5), 0 0 0 12px rgba(252, 180, 176, 0.2)'
+                                    : '0 25px 80px rgba(0,0,0,0.2), 0 0 0 12px rgba(252, 180, 176, 0.2)';
+                            }}
+                            onMouseLeave={(e) => {
+                                (e.target as HTMLElement).style.transform = 'scale(1)';
+                                (e.target as HTMLElement).style.boxShadow = isDark
+                                    ? '0 20px 60px rgba(0,0,0,0.4), 0 0 0 8px rgba(252, 180, 176, 0.1)'
+                                    : '0 20px 60px rgba(0,0,0,0.15), 0 0 0 8px rgba(252, 180, 176, 0.1)';
+                            }}>
+                            <Image
+                                src="/assets/images/myimage.JPG"
+                                alt="Nabi Rahman - Flutter Developer"
+                                fill
+                                style={{
+                                    objectFit: 'cover',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                sizes="280px"
+                                priority
+                            />
+                        </div>
+
+                        {/* Quick Contact Info under profile */}
+                        <div style={{
+                            marginTop: '1.5rem',
+                            textAlign: 'center',
+                            maxWidth: '280px'
                         }}>
                             <div style={{
-                                width: '200px',
-                                height: '200px',
-                                borderRadius: '50%',
-                                border: `4px solid rgba(252, 180, 176, 0.3)`,
-                                padding: '6px',
-                                background: 'linear-gradient(135deg, rgba(252, 180, 176, 0.1) 0%, rgba(255, 192, 203, 0.1) 100%)',
-                                transition: 'all 0.3s ease'
-                            }}
-                                onMouseEnter={(e) => {
-                                    (e.target as HTMLElement).style.transform = 'scale(1.05)';
-                                    (e.target as HTMLElement).style.boxShadow = '0 12px 40px rgba(252, 180, 176, 0.3)';
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '0.75rem',
+                                fontSize: '0.85rem'
+                            }}>
+                                <a href="mailto:codewithnabi@gmail.com" style={{
+                                    color: 'var(--text-secondary)',
+                                    textDecoration: 'none',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    justifyContent: 'center',
+                                    padding: '0.5rem',
+                                    borderRadius: '0.5rem',
+                                    transition: 'all 0.3s ease'
                                 }}
-                                onMouseLeave={(e) => {
-                                    (e.target as HTMLElement).style.transform = 'scale(1)';
-                                    (e.target as HTMLElement).style.boxShadow = 'none';
+                                    onMouseEnter={(e) => {
+                                        (e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)';
+                                        (e.target as HTMLElement).style.color = 'rgba(252, 180, 176, 1)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        (e.target as HTMLElement).style.backgroundColor = 'transparent';
+                                        (e.target as HTMLElement).style.color = 'var(--text-secondary)';
+                                    }}>
+                                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                                    </svg>
+                                    codewithnabi@gmail.com
+                                </a>
+
+                                <div style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    gap: '1rem',
+                                    marginTop: '0.5rem'
                                 }}>
-                                <Image
-                                    src="/assets/images/myimage.JPG"
-                                    alt="Muhammad Nabi Rahmani - Flutter Developer"
-                                    width={200}
-                                    height={200}
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        borderRadius: '50%',
-                                        objectFit: 'cover',
-                                        objectPosition: 'center'
+                                    <a href="https://github.com/Nabi-Rahmani" target="_blank" rel="noopener noreferrer" style={{
+                                        color: 'var(--text-secondary)',
+                                        transition: 'color 0.3s ease'
                                     }}
-                                    onLoad={() => console.log('Image loaded successfully')}
-                                    onError={(e) => {
-                                        console.log('Image failed to load');
-                                        // Fallback if image doesn't exist yet
-                                        (e.target as HTMLImageElement).style.display = 'none';
-                                        const parent = (e.target as HTMLImageElement).parentElement;
-                                        if (parent && !parent.querySelector('.fallback-avatar')) {
-                                            const fallbackDiv = document.createElement('div');
-                                            fallbackDiv.className = 'fallback-avatar';
-                                            fallbackDiv.style.cssText = `
-                                                width: 100%;
-                                                height: 100%;
-                                                border-radius: 50%;
-                                                background: linear-gradient(135deg, rgba(252, 180, 176, 0.3) 0%, rgba(255, 192, 203, 0.2) 100%);
-                                                display: flex;
-                                                align-items: center;
-                                                justify-content: center;
-                                                font-size: 4rem;
-                                                color: rgba(252, 180, 176, 0.7);
-                                            `;
-                                            fallbackDiv.textContent = '👨‍💻';
-                                            parent.appendChild(fallbackDiv);
-                                        }
+                                        onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#24292e'}
+                                        onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'var(--text-secondary)'}>
+                                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                        </svg>
+                                    </a>
+
+                                    <a href="https://www.linkedin.com/in/muhammad-nabi-rahmani-%F0%9F%87%B5%F0%9F%87%B8-8945b21ba/" target="_blank" rel="noopener noreferrer" style={{
+                                        color: 'var(--text-secondary)',
+                                        transition: 'color 0.3s ease'
                                     }}
-                                />
+                                        onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#0077b5'}
+                                        onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'var(--text-secondary)'}>
+                                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                                        </svg>
+                                    </a>
+
+                                    <a href="https://x.com/nabirahmani_dev" target="_blank" rel="noopener noreferrer" style={{
+                                        color: 'var(--text-secondary)',
+                                        transition: 'color 0.3s ease'
+                                    }}
+                                        onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#1da1f2'}
+                                        onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'var(--text-secondary)'}>
+                                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+                                        </svg>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Location */}
-                    <div style={{ marginBottom: '3rem', textAlign: 'center' }}>
-                        <div style={{
-                            fontSize: '0.875rem',
-                            color: 'var(--text-secondary)',
-                            marginBottom: '1rem'
-                        }}>
-                            Asia/Kabul
-                        </div>
-                    </div>
-
-                    <div className="max-w-4xl mx-auto">
-                        {/* Introduction */}
+                    {/* Right Column - Content */}
+                    <div style={{ paddingTop: isMobile ? '2rem' : '0' }}>
+                        {/* Header */}
                         <div style={{ marginBottom: '3rem' }}>
                             <h1 style={{
-                                fontSize: '2rem',
-                                fontWeight: '300',
-                                marginBottom: '1rem',
-                                background: 'linear-gradient(135deg, rgba(252, 180, 176, 1) 0%, rgba(255, 192, 203, 0.8) 100%)',
-                                backgroundClip: 'text',
+                                fontSize: isMobile ? '2rem' : '2.5rem',
+                                fontWeight: '700',
+                                margin: '0 0 0.5rem',
+                                background: 'linear-gradient(135deg, var(--text-primary), rgba(252, 180, 176, 1))',
                                 WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent'
-                            } as React.CSSProperties}>
-                                Introduction
+                                WebkitTextFillColor: 'transparent',
+                                backgroundClip: 'text'
+                            }}>
+                                About Me
                             </h1>
-                            <div style={{ marginBottom: '2rem' }}>
-                                <h2 style={{
-                                    fontSize: '1.5rem',
-                                    fontWeight: '600',
+                            <p style={{
+                                fontSize: '1.1rem',
+                                color: 'var(--text-secondary)',
+                                margin: 0,
+                                lineHeight: 1.6
+                            }}>
+                                Flutter Developer & Mobile App Enthusiast
+                            </p>
+                        </div>
+
+                        {/* Bio Section */}
+                        <div style={{ marginBottom: '3rem' }}>
+                            <h2 style={{
+                                fontSize: '1.3rem',
+                                fontWeight: '600',
+                                margin: '0 0 1rem',
+                                color: 'var(--text-primary)'
+                            }}>
+                                Who I Am
+                            </h2>
+                            <div style={{
+                                fontSize: '1rem',
+                                color: 'var(--text-secondary)',
+                                lineHeight: 1.7,
+                                marginBottom: '1.5rem'
+                            }}>
+                                <p style={{ marginBottom: '1rem' }}>
+                                    I&apos;m a passionate Flutter developer with a love for creating beautiful, functional mobile applications.
+                                    My journey in mobile development started with a curiosity about how apps work, and it quickly evolved
+                                    into a deep appreciation for the craft of building user experiences.
+                                </p>
+                                <p style={{ marginBottom: '1rem' }}>
+                                    I specialize in Flutter development, bringing ideas to life through clean code and intuitive design.
+                                    Whether it&apos;s a simple utility app or a complex enterprise solution, I focus on creating apps
+                                    that users love to interact with.
+                                </p>
+                                <p style={{ margin: 0 }}>
+                                    When I&apos;m not coding, you can find me exploring new technologies, contributing to open-source projects,
+                                    or sharing my knowledge with the developer community.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Skills Section */}
+                        <div style={{ marginBottom: '3rem' }}>
+                            <h2 style={{
+                                fontSize: '1.3rem',
+                                fontWeight: '600',
+                                margin: '0 0 1.5rem',
+                                color: 'var(--text-primary)'
+                            }}>
+                                Skills & Technologies
+                            </h2>
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+                                gap: '2rem'
+                            }}>
+                                <div>
+                                    <h3 style={{
+                                        fontSize: '1rem',
+                                        fontWeight: '600',
+                                        margin: '0 0 1rem',
+                                        color: 'rgba(252, 180, 176, 1)'
+                                    }}>
+                                        Mobile Development
+                                    </h3>
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                                        {['Flutter', 'Dart', 'Firebase', 'REST APIs', 'State Management'].map(skill => (
+                                            <span key={skill} style={{
+                                                padding: '0.5rem 1rem',
+                                                backgroundColor: 'var(--bg-secondary)',
+                                                color: 'var(--text-primary)',
+                                                borderRadius: '0.5rem',
+                                                fontSize: '0.8rem',
+                                                border: `1px solid var(--border-color)`,
+                                                transition: 'all 0.3s ease'
+                                            }}>
+                                                {skill}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h3 style={{
+                                        fontSize: '1rem',
+                                        fontWeight: '600',
+                                        margin: '0 0 1rem',
+                                        color: 'rgba(252, 180, 176, 1)'
+                                    }}>
+                                        Tools & Others
+                                    </h3>
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                                        {['Git', 'VS Code', 'Android Studio', 'Figma', 'UI/UX Design'].map(skill => (
+                                            <span key={skill} style={{
+                                                padding: '0.5rem 1rem',
+                                                backgroundColor: 'var(--bg-secondary)',
+                                                color: 'var(--text-primary)',
+                                                borderRadius: '0.5rem',
+                                                fontSize: '0.8rem',
+                                                border: `1px solid var(--border-color)`,
+                                                transition: 'all 0.3s ease'
+                                            }}>
+                                                {skill}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Experience Section */}
+                        <div style={{ marginBottom: '3rem' }}>
+                            <h2 style={{
+                                fontSize: '1.3rem',
+                                fontWeight: '600',
+                                margin: '0 0 1.5rem',
+                                color: 'var(--text-primary)'
+                            }}>
+                                Experience
+                            </h2>
+                            <div style={{
+                                padding: '2rem',
+                                backgroundColor: 'var(--bg-secondary)',
+                                borderRadius: '1rem',
+                                border: `1px solid var(--border-color)`,
+                                transition: 'all 0.3s ease'
+                            }}>
+                                <div style={{ marginBottom: '1.5rem' }}>
+                                    <h3 style={{
+                                        fontSize: '1.1rem',
+                                        fontWeight: '600',
+                                        margin: '0 0 0.5rem',
+                                        color: 'var(--text-primary)'
+                                    }}>
+                                        Flutter Developer
+                                    </h3>
+                                    <p style={{
+                                        fontSize: '0.9rem',
+                                        color: 'rgba(252, 180, 176, 1)',
+                                        margin: '0 0 1rem',
+                                        fontWeight: '500'
+                                    }}>
+                                        Freelance & Personal Projects
+                                    </p>
+                                    <p style={{
+                                        fontSize: '0.9rem',
+                                        color: 'var(--text-secondary)',
+                                        margin: 0,
+                                        lineHeight: 1.6
+                                    }}>
+                                        Developing mobile applications with Flutter, focusing on clean architecture,
+                                        performance optimization, and delightful user experiences. Working on various
+                                        projects including productivity apps, utilities, and educational tools.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Contact Section */}
+                        <div>
+                            <h2 style={{
+                                fontSize: '1.3rem',
+                                fontWeight: '600',
+                                margin: '0 0 1.5rem',
+                                color: 'var(--text-primary)'
+                            }}>
+                                Let&apos;s Connect
+                            </h2>
+                            <p style={{
+                                fontSize: '1rem',
+                                color: 'var(--text-secondary)',
+                                lineHeight: 1.6,
+                                marginBottom: '1.5rem'
+                            }}>
+                                I&apos;m always interested in new opportunities and collaborations.
+                                Feel free to reach out if you&apos;d like to work together or just chat about Flutter development!
+                            </p>
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)',
+                                gap: '1rem',
+                                maxWidth: isMobile ? '100%' : '500px'
+                            }}>
+                                {/* Email */}
+                                <a href="mailto:codewithnabi@gmail.com" style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    padding: '1rem',
+                                    backgroundColor: 'rgba(252, 180, 176, 1)',
+                                    color: 'white',
+                                    textDecoration: 'none',
+                                    borderRadius: '0.75rem',
+                                    fontSize: '0.8rem',
+                                    fontWeight: '500',
+                                    transition: 'all 0.3s ease',
+                                    textAlign: 'center'
+                                }}
+                                    onMouseEnter={(e) => {
+                                        (e.target as HTMLElement).style.backgroundColor = 'rgba(252, 180, 176, 0.8)';
+                                        (e.target as HTMLElement).style.transform = 'translateY(-2px)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        (e.target as HTMLElement).style.backgroundColor = 'rgba(252, 180, 176, 1)';
+                                        (e.target as HTMLElement).style.transform = 'translateY(0)';
+                                    }}>
+                                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                                    </svg>
+                                    <span>Email</span>
+                                </a>
+
+                                {/* GitHub */}
+                                <a href="https://github.com/Nabi-Rahmani" target="_blank" rel="noopener noreferrer" style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    padding: '1rem',
+                                    backgroundColor: 'var(--bg-secondary)',
                                     color: 'var(--text-primary)',
-                                    marginBottom: '0.5rem'
-                                }}>
-                                    Muhammad Nabi Rahmani
-                                </h2>
-                                <p style={{
-                                    fontSize: '1rem',
-                                    color: 'var(--text-secondary)',
-                                    lineHeight: '1.6',
-                                    marginBottom: '1rem'
-                                }}>
-                                    I am a passionate Flutter developer from Afghanistan with over 3 years of experience
-                                    in building production-ready mobile applications and web solutions. I specialize in
-                                    full-stack development with advanced expertise in Flutter, Dart, modern backend services,
-                                    DevOps practices, and shipping apps from zero to production.
-                                </p>
-                                <p style={{
-                                    fontSize: '1rem',
-                                    color: 'var(--text-secondary)',
-                                    lineHeight: '1.6'
-                                }}>
-                                    My journey began with curiosity about mobile app development, which led me to master Flutter,
-                                    backend integration with Supabase and Firebase, CI/CD pipelines with Codemagic, analytics
-                                    with Mixpanel, crash monitoring with Sentry, and complete DevOps workflows for scalable app deployment.
-                                </p>
-                            </div>
-                        </div>
+                                    textDecoration: 'none',
+                                    borderRadius: '0.75rem',
+                                    fontSize: '0.8rem',
+                                    fontWeight: '500',
+                                    border: `1px solid var(--border-color)`,
+                                    transition: 'all 0.3s ease',
+                                    textAlign: 'center'
+                                }}
+                                    onMouseEnter={(e) => {
+                                        (e.target as HTMLElement).style.backgroundColor = '#24292e';
+                                        (e.target as HTMLElement).style.color = 'white';
+                                        (e.target as HTMLElement).style.transform = 'translateY(-2px)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        (e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)';
+                                        (e.target as HTMLElement).style.color = 'var(--text-primary)';
+                                        (e.target as HTMLElement).style.transform = 'translateY(0)';
+                                    }}>
+                                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                    </svg>
+                                    <span>GitHub</span>
+                                </a>
 
-                        {/* Work Experience */}
-                        <div style={{ marginBottom: '3rem' }}>
-                            <h1 style={{
-                                fontSize: '2rem',
-                                fontWeight: '300',
-                                marginBottom: '2rem',
-                                background: 'linear-gradient(135deg, rgba(255, 218, 185, 1) 0%, rgba(252, 180, 176, 0.9) 100%)',
-                                backgroundClip: 'text',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent'
-                            } as React.CSSProperties}>
-                                Work Experience
-                            </h1>
+                                {/* LinkedIn */}
+                                <a href="https://www.linkedin.com/in/muhammad-nabi-rahmani-%F0%9F%87%B5%F0%9F%87%B8-8945b21ba/" target="_blank" rel="noopener noreferrer" style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    padding: '1rem',
+                                    backgroundColor: 'var(--bg-secondary)',
+                                    color: 'var(--text-primary)',
+                                    textDecoration: 'none',
+                                    borderRadius: '0.75rem',
+                                    fontSize: '0.8rem',
+                                    fontWeight: '500',
+                                    border: `1px solid var(--border-color)`,
+                                    transition: 'all 0.3s ease',
+                                    textAlign: 'center'
+                                }}
+                                    onMouseEnter={(e) => {
+                                        (e.target as HTMLElement).style.backgroundColor = '#0077b5';
+                                        (e.target as HTMLElement).style.color = 'white';
+                                        (e.target as HTMLElement).style.transform = 'translateY(-2px)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        (e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)';
+                                        (e.target as HTMLElement).style.color = 'var(--text-primary)';
+                                        (e.target as HTMLElement).style.transform = 'translateY(0)';
+                                    }}>
+                                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                                    </svg>
+                                    <span>LinkedIn</span>
+                                </a>
 
-                            {/* Orhan Technology */}
-                            <div style={{ marginBottom: '2rem' }}>
-                                <div style={{
-                                    borderLeft: '3px solid rgba(252, 180, 176, 0.5)',
-                                    paddingLeft: '1.5rem',
-                                    marginBottom: '2rem'
-                                }}>
-                                    <h3 style={{
-                                        fontSize: '1.25rem',
-                                        fontWeight: '600',
-                                        color: 'var(--text-primary)',
-                                        marginBottom: '0.25rem'
+                                {/* Twitter */}
+                                <a href="https://x.com/nabirahmani_dev" target="_blank" rel="noopener noreferrer" style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    padding: '1rem',
+                                    backgroundColor: 'var(--bg-secondary)',
+                                    color: 'var(--text-primary)',
+                                    textDecoration: 'none',
+                                    borderRadius: '0.75rem',
+                                    fontSize: '0.8rem',
+                                    fontWeight: '500',
+                                    border: `1px solid var(--border-color)`,
+                                    transition: 'all 0.3s ease',
+                                    textAlign: 'center'
+                                }}
+                                    onMouseEnter={(e) => {
+                                        (e.target as HTMLElement).style.backgroundColor = '#1da1f2';
+                                        (e.target as HTMLElement).style.color = 'white';
+                                        (e.target as HTMLElement).style.transform = 'translateY(-2px)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        (e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)';
+                                        (e.target as HTMLElement).style.color = 'var(--text-primary)';
+                                        (e.target as HTMLElement).style.transform = 'translateY(0)';
                                     }}>
-                                        Senior Flutter Developer - Orhan Technology
-                                    </h3>
-                                    <p style={{
-                                        fontSize: '0.875rem',
-                                        color: 'var(--text-secondary)',
-                                        marginBottom: '0.75rem'
-                                    }}>
-                                        March 2024 - Present
-                                    </p>
-                                    <p style={{
-                                        fontSize: '1rem',
-                                        color: 'var(--text-secondary)',
-                                        lineHeight: '1.6'
-                                    }}>
-                                        Leading Flutter mobile app development with full DevOps integration. Implementing
-                                        CI/CD pipelines using Codemagic, integrating Supabase and Firebase backends,
-                                        setting up Mixpanel analytics, Sentry crash monitoring, and delivering apps
-                                        from development to production with automated testing and deployment.
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* YouTube Channel */}
-                            <div style={{ marginBottom: '2rem' }}>
-                                <div style={{
-                                    borderLeft: '3px solid rgba(255, 192, 203, 0.5)',
-                                    paddingLeft: '1.5rem',
-                                    marginBottom: '2rem'
-                                }}>
-                                    <h3 style={{
-                                        fontSize: '1.25rem',
-                                        fontWeight: '600',
-                                        color: 'var(--text-primary)',
-                                        marginBottom: '0.25rem'
-                                    }}>
-                                        Flutter Developer & Content Creator
-                                    </h3>
-                                    <p style={{
-                                        fontSize: '0.875rem',
-                                        color: 'var(--text-secondary)',
-                                        marginBottom: '0.75rem'
-                                    }}>
-                                        January 2023 - Present
-                                    </p>
-                                    <p style={{
-                                        fontSize: '1rem',
-                                        color: 'var(--text-secondary)',
-                                        lineHeight: '1.6'
-                                    }}>
-                                        Creating educational content about Flutter development, mobile app architecture,
-                                        DevOps practices, CI/CD with Codemagic, backend integration tutorials, and
-                                        complete app development workflows. Building a community of Flutter developers
-                                        and sharing production-ready development practices.
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Netlinks */}
-                            <div style={{ marginBottom: '2rem' }}>
-                                <div style={{
-                                    borderLeft: '3px solid rgba(255, 218, 185, 0.5)',
-                                    paddingLeft: '1.5rem'
-                                }}>
-                                    <h3 style={{
-                                        fontSize: '1.25rem',
-                                        fontWeight: '600',
-                                        color: 'var(--text-primary)',
-                                        marginBottom: '0.25rem'
-                                    }}>
-                                        Mobile App Developer - Netlinks
-                                    </h3>
-                                    <p style={{
-                                        fontSize: '0.875rem',
-                                        color: 'var(--text-secondary)',
-                                        marginBottom: '0.75rem'
-                                    }}>
-                                        June 2022 - February 2024
-                                    </p>
-                                    <p style={{
-                                        fontSize: '1rem',
-                                        color: 'var(--text-secondary)',
-                                        lineHeight: '1.6'
-                                    }}>
-                                        Developed cross-platform mobile applications using Flutter and React Native.
-                                        Worked on complete app development lifecycle including UI/UX implementation,
-                                        state management, API integration, database design, and app store deployment
-                                        for various client projects.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Technical Skills */}
-                        <div style={{ marginBottom: '3rem' }}>
-                            <h1 style={{
-                                fontSize: '2rem',
-                                fontWeight: '300',
-                                marginBottom: '2rem',
-                                background: 'linear-gradient(135deg, rgba(253, 230, 138, 1) 0%, rgba(255, 218, 185, 0.9) 50%, rgba(252, 180, 176, 0.8) 100%)',
-                                backgroundClip: 'text',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent'
-                            } as React.CSSProperties}>
-                                Technical Skills
-                            </h1>
-
-                            <div style={{ display: 'grid', gap: '1.5rem' }}>
-                                {/* Flutter & Mobile */}
-                                <div>
-                                    <h3 style={{
-                                        fontSize: '1.125rem',
-                                        fontWeight: '600',
-                                        color: 'var(--text-primary)',
-                                        marginBottom: '0.5rem'
-                                    }}>
-                                        Flutter & Mobile Development
-                                    </h3>
-                                    <p style={{
-                                        fontSize: '0.875rem',
-                                        color: 'var(--text-secondary)',
-                                        lineHeight: '1.6'
-                                    }}>
-                                        Flutter, Dart, iOS & Android Native Development, Cross-platform UI/UX,
-                                        State Management (Bloc, Provider, Riverpod), Custom Widgets, Animations
-                                    </p>
-                                </div>
-
-                                {/* Backend & Cloud */}
-                                <div>
-                                    <h3 style={{
-                                        fontSize: '1.125rem',
-                                        fontWeight: '600',
-                                        color: 'var(--text-primary)',
-                                        marginBottom: '0.5rem'
-                                    }}>
-                                        Backend & Cloud Services
-                                    </h3>
-                                    <p style={{
-                                        fontSize: '0.875rem',
-                                        color: 'var(--text-secondary)',
-                                        lineHeight: '1.6'
-                                    }}>
-                                        Supabase (PostgreSQL, Auth, Storage), Firebase (Firestore, Auth, Cloud Functions),
-                                        Node.js, RESTful APIs, GraphQL, Database Design, Cloud Architecture
-                                    </p>
-                                </div>
-
-                                {/* DevOps & CI/CD */}
-                                <div>
-                                    <h3 style={{
-                                        fontSize: '1.125rem',
-                                        fontWeight: '600',
-                                        color: 'var(--text-primary)',
-                                        marginBottom: '0.5rem'
-                                    }}>
-                                        DevOps & CI/CD
-                                    </h3>
-                                    <p style={{
-                                        fontSize: '0.875rem',
-                                        color: 'var(--text-secondary)',
-                                        lineHeight: '1.6'
-                                    }}>
-                                        Codemagic CI/CD, GitHub Actions, Docker, AWS Services, App Store & Play Store
-                                        Deployment, Automated Testing, Build Optimization, Release Management
-                                    </p>
-                                </div>
-
-                                {/* Analytics & Monitoring */}
-                                <div>
-                                    <h3 style={{
-                                        fontSize: '1.125rem',
-                                        fontWeight: '600',
-                                        color: 'var(--text-primary)',
-                                        marginBottom: '0.5rem'
-                                    }}>
-                                        Analytics & Monitoring
-                                    </h3>
-                                    <p style={{
-                                        fontSize: '0.875rem',
-                                        color: 'var(--text-secondary)',
-                                        lineHeight: '1.6'
-                                    }}>
-                                        Mixpanel Analytics, Sentry Crash Monitoring, Firebase Crashlytics,
-                                        Performance Monitoring, User Behavior Analysis, A/B Testing
-                                    </p>
-                                </div>
-
-                                {/* Frontend Web */}
-                                <div>
-                                    <h3 style={{
-                                        fontSize: '1.125rem',
-                                        fontWeight: '600',
-                                        color: 'var(--text-primary)',
-                                        marginBottom: '0.5rem'
-                                    }}>
-                                        Advanced Frontend
-                                    </h3>
-                                    <p style={{
-                                        fontSize: '0.875rem',
-                                        color: 'var(--text-secondary)',
-                                        lineHeight: '1.6'
-                                    }}>
-                                        Next.js, React, TypeScript, JavaScript (ES6+), Tailwind CSS, Responsive Design,
-                                        Progressive Web Apps (PWA), Performance Optimization
-                                    </p>
-                                </div>
+                                    <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+                                    </svg>
+                                    <span>Twitter</span>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </main>
 
-            {/* Footer */}
             <footer style={{
-                padding: '3rem 1.5rem',
+                padding: '2rem 1.5rem',
                 borderTop: `1px solid var(--border-color)`,
                 marginTop: '6rem'
             }}>
-                <div className="max-w-6xl mx-auto">
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        flexWrap: 'wrap',
-                        gap: '1rem'
-                    }}>
-                        <div style={{
-                            fontSize: '0.875rem',
-                            color: 'var(--text-secondary)'
-                        }}>
-                            © 2025 codewithnabi. Flutter Apps from Zero to Production 🚀
-                        </div>
-                        <div style={{ display: 'flex', gap: '1.5rem' }}>
-                            <a href="https://github.com/Nabi-Rahmani" target="_blank" rel="noopener noreferrer" style={{
-                                fontSize: '0.875rem',
-                                color: 'var(--text-secondary)',
-                                textDecoration: 'none',
-                                transition: 'all 0.3s ease',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.5rem'
-                            }}
-                                onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'var(--text-primary)'}
-                                onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'var(--text-secondary)'}>
-                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
-                                </svg>
-                                GitHub
-                            </a>
-                            <a href="https://www.linkedin.com/in/muhammad-nabi-rahmani-%F0%9F%87%B5%F0%9F%87%B8-8945b21ba/" target="_blank" rel="noopener noreferrer" style={{
-                                fontSize: '0.875rem',
-                                color: 'var(--text-secondary)',
-                                textDecoration: 'none',
-                                transition: 'all 0.3s ease',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.5rem'
-                            }}
-                                onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#0077b5'}
-                                onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'var(--text-secondary)'}>
-                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                                </svg>
-                                LinkedIn
-                            </a>
-                            <a href="https://x.com/nabirahmani_dev" target="_blank" rel="noopener noreferrer" style={{
-                                fontSize: '0.875rem',
-                                color: 'var(--text-secondary)',
-                                textDecoration: 'none',
-                                transition: 'all 0.3s ease',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.5rem'
-                            }}
-                                onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#1da1f2'}
-                                onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'var(--text-secondary)'}>
-                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                                </svg>
-                                Twitter
-                            </a>
-                            <a href="mailto:codewithnabi@gmail.com" style={{
-                                fontSize: '0.875rem',
-                                color: 'var(--text-secondary)',
-                                textDecoration: 'none',
-                                transition: 'all 0.3s ease',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '0.5rem'
-                            }}
-                                onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#ea4335'}
-                                onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'var(--text-secondary)'}>
-                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-.904.732-1.636 1.636-1.636h1.909L12 9.545l8.455-5.724h1.909c.904 0 1.636.732 1.636 1.636z" />
-                                </svg>
-                                Email
-                            </a>
-                        </div>
+                <div style={{
+                    maxWidth: '1200px',
+                    margin: '0 auto',
+                    textAlign: 'center',
+                    color: 'var(--text-secondary)',
+                    fontSize: '0.9rem'
+                }}>
+                    <div style={{ marginBottom: '1rem' }}>
+                        <p style={{ margin: '0 0 0.5rem' }}>
+                            Built with Next.js and lots of ☕
+                        </p>
+                        <p style={{ margin: 0, fontSize: '0.8rem' }}>
+                            © 2024 codewithnabi. All rights reserved.
+                        </p>
                     </div>
                 </div>
             </footer>
