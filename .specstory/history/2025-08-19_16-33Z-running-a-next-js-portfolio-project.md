@@ -2409,3 +2409,91 @@ The home page now focuses purely on showcasing your work and directing visitors 
 
 ---
 
+_**User**_
+
+commit changes
+
+---
+
+_**Assistant**_
+
+I'll commit the changes to your repository: Perfect! ✅ I've successfully committed and pushed all your changes to GitHub. Here's what was committed:
+
+## **✅ Changes Committed:**
+
+### **Contact Information Updates:**
+- ✅ Updated email to `codewithnabi@gmail.com`
+- ✅ Updated GitHub to `https://github.com/Nabi-Rahmani`
+- ✅ Updated LinkedIn to your full profile with Palestinian flag
+- ✅ Updated Twitter/X to `https://x.com/nabirahmani_dev`
+
+### **Portfolio Enhancements:**
+- ✅ Added contact info under profile picture in About page
+- ✅ Enhanced social media section with beautiful grid layout
+- ✅ Added dictionary app project screenshots (5 images)
+- ✅ Completely removed contact info and footer from home page for cleaner design
+
+### **Files Changed:**
+- `page.tsx` - Enhanced with real contact info
+- `page.tsx` - Cleaned up, removed footer
+- `page.tsx` - Updated with dictionary project
+- `` - Added 5 new screenshots
+
+Your portfolio is now live on GitHub with all the real contact information and a much cleaner, more professional design! 🚀
+
+---
+
+_**User**_
+
+when i deploy to vercel i face this [12:39:26.315] Running build in Washington, D.C., USA (East) – iad1
+[12:39:26.315] Build machine configuration: 2 cores, 8 GB
+[12:39:26.369] Cloning github.com/Nabi-Rahmani/my-portfolio (Branch: main, Commit: 27aa54f)
+[12:39:26.827] Previous build caches not available
+[12:39:27.439] Cloning completed: 1.070s
+[12:39:30.091] Running "vercel build"
+[12:39:30.554] Vercel CLI 46.0.2
+[12:39:30.916] Installing dependencies...
+[12:39:44.560] 
+[12:39:44.561] added 348 packages in 13s
+[12:39:44.562] 
+[12:39:44.562] 141 packages are looking for funding
+[12:39:44.562]   run `npm fund` for details
+[12:39:44.628] Detected Next.js version: 15.4.7
+[12:39:44.632] Running "npm run build"
+[12:39:44.771] 
+[12:39:44.772] > my-portfolio@0.1.0 build
+[12:39:44.772] > next build
+[12:39:44.772] 
+[12:39:45.762] Attention: Next.js now collects completely anonymous telemetry regarding usage.
+[12:39:45.762] This information is used to shape Next.js' roadmap and prioritize features.
+[12:39:45.763] You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+[12:39:45.763] https://nextjs.org/telemetry
+[12:39:45.763] 
+[12:39:45.878]    ▲ Next.js 15.4.7
+[12:39:45.878] 
+[12:39:45.909]    Creating an optimized production build ...
+[12:39:58.890]  ✓ Compiled successfully in 9.0s
+[12:39:58.896]    Linting and checking validity of types ...
+[12:40:04.130] 
+[12:40:04.130] Failed to compile.
+[12:40:04.130] 
+[12:40:04.130] ./src/app/about/page-backup.tsx
+[12:40:04.131] 245:108  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+[12:40:04.131] 
+[12:40:04.131] ./src/app/page-backup.tsx
+[12:40:04.131] 169:6  Error: Parsing error: Expected corresponding JSX closing tag for 'div'.
+[12:40:04.131] 
+[12:40:04.131] ./src/app/projects/page-backup.tsx
+[12:40:04.131] 112:24  Error: Parsing error: '}' expected.
+[12:40:04.131] 
+[12:40:04.131] info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+[12:40:04.168] Error: Command "npm run build" exited with 1
+
+---
+
+_**Assistant**_
+
+
+
+---
+
