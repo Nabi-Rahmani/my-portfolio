@@ -68,7 +68,7 @@ export default function Projects() {
             color: 'var(--text-primary)',
             minHeight: '100vh',
             transition: 'all 0.3s ease',
-            paddingBottom: isMobile ? '100px' : '0'
+            paddingBottom: isMobile ? '50px' : '0'
         }}>
             {/* Brand Logo - Always visible at top left */}
             <div style={{
@@ -192,25 +192,27 @@ export default function Projects() {
             {isMobile && (
                 <nav style={{
                     position: 'fixed',
-                    bottom: '0',
-                    left: '0',
-                    right: '0',
+                    bottom: '1.5rem',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
                     zIndex: 50,
-                    backgroundColor: `${isDark ? 'rgba(0,0,0,0.95)' : 'rgba(255,255,255,0.95)'}`,
+                    backgroundColor: `${isDark ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.9)'}`,
                     backdropFilter: 'blur(16px)',
-                    borderTop: `1px solid var(--border-color)`,
-                    padding: '0.75rem 1rem 1.5rem',
+                    border: `1px solid var(--border-color)`,
+                    borderRadius: '2rem',
+                    padding: '0.75rem 1rem',
                     transition: 'all 0.3s ease',
                     boxShadow: isDark
-                        ? '0 -8px 32px rgba(0,0,0,0.3)'
-                        : '0 -8px 32px rgba(0,0,0,0.1)'
+                        ? '0 8px 32px rgba(0,0,0,0.3)'
+                        : '0 8px 32px rgba(0,0,0,0.1)',
+                    width: 'auto',
+                    minWidth: '300px',
+                    maxWidth: '350px'
                 }}>
                     <div style={{
                         display: 'flex',
                         justifyContent: 'space-around',
-                        alignItems: 'center',
-                        maxWidth: '400px',
-                        margin: '0 auto'
+                        alignItems: 'center'
                     }}>
                         <Link href="/" style={{
                             display: 'flex',
