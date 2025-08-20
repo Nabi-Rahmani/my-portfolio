@@ -311,8 +311,8 @@ export default function About() {
                     <div style={{
                         display: 'flex',
                         justifyContent: 'center',
-                        position: 'sticky',
-                        top: '6rem'
+                        position: isMobile ? 'static' : 'sticky',
+                        top: isMobile ? 'auto' : '6rem'
                     }}>
                         <div style={{
                             position: 'relative',
