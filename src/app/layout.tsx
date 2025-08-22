@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     canonical: "https://codewithnabi.dev",
   },
   verification: {
-    google: "your-google-verification-code", // We'll add this later
+    google: "GAMk4x7JhaNoGl7qzjirxFruCq8shbJgCSZdCdJTz8M",
   },
   icons: {
     icon: [
