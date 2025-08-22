@@ -94,6 +94,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <title>Muhammad Nabi Rahmani - Flutter Developer | codewithnabi</title>
         <StructuredData />
       </head>
       <body
