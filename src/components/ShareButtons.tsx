@@ -17,7 +17,7 @@ const ShareButtons = ({ post }: { post: BlogPost }) => {
             await navigator.clipboard.writeText(url);
             // You could add a toast notification here
             alert('Link copied to clipboard!');
-        } catch (err) {
+        } catch {
             console.error('Failed to copy link');
         }
     };

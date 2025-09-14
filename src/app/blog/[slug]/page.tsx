@@ -139,7 +139,7 @@ const formatContent = (content: string) => {
     // Convert markdown-like content to HTML
     return content
         .split('\n\n')
-        .map((paragraph, index) => {
+        .map((paragraph) => {
             // Handle headings
             if (paragraph.startsWith('## ')) {
                 const text = paragraph.replace('## ', '');

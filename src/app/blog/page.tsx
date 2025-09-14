@@ -195,7 +195,7 @@ const SearchAndFilter = ({
                                 border: '1px solid var(--border-color)',
                                 color: 'var(--text-primary)'
                             }}>
-                            Search: "{filters.search}"
+                            Search: &ldquo;{filters.search}&rdquo;
                             <button
                                 onClick={() => onFiltersChange({ ...filters, search: undefined })}
                                 style={{ color: 'var(--text-secondary)' }}
