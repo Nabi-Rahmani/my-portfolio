@@ -135,6 +135,18 @@ export default function Home() {
                 onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = 'transparent'}>
                 Projects
               </Link>
+              <Link href="/blog" style={{
+                color: 'var(--text-secondary)',
+                fontSize: '0.8rem',
+                transition: 'color 0.3s ease',
+                textDecoration: 'none',
+                padding: '0.25rem 0.5rem',
+                borderRadius: '0.5rem'
+              }}
+                onMouseEnter={(e) => (e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)'}
+                onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = 'transparent'}>
+                Blog
+              </Link>
               <Link href="/about" style={{
                 color: 'var(--text-secondary)',
                 fontSize: '0.8rem',
@@ -266,6 +278,24 @@ export default function Home() {
                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
               </svg>
               <span style={{ fontSize: '0.7rem' }}>About</span>
+            </Link>
+
+            <Link href="/blog" style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '0.25rem',
+              color: 'var(--text-secondary)',
+              textDecoration: 'none',
+              padding: '0.5rem',
+              borderRadius: '0.75rem',
+              transition: 'all 0.3s ease',
+              minWidth: '60px'
+            }}>
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M3 3h18v18H3V3zm16 16V5H5v14h14zm-2-2H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z" />
+              </svg>
+              <span style={{ fontSize: '0.7rem' }}>Blog</span>
             </Link>
 
             <button
