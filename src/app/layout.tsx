@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import StructuredData from "@/components/StructuredData";
+import Navigation from "@/components/Navigation";
+import LenisScroll from "@/components/LenisScroll";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -98,8 +100,10 @@ export default function RootLayout({
         <StructuredData />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-x-hidden`}
       >
+        <LenisScroll />
+        <Navigation />
         {children}
       </body>
     </html>

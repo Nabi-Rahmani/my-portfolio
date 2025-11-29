@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Navigation from "@/components/Navigation";
 
 export default function BlogLayoutClient({
     children,
@@ -31,7 +30,6 @@ export default function BlogLayoutClient({
             transition: 'all 0.3s ease',
             paddingBottom: isMobile ? '50px' : '0'
         }}>
-            <Navigation />
             {children}
         </div>
     );

@@ -1,34 +1,55 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import type { MouseEvent } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
+declare global {
+    interface Window {
+        __lenis?: {
+            scrollTo: (target: HTMLElement | string, options?: { offset?: number; immediate?: boolean }) => void;
+        };
+    }
+}
+
+type NavSection = 'home' | 'projects' | 'blog' | 'about' | 'contact';
 
 export default function Navigation() {
     const [isDark, setIsDark] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const [activeHash, setActiveHash] = useState<string>('#home');
     const pathname = usePathname();
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (typeof window === 'undefined') return;
 
-            const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
 
-            setIsDark(shouldBeDark);
-            updateTheme(shouldBeDark);
+        setIsDark(shouldBeDark);
+        updateTheme(shouldBeDark);
 
-            // Check initial screen size
-            const checkScreenSize = () => {
-                setIsMobile(window.innerWidth <= 768);
-            };
+        const checkScreenSize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
 
-            checkScreenSize();
-            window.addEventListener('resize', checkScreenSize);
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
 
-            return () => window.removeEventListener('resize', checkScreenSize);
-        }
+        const handleHashChange = () => {
+            const hash = window.location.hash || '#home';
+            setActiveHash(hash);
+        };
+
+        handleHashChange();
+        window.addEventListener('hashchange', handleHashChange);
+
+        return () => {
+            window.removeEventListener('resize', checkScreenSize);
+            window.removeEventListener('hashchange', handleHashChange);
+        };
     }, []);
 
     const updateTheme = (dark: boolean) => {
@@ -63,10 +84,50 @@ export default function Navigation() {
         }
     };
 
-    const isActive = (path: string) => {
-        if (path === '/' && pathname === '/') return true;
-        if (path !== '/' && pathname.startsWith(path)) return true;
-        return false;
+    const isActive = (section: NavSection) => {
+        const hash = activeHash || '#home';
+
+        if (pathname === '/' || pathname === '') {
+            if (section === 'home') {
+                return hash === '#home' || hash === '';
+            }
+            return hash === `#${section}`;
+        }
+
+        if (pathname.startsWith('/projects') && section === 'projects') return true;
+        if (pathname.startsWith('/blog') && section === 'blog') return true;
+        if (pathname.startsWith('/about') && section === 'about') return true;
+        if (pathname.startsWith('/contact') && section === 'contact') return true;
+
+        return section === 'home';
+    };
+
+    const handleNavClick = (hash: string) => (event: MouseEvent<HTMLAnchorElement>) => {
+        if (typeof window === 'undefined') return;
+
+        const onHome = pathname === '/' || pathname === '';
+
+        if (!onHome) {
+            setActiveHash(hash);
+            return;
+        }
+
+        event.preventDefault();
+
+        const target = document.querySelector(hash) as HTMLElement | null;
+        const lenis = window.__lenis;
+
+        if (target && lenis && typeof lenis.scrollTo === 'function') {
+            lenis.scrollTo(target, { offset: -80 });
+        } else if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        if (window.location.hash !== hash) {
+            window.history.pushState(null, '', hash);
+        }
+
+        setActiveHash(hash);
     };
 
     return (
@@ -78,13 +139,14 @@ export default function Navigation() {
                 left: '2rem',
                 zIndex: 50
             }}>
-                <Link href="/" style={{
+                <Link href="/#home" style={{
                     fontSize: '1.1rem',
                     fontWeight: '600',
                     color: 'var(--text-primary)',
                     textDecoration: 'none',
                     transition: 'all 0.3s ease'
                 }}
+                    onClick={handleNavClick('#home')}
                     onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'rgba(252, 180, 176, 1)'}
                     onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'var(--text-primary)'}>
                     codewithnabi
@@ -113,61 +175,80 @@ export default function Navigation() {
                 }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.5rem' }}>
                         <div style={{ display: 'flex', gap: '1.5rem' }}>
-                            <Link href="/" style={{
-                                color: isActive('/') ? 'var(--text-primary)' : 'var(--text-secondary)',
+                            <Link href="/#home" style={{
+                                color: isActive('home') ? 'var(--text-primary)' : 'var(--text-secondary)',
                                 fontSize: '0.8rem',
                                 transition: 'color 0.3s ease',
                                 textDecoration: 'none',
                                 fontWeight: '600',
                                 padding: '0.25rem 0.5rem',
                                 borderRadius: '0.5rem',
-                                backgroundColor: isActive('/') ? 'var(--bg-secondary)' : 'transparent'
+                                backgroundColor: isActive('home') ? 'var(--bg-secondary)' : 'transparent'
                             }}
-                                onMouseEnter={(e) => !isActive('/') && ((e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)')}
-                                onMouseLeave={(e) => !isActive('/') && ((e.target as HTMLElement).style.backgroundColor = 'transparent')}>
+                                onClick={handleNavClick('#home')}
+                                onMouseEnter={(e) => !isActive('home') && ((e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)')}
+                                onMouseLeave={(e) => !isActive('home') && ((e.target as HTMLElement).style.backgroundColor = 'transparent')}>
                                 Home
                             </Link>
-                            <Link href="/projects" style={{
-                                color: isActive('/projects') ? 'var(--text-primary)' : 'var(--text-secondary)',
+                            <Link href="/#projects" style={{
+                                color: isActive('projects') ? 'var(--text-primary)' : 'var(--text-secondary)',
                                 fontSize: '0.8rem',
                                 transition: 'color 0.3s ease',
                                 textDecoration: 'none',
                                 fontWeight: '600',
                                 padding: '0.25rem 0.5rem',
                                 borderRadius: '0.5rem',
-                                backgroundColor: isActive('/projects') ? 'var(--bg-secondary)' : 'transparent'
+                                backgroundColor: isActive('projects') ? 'var(--bg-secondary)' : 'transparent'
                             }}
-                                onMouseEnter={(e) => !isActive('/projects') && ((e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)')}
-                                onMouseLeave={(e) => !isActive('/projects') && ((e.target as HTMLElement).style.backgroundColor = 'transparent')}>
+                                onClick={handleNavClick('#projects')}
+                                onMouseEnter={(e) => !isActive('projects') && ((e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)')}
+                                onMouseLeave={(e) => !isActive('projects') && ((e.target as HTMLElement).style.backgroundColor = 'transparent')}>
                                 Projects
                             </Link>
-                            <Link href="/blog" style={{
-                                color: isActive('/blog') ? 'var(--text-primary)' : 'var(--text-secondary)',
+                            <Link href="/#blog" style={{
+                                color: isActive('blog') ? 'var(--text-primary)' : 'var(--text-secondary)',
                                 fontSize: '0.8rem',
                                 transition: 'color 0.3s ease',
                                 textDecoration: 'none',
                                 fontWeight: '600',
                                 padding: '0.25rem 0.5rem',
                                 borderRadius: '0.5rem',
-                                backgroundColor: isActive('/blog') ? 'var(--bg-secondary)' : 'transparent'
+                                backgroundColor: isActive('blog') ? 'var(--bg-secondary)' : 'transparent'
                             }}
-                                onMouseEnter={(e) => !isActive('/blog') && ((e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)')}
-                                onMouseLeave={(e) => !isActive('/blog') && ((e.target as HTMLElement).style.backgroundColor = 'transparent')}>
+                                onClick={handleNavClick('#blog')}
+                                onMouseEnter={(e) => !isActive('blog') && ((e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)')}
+                                onMouseLeave={(e) => !isActive('blog') && ((e.target as HTMLElement).style.backgroundColor = 'transparent')}>
                                 Blog
                             </Link>
-                            <Link href="/about" style={{
-                                color: isActive('/about') ? 'var(--text-primary)' : 'var(--text-secondary)',
+                            <Link href="/#about" style={{
+                                color: isActive('about') ? 'var(--text-primary)' : 'var(--text-secondary)',
                                 fontSize: '0.8rem',
                                 transition: 'color 0.3s ease',
                                 textDecoration: 'none',
                                 fontWeight: '600',
                                 padding: '0.25rem 0.5rem',
                                 borderRadius: '0.5rem',
-                                backgroundColor: isActive('/about') ? 'var(--bg-secondary)' : 'transparent'
+                                backgroundColor: isActive('about') ? 'var(--bg-secondary)' : 'transparent'
                             }}
-                                onMouseEnter={(e) => !isActive('/about') && ((e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)')}
-                                onMouseLeave={(e) => !isActive('/about') && ((e.target as HTMLElement).style.backgroundColor = 'transparent')}>
+                                onClick={handleNavClick('#about')}
+                                onMouseEnter={(e) => !isActive('about') && ((e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)')}
+                                onMouseLeave={(e) => !isActive('about') && ((e.target as HTMLElement).style.backgroundColor = 'transparent')}>
                                 About
+                            </Link>
+                            <Link href="/#contact" style={{
+                                color: isActive('contact') ? 'var(--text-primary)' : 'var(--text-secondary)',
+                                fontSize: '0.8rem',
+                                transition: 'color 0.3s ease',
+                                textDecoration: 'none',
+                                fontWeight: '600',
+                                padding: '0.25rem 0.5rem',
+                                borderRadius: '0.5rem',
+                                backgroundColor: isActive('contact') ? 'var(--bg-secondary)' : 'transparent'
+                            }}
+                                onClick={handleNavClick('#contact')}
+                                onMouseEnter={(e) => !isActive('contact') && ((e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)')}
+                                onMouseLeave={(e) => !isActive('contact') && ((e.target as HTMLElement).style.backgroundColor = 'transparent')}>
+                                Contact
                             </Link>
                         </div>
 
@@ -226,9 +307,9 @@ export default function Navigation() {
                     boxShadow: isDark
                         ? '0 8px 32px rgba(0,0,0,0.3)'
                         : '0 8px 32px rgba(0,0,0,0.1)',
-                    width: 'auto',
-                    minWidth: '300px',
-                    maxWidth: '350px'
+                    width: '90%',
+                    minWidth: '260px',
+                    maxWidth: '380px'
                 }}>
                     <div style={{
                         display: 'flex',
@@ -240,75 +321,99 @@ export default function Navigation() {
                             flexDirection: 'column',
                             alignItems: 'center',
                             gap: '0.25rem',
-                            color: isActive('/') ? 'rgba(252, 180, 176, 1)' : 'var(--text-secondary)',
+                            color: isActive('home') ? 'rgba(252, 180, 176, 1)' : 'var(--text-secondary)',
                             textDecoration: 'none',
                             padding: '0.5rem',
                             borderRadius: '0.75rem',
-                            backgroundColor: isActive('/') ? 'rgba(252, 180, 176, 0.1)' : 'transparent',
+                            backgroundColor: isActive('home') ? 'rgba(252, 180, 176, 0.1)' : 'transparent',
                             transition: 'all 0.3s ease',
-                            minWidth: '60px'
-                        }}>
+                            minWidth: '48px'
+                        }}
+                            onClick={handleNavClick('#home')}>
                             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
                             </svg>
                             <span style={{ fontSize: '0.7rem', fontWeight: '600' }}>Home</span>
                         </Link>
 
-                        <Link href="/projects" style={{
+                        <Link href="/#projects" style={{
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
                             gap: '0.25rem',
-                            color: isActive('/projects') ? 'rgba(252, 180, 176, 1)' : 'var(--text-secondary)',
+                            color: isActive('projects') ? 'rgba(252, 180, 176, 1)' : 'var(--text-secondary)',
                             textDecoration: 'none',
                             padding: '0.5rem',
                             borderRadius: '0.75rem',
-                            backgroundColor: isActive('/projects') ? 'rgba(252, 180, 176, 0.1)' : 'transparent',
+                            backgroundColor: isActive('projects') ? 'rgba(252, 180, 176, 0.1)' : 'transparent',
                             transition: 'all 0.3s ease',
-                            minWidth: '60px'
-                        }}>
+                            minWidth: '48px'
+                        }}
+                            onClick={handleNavClick('#projects')}>
                             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
                             </svg>
                             <span style={{ fontSize: '0.7rem' }}>Projects</span>
                         </Link>
 
-                        <Link href="/blog" style={{
+                        <Link href="/#blog" style={{
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
                             gap: '0.25rem',
-                            color: isActive('/blog') ? 'rgba(252, 180, 176, 1)' : 'var(--text-secondary)',
+                            color: isActive('blog') ? 'rgba(252, 180, 176, 1)' : 'var(--text-secondary)',
                             textDecoration: 'none',
                             padding: '0.5rem',
                             borderRadius: '0.75rem',
-                            backgroundColor: isActive('/blog') ? 'rgba(252, 180, 176, 0.1)' : 'transparent',
+                            backgroundColor: isActive('blog') ? 'rgba(252, 180, 176, 0.1)' : 'transparent',
                             transition: 'all 0.3s ease',
-                            minWidth: '60px'
-                        }}>
+                            minWidth: '48px'
+                        }}
+                            onClick={handleNavClick('#blog')}>
                             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M3 3h18v18H3V3zm16 16V5H5v14h14zm-2-2H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z" />
                             </svg>
                             <span style={{ fontSize: '0.7rem' }}>Blog</span>
                         </Link>
 
-                        <Link href="/about" style={{
+                        <Link href="/#about" style={{
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
                             gap: '0.25rem',
-                            color: isActive('/about') ? 'rgba(252, 180, 176, 1)' : 'var(--text-secondary)',
+                            color: isActive('about') ? 'rgba(252, 180, 176, 1)' : 'var(--text-secondary)',
                             textDecoration: 'none',
                             padding: '0.5rem',
                             borderRadius: '0.75rem',
-                            backgroundColor: isActive('/about') ? 'rgba(252, 180, 176, 0.1)' : 'transparent',
+                            backgroundColor: isActive('about') ? 'rgba(252, 180, 176, 0.1)' : 'transparent',
                             transition: 'all 0.3s ease',
-                            minWidth: '60px'
-                        }}>
+                            minWidth: '48px'
+                        }}
+                            onClick={handleNavClick('#about')}>
                             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                             </svg>
                             <span style={{ fontSize: '0.7rem' }}>About</span>
+                        </Link>
+
+                        <Link href="/#contact" style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            gap: '0.25rem',
+                            color: isActive('contact') ? 'rgba(252, 180, 176, 1)' : 'var(--text-secondary)',
+                            textDecoration: 'none',
+                            padding: '0.5rem',
+                            borderRadius: '0.75rem',
+                            backgroundColor: isActive('contact') ? 'rgba(252, 180, 176, 0.1)' : 'transparent',
+                            transition: 'all 0.3s ease',
+                            minWidth: '48px'
+                        }}
+                            onClick={handleNavClick('#contact')}>
+                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                            </svg>
+                            <span style={{ fontSize: '0.7rem' }}>Contact</span>
                         </Link>
 
                         <button
@@ -325,7 +430,7 @@ export default function Navigation() {
                                 color: isDark ? '#fbbf24' : '#f59e0b',
                                 cursor: 'pointer',
                                 transition: 'all 0.3s ease',
-                                minWidth: '60px'
+                                minWidth: '48px'
                             }}>
                             {isDark ? (
                                 <svg width="20" height="20" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24">
