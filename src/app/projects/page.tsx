@@ -7,6 +7,14 @@ import Image from 'next/image';
 export default function Projects() {
     const [isDark, setIsDark] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const projectScreenshots = [
+        { src: '/assets/projectImage/dev-discipline-01.jpeg', title: 'Screenshot 1' },
+        { src: '/assets/projectImage/dev-discipline-02.jpeg', title: 'Screenshot 2' },
+        { src: '/assets/projectImage/dev-discipline-03.jpeg', title: 'Screenshot 3' },
+        { src: '/assets/projectImage/dev-discipline-04.jpeg', title: 'Screenshot 4' },
+        { src: '/assets/projectImage/dev-discipline-05.jpeg', title: 'Screenshot 5' },
+        { src: '/assets/projectImage/dev-discipline-06.jpeg', title: 'Screenshot 6' }
+    ];
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -325,7 +333,7 @@ export default function Projects() {
                         </p>
                     </div>
 
-                    {/* Featured Project - Dictionary App */}
+                    {/* Featured Project - Dev Discipline */}
                     <div style={{
                         backgroundColor: 'var(--bg-secondary)',
                         borderRadius: '1.5rem',
@@ -367,7 +375,7 @@ export default function Projects() {
                                     color: 'var(--text-primary)',
                                     lineHeight: 1.2
                                 }}>
-                                    Dictionary App
+                                    Dev Discipline
                                 </h2>
 
                                 <p style={{
@@ -376,9 +384,8 @@ export default function Projects() {
                                     margin: '0 0 2rem',
                                     lineHeight: 1.7
                                 }}>
-                                    A comprehensive dictionary application built with Flutter, featuring word definitions,
-                                    pronunciations, synonyms, and offline support. Clean UI design with smooth animations
-                                    and intuitive user experience.
+                                    A discipline-focused productivity app built with Flutter, featuring habit routines,
+                                    progress tracking, and a clean, motivating user experience to keep you consistent.
                                 </p>
 
                                 <div style={{ marginBottom: '2rem' }}>
@@ -392,12 +399,12 @@ export default function Projects() {
                                     </h3>
                                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                                         {[
-                                            'Word Search',
-                                            'Pronunciations',
-                                            'Synonyms & Antonyms',
-                                            'Offline Support',
+                                            'Daily routines',
+                                            'Habit tracking',
+                                            'Progress insights',
+                                            'Streak building',
                                             'Clean UI/UX',
-                                            'Flutter Framework'
+                                            'Built with Flutter'
                                         ].map((feature) => (
                                             <span key={feature} style={{
                                                 padding: '0.5rem 1rem',
@@ -437,27 +444,33 @@ export default function Projects() {
                                         </svg>
                                         View Code
                                     </button>
-                                    <button style={{
-                                        padding: '0.75rem 1.5rem',
-                                        backgroundColor: 'transparent',
-                                        color: 'var(--text-primary)',
-                                        border: `2px solid var(--border-color)`,
-                                        borderRadius: '0.5rem',
-                                        fontSize: '0.9rem',
-                                        fontWeight: '600',
-                                        cursor: 'pointer',
-                                        transition: 'all 0.3s ease',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '0.5rem'
-                                    }}
+                                    <a
+                                        href="https://play.google.com/store/apps/details?id=com.nabirahmani.dev_discipline"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        style={{
+                                            padding: '0.75rem 1.5rem',
+                                            backgroundColor: 'transparent',
+                                            color: 'var(--text-primary)',
+                                            border: `2px solid var(--border-color)`,
+                                            borderRadius: '0.5rem',
+                                            fontSize: '0.9rem',
+                                            fontWeight: '600',
+                                            cursor: 'pointer',
+                                            transition: 'all 0.3s ease',
+                                            display: 'inline-flex',
+                                            alignItems: 'center',
+                                            gap: '0.5rem',
+                                            textDecoration: 'none'
+                                        }}
                                         onMouseEnter={(e) => (e.target as HTMLElement).style.backgroundColor = 'var(--bg-primary)'}
-                                        onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = 'transparent'}>
+                                        onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = 'transparent'}
+                                    >
                                         <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
                                             <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
                                         </svg>
-                                        Live Demo
-                                    </button>
+                                        Go Play Store
+                                    </a>
                                 </div>
                             </div>
 
@@ -469,32 +482,47 @@ export default function Projects() {
                                 flexWrap: 'wrap',
                                 alignItems: 'center'
                             }}>
-                                {[0, 1, 2].map((index) => (
-                                    <div key={index} style={{
-                                        position: 'relative',
-                                        width: isMobile ? '120px' : '150px',
-                                        height: isMobile ? '220px' : '270px',
-                                        borderRadius: '1rem',
-                                        overflow: 'hidden',
-                                        border: `2px solid var(--border-color)`,
-                                        boxShadow: isDark
-                                            ? '0 15px 30px rgba(0,0,0,0.2)'
-                                            : '0 15px 30px rgba(0,0,0,0.1)',
-                                        transition: 'all 0.3s ease',
-                                        transform: index === 1 ? 'scale(1.05)' : 'scale(1)',
-                                        zIndex: index === 1 ? 2 : 1
-                                    }}
-                                        onMouseEnter={(e) => (e.target as HTMLElement).style.transform = 'scale(1.05) translateY(-5px)'}
-                                        onMouseLeave={(e) => (e.target as HTMLElement).style.transform = index === 1 ? 'scale(1.05)' : 'scale(1)'}>
-                                        <Image
-                                            src={`/assets/projectImage/${index}_APP_IPHONE_65_${index}.png`}
-                                            alt={`Dictionary App Screenshot ${index + 1}`}
-                                            fill
-                                            style={{
-                                                objectFit: 'cover'
-                                            }}
-                                            sizes="(max-width: 768px) 120px, 150px"
-                                        />
+                                {projectScreenshots.map((shot) => (
+                                    <div
+                                        key={shot.src}
+                                        style={{
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            alignItems: 'center',
+                                            gap: '0.5rem'
+                                        }}
+                                    >
+                                        <div style={{
+                                            position: 'relative',
+                                            width: isMobile ? '120px' : '150px',
+                                            height: isMobile ? '220px' : '270px',
+                                            borderRadius: '1rem',
+                                            overflow: 'hidden',
+                                            border: `2px solid var(--border-color)`,
+                                            boxShadow: isDark
+                                                ? '0 15px 30px rgba(0,0,0,0.2)'
+                                                : '0 15px 30px rgba(0,0,0,0.1)',
+                                            transition: 'all 0.3s ease',
+                                            transform: 'scale(1)'
+                                        }}
+                                            onMouseEnter={(e) => (e.target as HTMLElement).style.transform = 'scale(1.05) translateY(-5px)'}
+                                            onMouseLeave={(e) => (e.target as HTMLElement).style.transform = 'scale(1)'}>
+                                            <Image
+                                                src={shot.src}
+                                                alt={`Dev Discipline ${shot.title}`}
+                                                fill
+                                                style={{
+                                                    objectFit: 'cover'
+                                                }}
+                                                sizes="(max-width: 768px) 120px, 150px"
+                                            />
+                                        </div>
+                                        <span style={{
+                                            fontSize: '0.75rem',
+                                            color: 'var(--text-secondary)'
+                                        }}>
+                                            {shot.title}
+                                        </span>
                                     </div>
                                 ))}
                             </div>

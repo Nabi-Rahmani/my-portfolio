@@ -13,7 +13,7 @@ declare global {
     }
 }
 
-type NavSection = 'home' | 'projects' | 'blog' | 'about' | 'contact';
+type NavSection = 'home' | 'projects' | 'courses' | 'about' | 'contact';
 
 export default function Navigation() {
     const [isDark, setIsDark] = useState(false);
@@ -95,7 +95,7 @@ export default function Navigation() {
         }
 
         if (pathname.startsWith('/projects') && section === 'projects') return true;
-        if (pathname.startsWith('/blog') && section === 'blog') return true;
+        if (pathname.startsWith('/courses') && section === 'courses') return true;
         if (pathname.startsWith('/about') && section === 'about') return true;
         if (pathname.startsWith('/contact') && section === 'contact') return true;
 
@@ -205,20 +205,19 @@ export default function Navigation() {
                                 onMouseLeave={(e) => !isActive('projects') && ((e.target as HTMLElement).style.backgroundColor = 'transparent')}>
                                 Projects
                             </Link>
-                            <Link href="/#blog" style={{
-                                color: isActive('blog') ? 'var(--text-primary)' : 'var(--text-secondary)',
+                            <Link href="/courses" style={{
+                                color: isActive('courses') ? 'var(--text-primary)' : 'var(--text-secondary)',
                                 fontSize: '0.8rem',
                                 transition: 'color 0.3s ease',
                                 textDecoration: 'none',
                                 fontWeight: '600',
                                 padding: '0.25rem 0.5rem',
                                 borderRadius: '0.5rem',
-                                backgroundColor: isActive('blog') ? 'var(--bg-secondary)' : 'transparent'
+                                backgroundColor: isActive('courses') ? 'var(--bg-secondary)' : 'transparent'
                             }}
-                                onClick={handleNavClick('#blog')}
-                                onMouseEnter={(e) => !isActive('blog') && ((e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)')}
-                                onMouseLeave={(e) => !isActive('blog') && ((e.target as HTMLElement).style.backgroundColor = 'transparent')}>
-                                Blog
+                                onMouseEnter={(e) => !isActive('courses') && ((e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)')}
+                                onMouseLeave={(e) => !isActive('courses') && ((e.target as HTMLElement).style.backgroundColor = 'transparent')}>
+                                Courses
                             </Link>
                             <Link href="/#about" style={{
                                 color: isActive('about') ? 'var(--text-primary)' : 'var(--text-secondary)',
@@ -290,8 +289,8 @@ export default function Navigation() {
                 </nav>
             )}
 
-            {/* Mobile Bottom Navigation */}
-            {isMobile && (
+            {/* Mobile Bottom Navigation - Hide on lesson pages */}
+            {isMobile && !pathname.match(/^\/courses\/[^/]+\/[^/]+$/) && (
                 <nav style={{
                     position: 'fixed',
                     bottom: '1.5rem',
@@ -356,24 +355,23 @@ export default function Navigation() {
                             <span style={{ fontSize: '0.7rem' }}>Projects</span>
                         </Link>
 
-                        <Link href="/#blog" style={{
+                        <Link href="/courses" style={{
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
                             gap: '0.25rem',
-                            color: isActive('blog') ? 'rgba(252, 180, 176, 1)' : 'var(--text-secondary)',
+                            color: isActive('courses') ? 'rgba(252, 180, 176, 1)' : 'var(--text-secondary)',
                             textDecoration: 'none',
                             padding: '0.5rem',
                             borderRadius: '0.75rem',
-                            backgroundColor: isActive('blog') ? 'rgba(252, 180, 176, 0.1)' : 'transparent',
+                            backgroundColor: isActive('courses') ? 'rgba(252, 180, 176, 0.1)' : 'transparent',
                             transition: 'all 0.3s ease',
                             minWidth: '48px'
-                        }}
-                            onClick={handleNavClick('#blog')}>
+                        }}>
                             <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M3 3h18v18H3V3zm16 16V5H5v14h14zm-2-2H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V7h10v2z" />
+                                <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z" />
                             </svg>
-                            <span style={{ fontSize: '0.7rem' }}>Blog</span>
+                            <span style={{ fontSize: '0.7rem' }}>Courses</span>
                         </Link>
 
                         <Link href="/#about" style={{

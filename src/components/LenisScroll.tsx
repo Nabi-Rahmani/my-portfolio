@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import Lenis from 'lenis';
 
 declare global {
@@ -12,8 +13,18 @@ declare global {
 }
 
 export default function LenisScroll() {
+  const pathname = usePathname();
+
+  // Disable Lenis on course lesson pages to prevent navigation interference
+  const isCourseLessonPage = pathname?.startsWith('/courses/') && pathname.split('/').length > 3;
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
+
+    // Don't initialize Lenis on course lesson pages
+    if (isCourseLessonPage) {
+      return;
+    }
 
     const lenis = new Lenis({
       lerp: 0.1,
@@ -49,7 +60,7 @@ export default function LenisScroll() {
         delete window.__lenis;
       }
     };
-  }, []);
+  }, [isCourseLessonPage]);
 
   return null;
 }
