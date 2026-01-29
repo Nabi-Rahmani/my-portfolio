@@ -88,7 +88,7 @@ export function useCourseProgress(courseId: string) {
         saveProgress(updatedProgress);
       }
     },
-    [progress, saveProgress]
+    [courseId, progress, saveProgress]
   );
 
   // Mark a lesson as incomplete
@@ -102,7 +102,7 @@ export function useCourseProgress(courseId: string) {
       };
       saveProgress(updatedProgress);
     },
-    [progress, saveProgress]
+    [courseId, progress, saveProgress]
   );
 
   // Toggle lesson completion
@@ -116,7 +116,7 @@ export function useCourseProgress(courseId: string) {
         markLessonComplete(lessonId);
       }
     },
-    [progress, markLessonComplete, markLessonIncomplete]
+    [courseId, progress, markLessonComplete, markLessonIncomplete]
   );
 
   // Set current lesson
@@ -130,7 +130,7 @@ export function useCourseProgress(courseId: string) {
       };
       saveProgress(updatedProgress);
     },
-    [progress, saveProgress]
+    [courseId, progress, saveProgress]
   );
 
   // Check if a lesson is completed

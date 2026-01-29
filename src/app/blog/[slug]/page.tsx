@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { blogPosts, getPostBySlug, getRelatedPosts } from '@/data/blog';
 import { BlogPost } from '@/types/blog';
 import BlogStructuredData from '@/components/BlogStructuredData';
@@ -231,9 +232,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
                                 {/* Author Info */}
                                 <div className="flex items-center gap-4 pb-8 border-b border-gray-200 dark:border-gray-700">
-                                    <img
+                                    <Image
                                         src={post.author.avatar}
                                         alt={post.author.name}
+                                        width={56}
+                                        height={56}
                                         className="w-14 h-14 rounded-full object-cover"
                                     />
                                     <div>

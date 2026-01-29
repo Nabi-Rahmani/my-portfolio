@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { blogPosts, blogCategories, getFeaturedPosts, getAllTags, searchPosts, getPostsByCategory, getPostsByTag } from '@/data/blog';
 import { BlogPost, BlogFilter } from '@/types/blog';
 
@@ -24,10 +25,13 @@ const BlogCard = ({ post, featured = false }: { post: BlogPost; featured?: boole
                         ? 'lg:w-1/2 h-64 lg:h-auto'
                         : 'h-48'
                         } rounded-xl overflow-hidden`}>
-                        <img
+                        <Image
                             src={post.coverImage}
                             alt={post.title}
+                            width={1200}
+                            height={800}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            sizes="(max-width: 1024px) 100vw, 50vw"
                         />
                     </div>
 
@@ -74,9 +78,11 @@ const BlogCard = ({ post, featured = false }: { post: BlogPost; featured?: boole
 
                         {/* Author & Date */}
                         <div className="flex items-center gap-3">
-                            <img
+                            <Image
                                 src={post.author.avatar}
                                 alt={post.author.name}
+                                width={40}
+                                height={40}
                                 className="w-10 h-10 rounded-full object-cover"
                             />
                             <div>

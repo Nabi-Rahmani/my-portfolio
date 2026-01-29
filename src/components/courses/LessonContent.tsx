@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeRaw from 'rehype-raw';
@@ -10,6 +11,8 @@ interface LessonContentProps {
 }
 
 export function LessonContent({ content }: LessonContentProps) {
+  const markdownImageLoader = ({ src }: { src: string }) => src;
+
   return (
     <div className="lesson-content">
       <ReactMarkdown
@@ -229,18 +232,26 @@ export function LessonContent({ content }: LessonContentProps) {
               }}
             />
           ),
-          img: ({ src, alt }) => (
-            <img
-              src={src}
-              alt={alt}
-              style={{
-                maxWidth: '100%',
-                height: 'auto',
-                borderRadius: '8px',
-                marginBottom: '1rem',
-              }}
-            />
-          ),
+          img: ({ src, alt }) => {
+            if (typeof src !== 'string') return null;
+            return (
+              <Image
+                src={src}
+                alt={alt || ''}
+                width={1200}
+                height={800}
+                loader={markdownImageLoader}
+                unoptimized
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  borderRadius: '8px',
+                  marginBottom: '1rem',
+                }}
+                sizes="100vw"
+              />
+            );
+          },
           strong: ({ children }) => (
             <strong style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
               {children}

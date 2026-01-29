@@ -51,12 +51,10 @@ export default function Home() {
 
   const featuredPosts = blogPosts.slice(0, 3);
   const projectScreenshots = [
-    { src: '/assets/projectImage/dev-discipline-01.jpeg', title: 'Screenshot 1' },
-    { src: '/assets/projectImage/dev-discipline-02.jpeg', title: 'Screenshot 2' },
-    { src: '/assets/projectImage/dev-discipline-03.jpeg', title: 'Screenshot 3' },
-    { src: '/assets/projectImage/dev-discipline-04.jpeg', title: 'Screenshot 4' },
-    { src: '/assets/projectImage/dev-discipline-05.jpeg', title: 'Screenshot 5' },
-    { src: '/assets/projectImage/dev-discipline-06.jpeg', title: 'Screenshot 6' }
+    { src: '/assets/projectImage/day.png', title: 'Day' },
+    { src: '/assets/projectImage/plan.png', title: 'Plan' },
+    { src: '/assets/projectImage/insight.png', title: 'Insight' },
+    { src: '/assets/projectImage/setting.png', title: 'Settings' }
   ];
 
   return (
@@ -574,15 +572,18 @@ export default function Home() {
                 }}
               >
                 <div style={{ height: '180px', overflow: 'hidden' }}>
-                  <img
+                  <Image
                     src={post.coverImage}
                     alt={post.title}
+                    width={1200}
+                    height={800}
                     style={{
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
                       transition: 'transform 0.3s ease'
                     }}
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
                 <div style={{ padding: '1.5rem' }}>
