@@ -226,7 +226,7 @@ export default function LessonPage() {
                 <span
                   style={{
                     padding: '4px 10px',
-                    backgroundColor: 'var(--accent-primary)',
+                    backgroundColor: 'var(--accent)',
                     color: 'white',
                     borderRadius: '4px',
                     fontSize: '0.75rem',
@@ -416,7 +416,7 @@ export default function LessonPage() {
                 alignItems: 'center',
                 gap: '8px',
                 padding: '12px 24px',
-                backgroundColor: 'var(--accent-primary)',
+                backgroundColor: 'var(--accent)',
                 color: 'white',
                 borderRadius: '8px',
                 fontSize: '1rem',

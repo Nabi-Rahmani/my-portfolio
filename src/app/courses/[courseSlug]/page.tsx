@@ -267,7 +267,7 @@ export default function CourseOverviewPage() {
                 alignItems: 'center',
                 gap: '8px',
                 padding: '14px 28px',
-                backgroundColor: 'var(--accent-primary)',
+                backgroundColor: 'var(--accent)',
                 color: 'white',
                 borderRadius: '8px',
                 textDecoration: 'none',
@@ -508,7 +508,7 @@ export default function CourseOverviewPage() {
                                   <span
                                     style={{
                                       padding: '2px 8px',
-                                      backgroundColor: 'var(--accent-primary)',
+                                      backgroundColor: 'var(--accent)',
                                       color: 'white',
                                       borderRadius: '4px',
                                       fontSize: '0.6875rem',

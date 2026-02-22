@@ -407,7 +407,7 @@ function LessonItem({
           : isHovered
           ? 'var(--bg-secondary)'
           : 'transparent',
-        borderLeft: isCurrent ? '3px solid var(--accent-primary)' : '3px solid transparent',
+        borderLeft: isCurrent ? '3px solid var(--accent)' : '3px solid transparent',
         transition: 'background-color 0.2s ease',
       }}
     >
@@ -444,7 +444,7 @@ function LessonItem({
         <div
           style={{
             fontSize: '0.8125rem',
-            color: isCurrent ? 'var(--accent-primary)' : 'var(--text-primary)',
+            color: isCurrent ? 'var(--accent)' : 'var(--text-primary)',
             fontWeight: isCurrent ? 600 : 400,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
@@ -484,7 +484,7 @@ function LessonItem({
               style={{
                 fontSize: '0.625rem',
                 padding: '1px 6px',
-                backgroundColor: 'var(--accent-primary)',
+                backgroundColor: 'var(--accent)',
                 color: 'white',
                 borderRadius: '4px',
                 fontWeight: 500,

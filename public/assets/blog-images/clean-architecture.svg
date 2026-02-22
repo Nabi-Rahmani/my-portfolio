@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <style>
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0e0c0a; }
+      .text-primary { fill: #ede7df; }
+      .text-secondary { fill: #9a8e82; }
+      .accent { fill: #daa04e; }
+      .accent-stroke { stroke: #daa04e; }
+      .layer-domain { fill: #daa04e; fill-opacity: 0.15; }
+      .layer-data { fill: #4e9eda; fill-opacity: 0.15; }
+      .layer-app { fill: #9a4eda; fill-opacity: 0.15; }
+      .layer-pres { fill: #4eda7a; fill-opacity: 0.15; }
+      .layer-domain-stroke { stroke: #daa04e; }
+      .layer-data-stroke { stroke: #4e9eda; }
+      .layer-app-stroke { stroke: #9a4eda; }
+      .layer-pres-stroke { stroke: #4eda7a; }
+      .grid-line { stroke: #1a1714; }
+      .arrow { fill: #9a8e82; }
+    }
+    @media (prefers-color-scheme: light) {
+      .bg { fill: #f8f4ee; }
+      .text-primary { fill: #1a1410; }
+      .text-secondary { fill: #6e6259; }
+      .accent { fill: #c48a3f; }
+      .accent-stroke { stroke: #c48a3f; }
+      .layer-domain { fill: #c48a3f; fill-opacity: 0.12; }
+      .layer-data { fill: #3a7fbf; fill-opacity: 0.12; }
+      .layer-app { fill: #7a3abf; fill-opacity: 0.12; }
+      .layer-pres { fill: #3abf5a; fill-opacity: 0.12; }
+      .layer-domain-stroke { stroke: #c48a3f; }
+      .layer-data-stroke { stroke: #3a7fbf; }
+      .layer-app-stroke { stroke: #7a3abf; }
+      .layer-pres-stroke { stroke: #3abf5a; }
+      .grid-line { stroke: #e8e0d4; }
+      .arrow { fill: #6e6259; }
+    }
+  </style>
+  <!-- Background -->
+  <rect class="bg" width="1200" height="630" rx="0"/>
+  <!-- Grid -->
+  <line class="grid-line" x1="0" y1="157" x2="1200" y2="157" stroke-width="1"/>
+  <line class="grid-line" x1="0" y1="315" x2="1200" y2="315" stroke-width="1"/>
+  <line class="grid-line" x1="0" y1="473" x2="1200" y2="473" stroke-width="1"/>
+  <line class="grid-line" x1="300" y1="0" x2="300" y2="630" stroke-width="1"/>
+  <line class="grid-line" x1="600" y1="0" x2="600" y2="630" stroke-width="1"/>
+  <line class="grid-line" x1="900" y1="0" x2="900" y2="630" stroke-width="1"/>
+
+  <!-- 4 Layer Boxes -->
+  <rect class="layer-pres" x="80" y="80" width="240" height="120" rx="16" stroke-width="2"/>
+  <rect class="layer-pres-stroke" x="80" y="80" width="240" height="120" rx="16" stroke-width="2" fill="none"/>
+  <text class="text-primary" x="200" y="130" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" font-weight="700">Presentation</text>
+  <text class="text-secondary" x="200" y="155" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13">Controllers + UI</text>
+
+  <rect class="layer-app" x="380" y="80" width="240" height="120" rx="16" stroke-width="2"/>
+  <rect class="layer-app-stroke" x="380" y="80" width="240" height="120" rx="16" stroke-width="2" fill="none"/>
+  <text class="text-primary" x="500" y="130" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" font-weight="700">Application</text>
+  <text class="text-secondary" x="500" y="155" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13">Services + Rules</text>
+
+  <rect class="layer-domain" x="680" y="80" width="240" height="120" rx="16" stroke-width="2"/>
+  <rect class="layer-domain-stroke" x="680" y="80" width="240" height="120" rx="16" stroke-width="2" fill="none"/>
+  <text class="text-primary" x="800" y="130" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" font-weight="700">Domain</text>
+  <text class="text-secondary" x="800" y="155" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13">Entities + Contracts</text>
+
+  <rect class="layer-data" x="980" y="80" width="140" height="120" rx="16" stroke-width="2"/>
+  <rect class="layer-data-stroke" x="980" y="80" width="140" height="120" rx="16" stroke-width="2" fill="none"/>
+  <text class="text-primary" x="1050" y="130" text-anchor="middle" font-family="system-ui,sans-serif" font-size="18" font-weight="700">Data</text>
+  <text class="text-secondary" x="1050" y="155" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13">CRUD + Sync</text>
+
+  <!-- Arrows between layers -->
+  <polygon class="arrow" points="325,140 345,130 345,150"/>
+  <polygon class="arrow" points="625,140 645,130 645,150"/>
+  <polygon class="arrow" points="925,140 945,130 945,150"/>
+
+  <!-- Feature folder icon -->
+  <rect class="layer-domain" x="80" y="260" width="1040" height="180" rx="20"/>
+  <rect class="accent-stroke" x="80" y="260" width="1040" height="180" rx="20" fill="none" stroke-width="2" stroke-dasharray="8 4"/>
+
+  <text class="accent" x="120" y="295" font-family="monospace" font-size="14" font-weight="600">lib/src/feature/chat/</text>
+
+  <!-- Folder items -->
+  <text class="text-secondary" x="140" y="325" font-family="monospace" font-size="13">domain/</text>
+  <text class="text-primary" x="260" y="325" font-family="monospace" font-size="13">chat_message.dart, chat_repository.dart</text>
+
+  <text class="text-secondary" x="140" y="350" font-family="monospace" font-size="13">data/</text>
+  <text class="text-primary" x="260" y="350" font-family="monospace" font-size="13">chat_repository_impl.dart, local/, remote/</text>
+
+  <text class="text-secondary" x="140" y="375" font-family="monospace" font-size="13">application/</text>
+  <text class="text-primary" x="260" y="375" font-family="monospace" font-size="13">chat_service.dart</text>
+
+  <text class="text-secondary" x="140" y="400" font-family="monospace" font-size="13">presentation/</text>
+  <text class="text-primary" x="260" y="400" font-family="monospace" font-size="13">controllers/, chat_screen/</text>
+
+  <!-- Title -->
+  <text class="text-primary" x="600" y="510" text-anchor="middle" font-family="system-ui,sans-serif" font-size="36" font-weight="800">Feature-First Clean Architecture</text>
+  <text class="accent" x="600" y="550" text-anchor="middle" font-family="system-ui,sans-serif" font-size="20" font-weight="500">4 Layers  ·  Strict Boundaries  ·  Scalable Structure</text>
+
+  <!-- Flutter logo hint -->
+  <text class="text-secondary" x="600" y="600" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14">Flutter + Dart</text>
+</svg>

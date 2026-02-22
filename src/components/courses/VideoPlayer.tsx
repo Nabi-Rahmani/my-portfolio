@@ -69,7 +69,7 @@ export function VideoPlayer({ videoUrl, provider = 'youtube', title }: VideoPlay
               width: '40px',
               height: '40px',
               border: '3px solid var(--border-color)',
-              borderTopColor: 'var(--accent-primary)',
+              borderTopColor: 'var(--accent)',
               borderRadius: '50%',
               animation: 'spin 1s linear infinite',
             }}

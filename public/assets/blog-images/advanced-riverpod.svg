@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <style>
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0e0c0a; }
+      .text-primary { fill: #ede7df; }
+      .text-secondary { fill: #9a8e82; }
+      .accent { fill: #daa04e; }
+      .accent-stroke { stroke: #daa04e; }
+      .box-bg { fill: #1a1714; }
+      .box-stroke { stroke: rgba(237,231,223,0.08); }
+      .purple { fill: #b48ade; }
+      .green { fill: #6ade8a; }
+      .blue { fill: #6ab4de; }
+      .orange { fill: #dea86a; }
+      .red { fill: #de6a6a; }
+      .connector { stroke: #9a8e82; }
+    }
+    @media (prefers-color-scheme: light) {
+      .bg { fill: #f8f4ee; }
+      .text-primary { fill: #1a1410; }
+      .text-secondary { fill: #6e6259; }
+      .accent { fill: #c48a3f; }
+      .accent-stroke { stroke: #c48a3f; }
+      .box-bg { fill: #f0ebe3; }
+      .box-stroke { stroke: rgba(26,20,16,0.1); }
+      .purple { fill: #7a3abf; }
+      .green { fill: #2a9e4a; }
+      .blue { fill: #3a7fbf; }
+      .orange { fill: #bf7a2a; }
+      .red { fill: #bf3a3a; }
+      .connector { stroke: #6e6259; }
+    }
+  </style>
+  <rect class="bg" width="1200" height="630"/>
+
+  <!-- Pattern boxes for 6 concepts -->
+  <!-- 1. Single Action Controller -->
+  <rect class="box-bg" x="60" y="60" width="340" height="155" rx="16"/>
+  <rect class="box-stroke" x="60" y="60" width="340" height="155" rx="16" fill="none" stroke-width="1.5"/>
+  <circle class="purple" cx="90" cy="95" r="12" opacity="0.8"/>
+  <text class="text-primary" x="112" y="100" font-family="system-ui,sans-serif" font-size="16" font-weight="700">Single-Action Controllers</text>
+  <text class="text-secondary" x="80" y="130" font-family="monospace" font-size="12">ToggleTaskController</text>
+  <text class="text-secondary" x="80" y="150" font-family="monospace" font-size="12">DeleteTaskController</text>
+  <text class="text-secondary" x="80" y="170" font-family="monospace" font-size="12">AddTaskController</text>
+  <text class="green" x="80" y="198" font-family="system-ui,sans-serif" font-size="11" font-weight="600">One job per controller</text>
+
+  <!-- 2. Debounced Search -->
+  <rect class="box-bg" x="430" y="60" width="340" height="155" rx="16"/>
+  <rect class="box-stroke" x="430" y="60" width="340" height="155" rx="16" fill="none" stroke-width="1.5"/>
+  <circle class="blue" cx="460" cy="95" r="12" opacity="0.8"/>
+  <text class="text-primary" x="482" y="100" font-family="system-ui,sans-serif" font-size="16" font-weight="700">Debounced Search</text>
+  <text class="text-secondary" x="450" y="130" font-family="monospace" font-size="12">SearchQuery → 300ms delay</text>
+  <text class="text-secondary" x="450" y="150" font-family="monospace" font-size="12">→ Auto-cancel old provider</text>
+  <text class="text-secondary" x="450" y="170" font-family="monospace" font-size="12">→ Fresh results</text>
+  <text class="green" x="450" y="198" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Free cancellation via Riverpod</text>
+
+  <!-- 3. Pagination -->
+  <rect class="box-bg" x="800" y="60" width="340" height="155" rx="16"/>
+  <rect class="box-stroke" x="800" y="60" width="340" height="155" rx="16" fill="none" stroke-width="1.5"/>
+  <circle class="green" cx="830" cy="95" r="12" opacity="0.8"/>
+  <text class="text-primary" x="852" y="100" font-family="system-ui,sans-serif" font-size="16" font-weight="700">Infinite Pagination</text>
+  <text class="text-secondary" x="820" y="130" font-family="monospace" font-size="12">isLoadingMore: true</text>
+  <text class="text-secondary" x="820" y="150" font-family="monospace" font-size="12">NOT AsyncLoading()</text>
+  <text class="text-secondary" x="820" y="170" font-family="monospace" font-size="12">→ Keep existing items visible</text>
+  <text class="green" x="820" y="198" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Never lose the list</text>
+
+  <!-- 4. Rebuild Prevention -->
+  <rect class="box-bg" x="60" y="250" width="340" height="155" rx="16"/>
+  <rect class="box-stroke" x="60" y="250" width="340" height="155" rx="16" fill="none" stroke-width="1.5"/>
+  <circle class="orange" cx="90" cy="285" r="12" opacity="0.8"/>
+  <text class="text-primary" x="112" y="290" font-family="system-ui,sans-serif" font-size="16" font-weight="700">Rebuild Prevention</text>
+  <text class="text-secondary" x="80" y="320" font-family="monospace" font-size="12">Split ConsumerWidgets</text>
+  <text class="text-secondary" x="80" y="340" font-family="monospace" font-size="12">Derived providers</text>
+  <text class="text-secondary" x="80" y="360" font-family="monospace" font-size="12">.select() for fine-grained</text>
+  <text class="green" x="80" y="388" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Zero wasted rebuilds</text>
+
+  <!-- 5. Side Effects -->
+  <rect class="box-bg" x="430" y="250" width="340" height="155" rx="16"/>
+  <rect class="box-stroke" x="430" y="250" width="340" height="155" rx="16" fill="none" stroke-width="1.5"/>
+  <circle class="red" cx="460" cy="285" r="12" opacity="0.8"/>
+  <text class="text-primary" x="482" y="290" font-family="system-ui,sans-serif" font-size="16" font-weight="700">Side Effects</text>
+  <text class="text-secondary" x="450" y="320" font-family="monospace" font-size="12">ref.watch → rendering</text>
+  <text class="text-secondary" x="450" y="340" font-family="monospace" font-size="12">ref.listen → reacting</text>
+  <text class="text-secondary" x="450" y="360" font-family="monospace" font-size="12">ref.read → callbacks</text>
+  <text class="green" x="450" y="388" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Always check transitions</text>
+
+  <!-- 6. keepAlive -->
+  <rect class="box-bg" x="800" y="250" width="340" height="155" rx="16"/>
+  <rect class="box-stroke" x="800" y="250" width="340" height="155" rx="16" fill="none" stroke-width="1.5"/>
+  <circle class="accent" cx="830" cy="285" r="12" opacity="0.8"/>
+  <text class="text-primary" x="852" y="290" font-family="system-ui,sans-serif" font-size="16" font-weight="700">keepAlive Strategy</text>
+  <text class="text-secondary" x="820" y="320" font-family="monospace" font-size="12">DB / SDK → keepAlive: true</text>
+  <text class="text-secondary" x="820" y="340" font-family="monospace" font-size="12">Static data → keepAlive: true</text>
+  <text class="text-secondary" x="820" y="360" font-family="monospace" font-size="12">Everything else → auto-dispose</text>
+  <text class="green" x="820" y="388" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Most should auto-dispose</text>
+
+  <!-- Title -->
+  <text class="text-primary" x="600" y="490" text-anchor="middle" font-family="system-ui,sans-serif" font-size="36" font-weight="800">Advanced Riverpod Patterns</text>
+  <text class="accent" x="600" y="530" text-anchor="middle" font-family="system-ui,sans-serif" font-size="20" font-weight="500">Search  ·  Pagination  ·  Performance  ·  Side Effects</text>
+  <text class="text-secondary" x="600" y="600" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14">Flutter + Riverpod 3</text>
+</svg>

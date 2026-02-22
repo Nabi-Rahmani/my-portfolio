@@ -1,51 +1,201 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #ffffff;
-  --text-primary: #000000;
-  --bg-secondary: #f8f9fa;
-  --text-secondary: #000000;
-  --border-color: #e5e7eb;
-  --accent-primary: #3b82f6;
-  --accent-secondary: #8b5cf6;
+  --bg-primary: #f8f4ee;
+  --bg-secondary: #f0ebe3;
+  --text-primary: #1a1410;
+  --text-secondary: #6e6259;
+  --border-color: rgba(26, 20, 16, 0.08);
+  --accent: #c48a3f;
+  --accent-hover: #b37a32;
+  --accent-muted: rgba(196, 138, 63, 0.1);
   --background: var(--bg-primary);
   --foreground: var(--text-primary);
+  --shadow-sm: 0 1px 3px rgba(26, 20, 16, 0.05);
+  --shadow-md: 0 4px 16px rgba(26, 20, 16, 0.07);
+  --shadow-lg: 0 12px 40px rgba(26, 20, 16, 0.09);
 }
 
 .dark {
-  --bg-primary: #000000;
-  --text-primary: #f9fafb;
-  --bg-secondary: #111111;
-  --text-secondary: #d1d5db;
-  --border-color: #333333;
-  --accent-primary: #3b82f6;
-  --accent-secondary: #8b5cf6;
+  --bg-primary: #0e0c0a;
+  --bg-secondary: #1a1714;
+  --text-primary: #ede7df;
+  --text-secondary: #9a8e82;
+  --border-color: rgba(237, 231, 223, 0.08);
+  --accent: #daa04e;
+  --accent-hover: #e8ae5a;
+  --accent-muted: rgba(218, 160, 78, 0.1);
   --background: var(--bg-primary);
   --foreground: var(--text-primary);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
 }
 
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: Arial, Helvetica, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-* {
-  transition: background-color 0.3s ease, color 0.3s ease;
+/* Article prose styles */
+.article-content {
+  color: var(--text-primary);
+  font-size: 1.125rem;
+  line-height: 1.8;
 }
 
-/* Floating animation for gradient elements */
-@keyframes float {
+.article-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--accent);
+  color: var(--text-primary);
+  scroll-margin-top: 6rem;
+}
 
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
+.article-content h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--accent);
+  color: var(--text-primary);
+  scroll-margin-top: 6rem;
+}
 
-  50% {
-    transform: translateY(-20px);
-  }
+.article-content p {
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.article-content a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: text-decoration 0.2s;
+}
+
+.article-content a:hover {
+  text-decoration: underline;
+}
+
+.article-content strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.article-content pre {
+  background: #0d1117;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  border: 1px solid var(--border-color);
+}
+
+.article-content pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+  color: #e6edf3;
+}
+
+.article-content :not(pre) > code {
+  background: var(--bg-secondary);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.375rem;
+  font-size: 0.875em;
+  color: var(--accent);
+  border: 1px solid var(--border-color);
+}
+
+.article-content blockquote {
+  border-left: 4px solid var(--accent);
+  background: var(--accent-muted);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 0 0.5rem 0.5rem 0;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.article-content blockquote p {
+  margin-bottom: 0;
+}
+
+.article-content ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.article-content ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.article-content li {
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.article-content li > ul,
+.article-content li > ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+.article-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+  overflow-x: auto;
+  display: block;
+}
+
+.article-content th {
+  background: var(--bg-secondary);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.article-content td {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.article-content tr:nth-child(even) {
+  background: var(--accent-muted);
+}
+
+.article-content img {
+  max-width: 100%;
+  border-radius: 0.75rem;
+  margin: 1.5rem auto;
+  display: block;
+}
+
+.article-content hr {
+  border: none;
+  height: 1px;
+  background: var(--border-color);
+  margin: 2.5rem 0;
 }
 
 @layer utilities {
@@ -53,67 +203,42 @@ body {
     position: relative;
     overflow: hidden;
   }
-
   .hero-grid::before {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.6;
-    /* Light mode: pure white base, orange grid strongest near top-center, faint at corners/bottom */
-    background-color: transparent;
+    opacity: 0.7;
+    background-color: rgba(196, 138, 63, 0.03);
     background-image:
-      /* soften bottom so grid is hard to see there */
-      linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.9) 100%
-      ),
-      /* vignette to fade corners while keeping center clearer */
-      radial-gradient(
-        circle at center,
-        rgba(255, 255, 255, 0) 0,
-        rgba(255, 255, 255, 0.9) 80%
-      ),
-      /* orange grid */
-      repeating-linear-gradient(
-        0deg,
-        rgba(255, 107, 53, 0.4) 0px,
-        rgba(255, 107, 53, 0.4) 1px,
-        transparent 1px,
-        transparent 18px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        rgba(255, 107, 53, 0.4) 0px,
-        rgba(255, 107, 53, 0.4) 1px,
-        transparent 1px,
-        transparent 18px
-      );
+      radial-gradient(ellipse at 50% 45%, rgba(196, 138, 63, 0.1) 0%, transparent 60%),
+      repeating-linear-gradient(0deg, rgba(170, 120, 50, 0.2) 0px, rgba(170, 120, 50, 0.2) 1px, transparent 1px, transparent 24px),
+      repeating-linear-gradient(90deg, rgba(170, 120, 50, 0.2) 0px, rgba(170, 120, 50, 0.2) 1px, transparent 1px, transparent 24px);
+    -webkit-mask-image:
+      linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%),
+      radial-gradient(ellipse 90% 85% at 50% 45%, black 0%, black 40%, transparent 100%);
+    mask-image:
+      linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%),
+      radial-gradient(ellipse 90% 85% at 50% 45%, black 0%, black 40%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
     z-index: 0;
   }
-
   .dark .hero-grid::before {
-    opacity: 0.9;
+    opacity: 1;
+    background-color: rgba(26, 20, 14, 0.15);
     background-image:
-      /* dark mode bottom fade: grid almost invisible at the very bottom */
-      linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%),
-      radial-gradient(circle at center, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0.95) 80%),
-      /* stronger warm brown center for dark mode */
-      radial-gradient(circle at center, rgba(45, 27, 20, 1) 0, rgba(45, 27, 20, 0) 55%),
-      repeating-linear-gradient(
-        0deg,
-        rgba(156, 106, 58, 0.7) 0px,
-        rgba(156, 106, 58, 0.7) 1px,
-        transparent 1px,
-        transparent 16px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        rgba(156, 106, 58, 0.7) 0px,
-        rgba(156, 106, 58, 0.7) 1px,
-        transparent 1px,
-        transparent 16px
-      );
+      radial-gradient(ellipse at 50% 45%, rgba(218, 160, 78, 0.12) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 45%, rgba(196, 138, 63, 0.06) 0%, transparent 45%),
+      repeating-linear-gradient(0deg, rgba(170, 120, 50, 0.18) 0px, rgba(170, 120, 50, 0.18) 1px, transparent 1px, transparent 24px),
+      repeating-linear-gradient(90deg, rgba(170, 120, 50, 0.18) 0px, rgba(170, 120, 50, 0.18) 1px, transparent 1px, transparent 24px);
+    -webkit-mask-image:
+      linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%),
+      radial-gradient(ellipse 90% 85% at 50% 45%, black 0%, black 40%, transparent 100%);
+    mask-image:
+      linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%),
+      radial-gradient(ellipse 90% 85% at 50% 45%, black 0%, black 40%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
   }
 }

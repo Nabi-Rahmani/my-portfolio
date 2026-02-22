@@ -15,7 +15,6 @@ const ShareButtons = ({ post }: { post: BlogPost }) => {
     const copyToClipboard = async () => {
         try {
             await navigator.clipboard.writeText(url);
-            // You could add a toast notification here
             alert('Link copied to clipboard!');
         } catch {
             console.error('Failed to copy link');
@@ -23,14 +22,14 @@ const ShareButtons = ({ post }: { post: BlogPost }) => {
     };
 
     return (
-        <div className="flex items-center gap-4 p-6 bg-gray-50 dark:bg-gray-800 rounded-xl">
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Share this post:</span>
+        <div className="flex items-center gap-4 p-6 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-color)]">
+            <span className="text-sm font-medium text-[var(--text-secondary)]">Share this post:</span>
             <div className="flex gap-3">
                 <a
                     href={shareLinks.twitter}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 bg-blue-400 text-white rounded-lg hover:bg-blue-500 transition-colors"
+                    className="p-2 rounded-lg border border-[var(--border-color)] text-[var(--text-primary)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
                     title="Share on Twitter"
                 >
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -41,7 +40,7 @@ const ShareButtons = ({ post }: { post: BlogPost }) => {
                     href={shareLinks.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="p-2 rounded-lg border border-[var(--border-color)] text-[var(--text-primary)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
                     title="Share on LinkedIn"
                 >
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -52,7 +51,7 @@ const ShareButtons = ({ post }: { post: BlogPost }) => {
                     href={shareLinks.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 transition-colors"
+                    className="p-2 rounded-lg border border-[var(--border-color)] text-[var(--text-primary)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
                     title="Share on Facebook"
                 >
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -61,7 +60,7 @@ const ShareButtons = ({ post }: { post: BlogPost }) => {
                 </a>
                 <button
                     onClick={copyToClipboard}
-                    className="p-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                    className="p-2 rounded-lg border border-[var(--border-color)] text-[var(--text-primary)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors cursor-pointer"
                     title="Copy link"
                 >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

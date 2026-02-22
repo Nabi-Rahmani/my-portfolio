@@ -123,7 +123,7 @@ export function LessonContent({ content }: LessonContentProps) {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                color: 'var(--accent-primary)',
+                color: 'var(--accent)',
                 textDecoration: 'underline',
                 textUnderlineOffset: '2px',
               }}
@@ -142,7 +142,7 @@ export function LessonContent({ content }: LessonContentProps) {
                     borderRadius: '4px',
                     fontSize: '0.875rem',
                     fontFamily: 'monospace',
-                    color: 'var(--accent-primary)',
+                    color: 'var(--accent)',
                   }}
                   {...props}
                 >
@@ -174,7 +174,7 @@ export function LessonContent({ content }: LessonContentProps) {
           blockquote: ({ children }) => (
             <blockquote
               style={{
-                borderLeft: '4px solid var(--accent-primary)',
+                borderLeft: '4px solid var(--accent)',
                 paddingLeft: '1rem',
                 marginLeft: 0,
                 marginBottom: '1rem',

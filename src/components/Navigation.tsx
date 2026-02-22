@@ -4,6 +4,7 @@ import type { MouseEvent } from 'react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 declare global {
     interface Window {
@@ -13,11 +14,54 @@ declare global {
     }
 }
 
-type NavSection = 'home' | 'projects' | 'courses' | 'about' | 'contact';
+type NavSection = 'home' | 'projects' | 'blog' | 'about' | 'contact';
+
+const navItems: {
+    section: NavSection;
+    label: string;
+    href: string;
+    hash: string;
+    icon: string;
+}[] = [
+    {
+        section: 'home',
+        label: 'Home',
+        href: '/#home',
+        hash: '#home',
+        icon: 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z',
+    },
+    {
+        section: 'projects',
+        label: 'Projects',
+        href: '/#projects',
+        hash: '#projects',
+        icon: 'M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h8v8h-8v-8zm2 2v4h4v-4h-4z',
+    },
+    {
+        section: 'blog',
+        label: 'Blog',
+        href: '/blog',
+        hash: '#blog',
+        icon: 'M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.99 4H7V9h7.01V7zm3 4H7v2h10.01v-2zm0 4H7v2h10.01v-2z',
+    },
+    {
+        section: 'about',
+        label: 'About',
+        href: '/#about',
+        hash: '#about',
+        icon: 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z',
+    },
+    {
+        section: 'contact',
+        label: 'Contact',
+        href: '/#contact',
+        hash: '#contact',
+        icon: 'M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z',
+    },
+];
 
 export default function Navigation() {
     const [isDark, setIsDark] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
     const [activeHash, setActiveHash] = useState<string>('#home');
     const pathname = usePathname();
 
@@ -29,73 +73,47 @@ export default function Navigation() {
         const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
 
         setIsDark(shouldBeDark);
-        updateTheme(shouldBeDark);
-
-        const checkScreenSize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-
-        checkScreenSize();
-        window.addEventListener('resize', checkScreenSize);
+        if (shouldBeDark) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
 
         const handleHashChange = () => {
-            const hash = window.location.hash || '#home';
-            setActiveHash(hash);
+            setActiveHash(window.location.hash || '#home');
         };
 
         handleHashChange();
         window.addEventListener('hashchange', handleHashChange);
 
         return () => {
-            window.removeEventListener('resize', checkScreenSize);
             window.removeEventListener('hashchange', handleHashChange);
         };
     }, []);
 
-    const updateTheme = (dark: boolean) => {
-        if (typeof window !== 'undefined') {
-            const root = document.documentElement;
-
-            if (dark) {
-                root.style.setProperty('--bg-primary', '#000000');
-                root.style.setProperty('--text-primary', '#ffffff');
-                root.style.setProperty('--bg-secondary', '#111111');
-                root.style.setProperty('--text-secondary', '#cccccc');
-                root.style.setProperty('--border-color', '#333333');
-                root.classList.add('dark');
-            } else {
-                root.style.setProperty('--bg-primary', '#ffffff');
-                root.style.setProperty('--text-primary', '#000000');
-                root.style.setProperty('--bg-secondary', '#f8f9fa');
-                root.style.setProperty('--text-secondary', '#666666');
-                root.style.setProperty('--border-color', '#e5e7eb');
-                root.classList.remove('dark');
-            }
-        }
-    };
-
     const toggleTheme = () => {
         const newTheme = !isDark;
         setIsDark(newTheme);
-        updateTheme(newTheme);
 
-        if (typeof window !== 'undefined') {
-            localStorage.setItem('theme', newTheme ? 'dark' : 'light');
+        if (newTheme) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
         }
+
+        localStorage.setItem('theme', newTheme ? 'dark' : 'light');
     };
 
     const isActive = (section: NavSection) => {
         const hash = activeHash || '#home';
 
         if (pathname === '/' || pathname === '') {
-            if (section === 'home') {
-                return hash === '#home' || hash === '';
-            }
+            if (section === 'home') return hash === '#home' || hash === '';
             return hash === `#${section}`;
         }
 
         if (pathname.startsWith('/projects') && section === 'projects') return true;
-        if (pathname.startsWith('/courses') && section === 'courses') return true;
+        if (pathname.startsWith('/blog') && section === 'blog') return true;
         if (pathname.startsWith('/about') && section === 'about') return true;
         if (pathname.startsWith('/contact') && section === 'contact') return true;
 
@@ -130,317 +148,145 @@ export default function Navigation() {
         setActiveHash(hash);
     };
 
+    const isLessonPage = pathname.match(/^\/courses\/[^/]+\/[^/]+$/);
+
     return (
         <>
-            {/* Brand Logo - Always visible at top left */}
-            <div style={{
-                position: 'fixed',
-                top: '1rem',
-                left: '2rem',
-                zIndex: 50
-            }}>
-                <Link href="/#home" style={{
-                    fontSize: '1.1rem',
-                    fontWeight: '600',
-                    color: 'var(--text-primary)',
-                    textDecoration: 'none',
-                    transition: 'all 0.3s ease'
-                }}
-                    onClick={handleNavClick('#home')}
-                    onMouseEnter={(e) => (e.target as HTMLElement).style.color = 'rgba(252, 180, 176, 1)'}
-                    onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'var(--text-primary)'}>
-                    codewithnabi
-                </Link>
-            </div>
+            {/* Desktop Navigation — Floating Centered Pill */}
+            <header className="hidden md:flex fixed top-0 left-0 right-0 z-50 justify-center pt-4 pointer-events-none">
+                <nav className="pointer-events-auto flex items-center gap-1 px-2 py-1.5 rounded-full bg-[var(--bg-secondary)]/80 backdrop-blur-xl border border-[var(--border-color)] shadow-[var(--shadow-lg)]">
+                    {/* Brand / Home link */}
+                    <Link
+                        href="/#home"
+                        onClick={handleNavClick('#home')}
+                        className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-full no-underline transition-colors duration-200 text-[var(--text-primary)]"
+                    >
+                        {isActive('home') && (
+                            <motion.span
+                                layoutId="nav-active-pill"
+                                className="absolute inset-0 rounded-full bg-[var(--accent-muted)]"
+                                style={{ zIndex: -1 }}
+                                transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                            />
+                        )}
+                        <svg
+                            width="18"
+                            height="18"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            className="shrink-0"
+                        >
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                        </svg>
+                        <span className="text-[0.8125rem] font-semibold tracking-tight">codewithnabi</span>
+                    </Link>
 
-            {/* Desktop Navigation - Top Center */}
-            {!isMobile && (
-                <nav style={{
-                    position: 'fixed',
-                    top: '1rem',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    zIndex: 50,
-                    backgroundColor: `${isDark ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.9)'}`,
-                    backdropFilter: 'blur(16px)',
-                    border: `1px solid var(--border-color)`,
-                    borderRadius: '2rem',
-                    padding: '0.75rem 1.5rem',
-                    transition: 'all 0.3s ease',
-                    boxShadow: isDark
-                        ? '0 8px 32px rgba(0,0,0,0.3)'
-                        : '0 8px 32px rgba(0,0,0,0.1)',
-                    width: 'auto',
-                    minWidth: '300px'
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.5rem' }}>
-                        <div style={{ display: 'flex', gap: '1.5rem' }}>
-                            <Link href="/#home" style={{
-                                color: isActive('home') ? 'var(--text-primary)' : 'var(--text-secondary)',
-                                fontSize: '0.8rem',
-                                transition: 'color 0.3s ease',
-                                textDecoration: 'none',
-                                fontWeight: '600',
-                                padding: '0.25rem 0.5rem',
-                                borderRadius: '0.5rem',
-                                backgroundColor: isActive('home') ? 'var(--bg-secondary)' : 'transparent'
-                            }}
-                                onClick={handleNavClick('#home')}
-                                onMouseEnter={(e) => !isActive('home') && ((e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)')}
-                                onMouseLeave={(e) => !isActive('home') && ((e.target as HTMLElement).style.backgroundColor = 'transparent')}>
-                                Home
-                            </Link>
-                            <Link href="/#projects" style={{
-                                color: isActive('projects') ? 'var(--text-primary)' : 'var(--text-secondary)',
-                                fontSize: '0.8rem',
-                                transition: 'color 0.3s ease',
-                                textDecoration: 'none',
-                                fontWeight: '600',
-                                padding: '0.25rem 0.5rem',
-                                borderRadius: '0.5rem',
-                                backgroundColor: isActive('projects') ? 'var(--bg-secondary)' : 'transparent'
-                            }}
-                                onClick={handleNavClick('#projects')}
-                                onMouseEnter={(e) => !isActive('projects') && ((e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)')}
-                                onMouseLeave={(e) => !isActive('projects') && ((e.target as HTMLElement).style.backgroundColor = 'transparent')}>
-                                Projects
-                            </Link>
-                            <span style={{
-                                color: 'var(--text-secondary)',
-                                fontSize: '0.8rem',
-                                fontWeight: '600',
-                                padding: '0.25rem 0.5rem',
-                                borderRadius: '0.5rem',
-                                opacity: 0.6,
-                                cursor: 'default'
-                            }}>
-                                Coming soon
-                            </span>
-                            <Link href="/#about" style={{
-                                color: isActive('about') ? 'var(--text-primary)' : 'var(--text-secondary)',
-                                fontSize: '0.8rem',
-                                transition: 'color 0.3s ease',
-                                textDecoration: 'none',
-                                fontWeight: '600',
-                                padding: '0.25rem 0.5rem',
-                                borderRadius: '0.5rem',
-                                backgroundColor: isActive('about') ? 'var(--bg-secondary)' : 'transparent'
-                            }}
-                                onClick={handleNavClick('#about')}
-                                onMouseEnter={(e) => !isActive('about') && ((e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)')}
-                                onMouseLeave={(e) => !isActive('about') && ((e.target as HTMLElement).style.backgroundColor = 'transparent')}>
-                                About
-                            </Link>
-                            <Link href="/#contact" style={{
-                                color: isActive('contact') ? 'var(--text-primary)' : 'var(--text-secondary)',
-                                fontSize: '0.8rem',
-                                transition: 'color 0.3s ease',
-                                textDecoration: 'none',
-                                fontWeight: '600',
-                                padding: '0.25rem 0.5rem',
-                                borderRadius: '0.5rem',
-                                backgroundColor: isActive('contact') ? 'var(--bg-secondary)' : 'transparent'
-                            }}
-                                onClick={handleNavClick('#contact')}
-                                onMouseEnter={(e) => !isActive('contact') && ((e.target as HTMLElement).style.backgroundColor = 'var(--bg-secondary)')}
-                                onMouseLeave={(e) => !isActive('contact') && ((e.target as HTMLElement).style.backgroundColor = 'transparent')}>
-                                Contact
-                            </Link>
-                        </div>
+                    {/* Divider */}
+                    <span className="w-px h-5 bg-[var(--border-color)] mx-0.5" />
 
-                        <button
-                            onClick={toggleTheme}
-                            style={{
-                                padding: '6px',
-                                borderRadius: '50%',
-                                border: `1px solid var(--border-color)`,
-                                backgroundColor: 'var(--bg-secondary)',
-                                color: isDark ? '#fbbf24' : '#f59e0b',
-                                cursor: 'pointer',
-                                transition: 'all 0.3s ease',
-                                width: '32px',
-                                height: '32px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                            }}
-                            onMouseEnter={(e) => {
-                                (e.target as HTMLElement).style.transform = 'scale(1.1)';
-                                (e.target as HTMLElement).style.color = isDark ? '#fcd34d' : '#d97706';
-                            }}
-                            onMouseLeave={(e) => {
-                                (e.target as HTMLElement).style.transform = 'scale(1)';
-                                (e.target as HTMLElement).style.color = isDark ? '#fbbf24' : '#f59e0b';
-                            }}>
-                            {isDark ? (
-                                <svg style={{ width: '16px', height: '16px' }} fill="currentColor" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    {/* Nav items (skip Home since brand link handles it) */}
+                    {navItems.filter((item) => item.section !== 'home').map((item) => {
+                        const active = isActive(item.section);
+
+                        return (
+                            <Link
+                                key={item.section}
+                                href={item.href}
+                                onClick={item.section !== 'blog' ? handleNavClick(item.hash) : undefined}
+                                className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-full no-underline transition-colors duration-200 ${
+                                    active
+                                        ? 'text-[var(--text-primary)]'
+                                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                                }`}
+                            >
+                                {active && (
+                                    <motion.span
+                                        layoutId="nav-active-pill"
+                                        className="absolute inset-0 rounded-full bg-[var(--accent-muted)]"
+                                        style={{ zIndex: -1 }}
+                                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                                    />
+                                )}
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24"
+                                    className="shrink-0"
+                                >
+                                    <path d={item.icon} />
                                 </svg>
-                            ) : (
-                                <svg style={{ width: '16px', height: '16px' }} fill="currentColor" stroke="none" viewBox="0 0 24 24">
-                                    <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                                </svg>
-                            )}
-                        </button>
-                    </div>
+                                <span className="text-[0.8125rem] font-medium">{item.label}</span>
+                            </Link>
+                        );
+                    })}
+
+                    {/* Divider */}
+                    <span className="w-px h-5 bg-[var(--border-color)] mx-0.5" />
+
+                    {/* Theme toggle */}
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2 rounded-full text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200 cursor-pointer border-none bg-transparent"
+                        aria-label="Toggle theme"
+                    >
+                        {isDark ? (
+                            <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                            </svg>
+                        ) : (
+                            <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                            </svg>
+                        )}
+                    </button>
                 </nav>
-            )}
+            </header>
 
-            {/* Mobile Bottom Navigation - Hide on lesson pages */}
-            {isMobile && !pathname.match(/^\/courses\/[^/]+\/[^/]+$/) && (
-                <nav style={{
-                    position: 'fixed',
-                    bottom: '1.5rem',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    zIndex: 50,
-                    backgroundColor: `${isDark ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.9)'}`,
-                    backdropFilter: 'blur(16px)',
-                    border: `1px solid var(--border-color)`,
-                    borderRadius: '2rem',
-                    padding: '0.75rem 1rem',
-                    transition: 'all 0.3s ease',
-                    boxShadow: isDark
-                        ? '0 8px 32px rgba(0,0,0,0.3)'
-                        : '0 8px 32px rgba(0,0,0,0.1)',
-                    width: '90%',
-                    minWidth: '260px',
-                    maxWidth: '380px'
-                }}>
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-around',
-                        alignItems: 'center'
-                    }}>
-                        <Link href="/" style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: '0.25rem',
-                            color: isActive('home') ? 'rgba(252, 180, 176, 1)' : 'var(--text-secondary)',
-                            textDecoration: 'none',
-                            padding: '0.5rem',
-                            borderRadius: '0.75rem',
-                            backgroundColor: isActive('home') ? 'rgba(252, 180, 176, 0.1)' : 'transparent',
-                            transition: 'all 0.3s ease',
-                            minWidth: '48px'
-                        }}
-                            onClick={handleNavClick('#home')}>
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+            {/* Mobile Bottom Navigation */}
+            {!isLessonPage && (
+                <nav className="flex md:hidden fixed bottom-0 left-0 right-0 z-50 items-center justify-around px-2 py-2 bg-[var(--bg-primary)] border-t border-[var(--border-color)] safe-area-pb">
+                    {([
+                        { section: 'home' as NavSection, label: 'Home', href: '/', hash: '#home', icon: 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z' },
+                        { section: 'projects' as NavSection, label: 'Projects', href: '/#projects', hash: '#projects', icon: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z' },
+                        { section: 'blog' as NavSection, label: 'Blog', href: '/blog', hash: '#blog', icon: 'M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.99 4H7V9h7.01V7zm3 4H7v2h10.01v-2zm0 4H7v2h10.01v-2z' },
+                        { section: 'about' as NavSection, label: 'About', href: '/#about', hash: '#about', icon: 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z' },
+                        { section: 'contact' as NavSection, label: 'Contact', href: '/#contact', hash: '#contact', icon: 'M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z' },
+                    ] as const).map((item) => (
+                        <Link
+                            key={item.section}
+                            href={item.href}
+                            onClick={item.section !== 'blog' ? handleNavClick(item.hash) : undefined}
+                            className={`flex flex-col items-center gap-0.5 py-1.5 px-3 rounded-xl no-underline transition-all duration-200 ${
+                                isActive(item.section)
+                                    ? 'text-[var(--accent)]'
+                                    : 'text-[var(--text-secondary)]'
+                            }`}
+                        >
+                            <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+                                <path d={item.icon} />
                             </svg>
-                            <span style={{ fontSize: '0.7rem', fontWeight: '600' }}>Home</span>
+                            <span className={`text-[0.625rem] ${isActive(item.section) ? 'font-semibold' : ''}`}>
+                                {item.label}
+                            </span>
                         </Link>
+                    ))}
 
-                        <Link href="/#projects" style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: '0.25rem',
-                            color: isActive('projects') ? 'rgba(252, 180, 176, 1)' : 'var(--text-secondary)',
-                            textDecoration: 'none',
-                            padding: '0.5rem',
-                            borderRadius: '0.75rem',
-                            backgroundColor: isActive('projects') ? 'rgba(252, 180, 176, 0.1)' : 'transparent',
-                            transition: 'all 0.3s ease',
-                            minWidth: '48px'
-                        }}
-                            onClick={handleNavClick('#projects')}>
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+                    <button
+                        onClick={toggleTheme}
+                        className="flex flex-col items-center gap-0.5 py-1.5 px-3 rounded-xl border-none bg-transparent text-[var(--text-secondary)] cursor-pointer"
+                    >
+                        {isDark ? (
+                            <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
                             </svg>
-                            <span style={{ fontSize: '0.7rem' }}>Projects</span>
-                        </Link>
-
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: '0.25rem',
-                            color: 'var(--text-secondary)',
-                            textDecoration: 'none',
-                            padding: '0.5rem',
-                            borderRadius: '0.75rem',
-                            backgroundColor: 'transparent',
-                            transition: 'all 0.3s ease',
-                            minWidth: '48px',
-                            opacity: 0.6,
-                            cursor: 'default'
-                        }}>
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z" />
+                        ) : (
+                            <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
                             </svg>
-                            <span style={{ fontSize: '0.7rem' }}>Coming soon</span>
-                        </div>
-
-                        <Link href="/#about" style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: '0.25rem',
-                            color: isActive('about') ? 'rgba(252, 180, 176, 1)' : 'var(--text-secondary)',
-                            textDecoration: 'none',
-                            padding: '0.5rem',
-                            borderRadius: '0.75rem',
-                            backgroundColor: isActive('about') ? 'rgba(252, 180, 176, 0.1)' : 'transparent',
-                            transition: 'all 0.3s ease',
-                            minWidth: '48px'
-                        }}
-                            onClick={handleNavClick('#about')}>
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                            </svg>
-                            <span style={{ fontSize: '0.7rem' }}>About</span>
-                        </Link>
-
-                        <Link href="/#contact" style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            gap: '0.25rem',
-                            color: isActive('contact') ? 'rgba(252, 180, 176, 1)' : 'var(--text-secondary)',
-                            textDecoration: 'none',
-                            padding: '0.5rem',
-                            borderRadius: '0.75rem',
-                            backgroundColor: isActive('contact') ? 'rgba(252, 180, 176, 0.1)' : 'transparent',
-                            transition: 'all 0.3s ease',
-                            minWidth: '48px'
-                        }}
-                            onClick={handleNavClick('#contact')}>
-                            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-                            </svg>
-                            <span style={{ fontSize: '0.7rem' }}>Contact</span>
-                        </Link>
-
-                        <button
-                            onClick={toggleTheme}
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                gap: '0.25rem',
-                                padding: '0.5rem',
-                                borderRadius: '0.75rem',
-                                border: 'none',
-                                backgroundColor: 'transparent',
-                                color: isDark ? '#fbbf24' : '#f59e0b',
-                                cursor: 'pointer',
-                                transition: 'all 0.3s ease',
-                                minWidth: '48px'
-                            }}>
-                            {isDark ? (
-                                <svg width="20" height="20" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                                </svg>
-                            ) : (
-                                <svg width="20" height="20" fill="currentColor" stroke="none" viewBox="0 0 24 24">
-                                    <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                                </svg>
-                            )}
-                            <span style={{ fontSize: '0.7rem' }}>Theme</span>
-                        </button>
-                    </div>
+                        )}
+                        <span className="text-[0.625rem]">Theme</span>
+                    </button>
                 </nav>
             )}
         </>

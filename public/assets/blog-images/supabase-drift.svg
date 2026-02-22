@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <style>
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0e0c0a; }
+      .text-primary { fill: #ede7df; }
+      .text-secondary { fill: #9a8e82; }
+      .accent { fill: #daa04e; }
+      .accent-stroke { stroke: #daa04e; }
+      .box-bg { fill: #1a1714; }
+      .box-stroke { stroke: rgba(237,231,223,0.08); }
+      .green { fill: #6ade8a; }
+      .green-bg { fill: #6ade8a; fill-opacity: 0.08; }
+      .blue { fill: #6ab4de; }
+      .blue-bg { fill: #6ab4de; fill-opacity: 0.08; }
+      .orange { fill: #dea86a; }
+      .line { stroke: #9a8e82; }
+      .dash { stroke: #9a8e82; }
+    }
+    @media (prefers-color-scheme: light) {
+      .bg { fill: #f8f4ee; }
+      .text-primary { fill: #1a1410; }
+      .text-secondary { fill: #6e6259; }
+      .accent { fill: #c48a3f; }
+      .accent-stroke { stroke: #c48a3f; }
+      .box-bg { fill: #f0ebe3; }
+      .box-stroke { stroke: rgba(26,20,16,0.1); }
+      .green { fill: #2a9e4a; }
+      .green-bg { fill: #2a9e4a; fill-opacity: 0.06; }
+      .blue { fill: #3a7fbf; }
+      .blue-bg { fill: #3a7fbf; fill-opacity: 0.06; }
+      .orange { fill: #bf7a2a; }
+      .line { stroke: #6e6259; }
+      .dash { stroke: #6e6259; }
+    }
+  </style>
+  <rect class="bg" width="1200" height="630"/>
+
+  <!-- Left side: Drift (Local) -->
+  <rect class="green-bg" x="60" y="50" width="500" height="310" rx="20"/>
+  <rect x="60" y="50" width="500" height="310" rx="20" fill="none" stroke-width="2" class="box-stroke"/>
+
+  <text class="green" x="310" y="85" text-anchor="middle" font-family="system-ui,sans-serif" font-size="20" font-weight="800">Drift (SQLite)</text>
+  <text class="text-secondary" x="310" y="108" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13">Local · Type-safe · Reactive · Instant</text>
+
+  <rect class="box-bg" x="90" y="125" width="200" height="65" rx="10"/>
+  <rect class="box-stroke" x="90" y="125" width="200" height="65" rx="10" fill="none" stroke-width="1"/>
+  <text class="text-primary" x="190" y="152" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="600">ProgressTable</text>
+  <text class="text-secondary" x="190" y="172" text-anchor="middle" font-family="monospace" font-size="10">dayNumber, isCompleted</text>
+
+  <rect class="box-bg" x="320" y="125" width="200" height="65" rx="10"/>
+  <rect class="box-stroke" x="320" y="125" width="200" height="65" rx="10" fill="none" stroke-width="1"/>
+  <text class="text-primary" x="420" y="152" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" font-weight="600">JournalTable</text>
+  <text class="text-secondary" x="420" y="172" text-anchor="middle" font-family="monospace" font-size="10">mood, note, dayNumber</text>
+
+  <rect class="box-bg" x="90" y="205" width="430" height="50" rx="10"/>
+  <rect class="box-stroke" x="90" y="205" width="430" height="50" rx="10" fill="none" stroke-width="1"/>
+  <text class="green" x="305" y="225" text-anchor="middle" font-family="monospace" font-size="12">isDirty: boolean</text>
+  <text class="text-secondary" x="305" y="243" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10">Tracks records that need syncing</text>
+
+  <rect class="box-bg" x="90" y="270" width="430" height="50" rx="10"/>
+  <rect class="box-stroke" x="90" y="270" width="430" height="50" rx="10" fill="none" stroke-width="1"/>
+  <text class="green" x="305" y="290" text-anchor="middle" font-family="monospace" font-size="12">Stream&lt;List&lt;T&gt;&gt; watchAll()</text>
+  <text class="text-secondary" x="305" y="308" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10">Reactive queries → auto-update UI</text>
+
+  <!-- Right side: Supabase (Remote) -->
+  <rect class="blue-bg" x="640" y="50" width="500" height="310" rx="20"/>
+  <rect x="640" y="50" width="500" height="310" rx="20" fill="none" stroke-width="2" class="box-stroke"/>
+
+  <text class="blue" x="890" y="85" text-anchor="middle" font-family="system-ui,sans-serif" font-size="20" font-weight="800">Supabase (PostgreSQL)</text>
+  <text class="text-secondary" x="890" y="108" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13">Remote · Cloud · RLS · Realtime</text>
+
+  <rect class="box-bg" x="670" y="125" width="440" height="55" rx="10"/>
+  <rect class="box-stroke" x="670" y="125" width="440" height="55" rx="10" fill="none" stroke-width="1"/>
+  <text class="text-primary" x="890" y="148" text-anchor="middle" font-family="monospace" font-size="12">user_progress (uuid, user_id, day_number, ...)</text>
+  <text class="text-secondary" x="890" y="168" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10">Row Level Security enabled</text>
+
+  <rect class="box-bg" x="670" y="195" width="440" height="55" rx="10"/>
+  <rect class="box-stroke" x="670" y="195" width="440" height="55" rx="10" fill="none" stroke-width="1"/>
+  <text class="text-primary" x="890" y="218" text-anchor="middle" font-family="monospace" font-size="12">journal_entries (uuid, user_id, mood, note, ...)</text>
+  <text class="text-secondary" x="890" y="238" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10">UNIQUE(user_id, day_number)</text>
+
+  <rect class="box-bg" x="670" y="265" width="440" height="55" rx="10"/>
+  <rect class="box-stroke" x="670" y="265" width="440" height="55" rx="10" fill="none" stroke-width="1"/>
+  <text class="blue" x="890" y="288" text-anchor="middle" font-family="monospace" font-size="12">ALTER PUBLICATION supabase_realtime ADD TABLE</text>
+  <text class="text-secondary" x="890" y="308" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10">Live updates across devices</text>
+
+  <!-- Sync arrows between sides -->
+  <line class="dash" x1="560" y1="180" x2="640" y2="180" stroke-width="2" stroke-dasharray="6 3"/>
+  <polygon class="orange" points="635,173 645,180 635,187"/>
+  <text class="orange" x="600" y="170" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="600">push</text>
+
+  <line class="dash" x1="640" y1="230" x2="560" y2="230" stroke-width="2" stroke-dasharray="6 3"/>
+  <polygon class="orange" points="565,223 555,230 565,237"/>
+  <text class="orange" x="600" y="248" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="600">pull</text>
+
+  <!-- Mapper in the middle -->
+  <rect class="box-bg" x="530" y="280" width="140" height="40" rx="20"/>
+  <rect class="accent-stroke" x="530" y="280" width="140" height="40" rx="20" fill="none" stroke-width="1.5"/>
+  <text class="accent" x="600" y="305" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="700">Mapper</text>
+
+  <!-- Bottom: Repository Facade -->
+  <rect class="box-bg" x="200" y="390" width="800" height="70" rx="16"/>
+  <rect class="accent-stroke" x="200" y="390" width="800" height="70" rx="16" fill="none" stroke-width="2"/>
+  <text class="accent" x="600" y="420" text-anchor="middle" font-family="system-ui,sans-serif" font-size="16" font-weight="700">Repository Facade</text>
+  <text class="text-secondary" x="600" y="445" text-anchor="middle" font-family="monospace" font-size="12">DisciplineRepositoryImpl.hybrid(local, remote, syncService)</text>
+
+  <!-- Title -->
+  <text class="text-primary" x="600" y="520" text-anchor="middle" font-family="system-ui,sans-serif" font-size="36" font-weight="800">Supabase + Drift Data Layer</text>
+  <text class="accent" x="600" y="558" text-anchor="middle" font-family="system-ui,sans-serif" font-size="20" font-weight="500">Type-Safe  ·  Reactive  ·  Offline-First  ·  Cloud Sync</text>
+  <text class="text-secondary" x="600" y="600" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14">Flutter + Drift + Supabase</text>
+</svg>

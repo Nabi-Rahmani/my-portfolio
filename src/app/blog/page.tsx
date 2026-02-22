@@ -3,368 +3,393 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { blogPosts, blogCategories, getFeaturedPosts, getAllTags, searchPosts, getPostsByCategory, getPostsByTag } from '@/data/blog';
 import { BlogPost, BlogFilter } from '@/types/blog';
 
-const BlogCard = ({ post, featured = false }: { post: BlogPost; featured?: boolean }) => {
-    return (
-        <article className={`group cursor-pointer transition-all duration-300 ${featured ? 'mb-12' : 'mb-8'
-            }`}>
-            <Link href={`/blog/${post.slug}`}>
-                <div className={`${featured
-                    ? 'flex flex-col lg:flex-row gap-8 p-8 rounded-2xl shadow-lg hover:shadow-xl border'
-                    : 'rounded-xl shadow-md hover:shadow-lg border overflow-hidden'
-                    }`}
-                    style={{
-                        backgroundColor: 'var(--bg-secondary)',
-                        borderColor: 'var(--border-color)',
-                        transition: 'all 0.3s ease'
-                    }}>
-                    {/* Cover Image */}
-                    <div className={`${featured
-                        ? 'lg:w-1/2 h-64 lg:h-auto'
-                        : 'h-48'
-                        } rounded-xl overflow-hidden`}>
-                        <Image
-                            src={post.coverImage}
-                            alt={post.title}
-                            width={1200}
-                            height={800}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                            sizes="(max-width: 1024px) 100vw, 50vw"
-                        />
+function formatDate(dateString: string) {
+    return new Date(dateString).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+    });
+}
+
+/* ─── Featured Hero Card ─── */
+const FeaturedCard = ({ post }: { post: BlogPost }) => (
+    <motion.div
+        initial={{ opacity: 0, y: 40, scale: 0.95 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ type: 'spring', stiffness: 100, damping: 16 }}
+    >
+        <Link href={`/blog/${post.slug}`} className="group no-underline block">
+            <article className="grid grid-cols-1 lg:grid-cols-2 gap-0 bg-[var(--bg-secondary)] rounded-2xl border border-[var(--border-color)] overflow-hidden hover:border-[var(--accent)]/40 transition-all duration-300 hover:shadow-[var(--shadow-lg)]">
+                <div className="relative h-[240px] lg:h-full min-h-[300px] overflow-hidden">
+                    <Image
+                        src={post.coverImage}
+                        alt={post.title}
+                        fill
+                        className="object-cover group-hover:scale-[1.03] transition-transform duration-700"
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                        priority
+                    />
+                    <div className="absolute top-4 left-4">
+                        <span className="px-3 py-1 rounded-full bg-[var(--accent)] text-white text-[0.6875rem] font-semibold uppercase tracking-wider">
+                            Featured
+                        </span>
+                    </div>
+                </div>
+
+                <div className="p-8 lg:p-10 flex flex-col justify-center">
+                    <div className="flex items-center gap-3 mb-4">
+                        <span className="px-2.5 py-1 rounded-full bg-[var(--accent-muted)] text-[var(--accent)] text-[0.75rem] font-medium">
+                            {post.category}
+                        </span>
+                        <span className="text-[0.8125rem] text-[var(--text-secondary)]">
+                            {post.readingTime} min read
+                        </span>
                     </div>
 
-                    {/* Content */}
-                    <div className={`${featured ? 'lg:w-1/2' : 'p-6'} flex flex-col justify-between`}>
-                        <div>
-                            {/* Category & Reading Time */}
-                            <div className="flex items-center gap-4 text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
-                                <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full">
-                                    {post.category}
-                                </span>
-                                <span>{post.readingTime} min read</span>
-                            </div>
+                    <h2 className="text-[1.5rem] lg:text-[1.75rem] font-bold text-[var(--text-primary)] leading-tight mb-4 group-hover:text-[var(--accent)] transition-colors duration-200">
+                        {post.title}
+                    </h2>
 
-                            {/* Title */}
-                            <h2 className={`font-bold group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-3 ${featured ? 'text-2xl lg:text-3xl' : 'text-xl'
-                                }`}
-                                style={{ color: 'var(--text-primary)' }}>
-                                {post.title}
-                            </h2>
+                    <p className="text-[0.9375rem] text-[var(--text-secondary)] leading-relaxed mb-6 line-clamp-3">
+                        {post.excerpt}
+                    </p>
 
-                            {/* Excerpt */}
-                            <p className="leading-relaxed mb-4" style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}>
-                                {post.excerpt}
-                            </p>
-
-                            {/* Tags */}
-                            <div className="flex flex-wrap gap-2 mb-4">
-                                {post.tags.slice(0, 3).map((tag) => (
-                                    <span
-                                        key={tag}
-                                        className="text-xs px-2 py-1 rounded-md"
-                                        style={{
-                                            backgroundColor: 'var(--bg-primary)',
-                                            color: 'var(--text-secondary)',
-                                            border: '1px solid var(--border-color)'
-                                        }}
-                                    >
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Author & Date */}
+                    <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <Image
                                 src={post.author.avatar}
                                 alt={post.author.name}
-                                width={40}
-                                height={40}
-                                className="w-10 h-10 rounded-full object-cover"
+                                width={36}
+                                height={36}
+                                className="rounded-full object-cover"
                             />
                             <div>
-                                <p className="font-medium text-sm" style={{ color: 'var(--text-primary)' }}>
-                                    {post.author.name}
-                                </p>
-                                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                                    {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                                        year: 'numeric',
-                                        month: 'long',
-                                        day: 'numeric'
-                                    })}
-                                </p>
+                                <p className="text-[0.8125rem] font-medium text-[var(--text-primary)]">{post.author.name}</p>
+                                <p className="text-[0.75rem] text-[var(--text-secondary)]">{formatDate(post.publishedAt)}</p>
                             </div>
                         </div>
+
+                        <span className="text-[var(--accent)] text-[0.875rem] font-medium inline-flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            Read
+                            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                        </span>
                     </div>
                 </div>
-            </Link>
-        </article>
-    );
-};
+            </article>
+        </Link>
+    </motion.div>
+);
 
-const SearchAndFilter = ({
-    filters,
-    onFiltersChange
-}: {
-    filters: BlogFilter;
-    onFiltersChange: (filters: BlogFilter) => void;
-}) => {
-    const allTags = getAllTags();
-
-    return (
-        <div className="mb-12 space-y-6">
-            {/* Search */}
-            <div className="relative">
-                <input
-                    type="text"
-                    placeholder="Search posts..."
-                    value={filters.search || ''}
-                    onChange={(e) => onFiltersChange({ ...filters, search: e.target.value })}
-                    className="w-full px-4 py-3 pl-12 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                    style={{
-                        backgroundColor: 'var(--bg-secondary)',
-                        border: '1px solid var(--border-color)',
-                        color: 'var(--text-primary)'
-                    }}
-                />
-                <svg
-                    className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5"
-                    style={{ color: 'var(--text-secondary)' }}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-            </div>
-
-            {/* Filters */}
-            <div className="flex flex-wrap gap-4">
-                {/* Categories */}
-                <select
-                    value={filters.category || ''}
-                    onChange={(e) => onFiltersChange({ ...filters, category: e.target.value || undefined })}
-                    className="px-4 py-2 rounded-lg focus:ring-2 focus:ring-blue-500"
-                    style={{
-                        backgroundColor: 'var(--bg-secondary)',
-                        border: '1px solid var(--border-color)',
-                        color: 'var(--text-primary)'
-                    }}
-                >
-                    <option value="">All Categories</option>
-                    {blogCategories.map((category) => (
-                        <option key={category.id} value={category.slug}>
-                            {category.name} ({category.count})
-                        </option>
-                    ))}
-                </select>
-
-                {/* Popular Tags */}
-                <div className="flex flex-wrap gap-2">
-                    {allTags.slice(0, 6).map((tag) => (
-                        <button
-                            key={tag}
-                            onClick={() => onFiltersChange({
-                                ...filters,
-                                tag: filters.tag === tag ? undefined : tag
-                            })}
-                            className="px-3 py-1 text-sm rounded-full transition-all"
-                            style={filters.tag === tag
-                                ? {
-                                    backgroundColor: 'var(--accent-primary)',
-                                    color: 'white'
-                                }
-                                : {
-                                    backgroundColor: 'var(--bg-secondary)',
-                                    border: '1px solid var(--border-color)',
-                                    color: 'var(--text-primary)'
-                                }
-                            }
-                        >
-                            #{tag}
-                        </button>
-                    ))}
+/* ─── Regular Post Card ─── */
+const PostCard = ({ post, index }: { post: BlogPost; index: number }) => (
+    <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-40px' }}
+        transition={{ type: 'spring', stiffness: 100, damping: 16, delay: index * 0.08 }}
+        whileHover={{ y: -6, transition: { type: 'spring', stiffness: 300, damping: 15 } }}
+        className="h-full"
+    >
+        <Link href={`/blog/${post.slug}`} className="group no-underline block h-full">
+            <article className="flex flex-col h-full bg-[var(--bg-secondary)] rounded-2xl border border-[var(--border-color)] overflow-hidden hover:border-[var(--accent)]/40 transition-all duration-300 hover:shadow-[var(--shadow-lg)]">
+                <div className="relative h-[200px] overflow-hidden">
+                    <Image
+                        src={post.coverImage}
+                        alt={post.title}
+                        width={600}
+                        height={400}
+                        className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
                 </div>
-            </div>
 
-            {/* Active Filters */}
-            {(filters.search || filters.category || filters.tag) && (
-                <div className="flex flex-wrap gap-2">
-                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Active filters:</span>
-                    {filters.search && (
-                        <span className="px-3 py-1 rounded-full text-sm flex items-center gap-2"
-                            style={{
-                                backgroundColor: 'var(--bg-secondary)',
-                                border: '1px solid var(--border-color)',
-                                color: 'var(--text-primary)'
-                            }}>
-                            Search: &ldquo;{filters.search}&rdquo;
-                            <button
-                                onClick={() => onFiltersChange({ ...filters, search: undefined })}
-                                style={{ color: 'var(--text-secondary)' }}
-                                className="hover:opacity-75"
-                            >
-                                ×
-                            </button>
+                <div className="p-6 flex flex-col flex-1">
+                    <div className="flex items-center gap-3 mb-3">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[var(--accent-muted)] text-[var(--accent)] text-[0.6875rem] font-medium">
+                            {post.category}
                         </span>
-                    )}
-                    {filters.category && (
-                        <span className="px-3 py-1 rounded-full text-sm flex items-center gap-2"
-                            style={{
-                                backgroundColor: 'var(--accent-primary)',
-                                color: 'white'
-                            }}>
-                            Category: {blogCategories.find(c => c.slug === filters.category)?.name}
-                            <button
-                                onClick={() => onFiltersChange({ ...filters, category: undefined })}
-                                className="hover:opacity-75 text-white"
-                            >
-                                ×
-                            </button>
+                        <span className="text-[0.75rem] text-[var(--text-secondary)]">
+                            {post.readingTime} min
                         </span>
-                    )}
-                    {filters.tag && (
-                        <span className="px-3 py-1 rounded-full text-sm flex items-center gap-2"
-                            style={{
-                                backgroundColor: 'var(--accent-secondary)',
-                                color: 'white'
-                            }}>
-                            Tag: #{filters.tag}
-                            <button
-                                onClick={() => onFiltersChange({ ...filters, tag: undefined })}
-                                className="hover:opacity-75 text-white"
+                    </div>
+
+                    <h3 className="text-[1.0625rem] font-semibold text-[var(--text-primary)] leading-snug mb-3 group-hover:text-[var(--accent)] transition-colors duration-200">
+                        {post.title}
+                    </h3>
+
+                    <p className="text-[0.875rem] text-[var(--text-secondary)] leading-relaxed mb-5 flex-1 line-clamp-2">
+                        {post.excerpt}
+                    </p>
+
+                    <div className="flex flex-wrap gap-1.5 mb-5">
+                        {post.tags.slice(0, 3).map((tag) => (
+                            <span
+                                key={tag}
+                                className="text-[0.6875rem] px-2 py-0.5 rounded-md bg-[var(--bg-primary)] text-[var(--text-secondary)] border border-[var(--border-color)]"
                             >
-                                ×
-                            </button>
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+
+                    <div className="flex items-center justify-between pt-4 border-t border-[var(--border-color)]">
+                        <div className="flex items-center gap-2.5">
+                            <Image
+                                src={post.author.avatar}
+                                alt={post.author.name}
+                                width={28}
+                                height={28}
+                                className="rounded-full object-cover"
+                            />
+                            <span className="text-[0.75rem] text-[var(--text-secondary)]">
+                                {post.author.name}
+                            </span>
+                        </div>
+                        <span className="text-[0.75rem] text-[var(--text-secondary)]">
+                            {formatDate(post.publishedAt)}
                         </span>
-                    )}
-                    <button
-                        onClick={() => onFiltersChange({})}
-                        className="px-3 py-1 rounded-full text-sm transition-colors"
-                        style={{
-                            backgroundColor: 'var(--bg-secondary)',
-                            border: '1px solid var(--border-color)',
-                            color: 'var(--text-primary)'
-                        }}
-                    >
-                        Clear all
-                    </button>
+                    </div>
                 </div>
-            )}
-        </div>
-    );
-};
+            </article>
+        </Link>
+    </motion.div>
+);
 
+/* ─── Main Page ─── */
 export default function BlogPage() {
     const [filters, setFilters] = useState<BlogFilter>({});
-
+    const allTags = getAllTags();
     const featuredPosts = getFeaturedPosts();
+    const hasActiveFilters = !!(filters.search || filters.category || filters.tag);
 
     const filteredPosts = useMemo(() => {
         let posts = blogPosts;
-
-        if (filters.search) {
-            posts = searchPosts(filters.search);
-        }
-
-        if (filters.category) {
-            posts = posts.filter(post => getPostsByCategory(filters.category!).includes(post));
-        }
-
-        if (filters.tag) {
-            posts = posts.filter(post => getPostsByTag(filters.tag!).includes(post));
-        }
-
+        if (filters.search) posts = searchPosts(filters.search);
+        if (filters.category) posts = posts.filter(post => getPostsByCategory(filters.category!).includes(post));
+        if (filters.tag) posts = posts.filter(post => getPostsByTag(filters.tag!).includes(post));
         return posts;
     }, [filters]);
 
     return (
-        <div style={{
-            minHeight: '100vh',
-            backgroundColor: 'var(--bg-primary)',
-            color: 'var(--text-primary)',
-            paddingTop: '6rem',
-            paddingBottom: '4rem',
-            transition: 'all 0.3s ease'
-        }}>
-            <div className="max-w-6xl mx-auto px-6">
-                {/* Header */}
-                <div className="text-center mb-16">
-                    <h1 className="text-4xl lg:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
-                        Blog & Insights
-                    </h1>
-                    <p className="text-xl max-w-3xl mx-auto leading-relaxed" style={{ color: 'var(--text-secondary)', lineHeight: '1.7' }}>
-                        Thoughts, tutorials, and experiences about Flutter development, programming,
-                        and the journey of building great mobile applications.
-                    </p>
+        <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] pb-20 md:pb-0">
+            {/* Header */}
+            <div className="pt-28 pb-12 md:pt-32 md:pb-16 px-6">
+                <div className="max-w-[860px] mx-auto">
+                    <motion.p
+                        className="text-[0.8125rem] font-medium text-[var(--accent)] uppercase tracking-widest mb-4"
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4 }}
+                    >
+                        Blog
+                    </motion.p>
+                    <motion.h1
+                        className="text-[2.25rem] md:text-[3rem] font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-5"
+                        initial={{ opacity: 0, y: -40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ type: 'spring', stiffness: 120, damping: 14, delay: 0.1 }}
+                    >
+                        Insights &amp; Tutorials
+                    </motion.h1>
+                    <motion.p
+                        className="text-[1.0625rem] md:text-[1.125rem] text-[var(--text-secondary)] leading-relaxed max-w-[600px]"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.25 }}
+                    >
+                        Thoughts on Flutter development, mobile architecture, backend integration, and the craft of building great apps.
+                    </motion.p>
                 </div>
+            </div>
 
-                {/* Featured Posts */}
-                {!filters.search && !filters.category && !filters.tag && featuredPosts.length > 0 && (
-                    <section className="mb-16">
-                        <h2 className="text-2xl font-bold mb-8 flex items-center gap-3" style={{ color: 'var(--text-primary)' }}>
-                            <span className="w-1 h-8 bg-gradient-to-b from-blue-600 to-purple-600 rounded-full"></span>
-                            Featured Posts
-                        </h2>
-                        <div className="space-y-8">
-                            {featuredPosts.map((post) => (
-                                <BlogCard key={post.id} post={post} featured={true} />
-                            ))}
-                        </div>
-                    </section>
-                )}
-
-                {/* Search and Filters */}
-                <SearchAndFilter filters={filters} onFiltersChange={setFilters} />
-
-                {/* All Posts */}
-                <section>
-                    <div className="flex items-center justify-between mb-8">
-                        <h2 className="text-2xl font-bold flex items-center gap-3" style={{ color: 'var(--text-primary)' }}>
-                            <span className="w-1 h-8 bg-gradient-to-b from-blue-600 to-purple-600 rounded-full"></span>
-                            All Posts ({filteredPosts.length})
-                        </h2>
+            <div className="max-w-[1100px] mx-auto px-6">
+                {/* Search + Filters */}
+                <motion.div
+                    className="mb-12 space-y-5"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.35 }}
+                >
+                    {/* Search Bar */}
+                    <div className="relative max-w-[480px]">
+                        <svg
+                            className="absolute left-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-[var(--text-secondary)]"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={1.5}
+                            viewBox="0 0 24 24"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                        <input
+                            type="text"
+                            placeholder="Search articles..."
+                            value={filters.search || ''}
+                            onChange={(e) => setFilters({ ...filters, search: e.target.value || undefined })}
+                            className="w-full pl-11 pr-4 py-3 rounded-xl text-[0.9375rem] bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/40 focus:border-[var(--accent)]/40 transition-all"
+                        />
                     </div>
 
-                    {filteredPosts.length > 0 ? (
-                        <div className="grid lg:grid-cols-2 gap-8">
-                            {filteredPosts.map((post) => (
-                                <BlogCard key={post.id} post={post} />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="text-center py-16">
-                            <div className="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6"
-                                style={{
-                                    backgroundColor: 'var(--bg-secondary)',
-                                    border: '1px solid var(--border-color)'
-                                }}>
-                                <svg className="w-12 h-12" style={{ color: 'var(--text-secondary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                            </div>
-                            <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
-                                No posts found
-                            </h3>
-                            <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>
-                                Try adjusting your search criteria or browse all categories.
-                            </p>
+                    {/* Category Tabs + Tags */}
+                    <div className="flex flex-wrap items-center gap-2">
+                        <button
+                            onClick={() => setFilters({ ...filters, category: undefined })}
+                            className={`px-4 py-2 rounded-full text-[0.8125rem] font-medium transition-all duration-200 border cursor-pointer ${
+                                !filters.category
+                                    ? 'bg-[var(--text-primary)] text-[var(--bg-primary)] border-transparent'
+                                    : 'bg-transparent text-[var(--text-secondary)] border-[var(--border-color)] hover:text-[var(--text-primary)] hover:border-[var(--text-secondary)]'
+                            }`}
+                        >
+                            All
+                        </button>
+                        {blogCategories.filter(c => c.count > 0).map((category) => (
+                            <button
+                                key={category.id}
+                                onClick={() => setFilters({ ...filters, category: filters.category === category.slug ? undefined : category.slug })}
+                                className={`px-4 py-2 rounded-full text-[0.8125rem] font-medium transition-all duration-200 border cursor-pointer ${
+                                    filters.category === category.slug
+                                        ? 'bg-[var(--text-primary)] text-[var(--bg-primary)] border-transparent'
+                                        : 'bg-transparent text-[var(--text-secondary)] border-[var(--border-color)] hover:text-[var(--text-primary)] hover:border-[var(--text-secondary)]'
+                                }`}
+                            >
+                                {category.name}
+                            </button>
+                        ))}
+
+                        <span className="w-px h-6 bg-[var(--border-color)] mx-1 hidden md:block" />
+
+                        {allTags.slice(0, 5).map((tag) => (
+                            <button
+                                key={tag}
+                                onClick={() => setFilters({ ...filters, tag: filters.tag === tag ? undefined : tag })}
+                                className={`px-3 py-1.5 rounded-full text-[0.75rem] transition-all duration-200 border cursor-pointer ${
+                                    filters.tag === tag
+                                        ? 'bg-[var(--accent)] text-white border-transparent'
+                                        : 'bg-transparent text-[var(--text-secondary)] border-[var(--border-color)] hover:text-[var(--text-primary)]'
+                                }`}
+                            >
+                                {tag}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Active Filters */}
+                    {hasActiveFilters && (
+                        <div className="flex items-center gap-2 text-[0.8125rem]">
+                            <span className="text-[var(--text-secondary)]">Filtering by:</span>
+                            {filters.search && (
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-primary)]">
+                                    &ldquo;{filters.search}&rdquo;
+                                    <button onClick={() => setFilters({ ...filters, search: undefined })} className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] cursor-pointer bg-transparent border-none p-0 text-base leading-none">&times;</button>
+                                </span>
+                            )}
                             <button
                                 onClick={() => setFilters({})}
-                                className="px-6 py-3 rounded-lg transition-colors"
-                                style={{
-                                    backgroundColor: 'var(--accent-primary)',
-                                    color: 'white'
-                                }}
+                                className="text-[var(--accent)] hover:underline cursor-pointer bg-transparent border-none p-0 text-[0.8125rem]"
                             >
-                                Clear Filters
+                                Clear all
                             </button>
                         </div>
                     )}
+                </motion.div>
+
+                {/* Featured Post (only when no filters) */}
+                {!hasActiveFilters && featuredPosts.length > 0 && (
+                    <section className="mb-14">
+                        <FeaturedCard post={featuredPosts[0]} />
+                    </section>
+                )}
+
+                {/* Posts Grid */}
+                <section>
+                    <motion.div
+                        className="flex items-center justify-between mb-8"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.3 }}
+                    >
+                        <h2 className="text-[1.25rem] font-semibold text-[var(--text-primary)]">
+                            {hasActiveFilters ? `${filteredPosts.length} result${filteredPosts.length !== 1 ? 's' : ''}` : 'All Articles'}
+                        </h2>
+                    </motion.div>
+
+                    {filteredPosts.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {filteredPosts
+                                .filter(p => !hasActiveFilters ? !p.featured : true)
+                                .map((post, i) => (
+                                    <PostCard key={post.id} post={post} index={i} />
+                                ))}
+                        </div>
+                    ) : (
+                        <motion.div
+                            className="text-center py-20"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <div className="w-16 h-16 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-color)] flex items-center justify-center mx-auto mb-5">
+                                <svg className="w-7 h-7 text-[var(--text-secondary)]" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                                </svg>
+                            </div>
+                            <h3 className="text-[1.125rem] font-semibold text-[var(--text-primary)] mb-2">
+                                No articles found
+                            </h3>
+                            <p className="text-[0.9375rem] text-[var(--text-secondary)] mb-6">
+                                Try a different search term or browse all categories.
+                            </p>
+                            <button
+                                onClick={() => setFilters({})}
+                                className="px-6 py-2.5 rounded-full bg-[var(--text-primary)] text-[var(--bg-primary)] text-[0.875rem] font-medium hover:opacity-90 transition-opacity cursor-pointer border-none"
+                            >
+                                View all articles
+                            </button>
+                        </motion.div>
+                    )}
                 </section>
+
+                {/* Newsletter / CTA */}
+                <motion.section
+                    className="mt-20 mb-8 p-10 md:p-14 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border-color)] text-center"
+                    initial={{ opacity: 0, y: 60 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-60px' }}
+                    transition={{ type: 'spring', stiffness: 80, damping: 16 }}
+                >
+                    <h3 className="text-[1.5rem] md:text-[1.75rem] font-bold text-[var(--text-primary)] mb-3 tracking-tight">
+                        Stay in the loop
+                    </h3>
+                    <p className="text-[1rem] text-[var(--text-secondary)] mb-8 max-w-[440px] mx-auto leading-relaxed">
+                        Follow along for new tutorials, Flutter tips, and behind-the-scenes of building mobile apps.
+                    </p>
+                    <div className="flex gap-3 justify-center flex-wrap">
+                        <a
+                            href="https://x.com/nabirahmani_dev"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--text-primary)] text-[var(--bg-primary)] rounded-full text-[0.875rem] font-medium no-underline hover:opacity-90 transition-opacity"
+                        >
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" /></svg>
+                            Follow on Twitter
+                        </a>
+                        <a
+                            href="https://github.com/Nabi-Rahmani"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-6 py-3 border border-[var(--border-color)] text-[var(--text-primary)] rounded-full text-[0.875rem] font-medium no-underline hover:border-[var(--text-secondary)] transition-all duration-200"
+                        >
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" /></svg>
+                            Follow on GitHub
+                        </a>
+                    </div>
+                </motion.section>
             </div>
         </div>
     );

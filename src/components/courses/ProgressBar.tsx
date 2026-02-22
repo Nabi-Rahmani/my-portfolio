@@ -51,7 +51,7 @@ export function ProgressBar({
           style={{
             width: `${clampedPercentage}%`,
             height: '100%',
-            backgroundColor: clampedPercentage === 100 ? '#10b981' : 'var(--accent-primary)',
+            backgroundColor: clampedPercentage === 100 ? '#10b981' : 'var(--accent)',
             borderRadius: '9999px',
             transition: 'width 0.3s ease',
           }}

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import StructuredData from "@/components/StructuredData";
 import Navigation from "@/components/Navigation";
 import LenisScroll from "@/components/LenisScroll";
@@ -83,13 +85,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <head>
-        <title>Muhammad Nabi Rahmani - Flutter Developer | codewithnabi</title>
         <StructuredData />
       </head>
       <body
-        className="antialiased min-h-screen overflow-x-hidden"
+        className={`${GeistSans.className} antialiased min-h-screen overflow-x-hidden`}
       >
         <LenisScroll />
         <Navigation />
