@@ -23,7 +23,7 @@ export default function BlogStructuredData({ post }: BlogStructuredDataProps) {
             "url": "https://codewithnabi.dev",
             "logo": {
                 "@type": "ImageObject",
-                "url": "https://codewithnabi.dev/assets/logo/Youtub-logo.png"
+                "url": "https://codewithnabi.dev/assets/branding/youtube-logo.png"
             }
         },
         "datePublished": post.publishedAt,

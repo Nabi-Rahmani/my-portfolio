@@ -1,76 +1,57 @@
 ---
-description: Create a new Flutter widget with modern best practices and strict UI rules
+description: Create a new React component following project conventions
 model: claude-sonnet-4-5
 ---
 
-# Create New Flutter Widget
+Create a new component: $ARGUMENTS
 
-Generate a new Flutter widget following CodeWithNabi architecture patterns and strict UI style rules.
+## Component Template
 
-## Requirements
+### Server Component (default)
+```tsx
+import type { SomeType } from '@/types/sometype';
 
-$ARGUMENTS
-
-## Strict UI Style Rules
-
-- ❌ **NO private members**: Do not use `_` for classes, methods, or variables.
-- ❌ **150-line limit**: No widget file should exceed 150 lines.
-- ✅ **Public only**: Keep everything public for maximum reusability and visibility.
-- ✅ **Stateless by default**: Prefer `StatelessWidget` unless state is absolutely required.
-
-## Widget Types
-
-### 1. StatelessWidget (Default)
-
-```dart
-class ProductCard extends StatelessWidget {
-  final Product product;
-  final VoidCallback? onTap;
-
-  const ProductCard({
-    super.key,
-    required this.product,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Text(product.name),
-        ),
-      ),
-    );
-  }
+export default function ComponentName({ data }: { data: SomeType }) {
+  return (
+    <section className="...">
+      {/* Content */}
+    </section>
+  );
 }
 ```
 
-### 2. ConsumerWidget (Riverpod)
+### Client Component (when state/effects/events needed)
+```tsx
+'use client';
 
-```dart
-class CartSummary extends ConsumerWidget {
-  const CartSummary({super.key});
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import type { SomeType } from '@/types/sometype';
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final cart = ref.watch(cartControllerProvider);
-    return Text('Total: ${cart.formattedTotal}');
-  }
+export default function ComponentName({ data }: { data: SomeType }) {
+  const [active, setActive] = useState(false);
+
+  return (
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ type: 'spring', stiffness: 200, damping: 16 }}
+    >
+      {/* Content */}
+    </motion.section>
+  );
 }
 ```
 
-## Key Rules
+## Rules
 
-### ✅ DO:
-1. Use `const` constructors.
-2. Keep widgets small and focused (split if > 150 lines).
-3. Use `Theme.of(context)` for all styling.
-4. Keep all members **public**.
-
-### ❌ DON'T:
-1. Use private `_` prefixes.
-2. Put business logic in widgets.
-3. Mix data fetching with UI rendering.
+1. **File location**: `src/components/ComponentName.tsx` (PascalCase)
+2. **Server by default**: Only add `'use client'` if needed
+3. **Import order**: externals → `@/` imports → relative → `import type`
+4. **Styling**: Tailwind + CSS custom properties, no inline `style={{}}`
+5. **Props**: Inline type for simple, named interface for complex
+6. **Images**: `next/image` with `alt`, `sizes`, dimensions
+7. **Icons**: Inline SVG, not lucide-react
+8. **Animations**: Framer Motion with spring transitions
+9. **External links**: `target="_blank" rel="noopener noreferrer"`
+10. **Verify**: `npm run build` must pass after creation

@@ -1,3 +1,136 @@
+# AGENTS.md
+
+Guidelines for AI coding agents working in this repository.
+
+## Build / Lint / Test Commands
+
+```bash
+npm run dev          # Start dev server at localhost:3000
+npm run dev:turbo    # Dev server with Turbopack (faster HMR)
+npm run build        # Production build (also validates types)
+npm run start        # Serve production build
+npm run lint         # ESLint (next/core-web-vitals + next/typescript)
+```
+
+**No test framework is configured.** There are no test files, no jest/vitest, and no test scripts. `npm run build` is the primary validation step -- it catches TypeScript errors and Next.js build issues. Always run `npm run build` after significant changes to verify correctness.
+
+## Tech Stack
+
+- **Framework:** Next.js 15 (App Router) with React 19
+- **Language:** TypeScript (strict mode)
+- **Styling:** Tailwind CSS v4 via `@tailwindcss/postcss`
+- **Animations:** Framer Motion
+- **Fonts:** Geist Sans + Geist Mono (via `geist` package)
+- **Markdown:** `react-markdown` + `rehype-highlight` + `rehype-raw` + `remark-gfm`
+- **Smooth scroll:** Lenis (global instance at `window.__lenis`)
+- **Deployment:** Vercel (Git integration, no CI/CD workflows)
+
+## Project Structure
+
+```
+src/
+  app/                    # Next.js App Router pages and layouts
+    globals.css           # Theme CSS custom properties + global styles
+    layout.tsx            # Root layout (server component)
+    page.tsx              # Home (client, single-page scroll with sections)
+    about/page.tsx        # About page
+    blog/                 # Blog listing + [slug] detail
+    courses/              # Course listing + [courseSlug] + [courseSlug]/[lessonSlug]
+    projects/             # Projects listing + [slug] detail
+  components/             # Shared React components
+    courses/              # Course-specific components (sidebar, video, progress)
+  data/                   # Static content arrays + helper functions
+    blog.ts               # Blog posts + getPostBySlug, searchPosts, etc.
+    courses.ts            # Courses + getCourseBySlug, getLessonBySlug, etc.
+    projects.ts           # Projects + getProjectBySlug, getAllProjects
+  hooks/                  # Custom React hooks
+    useCourseProgress.ts  # localStorage-based course progress
+  types/                  # TypeScript interfaces
+    blog.ts, course.ts, project.ts
+```
+
+## Code Style Guidelines
+
+### Imports
+- Use the `@/*` path alias for all internal imports (maps to `./src/*`).
+- Order: external packages first, then `@/` imports, then relative imports.
+- Use `import type { ... }` for type-only imports.
+
+```ts
+import { motion } from 'framer-motion';
+import type { Metadata } from 'next';
+
+import Navigation from '@/components/Navigation';
+import { getPostBySlug } from '@/data/blog';
+import type { BlogPost } from '@/types/blog';
+```
+
+### File & Component Naming
+- **Components:** PascalCase filenames (`Navigation.tsx`, `BlogPostClient.tsx`).
+- **Data/hooks/types:** camelCase filenames (`blog.ts`, `useCourseProgress.ts`).
+- **Component functions:** PascalCase, use `export default function ComponentName()`.
+- **Course components** use named exports: `export function VideoPlayer(...)`.
+- **Hooks:** camelCase with `use` prefix.
+- **Types/interfaces:** PascalCase, exported from `src/types/`.
+- **CSS custom properties:** kebab-case (`--bg-primary`, `--accent-muted`).
+
+### TypeScript
+- Strict mode is enabled -- do not use `any` or `@ts-ignore`.
+- Define data shapes as exported interfaces in `src/types/`.
+- Simple component props: inline object types `{ post: BlogPost }`.
+- Complex props: named interfaces `interface CourseSidebarProps { ... }`.
+- Root layout props pattern: `Readonly<{ children: React.ReactNode }>`.
+- Next.js 15 async params: `params: Promise<{ slug: string }>` with `await params`.
+
+### Styling
+- Use Tailwind utility classes as the primary styling approach.
+- Theme colors reference CSS custom properties defined in `globals.css` (e.g., `bg-background`, `text-foreground`, `text-accent`).
+- Dark/light mode via `.dark` class on `<html>`, toggled in Navigation, stored in localStorage key `'theme'`.
+- Brand accent color: `#fcb4b0` (peachy-pink).
+- Avoid inline `style={{}}` objects -- prefer Tailwind classes (note: some course components currently use inline styles, but Tailwind is the standard).
+
+### Components
+- **Server vs Client:** Use server components by default. Add `'use client'` only when the component needs state, effects, event handlers, or browser APIs.
+- `'use client'` directive must be the first line of the file.
+- For pages needing both server metadata and client interactivity, split into a server page component (handles metadata/data fetching) and a `*Client.tsx` companion (handles rendering).
+- Use Framer Motion `motion.*` components for animations with `initial`/`animate`/`whileInView` patterns.
+- Prefer inline SVGs over icon libraries (lucide-react is installed but not used in practice).
+
+### Content / Data
+- All blog, course, and project content lives in `src/data/*.ts` as static arrays.
+- Always use the exported helper functions (`getPostBySlug()`, `getCourseBySlug()`, etc.) rather than filtering arrays directly.
+- Blog post content is stored as inline markdown strings within the data objects.
+- For new content types, follow the same pattern: types in `src/types/`, data + helpers in `src/data/`, pages in `src/app/`.
+
+### SEO
+- Use Next.js `Metadata` API in layouts and pages for title/description/openGraph.
+- `StructuredData` and `BlogStructuredData` components provide Schema.org JSON-LD.
+- `robots.ts` and `sitemap.ts` are route handlers at the app root.
+- Production domain: `codewithnabi.dev`.
+
+### Error Handling
+- No global error boundary is configured. Consider adding `error.tsx` files.
+- Course progress operations in `useCourseProgress` silently catch localStorage errors.
+- Use try/catch for localStorage and other browser API access in client components.
+
+### Key Conventions
+- `window.__lenis` is the global smooth scroll instance (Lenis). It is disabled on lesson pages.
+- Course progress is entirely client-side via localStorage (key: `'course_progress'`).
+- `generateStaticParams()` is used on dynamic route pages for static generation.
+- The Navigation component handles both desktop (top floating pill) and mobile (bottom bar) layouts.
+
+## Copilot Instructions
+
+The `.github/copilot-instructions.md` file exists but contains only Byterover MCP configuration (no additional project-specific Copilot rules). No `.cursorrules` or `.cursor/rules/` files exist.
+
+## Known Issues
+
+- `tailwind.config.js` is empty; `tailwind.config.ts` is the active config.
+- `page-new.tsx` and `about/page-clean.tsx` are unused alternative files.
+- `@supabase/ssr` and `@supabase/supabase-js` are installed but not visibly used in source.
+- `lucide-react` is a dependency but inline SVGs are used throughout instead.
+- Typo in `src/types/course.ts`: `oduleId` should likely be `moduleId` in `UserProgress`.
+
 [byterover-mcp]
 
 # Byterover MCP Server Tools Reference

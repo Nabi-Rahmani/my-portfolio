@@ -6,7 +6,7 @@ export default function BlogLayoutClient({
     children: React.ReactNode;
 }) {
     return (
-        <div className="bg-[var(--bg-primary)] text-[var(--text-primary)] min-h-screen pb-16 md:pb-0">
+        <div className="bg-[var(--bg-primary)] text-[var(--text-primary)] min-h-screen">
             {children}
         </div>
     );

@@ -9,73 +9,251 @@ export const blogPosts: BlogPost[] = [
         content: `
 # Riverpod: The Future of Flutter State Management
 
-Have you ever felt frustrated trying to manage data in your Flutter app? You're not alone! State management can be one of the trickiest parts of app development, but Riverpod is here to make your life so much easier.
+Provider was the go-to state management for Flutter. Then Riverpod came along and fixed every problem Provider had — no \`BuildContext\` dependency, compile-time safety, auto-disposal, and proper testing support. Here's how it works in practice.
 
-## What Makes Riverpod Special?
+## Setup
 
-Think of Riverpod as your app's personal assistant that never forgets anything and always knows exactly what your app needs at any moment. It's like having a super-organized friend who keeps track of all your app's data and makes sure everything stays in sync.
+Add the dependency and wrap your app:
 
-### Why Developers Love Riverpod
+\`\`\`yaml
+# pubspec.yaml
+dependencies:
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
 
-**It Catches Your Mistakes Early**
-Remember those annoying bugs that only show up when users are actually using your app? Riverpod helps catch these problems before your app even runs. It's like having a spell-checker but for your code logic.
+dev_dependencies:
+  riverpod_generator: ^2.4.3
+  build_runner: ^2.4.8
+\`\`\`
 
-**No More Context Confusion**
-One of the most frustrating things in Flutter development is dealing with context dependencies. Riverpod eliminates this headache completely. You can access your data from anywhere in your app without jumping through hoops.
+\`\`\`dart
+void main() {
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
+}
+\`\`\`
 
-**Testing Becomes a Breeze**
-Testing apps can be tedious, but Riverpod makes it surprisingly enjoyable. You can easily test different scenarios and make sure your app behaves correctly in all situations.
+\`ProviderScope\` stores all your provider state. Every provider you create lives inside this scope. That's it for setup.
 
-**Memory Management on Autopilot**
-Worried about your app using too much memory? Riverpod automatically cleans up resources you're not using anymore. It's like having a personal housekeeper for your app's memory.
+## The Five Provider Types You Actually Use
 
-## Getting Started is Simple
+### 1. Provider — Static Values
 
-The beauty of Riverpod is that you can start small and gradually adopt more features as you become comfortable. You don't need to rewrite your entire app overnight.
+For values that never change during the app's lifetime:
 
-### Your First Steps
+\`\`\`dart
+@riverpod
+Dio dio(Ref ref) {
+  return Dio(BaseOptions(
+    baseUrl: 'https://api.example.com',
+    connectTimeout: const Duration(seconds: 10),
+  ));
+}
+\`\`\`
 
-Setting up Riverpod is surprisingly straightforward. You add it to your project, wrap your app with a special widget, and you're ready to go. It's designed to be beginner-friendly while being powerful enough for complex applications.
+### 2. FutureProvider — Async Data
 
-### Understanding the Basics
+For one-shot async operations like fetching data:
 
-Riverpod works with the concept of "providers" - think of them as containers that hold your data and logic. These containers are smart enough to know when to update, when to refresh, and when to clean themselves up.
+\`\`\`dart
+@riverpod
+Future<User> currentUser(Ref ref) async {
+  final dio = ref.watch(dioProvider);
+  final response = await dio.get('/me');
+  return User.fromJson(response.data);
+}
+\`\`\`
 
-## Real-World Benefits
+In your widget:
 
-**Faster Development**
-Once you get the hang of Riverpod, you'll find yourself building features much faster. The clear patterns and helpful tools mean less time debugging and more time creating.
+\`\`\`dart
+class ProfileScreen extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userAsync = ref.watch(currentUserProvider);
 
-**Better App Performance**
-Apps built with Riverpod tend to be more responsive and use resources more efficiently. Your users will notice the difference in how smooth everything feels.
+    return userAsync.when(
+      loading: () => const CircularProgressIndicator(),
+      error: (err, stack) => Text('Error: \$err'),
+      data: (user) => Text('Hello, \${user.name}'),
+    );
+  }
+}
+\`\`\`
 
-**Easier Collaboration**
-If you're working with a team, Riverpod's clear structure makes it easier for everyone to understand and contribute to the codebase. New team members can get up to speed quickly.
+No manual loading states. No \`setState\`. The \`.when()\` method handles loading, error, and data — every time.
 
-## Making the Switch
+### 3. StreamProvider — Reactive Data
 
-If you're currently using other state management solutions, don't worry! Riverpod is designed to work alongside existing code. You can migrate gradually, one feature at a time, without breaking anything.
+For real-time data streams:
 
-The learning curve is gentler than you might expect. The official documentation is excellent, and the community is incredibly helpful and welcoming to newcomers.
+\`\`\`dart
+@riverpod
+Stream<List<ChatMessage>> chatMessages(Ref ref, String chatId) {
+  final db = ref.watch(databaseProvider);
+  return db.watchMessages(chatId);
+}
+\`\`\`
 
-## The Bottom Line
+### 4. NotifierProvider — Mutable State
 
-Riverpod isn't just another tool - it's a game-changer that makes Flutter development more enjoyable and productive. Whether you're building your first app or your fiftieth, Riverpod helps you write better code with less stress.
+For state that changes over time with defined mutations:
 
-Ready to give it a try? Your future self will thank you for making the switch to this powerful, developer-friendly solution.
+\`\`\`dart
+@riverpod
+class CartNotifier extends _\$CartNotifier {
+  @override
+  List<CartItem> build() => [];
+
+  void addItem(Product product) {
+    state = [...state, CartItem(product: product, quantity: 1)];
+  }
+
+  void removeItem(String productId) {
+    state = state.where((item) => item.product.id != productId).toList();
+  }
+
+  double get total => state.fold(0, (sum, item) => sum + item.product.price * item.quantity);
+}
+\`\`\`
+
+### 5. AsyncNotifierProvider — Async Mutable State
+
+The workhorse for most features. Combines async data fetching with mutations:
+
+\`\`\`dart
+@riverpod
+class TaskListNotifier extends _\$TaskListNotifier {
+  @override
+  Future<List<Task>> build() async {
+    final repo = ref.watch(taskRepositoryProvider);
+    return repo.getAllTasks();
+  }
+
+  Future<void> toggleComplete(String taskId) async {
+    final repo = ref.read(taskRepositoryProvider);
+    await repo.toggleComplete(taskId);
+    ref.invalidateSelf(); // Refetch the list
+    await future; // Wait for rebuild to complete
+  }
+}
+\`\`\`
+
+## Provider Dependencies
+
+Providers can depend on other providers. Riverpod tracks the dependency graph and rebuilds only what's needed:
+
+\`\`\`dart
+@riverpod
+Future<List<Task>> filteredTasks(Ref ref) async {
+  final allTasks = await ref.watch(taskListNotifierProvider.future);
+  final filter = ref.watch(taskFilterProvider);
+
+  return switch (filter) {
+    TaskFilter.all => allTasks,
+    TaskFilter.active => allTasks.where((t) => !t.isCompleted).toList(),
+    TaskFilter.completed => allTasks.where((t) => t.isCompleted).toList(),
+  };
+}
+\`\`\`
+
+When \`taskFilterProvider\` changes, \`filteredTasks\` recalculates. When \`taskListNotifier\` refetches, \`filteredTasks\` also updates. No manual wiring.
+
+## Auto-Dispose: Memory Management That Works
+
+By default, \`@riverpod\` providers auto-dispose when no widget is watching them. When a user navigates away from a screen, the provider's state is cleaned up automatically.
+
+Want to keep state alive? Use \`keepAlive\`:
+
+\`\`\`dart
+@Riverpod(keepAlive: true)
+class AuthNotifier extends _\$AuthNotifier {
+  @override
+  Future<AuthState> build() async {
+    // This stays alive for the entire app lifecycle
+    return _checkAuthStatus();
+  }
+}
+\`\`\`
+
+## Testing Without Pain
+
+Override any provider in tests — no mocking frameworks needed:
+
+\`\`\`dart
+void main() {
+  test('filtered tasks returns only active tasks', () async {
+    final container = ProviderContainer(
+      overrides: [
+        taskRepositoryProvider.overrideWithValue(FakeTaskRepository()),
+      ],
+    );
+
+    final tasks = await container.read(filteredTasksProvider.future);
+    expect(tasks.every((t) => !t.isCompleted), isTrue);
+  });
+}
+\`\`\`
+
+You swap the real repository with a fake one. The rest of the provider graph works exactly the same. No \`BuildContext\` needed, no widget tree required.
+
+## ref.watch vs ref.read vs ref.listen
+
+This trips up every beginner. Here's the rule:
+
+| Method | When to Use |
+|--------|------------|
+| \`ref.watch\` | In \`build()\` methods. Rebuilds when value changes. |
+| \`ref.read\` | In callbacks, event handlers. One-time read, no rebuild. |
+| \`ref.listen\` | For side effects (show snackbar, navigate). |
+
+\`\`\`dart
+// GOOD
+final tasks = ref.watch(taskListProvider); // Rebuilds widget on change
+
+// GOOD
+onPressed: () => ref.read(cartProvider.notifier).addItem(product); // One-time action
+
+// GOOD
+ref.listen(authProvider, (prev, next) {
+  if (next is AsyncData && next.value == null) {
+    context.go('/login'); // Side effect: navigate on logout
+  }
+});
+\`\`\`
+
+## Why Riverpod Over Provider
+
+| Feature | Provider | Riverpod |
+|---------|----------|----------|
+| Needs BuildContext | Yes | No |
+| Compile-time safety | No | Yes |
+| Auto-dispose | Manual | Built-in |
+| Testing | Complex mocking | Simple overrides |
+| Multiple providers of same type | Hacky | Natural |
+| Code generation | No | Yes (optional) |
+
+Provider requires you to climb the widget tree with \`context.read\`. Riverpod lets you access any provider from anywhere — your service layer, your tests, your other providers. No widget tree dependency.
+
+## What to Do Next
+
+Start with one feature. Create an \`AsyncNotifierProvider\` for it. Use \`.when()\` in the UI. Override the repository in a test. Once you see how clean the code is compared to \`setState\` or Provider, you won't go back.
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/images/myimage.JPG',
+            avatar: '/assets/branding/profile.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-09-10',
         updatedAt: '2025-09-10',
-        readingTime: 5,
+        readingTime: 12,
         category: 'Flutter Development',
         tags: ['Flutter', 'Riverpod', 'State Management', 'Architecture'],
         featured: true,
-        coverImage: '/assets/blog-images/dart.jpg',
+        coverImage: '/assets/blog/cover-images/tutorial_01.png',
         seo: {
             title: 'Riverpod Flutter State Management: Complete Guide | CodeWithNabi',
             description: 'Master Riverpod for Flutter state management. Learn advanced patterns, best practices, and why it\'s the future of Flutter development.',
@@ -90,80 +268,281 @@ Ready to give it a try? Your future self will thank you for making the switch to
         content: `
 # Firebase: Your Complete Backend Solution for Flutter
 
-Imagine if you could build a full-featured app without worrying about servers, databases, or complex backend infrastructure. That's exactly what Firebase offers - it's like having an entire backend team working for you around the clock.
+Firebase gives you authentication, a real-time database, file storage, cloud functions, and analytics — all wired together and ready to use from your Flutter app. No server setup, no DevOps. Here's how to actually use each service.
 
-## Why Firebase is a Game-Changer
+## Setup
 
-Building modern apps used to mean you needed expertise in frontend development, backend programming, database management, server configuration, and more. Firebase changes all of that by handling the complicated backend stuff automatically.
+Install the FlutterFire CLI and initialize:
 
-### The Magic Behind Firebase
+\`\`\`bash
+# Install the CLI globally
+dart pub global activate flutterfire_cli
 
-**Everything Just Works Together**
-Firebase isn't just one tool - it's an entire ecosystem of services that work seamlessly together. Authentication talks to your database, your database syncs with storage, and analytics tracks everything automatically. It's like having puzzle pieces that perfectly fit together every time.
+# Initialize Firebase in your Flutter project
+flutterfire configure
+\`\`\`
 
-**Real-Time is Built In**
-Remember when getting real-time updates in apps was incredibly difficult? Firebase makes it feel like magic. When one user makes a change, everyone else sees it instantly. No complex setup, no server management - it just works.
+This generates \`firebase_options.dart\`. Then initialize in your app:
 
-**Scales with Your Success**
-Starting with a few users? Firebase handles it effortlessly. Suddenly have thousands of users? Firebase scales automatically without you lifting a finger. It's designed to grow with your app's success.
+\`\`\`dart
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-## The Services That Make a Difference
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const MyApp());
+}
+\`\`\`
 
-**Authentication Made Simple**
-User login and registration can be one of the most complex parts of app development. Firebase handles email/password authentication, social logins like Google and Facebook, and even advanced features like phone number verification. Your users get a smooth experience, and you get peace of mind about security.
+## Authentication
 
-**Database That Thinks Ahead**
-Cloud Firestore is like having a super-smart database that knows exactly how mobile apps work. It automatically syncs data between devices, works offline, and comes back online seamlessly. Your users never have to worry about losing their data.
+Firebase Auth handles email/password, Google Sign-In, Apple Sign-In, and phone number verification. Here's the practical implementation:
 
-**File Storage Without Headaches**
-Need to store user profile pictures, documents, or videos? Cloud Storage handles files of any size and automatically optimizes delivery based on the user's connection. No more worrying about server space or slow downloads.
+\`\`\`dart
+class AuthService {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-**Analytics That Actually Help**
-Firebase Analytics doesn't just tell you numbers - it helps you understand how people actually use your app. You'll discover which features are popular, where users get stuck, and how to make your app even better.
+  // Current user as a stream — drives your UI reactively
+  Stream<User?> get authStateChanges => _auth.authStateChanges();
 
-## Real-World Benefits You'll Love
+  // Email + Password sign up
+  Future<UserCredential> signUp(String email, String password) async {
+    return await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
 
-**Development Speed That Surprises**
-Developers consistently report building apps 3-5 times faster with Firebase. Features that used to take weeks can be implemented in days. You'll spend more time on what makes your app unique and less time on infrastructure.
+  // Email + Password sign in
+  Future<UserCredential> signIn(String email, String password) async {
+    return await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
 
-**Rock-Solid Reliability**
-Firebase runs on Google's infrastructure - the same technology that powers Google Search and YouTube. Your app benefits from world-class reliability and performance without any extra effort from you.
+  // Google Sign-In
+  Future<UserCredential> signInWithGoogle() async {
+    final googleUser = await GoogleSignIn().signIn();
+    if (googleUser == null) throw Exception('Google sign-in cancelled');
 
-**Security You Can Trust**
-Security isn't an afterthought with Firebase - it's built into everything. From authentication to database rules, Firebase helps you follow security best practices even if you're not a security expert.
+    final googleAuth = await googleUser.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
 
-## Getting Started is Surprisingly Easy
+    return await _auth.signInWithCredential(credential);
+  }
 
-The best part about Firebase is how approachable it is. You don't need to be a backend expert to use it effectively. The setup process is straightforward, and you can add features one at a time as your app grows.
+  Future<void> signOut() => _auth.signOut();
+}
+\`\`\`
 
-### Your Journey with Firebase
+Listen to auth state changes in your app to redirect between login and home:
 
-Most developers start with authentication - getting users to sign up and log in. Once that's working smoothly, they add a database to store user data. Then maybe file storage for user uploads, and eventually analytics to understand user behavior.
+\`\`\`dart
+StreamBuilder<User?>(
+  stream: authService.authStateChanges,
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return const SplashScreen();
+    }
+    return snapshot.hasData ? const HomeScreen() : const LoginScreen();
+  },
+)
+\`\`\`
 
-Each step builds naturally on the previous one, and you never feel overwhelmed by complexity.
+## Cloud Firestore
 
-## The Community Advantage
+Firestore is a NoSQL document database with real-time sync and offline support built in. Data is organized in collections and documents.
 
-Firebase has an incredible community of developers who share tips, tutorials, and solutions. When you run into questions (and you will - it's part of development!), you'll find helpful answers from developers who've been there before.
+### Writing Data
 
-## Making Your Decision
+\`\`\`dart
+class TaskRepository {
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-If you're tired of fighting with backend complexity and want to focus on creating great user experiences, Firebase might be exactly what you need. It's not just about making development easier - it's about making development more enjoyable.
+  Future<void> createTask(Task task) async {
+    await _db.collection('users')
+      .doc(task.userId)
+      .collection('tasks')
+      .doc(task.id)
+      .set({
+        'title': task.title,
+        'isCompleted': task.isCompleted,
+        'createdAt': FieldValue.serverTimestamp(),
+        'priority': task.priority.name,
+      });
+  }
 
-Whether you're building your first app or your hundredth, Firebase provides the foundation that lets you think bigger and move faster. Your users will appreciate the reliability, and you'll appreciate getting back to the creative parts of development.
+  Future<void> toggleComplete(String userId, String taskId) async {
+    final ref = _db.collection('users').doc(userId).collection('tasks').doc(taskId);
+    final doc = await ref.get();
+    await ref.update({
+      'isCompleted': !(doc.data()?['isCompleted'] ?? false),
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
+}
+\`\`\`
+
+### Reading Data in Real-Time
+
+\`\`\`dart
+// One-time fetch
+Future<List<Task>> getTasks(String userId) async {
+  final snapshot = await _db
+    .collection('users')
+    .doc(userId)
+    .collection('tasks')
+    .orderBy('createdAt', descending: true)
+    .get();
+
+  return snapshot.docs.map((doc) => Task.fromFirestore(doc)).toList();
+}
+
+// Real-time stream — UI updates automatically when data changes
+Stream<List<Task>> watchTasks(String userId) {
+  return _db
+    .collection('users')
+    .doc(userId)
+    .collection('tasks')
+    .orderBy('createdAt', descending: true)
+    .snapshots()
+    .map((snapshot) =>
+      snapshot.docs.map((doc) => Task.fromFirestore(doc)).toList(),
+    );
+}
+\`\`\`
+
+### Security Rules
+
+Firestore Security Rules control who can read and write. Without them, your data is wide open:
+
+\`\`\`
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users can only access their own data
+    match /users/{userId}/{document=**} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+    }
+  }
+}
+\`\`\`
+
+## Cloud Storage
+
+For user-uploaded files — profile pictures, documents, images:
+
+\`\`\`dart
+class StorageService {
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+
+  Future<String> uploadProfileImage(String userId, File file) async {
+    final ref = _storage.ref('users/\$userId/profile.jpg');
+
+    // Upload with metadata
+    await ref.putFile(
+      file,
+      SettableMetadata(contentType: 'image/jpeg'),
+    );
+
+    // Get the download URL
+    return await ref.getDownloadURL();
+  }
+
+  Future<void> deleteFile(String path) async {
+    await _storage.ref(path).delete();
+  }
+}
+\`\`\`
+
+## Cloud Functions
+
+Server-side logic that runs in response to events. Write in TypeScript, deploy to Google Cloud:
+
+\`\`\`typescript
+// functions/src/index.ts
+import { onDocumentCreated } from 'firebase-functions/v2/firestore';
+import { getMessaging } from 'firebase-admin/messaging';
+
+export const onNewTask = onDocumentCreated(
+  'users/{userId}/tasks/{taskId}',
+  async (event) => {
+    const task = event.data?.data();
+    const userId = event.params.userId;
+
+    // Send push notification when a task is created
+    await getMessaging().sendToTopic(userId, {
+      notification: {
+        title: 'New Task',
+        body: task?.title ?? 'You have a new task',
+      },
+    });
+  }
+);
+\`\`\`
+
+## Offline Support
+
+Firestore has offline support enabled by default on mobile. When the user loses connection:
+
+1. Writes are queued locally
+2. Reads come from the local cache
+3. When connection returns, queued writes sync automatically
+
+You don't write any extra code for this. It just works.
+
+\`\`\`dart
+// This works even offline
+await _db.collection('tasks').add({
+  'title': 'Buy groceries',
+  'isCompleted': false,
+});
+// Firestore queues the write and syncs when back online
+\`\`\`
+
+## When to Use Firebase
+
+| Use Case | Firebase Service |
+|----------|-----------------|
+| User login/signup | Firebase Auth |
+| App data (CRUD) | Cloud Firestore |
+| File uploads | Cloud Storage |
+| Push notifications | Cloud Messaging |
+| Server logic | Cloud Functions |
+| Crash tracking | Crashlytics |
+| User analytics | Google Analytics |
+
+## When NOT to Use Firebase
+
+- **Complex relational data**: If your data has many join tables and complex relationships, PostgreSQL (via Supabase) is better.
+- **Full SQL access**: Firestore is NoSQL. No JOINs, no aggregations beyond basic counts.
+- **Self-hosting requirement**: Firebase is Google Cloud only.
+- **Predictable pricing at scale**: Firestore charges per read/write. High-traffic apps can get expensive fast.
+
+## The Bottom Line
+
+Firebase is the fastest way to go from zero to a production backend. Auth, database, storage, push notifications — it's all there, wired together, with offline support out of the box. Start with Auth + Firestore, add services as you need them.
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/images/myimage.JPG',
+            avatar: '/assets/branding/profile.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-09-05',
         updatedAt: '2025-09-05',
-        readingTime: 6,
+        readingTime: 10,
         category: 'Backend Development',
         tags: ['Firebase', 'Flutter', 'Backend', 'Authentication', 'Cloud'],
         featured: true,
-        coverImage: '/assets/blog-images/firebase.png',
+        coverImage: '/assets/blog/cover-images/tutorial_02.png',
         seo: {
             title: 'Firebase Complete Backend Guide for Flutter | CodeWithNabi',
             description: 'Master Firebase for Flutter development. Learn authentication, Firestore, storage, and best practices for building scalable apps.',
@@ -176,94 +555,225 @@ Whether you're building your first app or your hundredth, Firebase provides the 
         slug: 'shorebird-code-push-flutter-guide',
         excerpt: 'Discover how Shorebird lets you instantly update your Flutter apps without waiting for app store approval. It\'s like having superpowers for app deployment.',
         content: `
-# Shorebird: Revolutionary Code Push for Flutter
+# Shorebird: Code Push for Flutter Apps
 
-Have you ever discovered a critical bug in your live app and felt that sinking feeling knowing it could take days or weeks to get a fix to your users? Shorebird changes everything by letting you push updates instantly, no app store approval needed.
+You shipped a bug to production. App Store review takes 1-3 days. Your users are stuck. Shorebird fixes this — it lets you push Dart code updates directly to users' devices, bypassing app store review entirely. Here's how to set it up and use it.
 
-## The Problem We All Face
+## What Shorebird Actually Does
 
-App store reviews can be unpredictable. Sometimes they approve updates in hours, sometimes it takes days, and occasionally they reject perfectly good fixes for mysterious reasons. Meanwhile, your users are stuck with bugs, and you're losing sleep knowing you could fix everything if only you could update your app instantly.
+Shorebird replaces the Dart code in your app without going through the App Store or Google Play. It works at the Dart VM level — your app checks for patches on launch, downloads them, and applies them. Users get the fix without downloading a new version from the store.
 
-### The Shorebird Solution
+**What it CAN update:** All Dart code — business logic, UI, state management, API calls, routing.
 
-Imagine having the power to fix bugs and add features with the click of a button, and having those changes appear in your users' apps within minutes. That's exactly what Shorebird delivers - instant over-the-air updates for Flutter apps.
+**What it CANNOT update:** Native code (Swift/Kotlin), native plugins, assets, or \`AndroidManifest.xml\`/\`Info.plist\` changes. If you add a new native dependency, you still need a store release.
 
-## Why This is Revolutionary
+## Setup
 
-**Instant Bug Fixes**
-Found a critical bug? With Shorebird, you can push a fix and have it running on user devices in minutes, not days. Your users stay happy, and you can sleep peacefully knowing problems get resolved immediately.
+### 1. Install the Shorebird CLI
 
-**Feature Updates Without Friction**
-Want to tweak a feature or improve user experience? Traditional app deployment means waiting for store approval. Shorebird means your improvements reach users instantly.
+\`\`\`bash
+# macOS/Linux
+curl --proto '=https' --tlsv1.2 https://raw.githubusercontent.com/shorebirdtech/install/main/install.sh -sSf | bash
 
-**Risk-Free Deployments**
-Made a mistake in your update? No problem! Shorebird lets you roll back changes instantly. It's like having an undo button for your entire app.
+# Verify installation
+shorebird --version
+\`\`\`
 
-**Happy Users**
-Users love getting improvements and fixes quickly. Instead of being stuck with problems for weeks, they see continuous improvements that make their experience better every day.
+### 2. Initialize in Your Project
 
-## How It Works (The Simple Version)
+\`\`\`bash
+cd your_flutter_app
+shorebird init
+\`\`\`
 
-Think of Shorebird like having a special delivery service for your app updates. Instead of going through the app store's front door (which requires inspection and approval), Shorebird delivers updates through a side door that's always open.
+This creates a \`shorebird.yaml\` in your project root:
 
-Your app periodically checks for updates in the background. When it finds one, it downloads and applies the changes automatically. Users don't even notice it happening - they just get a better app experience.
+\`\`\`yaml
+# shorebird.yaml
+app_id: your-unique-app-id
+\`\`\`
 
-## Real-World Benefits
+### 3. Login
 
-**Faster Response to Issues**
-Customer support becomes much easier when you can fix problems immediately. Instead of saying "we'll fix that in the next update," you can say "that's already fixed!"
+\`\`\`bash
+shorebird login
+\`\`\`
 
-**Competitive Advantage**
-While your competitors wait for app store approval, you're continuously improving your app. Users notice the difference in responsiveness and quality.
+That's it. Your project is now Shorebird-enabled.
 
-**Reduced Development Stress**
-Knowing you can fix problems instantly reduces the pressure of having to get everything perfect before release. You can be more agile and responsive to user feedback.
+## The Workflow
 
-**Better Testing in the Wild**
-You can push updates to a small group of users first, see how they work in real conditions, then roll out to everyone. It's like having a safety net for every update.
+### Step 1: Create a Release
 
-## Getting Started is Straightforward
+A "release" is your baseline — the version you submit to the app store:
 
-Shorebird is designed to work with your existing Flutter development workflow. You don't need to rewrite your app or change how you build features. It integrates seamlessly with what you're already doing.
+\`\`\`bash
+# Build a release for Android
+shorebird release android
 
-### The Learning Curve
+# Build a release for iOS
+shorebird release ios
+\`\`\`
 
-If you're comfortable with Flutter development, you'll find Shorebird surprisingly easy to understand. The concepts are straightforward, and the tools are designed to feel familiar to Flutter developers.
+This produces an AAB (Android) or IPA (iOS) that you submit to the store normally. Shorebird tracks this as a release baseline.
 
-Most developers have their first update working within a few hours of starting with Shorebird. The documentation is clear, and the community is helpful for any questions that come up.
+### Step 2: Push a Patch
 
-## Smart About Safety
+After the release is live and you need to fix something, change your Dart code and push a patch:
 
-Shorebird isn't just about speed - it's about safe, reliable updates. It includes features like gradual rollouts, automatic rollbacks if problems are detected, and respect for user preferences about downloads and data usage.
+\`\`\`bash
+# Fix the bug in your Dart code, then:
+shorebird patch android
 
-## Who Benefits Most
+# Or for iOS:
+shorebird patch ios
+\`\`\`
 
-**Solo Developers**: Get the responsiveness of a large development team without the overhead.
+Shorebird diffs your current code against the release baseline and creates a minimal patch. Users get it on next app launch.
 
-**Small Teams**: Compete with larger companies by being more agile and responsive.
+### Step 3: Verify
 
-**Enterprise Apps**: Reduce support costs and improve user satisfaction with instant issue resolution.
+Check what's deployed:
 
-**Any App with Active Users**: Keep your audience engaged with continuous improvements.
+\`\`\`bash
+# List all releases
+shorebird releases list
+
+# List patches for a release
+shorebird patches list --release-version 1.0.0
+\`\`\`
+
+## Real-World Example
+
+Let's say your app has a price calculation bug:
+
+\`\`\`dart
+// BEFORE (buggy) — shipped in release 1.2.0
+double calculateTotal(List<CartItem> items) {
+  return items.fold(0, (sum, item) => sum + item.price); // Missing quantity!
+}
+
+// AFTER (fixed)
+double calculateTotal(List<CartItem> items) {
+  return items.fold(0, (sum, item) => sum + item.price * item.quantity);
+}
+\`\`\`
+
+Without Shorebird: fix the code, build, submit to store, wait 1-3 days for review. Users see wrong prices the entire time.
+
+With Shorebird:
+
+\`\`\`bash
+# Fix the code, then:
+shorebird patch android
+shorebird patch ios
+# Users get the fix in minutes
+\`\`\`
+
+## How the App Receives Patches
+
+The patching is automatic. On app launch, the Shorebird engine checks for available patches and applies them. No code changes needed in your app — the check happens at the Dart VM level.
+
+The patch download is small (typically 50-200KB) because Shorebird sends only the diff, not the entire app.
+
+## Staging & Rollback
+
+### Preview Before Deploying
+
+Test a patch before it goes to all users:
+
+\`\`\`bash
+# Build a preview patch
+shorebird preview
+
+# This gives you a QR code or link to install the patched version
+# Test it on your device before deploying to everyone
+\`\`\`
+
+### Rolling Back
+
+Pushed a bad patch? Roll it back:
+
+\`\`\`bash
+# List patches
+shorebird patches list --release-version 1.2.0
+
+# Delete the bad patch
+shorebird patches delete --patch-number 3
+\`\`\`
+
+Users revert to the previous patch (or the original release if no other patches exist) on next launch.
+
+## CI/CD Integration
+
+Add Shorebird to your GitHub Actions workflow:
+
+\`\`\`yaml
+# .github/workflows/patch.yml
+name: Push Patch
+on:
+  workflow_dispatch:
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shorebirdtech/setup-shorebird@v1
+        with:
+          token: \${{ secrets.SHOREBIRD_TOKEN }}
+      - run: shorebird patch android
+\`\`\`
+
+Now you can push patches from CI with a button click.
+
+## Pricing & Limits
+
+| Plan | Patch Installs/Month | Price |
+|------|---------------------|-------|
+| Free | 5,000 | $0 |
+| Pro | 50,000 | $20/mo |
+| Team | 500,000 | $100/mo |
+| Enterprise | Unlimited | Custom |
+
+A "patch install" counts when a user downloads and applies a patch. Regular app usage doesn't count.
+
+## App Store Compliance
+
+Shorebird is compliant with both Apple and Google's policies. Apple allows "interpreted code" updates as long as you don't change the app's primary purpose. Google's policy is similar. Shorebird is specifically designed to stay within these guidelines.
+
+Key rule: don't use code push to add entirely new features that change your app's category. Use it for bug fixes, performance improvements, and incremental updates.
+
+## When to Use Shorebird
+
+- **Critical bug fixes** that can't wait for store review
+- **A/B testing** different UI or logic variations
+- **Hotfixes** for crashes discovered in production
+- **Iterating fast** on user feedback
+- **Compliance updates** that need immediate deployment
+
+## When NOT to Use Shorebird
+
+- Adding new native plugins (requires store release)
+- Changing app permissions (requires store release)
+- Major feature additions (better as a proper store release for marketing/visibility)
 
 ## The Bottom Line
 
-Shorebird represents a fundamental shift in how we think about app deployment. Instead of big, infrequent updates that require careful planning and app store approval, you can embrace continuous improvement and instant responsiveness.
-
-It's not just a tool - it's a superpower that lets you be the kind of developer who can fix problems immediately and delight users with constant improvements. Your future self (and your users) will thank you for making the switch.
+Shorebird adds a safety net to your release process. Ship to the store normally, and when something goes wrong — or you need to iterate fast — push a Dart patch that reaches users in minutes. Setup takes 5 minutes, and the first time you fix a production bug without waiting for store review, you'll wonder how you ever shipped without it.
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/images/myimage.JPG',
+            avatar: '/assets/branding/profile.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-09-01',
         updatedAt: '2025-09-01',
-        readingTime: 5,
+        readingTime: 9,
         category: 'DevOps',
         tags: ['Shorebird', 'Flutter', 'Deployment', 'Code Push', 'DevOps'],
         featured: false,
-        coverImage: '/assets/blog-images/shorebird-flutter.webp',
+        coverImage: '/assets/blog/cover-images/tutorial_03.png',
         seo: {
             title: 'Shorebird Code Push for Flutter: Complete Guide | CodeWithNabi',
             description: 'Master Shorebird for Flutter instant updates. Learn implementation, best practices, and deployment strategies for seamless app updates.',
@@ -278,104 +788,319 @@ It's not just a tool - it's a superpower that lets you be the kind of developer 
         content: `
 # Supabase: The Open Source Firebase Alternative for Flutter
 
-What if you could have all the convenience of Firebase but with complete transparency, more control, and the power of a real database? That's exactly what Supabase offers - it's like Firebase's more flexible, open-minded cousin.
+Supabase gives you a PostgreSQL database, authentication, real-time subscriptions, file storage, and Edge Functions — all open source, all with a Flutter SDK. If you've hit Firestore's limitations with relational data or vendor lock-in concerns, this is the alternative worth learning.
 
-## Why Developers Are Making the Switch
+## Setup
 
-**Complete Transparency**
-Unlike closed-source alternatives, Supabase is completely open source. You can see exactly how everything works, contribute improvements, and never worry about vendor lock-in. It's refreshing to work with technology you can fully understand and trust.
+### 1. Create a Supabase Project
 
-**Real Database Power**
-While other solutions use specialized databases, Supabase is built on PostgreSQL - one of the most powerful and reliable databases ever created. This means you get real SQL, complex queries, and decades of database engineering excellence.
+Go to [supabase.com](https://supabase.com), create a project, and grab your URL and anon key from Settings > API.
 
-**You're in Control**
-Need to host your data in a specific country? Want to run everything on your own servers? With Supabase, you have options. You're not locked into anyone else's infrastructure decisions.
+### 2. Add the Flutter Package
 
-## What Makes Supabase Special
+\`\`\`yaml
+# pubspec.yaml
+dependencies:
+  supabase_flutter: ^2.5.0
+\`\`\`
 
-**It Speaks SQL**
-Remember learning SQL and thinking it was actually pretty elegant? With Supabase, that knowledge isn't wasted. You can write real database queries, create complex relationships, and use advanced database features that other platforms don't offer.
+### 3. Initialize
 
-**Real-Time That Just Works**
-Live updates between users happen automatically. When someone adds a comment, likes a post, or updates their profile, everyone else sees it instantly. It feels like magic, but it's just good engineering.
+\`\`\`dart
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-**Authentication Without Headaches**
-User login, password resets, email verification, social logins - all the authentication features you need work seamlessly. Plus, you get advanced features like row-level security that protect your data automatically.
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-**File Storage That Scales**
-Upload user avatars, documents, videos, or any other files. Supabase handles the storage, optimization, and delivery. Your users get fast downloads, and you get peace of mind.
+  await Supabase.initialize(
+    url: 'https://your-project.supabase.co',
+    anonKey: 'your-anon-key',
+  );
 
-## Developer Experience That Delights
+  runApp(const MyApp());
+}
 
-**Documentation That Actually Helps**
-Ever read documentation that felt like it was written for the developers who built the system? Supabase docs are written for real developers building real apps. They include examples, explain the "why" behind decisions, and help you succeed.
+// Access the client anywhere
+final supabase = Supabase.instance.client;
+\`\`\`
 
-**Dashboard That Makes Sense**
-The Supabase dashboard is intuitive and powerful. You can manage your database, view real-time activity, configure authentication, and monitor your app's performance all in one place.
+## Database: Real SQL, Real Power
 
-**Community Support**
-The Supabase community is incredibly welcoming and helpful. Whether you're a beginner asking basic questions or an expert diving into advanced features, you'll find people eager to help.
+Unlike Firestore's NoSQL document model, Supabase uses PostgreSQL. You get tables, relationships, JOINs, constraints, and indexes.
 
-## Real-World Benefits
+### Create Tables (SQL Editor or Dashboard)
 
-**Faster Development**
-Developers report building features significantly faster with Supabase. The clear APIs, excellent documentation, and powerful features mean less time fighting infrastructure and more time building great user experiences.
+\`\`\`sql
+-- Create a tasks table
+create table tasks (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users(id) not null,
+  title text not null,
+  is_completed boolean default false,
+  priority int default 0,
+  created_at timestamptz default now()
+);
 
-**Lower Costs**
-Supabase's pricing is transparent and often significantly lower than alternatives. Plus, if you want to self-host to save even more, you can do that too.
+-- Add an index for faster queries
+create index idx_tasks_user_id on tasks(user_id);
+\`\`\`
 
-**Better Performance**
-PostgreSQL is incredibly fast and efficient. Your users will notice snappier responses and smoother experiences, especially as your app grows.
+### CRUD Operations from Flutter
 
-**Future-Proof Architecture**
-Since Supabase is built on standard technologies like PostgreSQL and follows open standards, your investment is protected. You're building on solid foundations that will serve you well for years.
+\`\`\`dart
+class TaskRepository {
+  // CREATE
+  Future<void> createTask(String title, int priority) async {
+    await supabase.from('tasks').insert({
+      'title': title,
+      'priority': priority,
+      'user_id': supabase.auth.currentUser!.id,
+    });
+  }
 
-## Getting Started is Surprisingly Simple
+  // READ — with filtering and ordering
+  Future<List<Map<String, dynamic>>> getTasks() async {
+    final response = await supabase
+      .from('tasks')
+      .select()
+      .eq('user_id', supabase.auth.currentUser!.id)
+      .order('created_at', ascending: false);
 
-Despite all this power, Supabase is remarkably easy to get started with. The setup process is straightforward, and you can have a working backend in minutes.
+    return response;
+  }
 
-### Your First Steps
+  // READ — with JOINs (something Firestore can't do)
+  Future<List<Map<String, dynamic>>> getTasksWithCategories() async {
+    final response = await supabase
+      .from('tasks')
+      .select('*, categories(name, color)')
+      .eq('user_id', supabase.auth.currentUser!.id);
 
-Most developers start by creating a simple table and connecting their Flutter app. Once that's working, they add authentication, then real-time features, then file storage. Each step builds naturally on the previous one.
+    return response;
+  }
 
-The learning curve is gentle because Supabase doesn't try to reinvent everything. If you know databases, you'll feel at home. If you're new to backend development, the concepts are clear and well-explained.
+  // UPDATE
+  Future<void> toggleComplete(String taskId, bool isCompleted) async {
+    await supabase
+      .from('tasks')
+      .update({'is_completed': isCompleted})
+      .eq('id', taskId);
+  }
 
-## When Supabase Shines
+  // DELETE
+  Future<void> deleteTask(String taskId) async {
+    await supabase.from('tasks').delete().eq('id', taskId);
+  }
+}
+\`\`\`
 
-**Complex Data Relationships**
-If your app needs to model real-world relationships between data, PostgreSQL's relational features are incredibly powerful. You can express complex business logic directly in your database.
+Notice the \`.select('*, categories(name, color)')\` — that's a JOIN. Supabase automatically detects foreign key relationships and lets you query across tables in a single call. Try doing that with Firestore.
 
-**Growing Applications**
-Supabase scales beautifully as your app grows. Features that work for 100 users continue working for 100,000 users, often without any changes to your code.
+## Authentication
 
-**Team Collaboration**
-Multiple developers can work with Supabase easily. The clear structure and familiar technologies mean new team members can contribute quickly.
+Supabase Auth supports email/password, OAuth providers (Google, Apple, GitHub), magic links, and phone OTP:
 
-**International Applications**
-With options for different hosting regions and the ability to self-host, Supabase works well for apps with global audiences or specific data sovereignty requirements.
+\`\`\`dart
+class AuthService {
+  // Sign up
+  Future<AuthResponse> signUp(String email, String password) async {
+    return await supabase.auth.signUp(
+      email: email,
+      password: password,
+    );
+  }
 
-## The Open Source Advantage
+  // Sign in
+  Future<AuthResponse> signIn(String email, String password) async {
+    return await supabase.auth.signInWithPassword(
+      email: email,
+      password: password,
+    );
+  }
 
-Being open source isn't just about the code - it's about philosophy. Supabase is built by developers, for developers. The team listens to feedback, implements requested features, and maintains the high standards the community expects.
+  // Google OAuth
+  Future<bool> signInWithGoogle() async {
+    return await supabase.auth.signInWithOAuth(
+      OAuthProvider.google,
+      redirectTo: 'io.supabase.myapp://login-callback/',
+    );
+  }
 
-## Making Your Decision
+  // Listen to auth changes
+  Stream<AuthState> get onAuthStateChange =>
+    supabase.auth.onAuthStateChange;
 
-If you value transparency, want the power of a real database, and appreciate having options about how and where your app runs, Supabase might be perfect for your next project.
+  // Sign out
+  Future<void> signOut() => supabase.auth.signOut();
+}
+\`\`\`
 
-Whether you're building your first app or migrating from another platform, Supabase provides a solid foundation that grows with your needs. It's not just about building apps - it's about building them on your terms.
+## Row-Level Security (RLS)
+
+This is Supabase's killer feature. RLS policies run at the database level — even if your Flutter code has a bug, users can never access data they shouldn't:
+
+\`\`\`sql
+-- Enable RLS on the tasks table
+alter table tasks enable row level security;
+
+-- Users can only see their own tasks
+create policy "Users read own tasks"
+  on tasks for select
+  using (auth.uid() = user_id);
+
+-- Users can only insert tasks for themselves
+create policy "Users insert own tasks"
+  on tasks for insert
+  with check (auth.uid() = user_id);
+
+-- Users can only update their own tasks
+create policy "Users update own tasks"
+  on tasks for update
+  using (auth.uid() = user_id);
+
+-- Users can only delete their own tasks
+create policy "Users delete own tasks"
+  on tasks for delete
+  using (auth.uid() = user_id);
+\`\`\`
+
+With RLS, your API key can be safely used client-side. Even if someone decompiles your app and extracts the key, they can only access their own data.
+
+## Real-Time Subscriptions
+
+Listen to database changes in real-time:
+
+\`\`\`dart
+// Watch for changes to the tasks table
+final channel = supabase
+  .channel('tasks-channel')
+  .onPostgresChanges(
+    event: PostgresChangeEvent.all,
+    schema: 'public',
+    table: 'tasks',
+    filter: PostgresChangeFilter(
+      type: PostgresChangeFilterType.eq,
+      column: 'user_id',
+      value: supabase.auth.currentUser!.id,
+    ),
+    callback: (payload) {
+      switch (payload.eventType) {
+        case PostgresChangeEvent.insert:
+          print('New task: \${payload.newRecord}');
+          break;
+        case PostgresChangeEvent.update:
+          print('Updated: \${payload.newRecord}');
+          break;
+        case PostgresChangeEvent.delete:
+          print('Deleted: \${payload.oldRecord}');
+          break;
+      }
+    },
+  )
+  .subscribe();
+
+// Clean up when done
+channel.unsubscribe();
+\`\`\`
+
+## Storage
+
+Upload and serve files with automatic CDN delivery:
+
+\`\`\`dart
+class StorageService {
+  Future<String> uploadAvatar(String userId, Uint8List bytes) async {
+    final path = 'avatars/\$userId.jpg';
+
+    await supabase.storage
+      .from('user-files')
+      .uploadBinary(path, bytes, fileOptions: const FileOptions(
+        contentType: 'image/jpeg',
+        upsert: true,
+      ));
+
+    return supabase.storage
+      .from('user-files')
+      .getPublicUrl(path);
+  }
+}
+\`\`\`
+
+## Edge Functions
+
+Server-side TypeScript functions for logic that shouldn't run on the client:
+
+\`\`\`typescript
+// supabase/functions/process-payment/index.ts
+import { serve } from 'https://deno.land/std/http/server.ts'
+import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+
+serve(async (req) => {
+  const { amount, currency } = await req.json()
+
+  // Process payment with Stripe (server-side only)
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount,
+    currency,
+  })
+
+  return new Response(
+    JSON.stringify({ clientSecret: paymentIntent.client_secret }),
+    { headers: { 'Content-Type': 'application/json' } },
+  )
+})
+\`\`\`
+
+Call from Flutter:
+
+\`\`\`dart
+final response = await supabase.functions.invoke('process-payment',
+  body: {'amount': 2999, 'currency': 'usd'},
+);
+\`\`\`
+
+## Firebase vs Supabase: Honest Comparison
+
+| Feature | Firebase | Supabase |
+|---------|----------|----------|
+| Database | NoSQL (Firestore) | PostgreSQL (relational) |
+| JOINs | Not supported | Full SQL JOINs |
+| Pricing model | Per read/write | Per compute/storage |
+| Open source | No | Yes |
+| Self-hosting | No | Yes |
+| Offline support | Built-in | Needs manual implementation |
+| Real-time | Built-in | Built-in |
+| Auth providers | Many | Many |
+| Row-Level Security | Firestore Rules | PostgreSQL RLS |
+| Edge Functions | Cloud Functions (Node.js) | Edge Functions (Deno) |
+| Vendor lock-in | High | Low |
+
+**Choose Firebase when:** You need offline-first with zero effort, you want tight Google ecosystem integration, or you're building a simple app with flat data structures.
+
+**Choose Supabase when:** You need relational data, SQL power, open source transparency, self-hosting options, or predictable pricing at scale.
+
+## Getting Started
+
+1. Create a project at supabase.com
+2. Create your tables in the SQL editor
+3. Enable RLS and write policies
+4. Add \`supabase_flutter\` to your app
+5. Start with auth, then CRUD, then real-time
+
+The SQL editor has AI assistance built in — describe what you want in plain English, and it generates the SQL. The dashboard lets you browse data, test queries, and manage auth without leaving the browser.
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/images/myimage.JPG',
+            avatar: '/assets/branding/profile.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-08-28',
         updatedAt: '2025-08-28',
-        readingTime: 7,
+        readingTime: 11,
         category: 'Backend Development',
         tags: ['Supabase', 'Flutter', 'Backend', 'PostgreSQL', 'Open Source'],
         featured: false,
-        coverImage: '/assets/blog-images/supabase-fluuter.jpg',
+        coverImage: '/assets/blog/cover-images/tutorial_04.png',
         seo: {
             title: 'Supabase vs Firebase for Flutter: Complete Guide | CodeWithNabi',
             description: 'Master Supabase for Flutter development. Learn authentication, real-time features, and why it\'s the powerful Firebase alternative.',
@@ -563,7 +1288,7 @@ Clean architecture isn't about perfection. It's about having a place for everyth
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/images/myimage.JPG',
+            avatar: '/assets/branding/profile.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-10-15',
@@ -572,7 +1297,7 @@ Clean architecture isn't about perfection. It's about having a place for everyth
         category: 'Flutter Development',
         tags: ['Flutter', 'Architecture', 'Clean Architecture', 'Best Practices'],
         featured: true,
-        coverImage: '/assets/blog-images/clean-architecture.png',
+        coverImage: '/assets/blog/cover-images/tutorial_05.png',
         seo: {
             title: 'Feature-First Clean Architecture in Flutter | CodeWithNabi',
             description: 'Learn how to structure Flutter apps with Feature-First Clean Architecture. Four layers, strict boundaries, and scalable folder structure.',
@@ -835,7 +1560,7 @@ Each pattern is independent. You don't need to adopt them all at once. But once 
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/images/myimage.JPG',
+            avatar: '/assets/branding/profile.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-10-08',
@@ -844,7 +1569,7 @@ Each pattern is independent. You don't need to adopt them all at once. But once 
         category: 'Flutter Development',
         tags: ['Flutter', 'Riverpod', 'State Management', 'Performance', 'Patterns'],
         featured: true,
-        coverImage: '/assets/blog-images/riverpod-expert.png',
+        coverImage: '/assets/blog/cover-images/tutorial_06.png',
         seo: {
             title: 'Advanced Riverpod Patterns for Flutter | CodeWithNabi',
             description: 'Master advanced Riverpod patterns: single-action controllers, debounced search, pagination, rebuild prevention, and side effects.',
@@ -1067,7 +1792,7 @@ Offline-first isn't a nice-to-have. In a world where users expect apps to work i
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/images/myimage.JPG',
+            avatar: '/assets/branding/profile.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-10-01',
@@ -1076,7 +1801,7 @@ Offline-first isn't a nice-to-have. In a world where users expect apps to work i
         category: 'Flutter Development',
         tags: ['Flutter', 'Offline-First', 'Drift', 'Supabase', 'Architecture'],
         featured: false,
-        coverImage: '/assets/blog-images/offline-first.png',
+        coverImage: '/assets/blog/cover-images/tutorial_07.png',
         seo: {
             title: 'Offline-First Flutter Apps with Drift and Supabase | CodeWithNabi',
             description: 'Build Flutter apps that work without internet. Learn the offline-first architecture pattern with Drift SQLite and Supabase sync.',
@@ -1353,7 +2078,7 @@ Error handling isn't glamorous. But it's the difference between an app that feel
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/images/myimage.JPG',
+            avatar: '/assets/branding/profile.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-09-25',
@@ -1362,7 +2087,7 @@ Error handling isn't glamorous. But it's the difference between an app that feel
         category: 'Flutter Development',
         tags: ['Flutter', 'Error Handling', 'Best Practices', 'Production', 'Architecture'],
         featured: false,
-        coverImage: '/assets/blog-images/error-handling.svg',
+        coverImage: '/assets/blog/cover-images/tutorial_08.png',
         seo: {
             title: 'Production Error Handling Strategy for Flutter | CodeWithNabi',
             description: 'Build a structured error handling pipeline for Flutter with sealed exceptions, automatic logging, severity levels, and user-friendly dialogs.',
@@ -1688,7 +2413,7 @@ Testing isn't about 100% coverage. It's about testing the code that breaks. Busi
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/images/myimage.JPG',
+            avatar: '/assets/branding/profile.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-09-20',
@@ -1697,7 +2422,7 @@ Testing isn't about 100% coverage. It's about testing the code that breaks. Busi
         category: 'Flutter Development',
         tags: ['Flutter', 'Testing', 'Unit Tests', 'Widget Tests', 'Best Practices'],
         featured: false,
-        coverImage: '/assets/blog-images/flutter-testing.jpg',
+        coverImage: '/assets/blog/cover-images/tutorial_09.png',
         seo: {
             title: 'Flutter Testing Guide: Unit, Widget, and Integration | CodeWithNabi',
             description: 'A practical guide to Flutter testing with the Robot pattern, mocktail, ProviderContainer overrides, and real-world patterns.',
@@ -1937,7 +2662,7 @@ RevenueCat turns what used to be months of IAP plumbing into a weekend project. 
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/images/myimage.JPG',
+            avatar: '/assets/branding/profile.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-09-15',
@@ -1946,7 +2671,7 @@ RevenueCat turns what used to be months of IAP plumbing into a weekend project. 
         category: 'Flutter Development',
         tags: ['Flutter', 'RevenueCat', 'Monetization', 'Subscriptions', 'In-App Purchases'],
         featured: false,
-        coverImage: '/assets/blog-images/revenuecat.png',
+        coverImage: '/assets/blog/cover-images/tutorial_10.png',
         seo: {
             title: 'Flutter In-App Subscriptions with RevenueCat | CodeWithNabi',
             description: 'Implement in-app subscriptions in Flutter with RevenueCat. Learn paywall patterns, entitlement management, and Supabase webhook integration.',
@@ -2121,7 +2846,7 @@ The initial setup takes about an hour. After that, every release takes zero manu
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/images/myimage.JPG',
+            avatar: '/assets/branding/profile.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-09-12',
@@ -2130,7 +2855,7 @@ The initial setup takes about an hour. After that, every release takes zero manu
         category: 'DevOps',
         tags: ['Flutter', 'CI/CD', 'GitHub Actions', 'Google Play', 'DevOps'],
         featured: false,
-        coverImage: '/assets/blog-images/cicd-github-actions.svg',
+        coverImage: '/assets/blog/cover-images/tutorial_11.png',
         seo: {
             title: 'Flutter CI/CD with GitHub Actions to Google Play | CodeWithNabi',
             description: 'Set up automated Flutter deployments to Google Play with GitHub Actions. Learn signing, secrets management, and self-hosted runners.',
@@ -2398,7 +3123,7 @@ The architecture supports this incremental approach by design. Your business log
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/images/myimage.JPG',
+            avatar: '/assets/branding/profile.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-09-08',
@@ -2407,7 +3132,7 @@ The architecture supports this incremental approach by design. Your business log
         category: 'Backend Development',
         tags: ['Flutter', 'Supabase', 'Drift', 'SQLite', 'Offline-First', 'Sync'],
         featured: false,
-        coverImage: '/assets/blog-images/supabase-drift.svg',
+        coverImage: '/assets/blog/cover-images/tutorial_12.png',
         seo: {
             title: 'Supabase + Drift Flutter Data Layer Guide | CodeWithNabi',
             description: 'Build a type-safe, offline-first data layer with Drift SQLite and Supabase PostgreSQL. Learn sync patterns, dirty tracking, and conflict resolution.',

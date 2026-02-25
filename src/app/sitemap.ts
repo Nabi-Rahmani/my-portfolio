@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { blogPosts } from '@/data/blog'
+import { projects } from '@/data/projects'
 
 export default function sitemap(): MetadataRoute.Sitemap {
     // Base pages
@@ -30,6 +31,38 @@ export default function sitemap(): MetadataRoute.Sitemap {
         },
     ];
 
+    // Project detail pages
+    const projectPages = projects.flatMap((project) => {
+        const pages = [
+            {
+                url: `https://codewithnabi.dev/projects/${project.slug}`,
+                lastModified: new Date(),
+                changeFrequency: 'monthly' as const,
+                priority: 0.8,
+            },
+        ];
+
+        // Add privacy and terms pages if the project has them
+        if (project.links.privacy) {
+            pages.push({
+                url: `https://codewithnabi.dev${project.links.privacy}`,
+                lastModified: new Date(),
+                changeFrequency: 'monthly' as const,
+                priority: 0.3,
+            });
+        }
+        if (project.links.terms) {
+            pages.push({
+                url: `https://codewithnabi.dev${project.links.terms}`,
+                lastModified: new Date(),
+                changeFrequency: 'monthly' as const,
+                priority: 0.3,
+            });
+        }
+
+        return pages;
+    });
+
     // Blog posts
     const blogPages = blogPosts.map((post) => ({
         url: `https://codewithnabi.dev/blog/${post.slug}`,
@@ -38,5 +71,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.7,
     }));
 
-    return [...basePages, ...blogPages];
+    return [...basePages, ...projectPages, ...blogPages];
 }

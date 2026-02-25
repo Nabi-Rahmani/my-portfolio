@@ -9,10 +9,10 @@ export const flutterInProductionCourse: Course = {
   excerpt: 'The complete guide to releasing professional Flutter apps to production.',
   instructor: {
     name: 'Andrea',
-    avatar: '/assets/images/myimage.JPG',
+    avatar: '/assets/branding/profile.jpg',
     bio: 'Flutter instructor helping developers ship production-ready mobile applications.',
   },
-  coverImage: '/assets/blog-images/dart.jpg',
+  coverImage: '/assets/blog/dart.jpg',
   price: 'free',
   difficulty: 'intermediate',
   totalDuration: 45,

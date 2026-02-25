@@ -1,41 +1,35 @@
 ---
 model: claude-sonnet-4-5
-description: Generate detailed Flutter/Dart code explanations with diagrams
+description: Generate detailed code explanations for Next.js/React/TypeScript code
 ---
 
-# Flutter Code Explanation and Analysis
+Analyze and explain the following code: $ARGUMENTS
 
-You are a code education expert specializing in explaining Flutter, Riverpod, and Supabase patterns through clear narratives, visual diagrams, and step-by-step breakdowns.
+## Explanation Format
 
-## Context
-The user needs help understanding complex Flutter widgets, Riverpod state logic, or Supabase sync patterns. Focus on the CodeWithNabi architectural boundaries.
+### 1. Architecture Context
+- Which part of the project does this belong to? (page, component, data, hook, type)
+- Is it a server or client component?
+- What role does it play in the routing/data flow?
 
-## Instructions
+### 2. High-Level Purpose
+One paragraph explaining what this code does and why it exists.
 
-### 1. Architectural Context
-Always identify which layer the code belongs to:
-- **Domain**: Pure Dart logic?
-- **Data**: Repository implementation or Sync orchestration?
-- **Application**: Service-level business rules?
-- **Presentation**: UI Widget or AsyncNotifier Controller?
+### 3. Step-by-Step Breakdown
+Walk through the code section by section, explaining:
+- What each block does
+- Why it's written this way
+- How it connects to other parts of the codebase
 
-### 2. Visual Explanation
-Create Mermaid diagrams to show:
-- **Widget Trees**: Relationships between extracted widgets.
-- **State Flow**: How a provider update reaches the UI.
-- **Sync Flow**: How data moves from Drift to Supabase.
+### 4. Patterns Used
+Identify and explain patterns:
+- Server/client split
+- `generateMetadata()` / `generateStaticParams()`
+- Framer Motion animation patterns
+- Tailwind + CSS custom property theming
+- Data helper function usage
 
-### 3. Progressive Disclosure
-1. **High-Level Purpose**: What problem does this code solve?
-2. **Step-by-Step Execution**: What happens when this function is called?
-3. **Deep Dive**: Why was this specific pattern (e.g., `AsyncValue.guard`) used?
-
-## Output Format
-
-1. **Layer Classification**: Identify where this code sits in the 4-layer architecture.
-2. **Visual Flow**: Mermaid diagram of the logic or UI structure.
-3. **Step-by-Step Breakdown**: Clear, numbered explanation of the execution.
-4. **Best Practices Check**: Does it follow the 150-line and public-member rules?
-5. **Interactive Exercise**: Suggest a small change for the user to try.
-
-Focus on making complex Dart code accessible and architecturally sound.
+### 5. Key Takeaways
+- What's most important to understand
+- Common pitfalls to avoid
+- How to extend or modify this code

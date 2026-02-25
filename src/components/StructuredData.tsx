@@ -6,10 +6,10 @@ export default function StructuredData() {
         "alternateName": "codewithnabi",
         "url": "https://codewithnabi.dev",
         "image": [
-            "https://codewithnabi.dev/assets/images/myimage.JPG",
-            "https://codewithnabi.dev/assets/logo/Youtub-logo.png"
+            "https://codewithnabi.dev/assets/branding/profile.jpg",
+            "https://codewithnabi.dev/assets/branding/youtube-logo.png"
         ],
-        "logo": "https://codewithnabi.dev/assets/logo/Youtub-logo.png",
+        "logo": "https://codewithnabi.dev/assets/branding/youtube-logo.png",
         "jobTitle": "Flutter Developer",
         "description": "Flutter Developer crafting beautiful mobile experiences with clean code and intuitive design",
         "email": "codewithnabi@gmail.com",
@@ -39,8 +39,8 @@ export default function StructuredData() {
         "name": "codewithnabi",
         "alternateName": "Muhammad Nabi Rahmani",
         "url": "https://codewithnabi.dev",
-        "logo": "https://codewithnabi.dev/assets/logo/Youtub-logo.png",
-        "image": "https://codewithnabi.dev/assets/logo/Youtub-logo.png",
+        "logo": "https://codewithnabi.dev/assets/branding/youtube-logo.png",
+        "image": "https://codewithnabi.dev/assets/branding/youtube-logo.png",
         "description": "Personal brand of Muhammad Nabi Rahmani, Flutter Developer",
         "sameAs": [
             "https://github.com/Nabi-Rahmani",

@@ -13,9 +13,9 @@ const projects = getAllProjects();
 
 export default function Projects() {
     return (
-        <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] pb-16 md:pb-0 overflow-hidden">
+        <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] overflow-hidden">
             <main className="pt-24 px-6 pb-16">
-                <div className="max-w-[800px] mx-auto">
+                <div className="max-w-[1000px] mx-auto">
                     {/* Header — drops in from above with bounce */}
                     <div className="text-center mb-16">
                         <motion.h1
@@ -36,38 +36,34 @@ export default function Projects() {
                         </motion.p>
                     </div>
 
-                    <div className="flex flex-col gap-10">
+                    <div className="flex flex-col gap-14">
                         {projects.map((project, i) => (
                             <motion.div
                                 key={project.id}
-                                className="rounded-3xl border border-[var(--border-color)] overflow-hidden bg-[var(--bg-secondary)]"
-                                initial={{ opacity: 0, x: i % 2 === 0 ? -120 : 120, rotate: i % 2 === 0 ? -4 : 4, scale: 0.85 }}
-                                whileInView={{ opacity: 1, x: 0, rotate: 0, scale: 1 }}
+                                className="group rounded-3xl overflow-hidden bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-shadow duration-500"
+                                initial={{ opacity: 0, y: 40 }}
+                                whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: '-60px' }}
-                                transition={{ type: 'spring', stiffness: 100, damping: 14, delay: i * 0.15 }}
-                                whileHover={{ scale: 1.02, y: -6, transition: { type: 'spring', stiffness: 300, damping: 15 } }}
+                                transition={{ type: 'spring', stiffness: 120, damping: 18, delay: i * 0.12 }}
                             >
                                 <Link href={`/projects/${project.slug}`} className="no-underline block">
-                                    <motion.div
-                                        className="relative aspect-[16/10] overflow-hidden"
-                                        whileHover={{ scale: 1.05 }}
-                                        transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-                                    >
+                                    <div className="relative aspect-[16/9] overflow-hidden">
                                         <Image
                                             src={project.coverImage}
                                             alt={`${project.title} - ${project.subtitle}`}
                                             fill
-                                            className="object-cover"
-                                            sizes="(max-width: 768px) 100vw, 800px"
+                                            className="object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+                                            sizes="(max-width: 768px) 100vw, 1000px"
                                         />
-                                    </motion.div>
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                                    </div>
                                 </Link>
-                                <div className="p-6 md:p-8">
+                                <div className="p-7 md:p-10">
                                     <Link href={`/projects/${project.slug}`} className="no-underline block">
-                                        <h2 className="text-[1.5rem] md:text-[1.75rem] font-bold text-[var(--text-primary)] mb-3 tracking-tight">
+                                        <h2 className="text-[1.75rem] md:text-[2.25rem] font-bold text-[var(--text-primary)] mb-3 tracking-tight group-hover:text-[var(--accent)] transition-colors duration-300">
                                             {project.title}
                                         </h2>
-                                        <p className="text-[0.9375rem] text-[var(--text-secondary)] mb-5 leading-relaxed">
+                                        <p className="text-[1rem] md:text-[1.0625rem] text-[var(--text-secondary)] mb-6 leading-relaxed">
                                             {project.subtitle}
                                         </p>
                                     </Link>
@@ -76,10 +72,10 @@ export default function Projects() {
                                             <motion.span
                                                 key={feature}
                                                 className="px-3 py-1.5 bg-[var(--bg-primary)] text-[var(--text-secondary)] rounded-lg text-[0.8125rem] border border-[var(--border-color)]"
-                                                initial={{ opacity: 0, scale: 0, rotate: -10 }}
-                                                whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                                                initial={{ opacity: 0, scale: 0 }}
+                                                whileInView={{ opacity: 1, scale: 1 }}
                                                 viewport={{ once: true }}
-                                                transition={{ type: 'spring', stiffness: 300, damping: 15, delay: fi * 0.06 }}
+                                                transition={{ type: 'spring', stiffness: 300, damping: 15, delay: fi * 0.05 }}
                                             >
                                                 {feature}
                                             </motion.span>
@@ -87,55 +83,37 @@ export default function Projects() {
                                     </div>
                                     <div className="flex gap-3 flex-wrap">
                                         {project.links.github && (
-                                            <motion.a
+                                            <a
                                                 href={project.links.github}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--text-primary)] text-[var(--bg-primary)] rounded-full text-[0.875rem] font-medium no-underline hover:opacity-90 transition-opacity"
-                                                initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                                                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                                                viewport={{ once: true }}
-                                                transition={{ type: 'spring', stiffness: 260, damping: 14, delay: 0.1 }}
-                                                whileHover={{ scale: 1.1 }}
-                                                whileTap={{ scale: 0.92 }}
                                             >
                                                 <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d={githubIcon} /></svg>
                                                 Source Code
-                                            </motion.a>
+                                            </a>
                                         )}
                                         {project.links.appStore && (
-                                            <motion.a
+                                            <a
                                                 href={project.links.appStore}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border-color)] text-[var(--text-primary)] rounded-full text-[0.875rem] font-medium no-underline hover:bg-[var(--bg-primary)] hover:border-[var(--text-secondary)] transition-all duration-200"
-                                                initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                                                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                                                viewport={{ once: true }}
-                                                transition={{ type: 'spring', stiffness: 260, damping: 14, delay: 0.2 }}
-                                                whileHover={{ scale: 1.1 }}
-                                                whileTap={{ scale: 0.92 }}
                                             >
                                                 <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d={appleIcon} /></svg>
                                                 App Store
-                                            </motion.a>
+                                            </a>
                                         )}
                                         {project.links.playStore && (
-                                            <motion.a
+                                            <a
                                                 href={project.links.playStore}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border-color)] text-[var(--text-primary)] rounded-full text-[0.875rem] font-medium no-underline hover:bg-[var(--bg-primary)] hover:border-[var(--text-secondary)] transition-all duration-200"
-                                                initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                                                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                                                viewport={{ once: true }}
-                                                transition={{ type: 'spring', stiffness: 260, damping: 14, delay: 0.3 }}
-                                                whileHover={{ scale: 1.1 }}
-                                                whileTap={{ scale: 0.92 }}
                                             >
                                                 <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d={playIcon} /></svg>
                                                 Play Store
-                                            </motion.a>
+                                            </a>
                                         )}
                                     </div>
                                 </div>

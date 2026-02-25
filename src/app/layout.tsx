@@ -33,13 +33,13 @@ export const metadata: Metadata = {
     description: "Flutter Developer crafting beautiful mobile experiences with clean code and intuitive design.",
     images: [
       {
-        url: "https://codewithnabi.dev/assets/images/myimage.JPG",
+        url: "https://codewithnabi.dev/assets/branding/profile.jpg",
         width: 1200,
         height: 630,
         alt: "Muhammad Nabi Rahmani - Flutter Developer",
       },
       {
-        url: "https://codewithnabi.dev/assets/logo/Youtub-logo.png",
+        url: "https://codewithnabi.dev/assets/branding/youtube-logo.png",
         width: 512,
         height: 512,
         alt: "codewithnabi logo",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     creator: "@nabirahmani_dev",
     title: "Muhammad Nabi Rahmani - Flutter Developer",
     description: "Flutter Developer crafting beautiful mobile experiences with clean code and intuitive design.",
-    images: ["https://codewithnabi.dev/assets/images/myimage.JPG"],
+    images: ["https://codewithnabi.dev/assets/branding/profile.jpg"],
   },
   alternates: {
     canonical: "https://codewithnabi.dev",
@@ -62,18 +62,18 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/assets/logo/Youtub-logo.png' },
-      { url: '/assets/logo/Youtub-logo.png', sizes: '16x16', type: 'image/png' },
-      { url: '/assets/logo/Youtub-logo.png', sizes: '32x32', type: 'image/png' },
+      { url: '/assets/branding/youtube-logo.png' },
+      { url: '/assets/branding/youtube-logo.png', sizes: '16x16', type: 'image/png' },
+      { url: '/assets/branding/youtube-logo.png', sizes: '32x32', type: 'image/png' },
     ],
     apple: [
-      { url: '/assets/logo/Youtub-logo.png' },
-      { url: '/assets/logo/Youtub-logo.png', sizes: '180x180', type: 'image/png' },
+      { url: '/assets/branding/youtube-logo.png' },
+      { url: '/assets/branding/youtube-logo.png', sizes: '180x180', type: 'image/png' },
     ],
     other: [
       {
         rel: 'apple-touch-icon-precomposed',
-        url: '/assets/logo/Youtub-logo.png',
+        url: '/assets/branding/youtube-logo.png',
       },
     ],
   },
@@ -85,8 +85,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="en" className={`dark ${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light'){document.documentElement.classList.remove('dark')}}catch(e){}})()`,
+          }}
+        />
         <StructuredData />
       </head>
       <body

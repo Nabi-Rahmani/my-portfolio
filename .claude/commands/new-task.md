@@ -1,200 +1,67 @@
 ---
-description: Analyze task complexity and create Flutter implementation plan
+description: Analyze task complexity and create Next.js implementation plan
 model: claude-sonnet-4-5
 ---
 
-# Analyze Task and Create Implementation Plan
+Analyze the following task and create a structured implementation plan for this Next.js 15 / React 19 / TypeScript project.
 
-Analyze the following task and create a clear, actionable implementation plan following CodeWithNabi Feature-First Clean Architecture.
+## Task: $ARGUMENTS
 
-## Task
-
-$ARGUMENTS
-
-## Analysis Framework
+## Analysis Steps
 
 ### 1. Task Classification
-
-**Type**
-- [ ] New Feature - Complete new functionality
-- [ ] Enhancement - Improve existing feature
-- [ ] Bug Fix - Fix broken functionality
-- [ ] Refactor - Improve code quality
-- [ ] Infrastructure - Setup, config, DevOps
-
-**Complexity**
-- **Small**: 1-2 hours (UI tweak, simple fix)
-- **Medium**: Half day (new widget, service method)
-- **Large**: 1-2 days (new feature with all layers)
-- **Very Large**: 3+ days (complex feature, major refactor)
+- **Type**: Feature / Bug Fix / Refactor / Content / Performance / SEO
+- **Complexity**: Simple (1-2 files) / Medium (3-5 files) / Complex (6+ files)
+- **Affected areas**: app/ | components/ | data/ | types/ | hooks/ | globals.css
 
 ### 2. Architecture Impact
+Identify which parts of the project are affected:
+- [ ] Types (`src/types/`) — new or modified interfaces
+- [ ] Data (`src/data/`) — new content arrays or helper functions
+- [ ] Pages (`src/app/`) — new routes or modified pages
+- [ ] Components (`src/components/`) — new or modified shared components
+- [ ] Hooks (`src/hooks/`) — new or modified custom hooks
+- [ ] Styles (`globals.css`) — new CSS custom properties or global styles
+- [ ] Config — `next.config.ts`, `tailwind.config.ts`, `sitemap.ts`, `robots.ts`
 
-Determine which layers need changes:
+### 3. Server vs Client Decision
+For each new file, determine:
+- Server Component (default) — metadata, data fetching, static rendering
+- Client Component (`'use client'`) — state, effects, events, Framer Motion, browser APIs
 
-```
-lib/src/
-├── core/              # Shared utilities, theme, errors
-├── routing/           # Navigation (go_router)
-└── feature/<name>/
-    ├── domain/        # Entities, abstract repos
-    ├── data/          # Data sources, repos, mappers
-    ├── application/   # Services, providers
-    └── presentation/  # Controllers, screens, widgets
-```
+### 4. Implementation Plan
 
-**Questions to answer:**
-- New feature or modifying existing?
-- Which layers are affected?
-- New database tables needed?
-- RLS policies required?
-- New packages needed?
+Output a phased plan:
 
-### 3. Dependency Analysis
+**Phase 1: Types & Data**
+- New interfaces in `src/types/`
+- New data arrays and helpers in `src/data/`
 
-```
-Domain ← Data ← Application ← Presentation
-(innermost)                    (outermost)
-```
+**Phase 2: Components**
+- New shared components in `src/components/`
+- Server/client split decisions
 
-- Domain: Pure Dart, no dependencies
-- Data: Depends on Domain
-- Application: Depends on Domain + Data
-- Presentation: Depends on Application
+**Phase 3: Pages & Routes**
+- New pages in `src/app/`
+- `generateMetadata()` and `generateStaticParams()` for dynamic routes
+- Client companion components (`*Client.tsx`)
 
-### 4. Risk Assessment
+**Phase 4: Styling & Polish**
+- Tailwind classes using CSS custom properties
+- Framer Motion animations (spring transitions, whileInView)
+- Responsive design (mobile-first, `md:` breakpoints)
 
-**Technical Risks**
-- Unknown API behavior
-- Complex state management
-- Performance concerns
-- Third-party package issues
+**Phase 5: Validation**
+- `npm run build` — type-check and build
+- `npm run lint` — ESLint check
+- Manual browser check (desktop + mobile, dark + light theme)
+- SEO: metadata, sitemap entry, structured data
 
-**Data Risks**
-- Database migrations
-- Data loss potential
-- Offline sync conflicts
+### 5. Risk Assessment
+- Breaking changes to existing pages?
+- New dependencies needed?
+- Mobile layout considerations?
+- SEO impact?
 
-**Integration Risks**
-- External services (Supabase, etc.)
-- Package compatibility
-
-## Output Format
-
-### Task Summary
-- **Type**: [Feature / Enhancement / Bug Fix / Refactor / Infrastructure]
-- **Complexity**: [Small / Medium / Large / Very Large]
-- **Affected Layers**: [Domain / Data / Application / Presentation]
-- **Priority**: [High / Medium / Low]
-
-### Requirements
-1. User story or requirement 1
-2. User story or requirement 2
-3. ...
-
-### Implementation Plan
-
-**Phase 1: Setup** (X hours)
-- [ ] Review existing code
-- [ ] Plan database changes
-- [ ] Add dependencies to pubspec.yaml
-
-**Phase 2: Domain Layer** (X hours)
-- [ ] Create entity class
-- [ ] Define abstract repository
-
-**Phase 3: Data Layer** (X hours)
-- [ ] Create Supabase table + RLS
-- [ ] Create Drift table
-- [ ] Implement local data source
-- [ ] Implement remote data source
-- [ ] Create mapper
-- [ ] Implement repository
-
-**Phase 4: Application Layer** (X hours)
-- [ ] Create service with business logic
-- [ ] Add validation
-- [ ] Wire Riverpod providers
-
-**Phase 5: Presentation Layer** (X hours)
-- [ ] Create controller (AsyncNotifier)
-- [ ] Create screens
-- [ ] Create widgets
-- [ ] Add routes
-
-**Phase 6: Testing** (X hours)
-- [ ] Service unit tests
-- [ ] Widget tests
-- [ ] Integration tests
-
-### Files to Create/Modify
-
-**New Files**
-```
-lib/src/feature/<name>/domain/<entity>.dart
-lib/src/feature/<name>/domain/<entity>_repository.dart
-lib/src/feature/<name>/data/local/<entity>_table.dart
-lib/src/feature/<name>/data/local/drift_<entity>_data_source.dart
-lib/src/feature/<name>/data/remote/supabase_<entity>_data_source.dart
-lib/src/feature/<name>/data/<entity>_mapper.dart
-lib/src/feature/<name>/data/<entity>_repository_impl.dart
-lib/src/feature/<name>/application/<entity>_service.dart
-lib/src/feature/<name>/application/<entity>_providers.dart
-lib/src/feature/<name>/presentation/<entity>_controller.dart
-lib/src/feature/<name>/presentation/screens/<entity>_screen.dart
-```
-
-**Modified Files**
-```
-lib/src/core/database/app_database.dart (add new table)
-lib/src/routing/app_router.dart (add routes)
-```
-
-### Dependencies
-
-**Packages** (if needed)
-```yaml
-dependencies:
-  new_package: ^x.x.x
-```
-
-**Database Changes**
-```sql
--- Supabase migration
-CREATE TABLE <table_name> (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  -- columns
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-ALTER TABLE <table_name> ENABLE ROW LEVEL SECURITY;
-```
-
-### Potential Issues
-
-1. **Issue**: Description
-   **Mitigation**: How to handle it
-
-2. **Issue**: Description
-   **Mitigation**: How to handle it
-
-### Success Criteria
-
-- [ ] Feature works as specified
-- [ ] All AsyncValue states handled (loading, error, data)
-- [ ] Works offline (if applicable)
-- [ ] Tests pass
-- [ ] No analyzer warnings
-- [ ] Code follows architecture patterns
-
-### Next Steps
-
-1. Start with Phase 1
-2. Run `flutter pub run build_runner build` after adding Drift tables
-3. Test each layer before moving to next
-4. Commit after each phase
-
----
-
-Provide a clear, actionable plan that follows CodeWithNabi architecture patterns.
+### 6. Files to Create/Modify
+List every file with its purpose and whether it's new or modified.

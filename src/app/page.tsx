@@ -55,7 +55,7 @@ export default function Home() {
   const allProjects = getAllProjects();
 
   return (
-    <div className="bg-[var(--bg-primary)] text-[var(--text-primary)] min-h-screen pb-20 md:pb-0">
+    <div className="bg-[var(--bg-primary)] text-[var(--text-primary)] min-h-screen">
       {/* Hero */}
       <section id="home" className="hero-grid">
         <div className="relative z-10 flex flex-col items-center justify-center min-h-[80vh] px-6 pt-16">
@@ -123,7 +123,7 @@ export default function Home() {
 
       {/* Projects */}
       <section id="projects" className="py-24 md:py-32 px-6">
-        <div className="max-w-[800px] mx-auto">
+        <div className="max-w-[1000px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -139,33 +139,34 @@ export default function Home() {
             </h2>
           </motion.div>
 
-          <div className="flex flex-col gap-10">
-            {allProjects.map((project) => (
+          <div className="flex flex-col gap-14">
+            {allProjects.map((project, i) => (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-100px' }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="rounded-3xl border border-[var(--border-color)] overflow-hidden bg-[var(--bg-secondary)]"
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ type: 'spring', stiffness: 120, damping: 18, delay: i * 0.1 }}
+                className="group rounded-3xl overflow-hidden bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-shadow duration-500"
               >
                 <Link href={`/projects/${project.slug}`} className="no-underline block">
-                  <div className="relative aspect-[16/10] overflow-hidden">
+                  <div className="relative aspect-[16/9] overflow-hidden">
                     <Image
                       src={project.coverImage}
                       alt={`${project.title} - ${project.subtitle}`}
                       fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 800px"
+                      className="object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+                      sizes="(max-width: 768px) 100vw, 1000px"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                   </div>
                 </Link>
-                <div className="p-6 md:p-8">
+                <div className="p-7 md:p-10">
                   <Link href={`/projects/${project.slug}`} className="no-underline block">
-                    <h3 className="text-[1.5rem] md:text-[1.75rem] font-bold text-[var(--text-primary)] mb-3 tracking-tight">
+                    <h3 className="text-[1.75rem] md:text-[2.25rem] font-bold text-[var(--text-primary)] mb-3 tracking-tight group-hover:text-[var(--accent)] transition-colors duration-300">
                       {project.title}
                     </h3>
-                    <p className="text-[0.9375rem] text-[var(--text-secondary)] mb-5 leading-relaxed">
+                    <p className="text-[1rem] md:text-[1.0625rem] text-[var(--text-secondary)] mb-6 leading-relaxed">
                       {project.subtitle}
                     </p>
                   </Link>
@@ -220,76 +221,160 @@ export default function Home() {
 
       {/* Blog */}
       <section id="blog" className="py-24 md:py-32 px-6">
-        <div className="max-w-[1100px] mx-auto">
+        <div className="max-w-[1000px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.5 }}
-            className="flex items-end justify-between mb-16"
+            className="mb-16"
           >
-            <div>
-              <p className="text-[0.8125rem] font-medium text-[var(--accent)] uppercase tracking-widest mb-3">
-                Writing
-              </p>
-              <h2 className="text-[2rem] md:text-[2.75rem] font-bold text-[var(--text-primary)] tracking-tight">
-                Latest Articles
-              </h2>
-            </div>
-            <Link href="/blog" className="text-[0.875rem] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors no-underline hidden md:inline-flex items-center gap-1">
-              View all
-              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </Link>
+            <p className="text-[0.8125rem] font-medium text-[var(--accent)] uppercase tracking-widest mb-3">
+              Writing
+            </p>
+            <h2 className="text-[2rem] md:text-[2.75rem] font-bold text-[var(--text-primary)] tracking-tight">
+              Latest Articles
+            </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {featuredPosts.map((post, i) => (
+          {/* 1 big + 2 grid pattern */}
+          <div className="flex flex-col gap-10">
+            {/* Big card — first post */}
+            {featuredPosts[0] && (
               <motion.div
-                key={post.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ type: 'spring', stiffness: 120, damping: 18 }}
+                className="group rounded-3xl overflow-hidden border border-[var(--border-color)] shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-shadow duration-500"
               >
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="group no-underline flex flex-col h-full bg-[var(--bg-secondary)] rounded-2xl border border-[var(--border-color)] overflow-hidden hover:border-[var(--accent)]/30 transition-all duration-300"
-                >
-                  <div className="h-[180px] overflow-hidden">
+                <Link href={`/blog/${featuredPosts[0].slug}`} className="no-underline block">
+                  <div className="relative aspect-[16/9] overflow-hidden">
                     <Image
-                      src={post.coverImage}
-                      alt={post.title}
-                      width={600}
-                      height={400}
-                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      src={featuredPosts[0].coverImage}
+                      alt={featuredPosts[0].title}
+                      fill
+                      className="object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+                      sizes="(max-width: 768px) 100vw, 1000px"
                     />
-                  </div>
-                  <div className="p-5 flex flex-col flex-1">
-                    <div className="flex items-center gap-3 mb-3">
-                      <span className="px-2.5 py-0.5 rounded-full bg-[var(--accent-muted)] text-[var(--accent)] text-[0.6875rem] font-medium">
-                        {post.category}
-                      </span>
-                      <span className="text-[0.75rem] text-[var(--text-secondary)]">{post.readingTime} min</span>
-                    </div>
-                    <h3 className="text-[1rem] font-semibold text-[var(--text-primary)] mb-2 leading-snug group-hover:text-[var(--accent)] transition-colors duration-200">
-                      {post.title}
-                    </h3>
-                    <p className="text-[0.8125rem] text-[var(--text-secondary)] leading-relaxed flex-1">
-                      {post.excerpt.slice(0, 100)}...
-                    </p>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                   </div>
                 </Link>
+                <div className="p-7 md:p-10">
+                  <Link href={`/blog/${featuredPosts[0].slug}`} className="no-underline block">
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="px-2.5 py-1 rounded-full bg-[var(--accent-muted)] text-[var(--accent)] text-[0.75rem] font-medium">
+                        {featuredPosts[0].category}
+                      </span>
+                      <span className="text-[0.8125rem] text-[var(--text-secondary)]">
+                        {featuredPosts[0].readingTime} min read
+                      </span>
+                    </div>
+                    <h3 className="text-[1.75rem] md:text-[2.25rem] font-bold text-[var(--text-primary)] mb-3 tracking-tight group-hover:text-[var(--accent)] transition-colors duration-300">
+                      {featuredPosts[0].title}
+                    </h3>
+                    <p className="text-[1rem] md:text-[1.0625rem] text-[var(--text-secondary)] mb-6 leading-relaxed">
+                      {featuredPosts[0].excerpt}
+                    </p>
+                  </Link>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {featuredPosts[0].tags.slice(0, 4).map((tag) => (
+                      <span key={tag} className="px-3 py-1.5 bg-[var(--accent-muted)] text-[var(--text-secondary)] rounded-lg text-[0.8125rem]">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <Image
+                      src={featuredPosts[0].author.avatar}
+                      alt={featuredPosts[0].author.name}
+                      width={32}
+                      height={32}
+                      className="rounded-full object-cover"
+                    />
+                    <span className="text-[0.875rem] text-[var(--text-secondary)]">
+                      {featuredPosts[0].author.name}
+                    </span>
+                  </div>
+                </div>
               </motion.div>
-            ))}
+            )}
+
+            {/* 2-column grid — next 2 posts */}
+            {featuredPosts.length > 1 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {featuredPosts.slice(1, 3).map((post, i) => (
+                  <motion.div
+                    key={post.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-60px' }}
+                    transition={{ type: 'spring', stiffness: 120, damping: 18, delay: i * 0.08 }}
+                    className="group rounded-3xl overflow-hidden border border-[var(--border-color)] shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-shadow duration-500 h-full"
+                  >
+                    <Link href={`/blog/${post.slug}`} className="no-underline block h-full flex flex-col">
+                      <div className="relative aspect-[16/10] overflow-hidden">
+                        <Image
+                          src={post.coverImage}
+                          alt={post.title}
+                          fill
+                          className="object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+                          sizes="(max-width: 768px) 100vw, 500px"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                      </div>
+                      <div className="p-6 md:p-7 flex flex-col flex-1">
+                        <div className="flex items-center gap-2.5 mb-3">
+                          <span className="px-2.5 py-0.5 rounded-full bg-[var(--accent-muted)] text-[var(--accent)] text-[0.6875rem] font-medium">
+                            {post.category}
+                          </span>
+                          <span className="text-[0.75rem] text-[var(--text-secondary)]">
+                            {post.readingTime} min
+                          </span>
+                        </div>
+                        <h3 className="text-[1.25rem] md:text-[1.5rem] font-bold text-[var(--text-primary)] mb-2.5 tracking-tight leading-snug group-hover:text-[var(--accent)] transition-colors duration-300">
+                          {post.title}
+                        </h3>
+                        <p className="text-[0.9375rem] text-[var(--text-secondary)] leading-relaxed mb-5 flex-1 line-clamp-2">
+                          {post.excerpt}
+                        </p>
+                        <div className="flex items-center justify-between pt-4 border-t border-[var(--border-color)]">
+                          <div className="flex items-center gap-2.5">
+                            <Image
+                              src={post.author.avatar}
+                              alt={post.author.name}
+                              width={28}
+                              height={28}
+                              className="rounded-full object-cover"
+                            />
+                            <span className="text-[0.8125rem] text-[var(--text-secondary)]">
+                              {post.author.name}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+            )}
           </div>
 
-          <div className="mt-8 text-center md:hidden">
-            <Link href="/blog" className="text-[0.875rem] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors no-underline inline-flex items-center gap-1">
-              View all posts
-              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mt-14 text-center"
+          >
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-2 px-7 py-3.5 border border-[var(--border-color)] text-[var(--text-primary)] rounded-full text-[0.9375rem] font-medium no-underline hover:border-[var(--text-secondary)] transition-all duration-200"
+            >
+              View all articles
+              <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
 
