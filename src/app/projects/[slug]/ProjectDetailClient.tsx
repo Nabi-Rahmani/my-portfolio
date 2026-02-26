@@ -98,18 +98,18 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                         <Image
                                             src={project.iconLight}
                                             alt={`${project.title} icon`}
-                                            width={80}
-                                            height={80}
-                                            className="rounded-2xl shadow-lg dark:hidden w-16 h-16 md:w-20 md:h-20"
+                                            width={112}
+                                            height={112}
+                                            className="rounded-2xl shadow-lg dark:hidden w-20 h-20 md:w-28 md:h-28"
                                         />
                                     )}
                                     {project.iconDark && (
                                         <Image
                                             src={project.iconDark}
                                             alt={`${project.title} icon`}
-                                            width={80}
-                                            height={80}
-                                            className="rounded-2xl shadow-lg hidden dark:block w-16 h-16 md:w-20 md:h-20"
+                                            width={112}
+                                            height={112}
+                                            className="rounded-2xl shadow-lg hidden dark:block w-20 h-20 md:w-28 md:h-28"
                                         />
                                     )}
                                 </motion.div>
@@ -512,10 +512,10 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                 transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                             >
                                 {project.iconLight && (
-                                    <Image src={project.iconLight} alt={`${project.title} icon`} width={64} height={64} className="rounded-2xl shadow-lg dark:hidden" />
+                                    <Image src={project.iconLight} alt={`${project.title} icon`} width={80} height={80} className="rounded-2xl shadow-lg dark:hidden w-16 h-16 md:w-20 md:h-20" />
                                 )}
                                 {project.iconDark && (
-                                    <Image src={project.iconDark} alt={`${project.title} icon`} width={64} height={64} className="rounded-2xl shadow-lg hidden dark:block" />
+                                    <Image src={project.iconDark} alt={`${project.title} icon`} width={80} height={80} className="rounded-2xl shadow-lg hidden dark:block w-16 h-16 md:w-20 md:h-20" />
                                 )}
                             </motion.div>
                         )}
