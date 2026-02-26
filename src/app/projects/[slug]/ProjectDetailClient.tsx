@@ -421,6 +421,79 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
             </section>
 
             {/* ════════════════════════════════════════════ */}
+            {/* RATE & REVIEW CTA                            */}
+            {/* ════════════════════════════════════════════ */}
+            {project.links.playStore && project.links.playStore !== '#' && (
+                <section className="px-6 py-16 md:py-24">
+                    <motion.div
+                        className="max-w-[640px] mx-auto text-center"
+                        initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-60px' }}
+                        transition={{ type: 'spring', stiffness: 120, damping: 16 }}
+                    >
+                        {/* Stars animation */}
+                        <div className="flex justify-center gap-1.5 mb-6">
+                            {[0, 1, 2, 3, 4].map((i) => (
+                                <motion.svg
+                                    key={i}
+                                    width="32"
+                                    height="32"
+                                    viewBox="0 0 24 24"
+                                    fill="var(--accent)"
+                                    className="drop-shadow-sm"
+                                    initial={{ opacity: 0, scale: 0, rotate: -30 }}
+                                    whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ type: 'spring', stiffness: 300, damping: 14, delay: 0.1 + i * 0.08 }}
+                                >
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                </motion.svg>
+                            ))}
+                        </div>
+
+                        <motion.h2
+                            className="text-[1.5rem] md:text-[2rem] font-bold tracking-tight mb-3"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ type: 'spring', stiffness: 120, damping: 16, delay: 0.2 }}
+                        >
+                            Enjoying {project.title}?
+                        </motion.h2>
+
+                        <motion.p
+                            className="text-[0.9375rem] md:text-[1rem] text-[var(--text-secondary)] leading-relaxed mb-8 max-w-[480px] mx-auto"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ type: 'spring', stiffness: 120, damping: 16, delay: 0.3 }}
+                        >
+                            Your feedback helps other developers discover this app and helps me improve it. Leave a rating or review on the Play Store — it takes less than a minute.
+                        </motion.p>
+
+                        <motion.a
+                            href={project.links.playStore}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2.5 px-7 py-3.5 border-2 border-[var(--accent)] text-[var(--accent)] rounded-full text-[0.9375rem] font-semibold no-underline hover:bg-[var(--accent)] hover:text-white transition-colors duration-300"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ type: 'spring', stiffness: 120, damping: 16, delay: 0.4 }}
+                            whileHover={{ scale: 1.06, y: -2 }}
+                            whileTap={{ scale: 0.95 }}
+                        >
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                            Rate on Play Store
+                        </motion.a>
+                    </motion.div>
+                </section>
+            )}
+
+            {/* ════════════════════════════════════════════ */}
             {/* FINAL CTA                                    */}
             {/* ════════════════════════════════════════════ */}
             <section className="px-6 py-20 md:py-28">
