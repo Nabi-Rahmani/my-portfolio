@@ -13,7 +13,7 @@ const module1: Module = {
   lessons: [
     {
       id: 'lesson-1-1',
-      slug: '01-intro',
+      slug: 'm01-01-intro',
       title: 'Welcome to Flutter in Production!',
       description: 'Course introduction and what you will learn.',
       order: 1,
@@ -21,9 +21,9 @@ const module1: Module = {
       type: 'text',
       isFree: true,
       content: {
-        markdown: `## Welcome to Flutter in Production!
+        markdown: `## Welcome to Flutter in Production! 🎉
 
-Hey, I'm Andrea, your instructor for this course!
+Hey, I'm Nabi, your instructor for this course!
 
 I created this course because **shipping mobile apps is hard**, and there are many things to consider:
 
@@ -105,44 +105,37 @@ I'm excited to help you take your Flutter apps to production! Let's get started!
     },
     {
       id: 'lesson-1-2',
-      slug: '02-join-discord',
-      title: 'Join Code With Andrea on Discord',
+      slug: 'm01-02-join-discord',
+      title: 'Join codewithnabi on Discord',
       description: 'How to join the community Discord server for support and discussion.',
       order: 2,
       duration: 3,
       type: 'text',
       isFree: true,
       content: {
-        markdown: `## Join the Community on Discord
+        markdown: `## Join codewithnabi on Discord
 
-One of the best ways to get the most out of this course is to join our Discord community.
+By joining this course, you're taking a big step toward becoming a better Flutter developer — congrats!
 
-### Why Join?
+And here's something important: **You're not doing this alone.** You have access to a thriving community of developers on the codewithnabi Discord. This is your space to:
 
-- **Ask questions** about the course content and get answers from me and other students
-- **Share your progress** and celebrate milestones with fellow developers
-- **Get help** with bugs and issues you encounter while following along
-- **Network** with other Flutter developers who are serious about shipping apps
+- Ask questions
+- Share your progress
+- Get help directly from me and other developers
 
-### How to Join
+Once you're in, here's what to do next:
 
-1. Visit the Discord invite link provided in your course dashboard
-2. Accept the invite and introduce yourself in the **#introductions** channel
-3. Browse the course-specific channels to find discussions relevant to the module you're working on
+1. **Introduce Yourself**: Head to the **#introductions** channel. Tell us a bit about yourself — where you're from, why you chose this course, and what you're excited to learn!
+2. **Join the Course Discussion**: Jump into the **#flutter-in-production** channel. This is where you can ask questions about the course, share your progress, and get support from me and others.
 
-### Community Guidelines
+I can't wait to see you inside and help you on your Flutter journey!
 
-- Be respectful and helpful to other students
-- Search before asking — your question may already be answered
-- Share code snippets using code blocks for readability
-- Don't share paid course content publicly
-
-I look forward to seeing you there!`,
+See you on Discord!`,
       },
     },
     {
       id: 'lesson-1-3',
-      slug: '03-flutter-app-preview',
+      slug: 'm01-03-flutter-app-preview',
       title: 'Intro to the Flutter App Release Checklist',
       description: 'Overview of the Flutter app release checklist that guides this course.',
       order: 3,
@@ -152,39 +145,33 @@ I look forward to seeing you there!`,
       content: {
         markdown: `## Intro to the Flutter App Release Checklist
 
-Before you release your Flutter app, there are many steps to complete. To help you stay organized, I've created a comprehensive **Flutter App Release Checklist**.
+In this course, you'll find many techniques and step-by-step guides for getting your apps ready for release. However, just reading the guides and watching the videos won't be enough.
 
-### The Release Checklist
+If you really want to learn, you need to get your hands dirty and practice.
 
-This checklist covers everything from initial setup to post-release monitoring:
+To help with that, I've created a companion app called **"Flutter Ship"** that you can use as a release checklist.
 
-| Phase | Steps |
-|-------|-------|
-| **Pre-Release** | App icons, splash screens, flavors, environments |
-| **Integration** | Error monitoring, analytics, force update |
-| **Legal** | Privacy policy, terms of use |
-| **Submission** | Store metadata, screenshots, compliance |
-| **Automation** | CI/CD workflows, code signing |
-| **Post-Release** | Monitoring, bug fixes, OTA updates |
+This is not just a demo you can play with. Rather, I'll share the full source code so you can actively work on this app and apply all the techniques covered in the course.
 
-### Why a Checklist?
+### Bonus: Notion App Release Checklist
 
-Shipping an app involves dozens of small steps, and it's easy to forget one. A checklist ensures:
+For your convenience, I've also published my Flutter app release checklist as a Notion page:
 
-- You don't skip critical steps (like error monitoring)
-- You follow a consistent process every time
-- You can track your progress as you work through each module
+- [Flutter App Release Checklist (Notion)](https://www.notion.so/)
 
-### How This Course Maps to the Checklist
+Feel free to reuse it in your own projects.
 
-Each module in this course corresponds to one or more items on the checklist. As you complete each module, you'll check off the corresponding items.
+### Learning to Walk Before You Can Run
 
-By the end of the course, your entire checklist will be complete — and your app will be ready for production!`,
+While you could follow along with your own app, I recommend starting with Flutter Ship. Here's why:
+
+- **Focus on learning**: Using my reference app lets you focus on understanding the course material, without hitting too many brick walls with your project.
+- **Consolidate later**: Once you've mastered the techniques, you can return to your own projects and apply what you've learned.`,
       },
     },
     {
       id: 'lesson-1-4',
-      slug: '04-starter-project',
+      slug: 'm01-04-starter-project',
       title: 'Intro to the Starter Project',
       description: 'Introduction to the starter project used throughout the course.',
       order: 4,
@@ -194,63 +181,53 @@ By the end of the course, your entire checklist will be complete — and your ap
       content: {
         markdown: `## Intro to the Starter Project
 
-Throughout this course, we'll work with a real Flutter app — the **Flutter Ship App** — to demonstrate all the concepts and techniques.
-
-### What is the Flutter Ship App?
-
-Flutter Ship is a task management app that includes:
-
-- **Authentication** (email/password + social login)
-- **Cloud Firestore** for data storage
-- **Riverpod** for state management
-- **GoRouter** for navigation
-- **Responsive design** for different screen sizes
-
-### Why a Real App?
-
-Using a real app (instead of trivial examples) means you'll learn how to apply production techniques in a realistic context. The app has:
-
-- Multiple screens and navigation flows
-- Network requests and error handling
-- Local storage and caching
-- Platform-specific code
-
-### Getting the Starter Project
-
-1. Clone the repository from GitHub
-2. Follow the setup instructions in the README
-3. Run the app to verify everything works
+To get started, please grab the source code for the Flutter Ship app from GitHub and switch to the \`m01-starter\` branch:
 
 \`\`\`bash
-git clone https://github.com/bizz84/flutter_ship_app.git
+git clone https://github.com/bizz84/flutter_ship_app
 cd flutter_ship_app
+git switch m01-starter
+# Open in VSCode
+code .
+\`\`\`
+
+Then, open it in your favorite editor (I'll be using VSCode in this course).
+
+### Running the Project
+
+From VSCode, open a terminal and run \`flutter pub get\` to install all the required packages:
+
+\`\`\`bash
 flutter pub get
-flutter run
 \`\`\`
 
-### Project Structure
+Then, you can run the app on iOS, Android, or web.
 
-The project follows a feature-first architecture:
+This course will focus on shipping mobile apps, so I recommend using the iOS Simulator or the Android Emulator during development (or, if you prefer, you can run the app on a physical device).
 
-\`\`\`
-lib/
-  src/
-    features/
-      authentication/
-      tasks/
-      settings/
-    common_widgets/
-    routing/
-    utils/
-  main.dart
-\`\`\`
+### Troubleshooting
 
-In the next lesson, we'll walk through the code in detail.`,
+The starter project has been updated to Flutter 3.35 and I verified it works on iOS, Android, and web.
+
+If you have trouble running it, I recommend the following:
+
+- Check the module about **Common Problems and Solutions**.
+- Ask a question on the course Discord, including your error log and the \`flutter doctor -v\` output.
+
+### Where to Find All the Source Code
+
+The official source code for this course can be found on GitHub at:
+
+[https://github.com/bizz84/flutter_ship_app/](https://github.com/bizz84/flutter_ship_app/)
+
+On certain lessons, I'll ask you to checkout a specific branch, so you can easily switch to the latest code. Branches are named based on the module number. You'll find instructions about which branch to use inside each module.
+
+Time to move to the next lesson, where I'll give you a code walkthrough.`,
       },
     },
     {
       id: 'lesson-1-5',
-      slug: '05-code-walkthrough',
+      slug: 'm01-05-code-walkthrough',
       title: 'Starter Project: Code Walkthrough',
       description: 'Detailed walkthrough of the starter project code.',
       order: 5,
@@ -260,90 +237,83 @@ In the next lesson, we'll walk through the code in detail.`,
       content: {
         markdown: `## Starter Project: Code Walkthrough
 
-Let's walk through the Flutter Ship app code to understand the architecture and key patterns used throughout the course.
+This lesson is an introduction to the project we will use in the rest of the course.
 
-### Entry Point
+> **Note:** In the coming modules, we will introduce features (such as launcher icons, analytics, error monitoring, etc.) that are self-contained and don't affect the existing app functionality. This means you don't need to fully understand the codebase before moving forward. Nevertheless, familiarity with the project structure and app architecture will be handy as you make progress.
 
-The app starts in \`main.dart\`:
+### How the App Works
 
-\`\`\`dart
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const ProviderScope(child: MyApp()));
-}
+Here's how it works:
+
+1. When the app first starts, it fetches a JSON template from a Gist that contains all the tasks in the release checklist, and stores them in a local database using **Drift & SQLite**.
+2. Once you create a new app and navigate to the details screen, you'll see a checklist with all the tasks that are stored in the DB.
+3. Then, you can mark individual tasks as completed, just as you would do in a regular TODO app, and the completion status gets updated in the DB.
+
+### Packages in Use
+
+If you open the \`pubspec.yaml\` file, you'll see these key packages:
+
+\`\`\`yaml
+dependencies:
+  # Drift and friends
+  drift: 2.29.0
+  drift_dev: 2.29.0
+  path_provider: 2.1.5
+  sqlite3_flutter_libs: 0.5.40
+  sqlite3: 2.9.4
+  # Other packages
+  flex_color_scheme: 8.3.1
+  flutter_riverpod: 3.0.3
+  riverpod_annotation: 3.0.3
+  shared_preferences: 2.5.3
+  auto_size_text: 3.0.0
+  package_info_plus: 9.0.0
+  dio: 5.9.0
 \`\`\`
 
-Key things to note:
-- Firebase is initialized before the app starts
-- \`ProviderScope\` wraps the entire app for Riverpod state management
+The most important ones are:
 
-### Architecture Overview
+- **Drift**: Local data storage is an essential requirement for this app, accomplished with the Drift & SQLite packages
+- **Riverpod**: Used for dependency injection, data caching, and reactive UI rebuilds
 
-The app uses a **feature-first** architecture:
+Both Drift and Riverpod use code generation with the underlying \`build_runner\` package. The starter project already contains all the generated files, so you're good to go.
 
-| Layer | Purpose | Example |
-|-------|---------|---------|
-| **Presentation** | UI widgets and controllers | \`TaskListScreen\`, \`TaskListController\` |
-| **Application** | Business logic services | \`TaskService\` |
-| **Data** | Repositories and data sources | \`TaskRepository\`, \`FirestoreTaskDataSource\` |
-| **Domain** | Models and interfaces | \`Task\`, \`TaskRepository\` (abstract) |
+### Project Structure and App Architecture
 
-### State Management with Riverpod
+The app uses a simple **layer-first** structure with three main layers: **data**, **domain**, and **presentation**.
 
-All state is managed through Riverpod providers:
+### Data Tables and Their Relationships
 
-\`\`\`dart
-@riverpod
-class TaskListController extends _$TaskListController {
-  @override
-  FutureOr<List<Task>> build() {
-    return ref.watch(taskRepositoryProvider).fetchTasks();
-  }
+There are four tables in total:
 
-  Future<void> addTask(Task task) async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(
-      () => ref.read(taskRepositoryProvider).addTask(task),
-    );
-  }
-}
-\`\`\`
+| Table | Description |
+|-------|-------------|
+| **Task** and **Epic** | Represent the JSON template data loaded from a Gist. Synced with the DB on startup. |
+| **App** | Contains all the apps created by the user. |
+| **TaskStatus** | Contains all the tasks completed by the user (toggling checkboxes). |
 
-### Navigation with GoRouter
+### Other Project Folders
 
-Navigation is handled by GoRouter with type-safe routes:
+In addition to the data, domain, and presentation layers, you'll find:
 
-\`\`\`dart
-final goRouterProvider = Provider<GoRouter>((ref) {
-  return GoRouter(
-    routes: [
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const TaskListScreen(),
-      ),
-      GoRoute(
-        path: '/task/:id',
-        builder: (context, state) {
-          final taskId = state.pathParameters['id']!;
-          return TaskDetailScreen(taskId: taskId);
-        },
-      ),
-    ],
-  );
-});
-\`\`\`
+- **App startup logic**: stored inside \`lib/src/app_startup.dart\` — contains logic for syncing the remote JSON template with the local DB, and retrying in case of errors.
+- **Theming**: \`app_theme_data.dart\` and \`app_theme_mode.dart\` define all theming logic, based on the \`flex_color_scheme\` package.
+- **Navigation**: Uses Navigator 1.0 APIs with named routes (no deep linking or URL-based navigation).
+- **Assets**: Contains the app icons that we will use to generate launcher icons in Module 2.
 
-### Next Steps
+### Additional Resources
 
-Now that you understand the codebase, we're ready to start preparing it for production. In the next module, we'll tackle **launcher icons and splash screens**.`,
+- [Drift package documentation](https://drift.simonbinder.eu/)
+- [Riverpod.dev](https://riverpod.dev/)
+- [flex_color_scheme package](https://pub.dev/packages/flex_color_scheme)
+- [dio package](https://pub.dev/packages/dio)
+- [Flutter App Architecture with Riverpod: An Introduction](https://codewithnabi.dev/blog)
+- [Flutter Project Structure: Feature-first or Layer-first?](https://codewithnabi.dev/blog)`,
       },
     },
     {
       id: 'lesson-1-6',
-      slug: '06-wrap-up',
+      slug: 'm01-06-wrap-up',
       title: 'Wrap Up',
       description: 'Summary of Module 1 and what comes next.',
       order: 6,
@@ -351,33 +321,28 @@ Now that you understand the codebase, we're ready to start preparing it for prod
       type: 'text',
       isFree: true,
       content: {
-        markdown: `## Module 1: Wrap Up
+        markdown: `## Wrap Up
 
-Congratulations on completing the course introduction!
+We've now completed the course introduction, and I hope you're excited to dive in and learn how to prepare your app for release:
 
-### What You've Learned
+- Launcher Icons and Splash Screens
+- Multiple Flavors
+- Error Monitoring
+- Analytics
+- Force Update
+- User feedback and in-app reviews
+- Creating a landing page for your app
 
-- The **scope** of this course and what topics are covered
-- The **three-part structure**: Preparing for Release, Release Management, and Post-Release
-- The **Flutter App Release Checklist** that guides the entire course
-- The **starter project** (Flutter Ship App) and its architecture
-- How to **join the community** on Discord for support
+For a high-level overview of these topics, check out our blog:
 
-### What's Next
+- [6 Key Steps to Take Before Releasing your Next Flutter App](https://codewithnabi.dev/blog)
 
-In **Module 2: Launcher Icons and Splash Screens**, you'll learn:
-
-- How to generate app icons with \`flutter_launcher_icons\`
-- Android adaptive icon guidelines
-- How to design app icons in Figma
-- How to generate custom splash screens with \`flutter_native_splash\`
-
-This is the first step in making your app feel polished and professional. See you in the next module!`,
+Once you're ready, the rest of the course is waiting for you! 🚀`,
       },
     },
     {
       id: 'lesson-1-7',
-      slug: '07-request-for-feedback',
+      slug: 'm01-07-request-for-feedback',
       title: 'Request for Feedback',
       description: 'Share your feedback about this module.',
       order: 7,
@@ -387,27 +352,13 @@ This is the first step in making your app feel polished and professional. See yo
       content: {
         markdown: `## Request for Feedback
 
-Your feedback is **super valuable** and helps improve the course for everyone.
+How do you rate the lessons in this module?
 
-### How to Submit Feedback
+Your feedback is **super valuable** and will help me improve the course for everyone.
 
-At the end of each module, you'll find this feedback request. Please take a moment to share your thoughts:
+Were the lessons clear? Was there something you didn't understand or that should be explained better? Any other feedback (positive or negative)?
 
-- **Was this module clear?** Was there something you didn't understand or that should be explained better?
-- **What did you like most?** Knowing what works well helps me maintain quality.
-- **Any suggestions?** Ideas for improvement are always welcome.
-
-### Rating Scale
-
-- **5** — Excellent, everything was clear and well-explained
-- **4** — Good, minor improvements possible
-- **3** — Average, some parts were confusing
-- **2** — Below average, significant improvements needed
-- **1** — Poor, major issues with the content
-
-Rest assured that I read **all your comments** and use them to improve the course.
-
-Thank you for your time! Let's continue to Module 2.`,
+> **Note:** I don't usually respond to feedback. If you need an answer to a question, please post it on Discord.`,
       },
     },
   ],
@@ -426,9 +377,12 @@ function createLesson(
   duration: number = 10,
   isFree: boolean = false,
 ): Lesson {
+  // Prefix slug with module number to ensure global uniqueness across modules
+  const modulePrefix = `m${String(moduleNum).padStart(2, '0')}-`;
+  const uniqueSlug = slug.startsWith(modulePrefix) ? slug : `${modulePrefix}${slug}`;
   return {
     id: `lesson-${moduleNum}-${lessonNum}`,
-    slug,
+    slug: uniqueSlug,
     title,
     description,
     order: lessonNum,
@@ -890,13 +844,13 @@ export const flutterInProductionCourse: Course = {
   description: 'Learn everything about shipping mobile apps to production: preparing for release, app submissions, release automation, and post-release strategies. A comprehensive 15-module course covering launcher icons, flavors, error monitoring, analytics, force update, in-app reviews, landing pages, App Store & Play Store releases, CI/CD with Codemagic and GitHub Actions, Shorebird code push, automated screenshots, feature toggles, and A/B testing.',
   excerpt: 'The complete guide to releasing professional Flutter apps to production — from app icons to automated CI/CD.',
   instructor: {
-    name: 'Andrea Bizzotto',
+    name: 'Nabi',
     avatar: '/assets/branding/profile.jpg',
-    bio: 'Flutter GDE and instructor helping developers ship production-ready mobile applications.',
+    bio: 'Flutter developer and instructor helping developers ship production-ready mobile applications.',
     social: {
-      twitter: 'https://twitter.com/baboratorio',
-      github: 'https://github.com/bizz84',
-      website: 'https://codewithandrea.com',
+      twitter: 'https://twitter.com/codewithnabi',
+      github: 'https://github.com/codewithnabi',
+      website: 'https://codewithnabi.dev',
     },
   },
   coverImage: '/assets/blog/dart.jpg',

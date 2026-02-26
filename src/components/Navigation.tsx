@@ -14,7 +14,7 @@ declare global {
     }
 }
 
-type NavSection = 'home' | 'projects' | 'blog' | 'about' | 'contact';
+type NavSection = 'home' | 'projects' | 'courses' | 'blog' | 'about' | 'contact';
 
 const navItems: {
     section: NavSection;
@@ -37,6 +37,14 @@ const navItems: {
         hash: '#projects',
         icon: 'M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm8-2h8v8h-8v-8zm2 2v4h4v-4h-4z',
     },
+    // TODO: Uncomment when course content is complete
+    // {
+    //     section: 'courses',
+    //     label: 'Courses',
+    //     href: '/courses',
+    //     hash: '#courses',
+    //     icon: 'M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z',
+    // },
     {
         section: 'blog',
         label: 'Blog',
@@ -130,6 +138,7 @@ export default function Navigation() {
         }
 
         if (pathname.startsWith('/projects') && section === 'projects') return true;
+        if (pathname.startsWith('/courses') && section === 'courses') return true;
         if (pathname.startsWith('/blog') && section === 'blog') return true;
         if (pathname.startsWith('/about') && section === 'about') return true;
         if (pathname.startsWith('/contact') && section === 'contact') return true;
@@ -205,7 +214,7 @@ export default function Navigation() {
                     <div className="hidden md:flex items-center gap-1">
                         {navItems.filter((item) => item.section !== 'home').map((item) => {
                             const active = isActive(item.section);
-                            const isSectionLink = item.section !== 'blog' && item.section !== 'about';
+                            const isSectionLink = item.section !== 'blog' && item.section !== 'about' && item.section !== 'courses';
 
                             return (
                                 <Link
@@ -320,7 +329,7 @@ export default function Navigation() {
                             <div className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
                                 {navItems.map((item, i) => {
                                     const active = isActive(item.section);
-                                    const isSectionLink = item.section !== 'blog' && item.section !== 'about';
+                            const isSectionLink = item.section !== 'blog' && item.section !== 'about' && item.section !== 'courses';
 
                                     return (
                                         <motion.div

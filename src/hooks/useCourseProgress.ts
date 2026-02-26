@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { UserProgress } from '@/types/course';
 
 const STORAGE_KEY = 'course_progress';
@@ -9,9 +9,23 @@ interface CourseProgressState {
   [courseId: string]: UserProgress;
 }
 
+function createInitialProgress(courseId: string): UserProgress {
+  return {
+    moduleId: '',
+    courseId,
+    completedLessons: [],
+    startedAt: new Date().toISOString(),
+    lastAccessedAt: new Date().toISOString(),
+  };
+}
+
 export function useCourseProgress(courseId: string) {
   const [progress, setProgress] = useState<UserProgress | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  // Use a ref to access current progress inside callbacks without adding
+  // `progress` to dependency arrays (which causes infinite re-render loops).
+  const progressRef = useRef<UserProgress | null>(null);
+  progressRef.current = progress;
 
   // Load progress from localStorage
   useEffect(() => {
@@ -28,26 +42,10 @@ export function useCourseProgress(courseId: string) {
         if (allProgress[courseId]) {
           setProgress(allProgress[courseId]);
         } else {
-          // Initialize new progress
-          const newProgress: UserProgress = {
-            moduleId: '',
-            courseId,
-            completedLessons: [],
-            startedAt: new Date().toISOString(),
-            lastAccessedAt: new Date().toISOString(),
-          };
-          setProgress(newProgress);
+          setProgress(createInitialProgress(courseId));
         }
       } else {
-        // Initialize new progress
-        const newProgress: UserProgress = {
-          moduleId: '',
-          courseId,
-          completedLessons: [],
-          startedAt: new Date().toISOString(),
-          lastAccessedAt: new Date().toISOString(),
-        };
-        setProgress(newProgress);
+        setProgress(createInitialProgress(courseId));
       }
     } catch (error) {
       console.error('Error loading course progress:', error);
@@ -55,19 +53,20 @@ export function useCourseProgress(courseId: string) {
     setIsLoading(false);
   }, [courseId]);
 
-  // Save progress to localStorage
+  // Save progress to localStorage — reads from ref, not state dependency
   const saveProgress = useCallback(
     (updatedProgress: UserProgress) => {
       if (!courseId) return;
       try {
         const stored = localStorage.getItem(STORAGE_KEY);
         const allProgress: CourseProgressState = stored ? JSON.parse(stored) : {};
-        allProgress[courseId] = {
+        const toSave: UserProgress = {
           ...updatedProgress,
           lastAccessedAt: new Date().toISOString(),
         };
+        allProgress[courseId] = toSave;
         localStorage.setItem(STORAGE_KEY, JSON.stringify(allProgress));
-        setProgress(allProgress[courseId]);
+        setProgress(toSave);
       } catch (error) {
         console.error('Error saving course progress:', error);
       }
@@ -78,59 +77,62 @@ export function useCourseProgress(courseId: string) {
   // Mark a lesson as complete
   const markLessonComplete = useCallback(
     (lessonId: string) => {
-      if (!courseId || !progress) return;
+      const current = progressRef.current;
+      if (!courseId || !current) return;
 
-      if (!progress.completedLessons.includes(lessonId)) {
-        const updatedProgress: UserProgress = {
-          ...progress,
-          completedLessons: [...progress.completedLessons, lessonId],
-        };
-        saveProgress(updatedProgress);
+      if (!current.completedLessons.includes(lessonId)) {
+        saveProgress({
+          ...current,
+          completedLessons: [...current.completedLessons, lessonId],
+        });
       }
     },
-    [courseId, progress, saveProgress]
+    [courseId, saveProgress]
   );
 
   // Mark a lesson as incomplete
   const markLessonIncomplete = useCallback(
     (lessonId: string) => {
-      if (!courseId || !progress) return;
+      const current = progressRef.current;
+      if (!courseId || !current) return;
 
-      const updatedProgress: UserProgress = {
-        ...progress,
-        completedLessons: progress.completedLessons.filter((id) => id !== lessonId),
-      };
-      saveProgress(updatedProgress);
+      saveProgress({
+        ...current,
+        completedLessons: current.completedLessons.filter((id) => id !== lessonId),
+      });
     },
-    [courseId, progress, saveProgress]
+    [courseId, saveProgress]
   );
 
   // Toggle lesson completion
   const toggleLessonComplete = useCallback(
     (lessonId: string) => {
-      if (!courseId || !progress) return;
+      const current = progressRef.current;
+      if (!courseId || !current) return;
 
-      if (progress.completedLessons.includes(lessonId)) {
+      if (current.completedLessons.includes(lessonId)) {
         markLessonIncomplete(lessonId);
       } else {
         markLessonComplete(lessonId);
       }
     },
-    [courseId, progress, markLessonComplete, markLessonIncomplete]
+    [courseId, markLessonComplete, markLessonIncomplete]
   );
 
-  // Set current lesson
+  // Set current lesson — bails out if already set to avoid re-render loop
   const setCurrentLesson = useCallback(
     (lessonId: string) => {
-      if (!courseId || !progress) return;
+      const current = progressRef.current;
+      if (!courseId || !current) return;
+      // Skip if already on this lesson to prevent infinite update cycle
+      if (current.currentLessonId === lessonId) return;
 
-      const updatedProgress: UserProgress = {
-        ...progress,
+      saveProgress({
+        ...current,
         currentLessonId: lessonId,
-      };
-      saveProgress(updatedProgress);
+      });
     },
-    [courseId, progress, saveProgress]
+    [courseId, saveProgress]
   );
 
   // Check if a lesson is completed
@@ -153,14 +155,7 @@ export function useCourseProgress(courseId: string) {
   // Reset progress
   const resetProgress = useCallback(() => {
     if (!courseId) return;
-    const newProgress: UserProgress = {
-      moduleId: '',
-      courseId,
-      completedLessons: [],
-      startedAt: new Date().toISOString(),
-      lastAccessedAt: new Date().toISOString(),
-    };
-    saveProgress(newProgress);
+    saveProgress(createInitialProgress(courseId));
   }, [courseId, saveProgress]);
 
   return {
