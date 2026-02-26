@@ -23,6 +23,7 @@ export const projects: Project[] = [
             '/assets/projects/focus-flow/screenshots/08.png',
         ],
         features: ['Focus timer', 'Session modes', '95+ sounds', 'Analytics', 'Breathing exercises', 'Pro tier'],
+        featureSubtitle: 'Everything you need to stay focused',
         featureDetails: [
             {
                 title: 'Pomodoro Focus Timer',
@@ -201,6 +202,7 @@ export const projects: Project[] = [
             '/assets/projects/dev-discipline/screenshots/devdiscipline_06.png',
         ],
         features: ['60-Day Plans', 'Daily Tasks', 'Streak Tracking', 'Progress Insights', 'Journaling', 'Gamification'],
+        featureSubtitle: 'Everything you need to stay disciplined',
         featureDetails: [
             {
                 title: 'Structured 60-Day Plans',

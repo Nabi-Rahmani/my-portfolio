@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { blogPosts } from '@/data/blog';
 import { getAllProjects } from '@/data/projects';
+import Footer from '@/components/Footer';
 
 declare global {
   interface Window {
@@ -91,6 +92,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors no-underline"
                   title={social.label}
+                  aria-label={social.label}
                 >
                   <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
                     <path d={social.icon} />
@@ -441,32 +443,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="px-6 py-8 border-t border-[var(--border-color)]">
-        <div className="max-w-[1100px] mx-auto flex flex-col items-center gap-4">
-          <div className="flex gap-4">
-            {socials.map((social) => (
-              <a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors no-underline"
-                title={social.label}
-              >
-                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-                  <path d={social.icon} />
-                </svg>
-              </a>
-            ))}
-          </div>
-          <div className="flex flex-col md:flex-row items-center gap-2 text-[0.8125rem] text-[var(--text-secondary)]">
-            <span>&copy; 2025 Mohammad Nabi Rahmani</span>
-            <span className="hidden md:inline">&middot;</span>
-            <span>Built with Next.js &amp; Tailwind</span>
-          </div>
-        </div>
-      </footer>
+      <Footer showSocials />
     </div>
   );
 }

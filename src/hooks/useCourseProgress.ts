@@ -30,7 +30,7 @@ export function useCourseProgress(courseId: string) {
         } else {
           // Initialize new progress
           const newProgress: UserProgress = {
-            oduleId: '',
+            moduleId: '',
             courseId,
             completedLessons: [],
             startedAt: new Date().toISOString(),
@@ -41,7 +41,7 @@ export function useCourseProgress(courseId: string) {
       } else {
         // Initialize new progress
         const newProgress: UserProgress = {
-          oduleId: '',
+          moduleId: '',
           courseId,
           completedLessons: [],
           startedAt: new Date().toISOString(),
@@ -154,7 +154,7 @@ export function useCourseProgress(courseId: string) {
   const resetProgress = useCallback(() => {
     if (!courseId) return;
     const newProgress: UserProgress = {
-      oduleId: '',
+      moduleId: '',
       courseId,
       completedLessons: [],
       startedAt: new Date().toISOString(),

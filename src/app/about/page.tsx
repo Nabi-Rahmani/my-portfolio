@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import Footer from '@/components/Footer';
 
 const fadeUp = {
     hidden: { opacity: 0, y: 24 },
@@ -463,6 +464,7 @@ export default function About() {
                                     rel="noopener noreferrer"
                                     className="p-2.5 rounded-xl text-[var(--text-secondary)] hover:text-[var(--accent)] hover:bg-[var(--accent-muted)] transition-all duration-200 no-underline"
                                     title={social.label}
+                                    aria-label={social.label}
                                 >
                                     <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                                         <path d={social.icon} />
@@ -474,17 +476,7 @@ export default function About() {
                 </div>
             </section>
 
-            {/* Footer */}
-            <footer className="px-6 py-8 border-t border-[var(--border-color)]">
-                <div className="max-w-[1100px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-                    <span className="text-[0.8125rem] text-[var(--text-secondary)]">
-                        &copy; 2025 Mohammad Nabi Rahmani
-                    </span>
-                    <span className="text-[0.8125rem] text-[var(--text-secondary)]">
-                        Built with Next.js &amp; Tailwind
-                    </span>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 }

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useCallback, useEffect } from 'react';
 import type { Project } from '@/types/project';
+import Footer from '@/components/Footer';
 
 const fadeUp = {
     hidden: { opacity: 0, y: 40 },
@@ -288,7 +289,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                 viewport={{ once: true }}
                                 transition={{ type: 'spring', stiffness: 120, damping: 16, delay: 0.05 }}
                             >
-                                Everything you need to stay disciplined
+                                {project.featureSubtitle || `Explore ${project.title} features`}
                             </motion.h2>
                         </div>
 
@@ -558,31 +559,11 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 </div>
             </section>
 
-            {/* ════════════════════════════════════════════ */}
-            {/* FOOTER                                       */}
-            {/* ════════════════════════════════════════════ */}
-            <footer className="px-6 py-8 border-t border-[var(--border-color)]">
-                <div className="max-w-[1100px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-                    <span className="text-[0.8125rem] text-[var(--text-secondary)]">
-                        &copy; 2026 Mohammad Nabi Rahmani
-                    </span>
-                    <div className="flex gap-6">
-                        {project.links.privacy && (
-                            <Link href={project.links.privacy} className="text-[0.8125rem] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors no-underline">
-                                Privacy Policy
-                            </Link>
-                        )}
-                        {project.links.terms && (
-                            <Link href={project.links.terms} className="text-[0.8125rem] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors no-underline">
-                                Terms of Use
-                            </Link>
-                        )}
-                        <Link href="/projects" className="text-[0.8125rem] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors no-underline">
-                            All Projects
-                        </Link>
-                    </div>
-                </div>
-            </footer>
+            <Footer links={[
+                ...(project.links.privacy ? [{ label: 'Privacy Policy', href: project.links.privacy }] : []),
+                ...(project.links.terms ? [{ label: 'Terms of Use', href: project.links.terms }] : []),
+                { label: 'All Projects', href: '/projects' },
+            ]} />
 
             {/* ════════════════════════════════════════════ */}
             {/* SCREENSHOT LIGHTBOX                          */}

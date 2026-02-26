@@ -29,6 +29,7 @@ export interface Project {
     screenshots: string[];
     features: string[];
     featureDetails?: ProjectFeatureDetail[];
+    featureSubtitle?: string;
     techStack: string[];
     links: {
         github?: string;

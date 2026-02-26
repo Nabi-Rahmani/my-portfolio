@@ -8,6 +8,7 @@ import type { BlogPost } from '@/types/blog';
 import { getRelatedPosts } from '@/data/blog';
 import ShareButtons from '@/components/ShareButtons';
 import ArticleContent from '@/components/ArticleContent';
+import Footer from '@/components/Footer';
 
 function formatDate(dateString: string) {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -381,17 +382,7 @@ export default function BlogPostClient({ post }: { post: BlogPost }) {
                 </div>
             </div>
 
-            {/* Footer */}
-            <footer className="px-6 py-8 border-t border-[var(--border-color)]">
-                <div className="max-w-[1100px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-                    <span className="text-[0.8125rem] text-[var(--text-secondary)]">
-                        &copy; 2025 Mohammad Nabi Rahmani
-                    </span>
-                    <span className="text-[0.8125rem] text-[var(--text-secondary)]">
-                        Built with Next.js &amp; Tailwind
-                    </span>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 }

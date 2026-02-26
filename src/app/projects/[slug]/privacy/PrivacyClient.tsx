@@ -88,14 +88,9 @@ export default function PrivacyClient({ project }: { project: Project }) {
                         ))}
                     </div>
 
-                    <motion.p
-                        className="text-[0.8125rem] text-[var(--text-secondary)] mt-12 pt-8 border-t border-[var(--border-color)]"
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                    >
-                        &copy; 2026 Mohammad Nabi Rahmani. All rights reserved.
-                    </motion.p>
+                    <p className="text-[0.8125rem] text-[var(--text-secondary)] mt-12 pt-8 border-t border-[var(--border-color)]">
+                        &copy; {new Date().getFullYear()} Mohammad Nabi Rahmani. All rights reserved.
+                    </p>
                 </div>
             </main>
         </div>

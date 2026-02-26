@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { blogPosts, blogCategories, getFeaturedPosts, getAllTags, searchPosts, getPostsByCategory, getPostsByTag } from '@/data/blog';
 import type { BlogPost, BlogFilter } from '@/types/blog';
+import Footer from '@/components/Footer';
 
 function formatDate(dateString: string) {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -521,17 +522,7 @@ export default function BlogPage() {
                 </motion.section>
             </div>
 
-            {/* Footer */}
-            <footer className="px-6 py-8 border-t border-[var(--border-color)]">
-                <div className="max-w-[1100px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-                    <span className="text-[0.8125rem] text-[var(--text-secondary)]">
-                        &copy; 2025 Mohammad Nabi Rahmani
-                    </span>
-                    <span className="text-[0.8125rem] text-[var(--text-secondary)]">
-                        Built with Next.js &amp; Tailwind
-                    </span>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 }

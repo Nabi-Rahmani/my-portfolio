@@ -7,6 +7,7 @@ import LenisScroll from "@/components/LenisScroll";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://codewithnabi.dev'),
   title: {
     default: "Muhammad Nabi Rahmani - Flutter Developer | codewithnabi",
     template: "%s | Muhammad Nabi Rahmani"
@@ -38,12 +39,6 @@ export const metadata: Metadata = {
         height: 630,
         alt: "Muhammad Nabi Rahmani - Flutter Developer",
       },
-      {
-        url: "https://codewithnabi.dev/assets/branding/youtube-logo.png",
-        width: 512,
-        height: 512,
-        alt: "codewithnabi logo",
-      },
     ],
   },
   twitter: {
@@ -62,19 +57,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/assets/branding/youtube-logo.png' },
-      { url: '/assets/branding/youtube-logo.png', sizes: '16x16', type: 'image/png' },
-      { url: '/assets/branding/youtube-logo.png', sizes: '32x32', type: 'image/png' },
+      { url: '/assets/branding/profile.jpg' },
+      { url: '/assets/branding/profile.jpg', sizes: '32x32', type: 'image/jpeg' },
     ],
     apple: [
-      { url: '/assets/branding/youtube-logo.png' },
-      { url: '/assets/branding/youtube-logo.png', sizes: '180x180', type: 'image/png' },
-    ],
-    other: [
-      {
-        rel: 'apple-touch-icon-precomposed',
-        url: '/assets/branding/youtube-logo.png',
-      },
+      { url: '/assets/branding/profile.jpg', sizes: '180x180', type: 'image/jpeg' },
     ],
   },
 };

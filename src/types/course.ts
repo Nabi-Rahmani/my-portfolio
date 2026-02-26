@@ -88,7 +88,7 @@ export interface LessonProgress {
 
 export interface UserProgress {
   id?: string;
-  oduleId: string;
+  moduleId: string;
   courseId: string;
   completedLessons: string[]; // Array of lesson IDs
   currentLessonId?: string;
