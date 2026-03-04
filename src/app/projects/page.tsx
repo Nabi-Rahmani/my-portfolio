@@ -94,7 +94,7 @@ export default function Projects() {
                                                 Source Code
                                             </a>
                                         )}
-                                        {project.links.appStore && (
+                                        {project.links.appStore && project.links.appStore !== '#' && (
                                             <a
                                                 href={project.links.appStore}
                                                 target="_blank"
@@ -104,6 +104,12 @@ export default function Projects() {
                                                 <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d={appleIcon} /></svg>
                                                 App Store
                                             </a>
+                                        )}
+                                        {project.links.appStore === '#' && (
+                                            <span className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border-color)] text-[var(--text-secondary)] rounded-full text-[0.875rem] font-medium opacity-80 cursor-not-allowed">
+                                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d={appleIcon} /></svg>
+                                                iOS Coming Soon
+                                            </span>
                                         )}
                                         {project.links.playStore && (
                                             <a

@@ -54,6 +54,7 @@ export const projects: Project[] = [
         links: {
             github: 'https://github.com/Nabi-Rahmani',
             appStore: '#',
+            playStore: 'https://play.google.com/store/apps/details?id=com.nabirahmani.focus_flow',
             privacy: '/projects/focus-flow/privacy',
             terms: '/projects/focus-flow/terms',
         },
@@ -232,6 +233,7 @@ export const projects: Project[] = [
         techStack: ['Flutter', 'Dart', 'Riverpod', 'Drift', 'SQLite', 'RevenueCat'],
         links: {
             github: 'https://github.com/Nabi-Rahmani',
+            appStore: '#',
             playStore: 'https://play.google.com/store/apps/details?id=com.nabirahmani.dev_discipline',
             privacy: '/projects/dev-discipline/privacy',
             terms: '/projects/dev-discipline/terms',
