@@ -141,7 +141,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ type: 'spring', stiffness: 140, damping: 14, delay: 0.4 }}
                             >
-                                {project.links.playStore && (
+                                {project.links.playStore && project.links.playStore !== '#' && (
                                     <motion.a
                                         href={project.links.playStore}
                                         target="_blank"
@@ -153,6 +153,12 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                         <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M3 20.5v-17c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v17c0 .83-.67 1.5-1.5 1.5S3 21.33 3 20.5zM15 12L7 7v10l8-5zm2-5l5.5 3.5a1.5 1.5 0 010 2.5L17 17V7z" /></svg>
                                         Get on Play Store
                                     </motion.a>
+                                )}
+                                {project.links.playStore === '#' && (
+                                    <span className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-3.5 border border-[var(--border-color)] text-[var(--text-secondary)] rounded-full text-[0.9375rem] md:text-[1rem] font-medium opacity-80 cursor-not-allowed">
+                                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M3 20.5v-17c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v17c0 .83-.67 1.5-1.5 1.5S3 21.33 3 20.5zM15 12L7 7v10l8-5zm2-5l5.5 3.5a1.5 1.5 0 010 2.5L17 17V7z" /></svg>
+                                        Android Coming Soon
+                                    </span>
                                 )}
                                 {project.links.appStore && project.links.appStore !== '#' && (
                                     <motion.a
@@ -534,7 +540,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                         </p>
 
                         <div className="flex gap-3 flex-wrap justify-center">
-                            {project.links.playStore && (
+                            {project.links.playStore && project.links.playStore !== '#' && (
                                 <motion.a
                                     href={project.links.playStore}
                                     target="_blank"
@@ -546,6 +552,12 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                     <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M3 20.5v-17c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v17c0 .83-.67 1.5-1.5 1.5S3 21.33 3 20.5zM15 12L7 7v10l8-5zm2-5l5.5 3.5a1.5 1.5 0 010 2.5L17 17V7z" /></svg>
                                     Download Now
                                 </motion.a>
+                            )}
+                            {project.links.playStore === '#' && (
+                                <span className="inline-flex items-center gap-2 px-8 py-3.5 border border-[var(--border-color)] text-[var(--text-secondary)] rounded-full text-[1rem] font-semibold opacity-80 cursor-not-allowed">
+                                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M3 20.5v-17c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v17c0 .83-.67 1.5-1.5 1.5S3 21.33 3 20.5zM15 12L7 7v10l8-5zm2-5l5.5 3.5a1.5 1.5 0 010 2.5L17 17V7z" /></svg>
+                                    Android Coming Soon
+                                </span>
                             )}
                             {project.links.appStore && project.links.appStore !== '#' && (
                                 <motion.a

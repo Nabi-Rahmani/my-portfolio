@@ -60,9 +60,9 @@ export default function Footer({ showSocials = false, links }: FooterProps) {
                         &copy; {year} Mohammad Nabi Rahmani
                     </span>
 
-                    {links && links.length > 0 ? (
-                        <div className="flex gap-6">
-                            {links.map((link) => (
+                    <div className="flex gap-6">
+                        {links && links.length > 0 ? (
+                            links.map((link) => (
                                 <Link
                                     key={link.href}
                                     href={link.href}
@@ -70,13 +70,13 @@ export default function Footer({ showSocials = false, links }: FooterProps) {
                                 >
                                     {link.label}
                                 </Link>
-                            ))}
-                        </div>
-                    ) : (
-                        <span className="text-[0.8125rem] text-[var(--text-secondary)]">
-                            Built with Next.js &amp; Tailwind
-                        </span>
-                    )}
+                            ))
+                        ) : (
+                            <span className="text-[0.8125rem] text-[var(--text-secondary)]">
+                                Built with Next.js &amp; Tailwind
+                            </span>
+                        )}
+                    </div>
                 </div>
             </div>
         </footer>

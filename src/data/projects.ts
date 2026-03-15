@@ -338,6 +338,209 @@ export const projects: Project[] = [
             ],
         },
     },
+    {
+        id: '3',
+        slug: 'mihrab-by-raha',
+        title: 'Mihrab by Raha',
+        subtitle: 'A peaceful Islamic companion for your daily worship',
+        description:
+            'Mihrab by Raha is a thoughtfully designed Islamic lifestyle app to support your daily spiritual routine. From accurate prayer times and Quran reading to dhikr, Islamic calendar guidance, and a curated library, it brings your essentials into one calm, focused experience.',
+        coverImage: '/assets/projects/mihrab-by-raha/project-cover/cover_mihrab_by_raha.png',
+        iconLight: '/assets/projects/mihrab-by-raha/icon/icon-android-foreground-1024.png',
+        iconDark: '/assets/projects/mihrab-by-raha/icon/icon-android-foreground-1024.png',
+        heroImage: '/assets/projects/mihrab-by-raha/main-image/Raha%20Mihrab.png',
+        screenshots: [
+            '/assets/projects/mihrab-by-raha/screenshots/01_prayer_times.png',
+            '/assets/projects/mihrab-by-raha/screenshots/02_quran.png',
+            '/assets/projects/mihrab-by-raha/screenshots/03_calendar.png',
+            '/assets/projects/mihrab-by-raha/screenshots/04_dhikr.png',
+            '/assets/projects/mihrab-by-raha/screenshots/05_library.png',
+            '/assets/projects/mihrab-by-raha/screenshots/06_themes.png',
+        ],
+        features: ['Prayer Times', 'Quran Reader', 'Hijri Calendar', 'Daily Dhikr', 'Islamic Library', 'Themes'],
+        featureSubtitle: 'Everything you need for a consistent spiritual routine',
+        featureDetails: [
+            {
+                title: 'Accurate Prayer Times',
+                description: 'Stay connected with timely prayer reminders and a clean overview of all five daily prayers based on your location and selected method.',
+            },
+            {
+                title: 'Beautiful Quran Reading',
+                description: 'Read the Quran in a clear, distraction-free interface designed for comfort and reflection, whether you are reading daily or revisiting selected surahs.',
+            },
+            {
+                title: 'Hijri Calendar Guidance',
+                description: 'Track Islamic dates and upcoming occasions with an easy-to-read Hijri calendar that helps you plan meaningful days and worship moments.',
+            },
+            {
+                title: 'Dhikr and Remembrance',
+                description: 'Build consistency in remembrance with dedicated dhikr flows that are simple, calming, and easy to return to throughout the day.',
+            },
+            {
+                title: 'Curated Islamic Library',
+                description: 'Access a growing collection of essential Islamic content in one place so you can learn, revisit, and reflect without jumping between multiple apps.',
+            },
+            {
+                title: 'Personal Themes and Mood',
+                description: 'Customize the look and feel with soothing themes that match your preference and keep your spiritual routine visually calm and personal.',
+            },
+        ],
+        techStack: ['Flutter', 'Dart', 'Riverpod', 'Drift', 'SQLite'],
+        links: {
+            github: 'https://github.com/Nabi-Rahmani',
+            appStore: '#',
+            playStore: '#',
+            privacy: '/projects/mihrab-by-raha/privacy',
+            terms: '/projects/mihrab-by-raha/terms',
+        },
+        platform: 'both',
+        privacyContent: {
+            lastUpdated: 'March 15, 2026',
+            intro: 'Raha ("we", "our", "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application.',
+            sections: [
+                {
+                    title: '1. Information We Collect',
+                    content: 'Since Raha emphasizes full functionality without account creation, we collect minimal personal data. Automatically collected information includes device information (model, OS version, unique device identifiers), IP address (used only for location-based prayer time calculation, not stored), approximate location (used solely for prayer time detection — not stored or transmitted), and usage statistics such as feature usage and crash logs which are completely anonymous. User-provided information stored locally only includes:',
+                    list: [
+                        'Habit tracking data (completion status, streaks)',
+                        'Prayer time preferences (calculation method, offsets)',
+                        'Custom habit definitions',
+                        'Notification preferences',
+                        'Theme and appearance settings',
+                    ],
+                },
+                {
+                    title: '2. How We Use Your Information',
+                    content: 'We use your information to:',
+                    list: [
+                        'Calculate accurate prayer times based on your location (processed locally)',
+                        'Provide habit tracking functionality (stored locally)',
+                        'Send prayer time and habit reminders (scheduled locally)',
+                        'Improve app performance and user experience (through anonymous analytics)',
+                        'Enable premium features through RevenueCat (payment processing only)',
+                    ],
+                },
+                {
+                    title: '3. Data Storage and Security',
+                    content: 'All personal habit and prayer data is stored exclusively on your device. No personally identifiable information is transmitted to or stored on our servers. Supabase is used solely for anonymous analytics collection (no personal identifiers), validating premium subscriptions through RevenueCat, and hosting static assets (prayer times calculation data). We employ industry-standard security measures to protect any transmitted data. All local data storage uses Flutter\'s secure storage mechanisms where appropriate.',
+                },
+                {
+                    title: '4. Data Sharing',
+                    content: 'We do not sell or rent your personal information. We may share:',
+                    list: [
+                        'Completely anonymous usage analytics with third-party services (Firebase Analytics)',
+                        'Required information with payment processors (Apple App Store, Google Play Store) for subscription services via RevenueCat',
+                        'Information only when legally required to do so (we have no personal data to share)',
+                    ],
+                },
+                {
+                    title: '5. Your Rights',
+                    content: 'You have the right to:',
+                    list: [
+                        'Access all your data stored locally on your device through the app interface',
+                        'Delete your habit data and reset the app through Settings',
+                        'Opt-out of anonymous analytics collection through Settings',
+                        'Control all notification permissions through your device settings',
+                        'Export your data (where applicable) for backup purposes',
+                    ],
+                },
+                {
+                    title: '6. Children\'s Privacy',
+                    content: 'Raha is designed for Muslim parents and professionals. While not specifically directed at children, we do not knowingly collect personal information from children under 13. If we become aware that we have inadvertently received personal information from someone under 13, we will delete such information from our records.',
+                },
+                {
+                    title: '7. International Data Transmissions',
+                    content: 'Any minimal data transmitted (anonymous analytics, subscription validation) may be processed in the United States or other countries where our service providers operate. No personal habit or prayer data ever leaves your device.',
+                },
+                {
+                    title: '8. Changes to This Policy',
+                    content: 'We will notify users of material changes through an in-app notification or other appropriate means. Your continued use of the app after such changes constitutes your acceptance of the new policy.',
+                },
+                {
+                    title: '9. Contact Us',
+                    content: 'For questions about this Privacy Policy, please contact us at codewithnabi@gmail.com or visit https://www.codewithnabi.dev/.',
+                },
+                {
+                    title: '10. Religious Context Note',
+                    content: 'While Raha is designed to support Islamic practices, we do not collect or store any sensitive religious data beyond what users voluntarily input as part of their habit tracking. All such data remains exclusively on the user\'s device.',
+                },
+            ],
+        },
+        termsContent: {
+            lastUpdated: 'March 15, 2026',
+            intro: 'By downloading, installing, or using the Raha application ("App"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the App.',
+            sections: [
+                {
+                    title: '1. Description of Service',
+                    content: 'Raha is a mobile application designed to help busy Muslim parents and professionals build consistent, faith-aligned micro-habits anchored to their five daily prayers. The App uses salah times as natural trigger points for micro-habit building and provides a sacred design system rooted in Islamic heritage.',
+                },
+                {
+                    title: '2. User Eligibility',
+                    content: 'You must be at least thirteen (13) years of age to use Raha. By using the App, you represent and warrant that you meet this age requirement. If you are under 18 years old, you should use the App only under the supervision of a parent or legal guardian.',
+                },
+                {
+                    title: '3. Account Registration and Usage',
+                    content: 'While Raha offers full core functionality without requiring account creation, certain features may require or benefit from registration. Premium subscription management requires an account with Apple App Store or Google Play Store. No personal information is required to use the core habit tracking and prayer time features. If you create an account, you are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.',
+                },
+                {
+                    title: '4. User Responsibilities',
+                    content: 'As a condition of your use of Raha, you agree not to use the App for any purpose that is unlawful or prohibited by these Terms. You are solely responsible for ensuring that your use of the App complies with all applicable laws and regulations, the accuracy of any information you input into the App, maintaining the security of your device, and any consequences arising from your use of the App.',
+                },
+                {
+                    title: '5. Intellectual Property Rights',
+                    content: 'All content, features, and functionality of Raha, including but not limited to the design, text, graphics, images, video, audio, software, and the selection and arrangement thereof, are the proprietary property of Nabi Rahmani and are protected by copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws. You are granted a limited, non-exclusive, non-transferable, revocable license to download and install a copy of the App on your mobile device and use it for personal, non-commercial purposes only.',
+                },
+                {
+                    title: '6. Subscription and Payments',
+                    content: 'Raha offers both free and premium features. Premium features are available through subscription. All payments are processed through Apple App Store (iOS) or Google Play Store (Android). We do not directly collect or store payment information. Subscriptions automatically renew unless canceled according to the store\'s policies. Users may cancel subscriptions at any time through their respective app store settings. Refunds for subscription payments are subject to the refund policies of Apple App Store or Google Play Store.',
+                },
+                {
+                    title: '7. Disclaimer of Warranties',
+                    content: 'TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE APP IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS, WITH ALL FAULTS AND WITHOUT WARRANTY OF ANY KIND. WE EXPRESSLY DISCLAIM ALL WARRANTIES, WHETHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, OR NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE APP WILL BE ERROR-FREE, UNINTERRUPTED, OR SECURE, OR THAT ANY ERRORS WILL BE CORRECTED.',
+                },
+                {
+                    title: '8. Limitation of Liability',
+                    content: 'TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL NABI RAHMANI BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, OR OTHER INTANGIBLE LOSSES. OUR TOTAL LIABILITY SHALL NOT EXCEED THE AMOUNT YOU HAVE PAID US FOR USING THE APP DURING THE SIX (6) MONTHS PRECEDING THE CAUSE OF ACTION.',
+                },
+                {
+                    title: '9. Indemnification',
+                    content: 'You agree to defend, indemnify, and hold harmless Nabi Rahmani and its affiliates, officers, directors, employees, and agents, from and against any claims, liabilities, damages, losses, and expenses, including without limitation reasonable attorneys\' fees and costs, arising out of or in any way connected with your access to or use of the App, or your violation of these Terms.',
+                },
+                {
+                    title: '10. Term and Termination',
+                    content: 'These Terms shall remain in full force and effect while you use the App. We may terminate or suspend your access to the App immediately, without prior notice or liability, for any reason whatsoever, including if you breach these Terms. You may terminate these Terms at any time by discontinuing your use of the App and deleting it from your device. Upon termination, your right to use the App will cease immediately. If you have a premium subscription, you should cancel it through your app store to avoid further charges.',
+                },
+                {
+                    title: '11. Governing Law',
+                    content: 'These Terms shall be governed by and construed in accordance with the laws of Turkey, without regard to its conflict of law principles.',
+                },
+                {
+                    title: '12. Dispute Resolution',
+                    content: 'Any dispute arising out of or relating to these Terms or the App shall be resolved through binding arbitration. The arbitration shall be conducted in Istanbul, Turkey, and the language of the arbitration shall be English. The arbitrator\'s decision shall be final and binding on both parties.',
+                },
+                {
+                    title: '13. Severability',
+                    content: 'If any provision of these Terms is held to be unlawful, void, or unenforceable, the remaining provisions shall continue to be valid and enforceable.',
+                },
+                {
+                    title: '14. Entire Agreement',
+                    content: 'These Terms, together with our Privacy Policy and any other legal notices published by us on the App, constitute the entire agreement between you and Nabi Rahmani concerning the App.',
+                },
+                {
+                    title: '15. Changes to Terms',
+                    content: 'We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will provide at least thirty (30) days\' notice prior to the effective date of any changes. By continuing to access or use the App after any revisions become effective, you agree to be bound by the revised Terms.',
+                },
+                {
+                    title: '16. Contact Us',
+                    content: 'If you have any questions about these Terms, please contact us at codewithnabi@gmail.com or visit https://www.codewithnabi.dev/.',
+                },
+                {
+                    title: '17. Religious Content Disclaimer',
+                    content: 'WHILE RAHA IS DESIGNED TO SUPPORT ISLAMIC PRACTICES AND PROVIDE GENERAL INFORMATION ABOUT PRAYER TIMES AND ISLAMIC TEACHINGS, IT IS NOT A SUBSTITUTE FOR PROFESSIONAL RELIGIOUS ADVICE FROM QUALIFIED ISLAMIC SCHOLARS OR AUTHORITIES. THE APP DOES NOT PROVIDE FATWAS, LEGAL OPINIONS, OR OFFICIAL RELIGIOUS RULINGS. USERS ARE ENCOURAGED TO CONSULT WITH KNOWLEDGEABLE INDIVIDUALS, LOCAL IMAMS, OR ISLAMIC CENTERS FOR SPECIFIC RELIGIOUS QUESTIONS OR GUIDANCE.',
+                },
+            ],
+        },
+    },
 ];
 
 export function getProjectBySlug(slug: string): Project | undefined {

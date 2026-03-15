@@ -111,7 +111,7 @@ export default function Projects() {
                                                 iOS Coming Soon
                                             </span>
                                         )}
-                                        {project.links.playStore && (
+                                        {project.links.playStore && project.links.playStore !== '#' && (
                                             <a
                                                 href={project.links.playStore}
                                                 target="_blank"
@@ -121,6 +121,12 @@ export default function Projects() {
                                                 <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d={playIcon} /></svg>
                                                 Play Store
                                             </a>
+                                        )}
+                                        {project.links.playStore === '#' && (
+                                            <span className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border-color)] text-[var(--text-secondary)] rounded-full text-[0.875rem] font-medium opacity-80 cursor-not-allowed">
+                                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d={playIcon} /></svg>
+                                                Android Coming Soon
+                                            </span>
                                         )}
                                     </div>
                                 </div>

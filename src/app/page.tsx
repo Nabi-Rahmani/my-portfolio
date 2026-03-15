@@ -208,7 +208,7 @@ export default function Home() {
                         iOS Coming Soon
                       </span>
                     )}
-                    {project.links.playStore && (
+                    {project.links.playStore && project.links.playStore !== '#' && (
                       <a
                         href={project.links.playStore}
                         target="_blank"
@@ -218,6 +218,12 @@ export default function Home() {
                         <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M3 20.5v-17c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v17c0 .83-.67 1.5-1.5 1.5S3 21.33 3 20.5zM15 12L7 7v10l8-5zm2-5l5.5 3.5a1.5 1.5 0 010 2.5L17 17V7z" /></svg>
                         Play Store
                       </a>
+                    )}
+                    {project.links.playStore === '#' && (
+                      <span className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border-color)] text-[var(--text-secondary)] rounded-full text-[0.875rem] font-medium opacity-80 cursor-not-allowed">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M3 20.5v-17c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v17c0 .83-.67 1.5-1.5 1.5S3 21.33 3 20.5zM15 12L7 7v10l8-5zm2-5l5.5 3.5a1.5 1.5 0 010 2.5L17 17V7z" /></svg>
+                        Android Coming Soon
+                      </span>
                     )}
                   </div>
                 </div>
