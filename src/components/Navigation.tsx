@@ -185,7 +185,7 @@ export default function Navigation() {
                     <Link
                         href="/#home"
                         onClick={handleNavClick('#home')}
-                        className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-full no-underline transition-colors duration-200 text-[var(--text-primary)]"
+                        className="relative flex items-center gap-1.5 px-4 py-2.5 rounded-full no-underline transition-colors duration-200 text-[var(--text-primary)] min-h-[48px] min-w-[48px]"
                     >
                         {isActive('home') && (
                             <motion.span
@@ -221,7 +221,7 @@ export default function Navigation() {
                                     key={item.section}
                                     href={item.href}
                                     onClick={isSectionLink ? handleNavClick(item.hash) : undefined}
-                                    className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-full no-underline transition-colors duration-200 ${
+                                    className={`relative flex items-center gap-1.5 px-4 py-2.5 rounded-full no-underline transition-colors duration-200 min-h-[48px] min-w-[48px] ${
                                         active
                                             ? 'text-[var(--text-primary)]'
                                             : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -240,7 +240,7 @@ export default function Navigation() {
                                         height="18"
                                         fill="currentColor"
                                         viewBox="0 0 24 24"
-                                        className="shrink-0"
+                                        className="shrink-0 opacity-60"
                                     >
                                         <path d={item.icon} />
                                     </svg>
@@ -256,7 +256,7 @@ export default function Navigation() {
                     {/* Theme toggle (desktop) */}
                     <button
                         onClick={toggleTheme}
-                        className="hidden md:flex p-2 rounded-full text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200 cursor-pointer border-none bg-transparent"
+                        className="hidden md:flex p-2.5 rounded-full text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200 cursor-pointer border-none bg-transparent min-w-[48px] min-h-[48px] items-center justify-center"
                         aria-label="Toggle theme"
                     >
                         {isDark ? (

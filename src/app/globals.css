@@ -232,6 +232,18 @@ body {
     mask-composite: intersect;
     z-index: 0;
   }
+  .hero-grid::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 20% 20%, rgba(196, 138, 63, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(196, 138, 63, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(196, 138, 63, 0.04) 0%, transparent 60%);
+    animation: meshFloat 20s ease-in-out infinite;
+  }
   .dark .hero-grid::before {
     opacity: 1;
     background-color: rgba(26, 20, 14, 0.15);
@@ -248,5 +260,46 @@ body {
       radial-gradient(ellipse 90% 85% at 50% 45%, black 0%, black 40%, transparent 100%);
     -webkit-mask-composite: source-in;
     mask-composite: intersect;
+  }
+  .dark .hero-grid::after {
+    background: 
+      radial-gradient(ellipse 80% 60% at 20% 30%, rgba(78, 58, 120, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 50% at 80% 70%, rgba(30, 50, 80, 0.12) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(218, 160, 78, 0.06) 0%, transparent 60%);
+    animation: meshFloatDark 25s ease-in-out infinite;
+  }
+}
+
+@keyframes meshFloat {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.6;
+  }
+  25% {
+    transform: translate(2%, 1%) scale(1.02);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate(-1%, 2%) scale(0.98);
+    opacity: 0.5;
+  }
+  75% {
+    transform: translate(1%, -1%) scale(1.01);
+    opacity: 0.7;
+  }
+}
+
+@keyframes meshFloatDark {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.7;
+  }
+  33% {
+    transform: translate(-2%, 1%) scale(1.03);
+    opacity: 0.9;
+  }
+  66% {
+    transform: translate(1%, -2%) scale(0.97);
+    opacity: 0.5;
   }
 }

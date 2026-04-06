@@ -44,7 +44,7 @@ export default function Footer({ showSocials = false, links }: FooterProps) {
                                 href={social.href}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors no-underline"
+                                className="p-2.5 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors no-underline min-w-[48px] min-h-[48px] flex items-center justify-center"
                                 aria-label={social.label}
                             >
                                 <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">

@@ -76,38 +76,14 @@ export default function Home() {
             <motion.p
               custom={1}
               variants={fadeUp}
-              className="text-[1.125rem] md:text-[1.25rem] text-[var(--text-secondary)] mb-6 max-w-[520px] mx-auto leading-relaxed"
+              className="text-[1.125rem] md:text-[1.25rem] text-[var(--text-secondary)] mb-8 max-w-[520px] mx-auto leading-relaxed"
             >
               Flutter Developer crafting beautiful mobile experiences
               with clean code and intuitive design.
             </motion.p>
 
-            {/* Social icons */}
-            <motion.div custom={2} variants={fadeUp} className="flex gap-3 justify-center mb-4">
-              {socials.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors no-underline"
-                  title={social.label}
-                  aria-label={social.label}
-                >
-                  <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-                    <path d={social.icon} />
-                  </svg>
-                </a>
-              ))}
-            </motion.div>
-
-            {/* Metrics line */}
-            <motion.p custom={3} variants={fadeUp} className="text-[0.875rem] text-[var(--text-secondary)] mb-10">
-              3+ Years Experience &middot; 2 Published Apps &middot; Ankara, Turkey
-            </motion.p>
-
             {/* Single CTA */}
-            <motion.div custom={4} variants={fadeUp}>
+            <motion.div custom={2} variants={fadeUp}>
               <Link
                 href="/#projects"
                 onClick={handleScrollTo('#projects')}
@@ -118,6 +94,30 @@ export default function Home() {
                   <path d="M12 5v14m0 0l-7-7m7 7l7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </Link>
+            </motion.div>
+
+            {/* Metrics line */}
+            <motion.p custom={3} variants={fadeUp} className="text-[0.875rem] text-[var(--text-secondary)] mt-6">
+              3+ Years Experience &middot; 2 Published Apps &middot; Ankara, Turkey
+            </motion.p>
+
+            {/* Social icons - subtle, below metrics */}
+            <motion.div custom={4} variants={fadeUp} className="flex gap-3 justify-center mt-4">
+              {socials.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors no-underline min-w-[48px] min-h-[48px] flex items-center justify-center opacity-60 hover:opacity-100"
+                  title={social.label}
+                  aria-label={social.label}
+                >
+                  <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                    <path d={social.icon} />
+                  </svg>
+                </a>
+              ))}
             </motion.div>
           </motion.div>
         </div>
@@ -414,7 +414,7 @@ export default function Home() {
             </p>
             <Link
               href="/about"
-              className="text-[0.875rem] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors no-underline inline-flex items-center gap-1"
+              className="text-[0.875rem] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors no-underline inline-flex items-center gap-1 min-h-[48px]"
             >
               Learn more about me
               <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" /></svg>

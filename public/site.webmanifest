@@ -1,0 +1,40 @@
+{
+  "name": "Muhammad Nabi Rahmani - Flutter Developer",
+  "short_name": "codewithnabi",
+  "description": "Flutter Developer crafting beautiful mobile experiences with clean code and intuitive design.",
+  "start_url": "https://www.codewithnabi.dev",
+  "display": "standalone",
+  "background_color": "#f8f4ee",
+  "theme_color": "#c48a3f",
+  "icons": [
+    {
+      "src": "/assets/branding/profile.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/branding/profile.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Projects",
+      "url": "https://www.codewithnabi.dev/#projects",
+      "description": "View my portfolio projects"
+    },
+    {
+      "name": "Blog",
+      "url": "https://www.codewithnabi.dev/blog",
+      "description": "Read my latest articles"
+    },
+    {
+      "name": "About",
+      "url": "https://www.codewithnabi.dev/about",
+      "description": "Learn more about me"
+    }
+  ]
+}
