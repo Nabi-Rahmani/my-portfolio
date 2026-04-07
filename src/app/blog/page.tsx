@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, Suspense } from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -237,11 +238,29 @@ function PostGrid({ posts }: { posts: BlogPost[] }) {
 }
 
 /* ─── Main Page ─── */
-export default function BlogPage() {
-    const [filters, setFilters] = useState<BlogFilter>({});
+function BlogContent() {
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const pathname = usePathname();
+
+    const filters = useMemo<BlogFilter>(() => ({
+        search: searchParams.get('q') || undefined,
+        category: searchParams.get('category') || undefined,
+        tag: searchParams.get('tag') || undefined,
+    }), [searchParams]);
+
     const allTags = getAllTags();
     const featuredPosts = getFeaturedPosts();
     const hasActiveFilters = !!(filters.search || filters.category || filters.tag);
+
+    const updateFilters = (newFilters: BlogFilter) => {
+        const params = new URLSearchParams();
+        if (newFilters.search) params.set('q', newFilters.search);
+        if (newFilters.category) params.set('category', newFilters.category);
+        if (newFilters.tag) params.set('tag', newFilters.tag);
+        const queryString = params.toString();
+        router.push(queryString ? `${pathname}?${queryString}` : pathname, { scroll: false });
+    };
 
     const filteredPosts = useMemo(() => {
         let posts = blogPosts;
@@ -330,8 +349,8 @@ export default function BlogPage() {
                         <input
                             type="text"
                             placeholder="Search articles..."
-                            value={filters.search || ''}
-                            onChange={(e) => setFilters({ ...filters, search: e.target.value || undefined })}
+                            defaultValue={filters.search || ''}
+                            onChange={(e) => updateFilters({ ...filters, search: e.target.value || undefined })}
                             className="w-full pl-11 pr-4 py-3 rounded-xl text-[0.9375rem] bg-transparent border border-[var(--border-color)] text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/30 focus:border-[var(--accent)]/30 transition-all"
                         />
                     </div>
@@ -339,7 +358,7 @@ export default function BlogPage() {
                     {/* Category Tabs + Tags */}
                     <div className="flex flex-wrap items-center gap-2">
                         <button
-                            onClick={() => setFilters({ ...filters, category: undefined })}
+                            onClick={() => updateFilters({ ...filters, category: undefined })}
                             className={`px-4 py-2 rounded-full text-[0.8125rem] font-medium transition-all duration-200 border cursor-pointer ${
                                 !filters.category
                                     ? 'bg-[var(--text-primary)] text-[var(--bg-primary)] border-transparent'
@@ -351,7 +370,7 @@ export default function BlogPage() {
                         {blogCategories.filter(c => c.count > 0).map((category) => (
                             <button
                                 key={category.id}
-                                onClick={() => setFilters({ ...filters, category: filters.category === category.slug ? undefined : category.slug })}
+                                onClick={() => updateFilters({ ...filters, category: filters.category === category.slug ? undefined : category.slug })}
                                 className={`px-4 py-2 rounded-full text-[0.8125rem] font-medium transition-all duration-200 border cursor-pointer ${
                                     filters.category === category.slug
                                         ? 'bg-[var(--text-primary)] text-[var(--bg-primary)] border-transparent'
@@ -368,7 +387,7 @@ export default function BlogPage() {
                         {allTags.slice(0, 5).map((tag) => (
                             <button
                                 key={tag}
-                                onClick={() => setFilters({ ...filters, tag: filters.tag === tag ? undefined : tag })}
+                                onClick={() => updateFilters({ ...filters, tag: filters.tag === tag ? undefined : tag })}
                                 className={`px-3 py-1.5 rounded-full text-[0.75rem] transition-all duration-200 border cursor-pointer ${
                                     filters.tag === tag
                                         ? 'bg-[var(--accent)] text-white border-transparent'
@@ -393,23 +412,23 @@ export default function BlogPage() {
                                 {filters.search && (
                                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--accent-muted)] border border-[var(--accent)]/20 text-[var(--text-primary)]">
                                         &ldquo;{filters.search}&rdquo;
-                                        <button onClick={() => setFilters({ ...filters, search: undefined })} className="text-[var(--text-secondary)] hover:text-[var(--accent)] cursor-pointer bg-transparent border-none p-0 text-base leading-none">&times;</button>
+                                        <button onClick={() => updateFilters({ ...filters, search: undefined })} className="text-[var(--text-secondary)] hover:text-[var(--accent)] cursor-pointer bg-transparent border-none p-0 text-base leading-none">&times;</button>
                                     </span>
                                 )}
                                 {filters.category && (
                                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--accent-muted)] border border-[var(--accent)]/20 text-[var(--text-primary)]">
                                         {filters.category}
-                                        <button onClick={() => setFilters({ ...filters, category: undefined })} className="text-[var(--text-secondary)] hover:text-[var(--accent)] cursor-pointer bg-transparent border-none p-0 text-base leading-none">&times;</button>
+                                        <button onClick={() => updateFilters({ ...filters, category: undefined })} className="text-[var(--text-secondary)] hover:text-[var(--accent)] cursor-pointer bg-transparent border-none p-0 text-base leading-none">&times;</button>
                                     </span>
                                 )}
                                 {filters.tag && (
                                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[var(--accent-muted)] border border-[var(--accent)]/20 text-[var(--text-primary)]">
                                         {filters.tag}
-                                        <button onClick={() => setFilters({ ...filters, tag: undefined })} className="text-[var(--text-secondary)] hover:text-[var(--accent)] cursor-pointer bg-transparent border-none p-0 text-base leading-none">&times;</button>
+                                        <button onClick={() => updateFilters({ ...filters, tag: undefined })} className="text-[var(--text-secondary)] hover:text-[var(--accent)] cursor-pointer bg-transparent border-none p-0 text-base leading-none">&times;</button>
                                     </span>
                                 )}
                                 <button
-                                    onClick={() => setFilters({})}
+                                    onClick={() => updateFilters({})}
                                     className="text-[var(--accent)] hover:underline cursor-pointer bg-transparent border-none p-0 text-[0.8125rem] ml-1"
                                 >
                                     Clear all
@@ -463,7 +482,7 @@ export default function BlogPage() {
                                 Try a different search term or browse all categories.
                             </p>
                             <button
-                                onClick={() => setFilters({})}
+                                onClick={() => updateFilters({})}
                                 className="px-6 py-2.5 rounded-full bg-[var(--text-primary)] text-[var(--bg-primary)] text-[0.875rem] font-medium hover:opacity-90 transition-opacity cursor-pointer border-none"
                             >
                                 View all articles
@@ -524,5 +543,17 @@ export default function BlogPage() {
 
             <Footer />
         </div>
+    );
+}
+
+export default function BlogPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
+                <div className="animate-pulse text-[var(--text-secondary)]">Loading...</div>
+            </div>
+        }>
+            <BlogContent />
+        </Suspense>
     );
 }
