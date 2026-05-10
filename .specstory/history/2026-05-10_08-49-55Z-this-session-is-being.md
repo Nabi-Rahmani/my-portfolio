@@ -1816,3 +1816,720 @@ Clean. Here's what was added:
 - **`MouseGlow` component** — a 400px radial gradient circle in `--atelier-accent` at 12% opacity, lerping toward the cursor at 0.08 factor per frame via `requestAnimationFrame`. Feels soft and ambient, not distracting.
 - **Guards**: skips on touch devices (`hover: hover` media query) and respects `prefers-reduced-motion`
 - **`z-index: 1`** — sits above the background but below all content, so it never blocks clicks or text selection
+
+---
+
+_**User (2026-05-10 09:29:13Z)**_
+
+On this page
+Setup
+The Five Provider Types You Actually Use
+1. Provider — Static Values
+2. FutureProvider — Async Data
+3. StreamProvider — Reactive Data
+4. NotifierProvider — Mutable State
+5. AsyncNotifierProvider — Async Mutable State
+Provider Dependencies
+Auto-Dispose: Memory Management That Works
+Testing Without Pain
+ref.watch vs ref.read vs ref.listen
+Why Riverpod Over Provider
+What to Do Next in blog for jump in title topic On this page
+Setup
+The Five Provider Types You Actually Use
+1. Provider — Static Values
+2. FutureProvider — Async Data
+3. StreamProvider — Reactive Data
+4. NotifierProvider — Mutable State
+5. AsyncNotifierProvider — Async Mutable State
+Provider Dependencies
+Auto-Dispose: Memory Management That Works
+Testing Without Pain
+ref.watch vs ref.read vs ref.listen
+Why Riverpod Over Provider
+What to Do Next but don't work
+
+---
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:29:19Z)**_
+
+<think><details><summary>Thought Process</summary>
+The user is talking about the "On this page" table of contents sidebar on their blog post pages. The TOC links aren't working (clicking on a heading in the sidebar doesn't scroll to that section). Let me look at the blog post page component to understand how the TOC is implemented.
+</details></think>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:29:20Z)**_
+
+<tool-use data-tool-type="search" data-tool-name="Glob"><details>
+<summary>Tool use: **Glob**</summary>
+ pattern `src/app/blog/**/*.tsx`
+
+```text
+src/app/blog/layout.tsx
+src/app/blog/[slug]/page.tsx
+src/app/blog/page.tsx
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:29:24Z)**_
+
+<tool-use data-tool-type="read" data-tool-name="Read"><details>
+<summary>Tool use: **Read**</summary>
+ `./src/app/blog/[slug]/page.tsx`
+
+```text
+1	import { notFound } from 'next/navigation';
+2	import { blogPosts, getPostBySlug } from '@/data/blog';
+3	import BlogStructuredData from '@/components/BlogStructuredData';
+4	import BlogPostClient from '@/components/BlogPostClient';
+5	
+6	export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+7	    const { slug } = await params;
+8	    const post = getPostBySlug(slug);
+9	
+10	    if (!post) {
+11	        return {
+12	            title: 'Post Not Found - Muhammad Nabi Rahmani',
+13	            description: 'The requested blog post could not be found.',
+14	        };
+15	    }
+16	
+17	    return {
+18	        title: `${post.title} - Muhammad Nabi Rahmani`,
+19	        description: post.excerpt,
+20	        keywords: [post.category, ...post.tags, 'Flutter development', 'Programming tutorial'],
+21	        authors: [{ name: post.author.name }],
+22	        openGraph: {
+23	            title: post.title,
+24	            description: post.excerpt,
+25	            url: `https://codewithnabi.dev/blog/${post.slug}`,
+26	            type: 'article',
+27	            publishedTime: post.publishedAt,
+28	            authors: [post.author.name],
+29	            tags: post.tags,
+30	            images: [{ url: post.coverImage, width: 1200, height: 630, alt: post.title }],
+31	        },
+32	        twitter: {
+33	            card: 'summary_large_image',
+34	            title: post.title,
+35	            description: post.excerpt,
+36	            images: [post.coverImage],
+37	        },
+38	    };
+39	}
+40	
+41	export async function generateStaticParams() {
+42	    return blogPosts.map((post) => ({
+43	        slug: post.slug,
+44	    }));
+45	}
+46	
+47	export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+48	    const { slug } = await params;
+49	    const post = getPostBySlug(slug);
+50	
+51	    if (!post) {
+52	        notFound();
+53	    }
+54	
+55	    return (
+56	        <>
+57	            <BlogStructuredData post={post} />
+58	            <BlogPostClient post={post} />
+59	        </>
+60	    );
+61	}
+62
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:29:26Z)**_
+
+<tool-use data-tool-type="search" data-tool-name="Glob"><details>
+<summary>Tool use: **Glob**</summary>
+ pattern `src/components/BlogPostClient.tsx`
+
+```text
+src/components/BlogPostClient.tsx
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:29:28Z)**_
+
+<tool-use data-tool-type="read" data-tool-name="Read"><details>
+<summary>Tool use: **Read**</summary>
+ `./src/components/BlogPostClient.tsx`
+
+```text
+1	'use client';
+2	
+3	import { useEffect, useState, useCallback } from 'react';
+4	import { motion, useScroll, useSpring } from 'framer-motion';
+5	import Link from 'next/link';
+6	import Image from 'next/image';
+7	import type { BlogPost } from '@/types/blog';
+8	import { getRelatedPosts } from '@/data/blog';
+9	import ShareButtons from '@/components/ShareButtons';
+10	import ArticleContent from '@/components/ArticleContent';
+11	import Footer from '@/components/Footer';
+12	import { formatDate } from '@/lib/utils';
+13	
+14	/* ─── Reading Progress Bar ─── */
+15	function ReadingProgress() {
+16	    const { scrollYProgress } = useScroll();
+17	    const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+18	
+19	    return (
+20	        <motion.div
+21	            className="fixed top-0 left-0 right-0 h-[3px] bg-[var(--accent)] origin-left z-[100]"
+22	            style={{ scaleX }}
+23	        />
+24	    );
+25	}
+26	
+27	/* ─── Table of Contents ─── */
+28	function TableOfContents({ content }: { content: string }) {
+29	    const [activeId, setActiveId] = useState<string>('');
+30	    const headings = content.match(/^(#{2,3})\s+(.+)$/gm) || [];
+31	
+32	    const tocItems = headings.map((heading, index) => {
+33	        const level = heading.match(/^#+/)?.[0].length || 2;
+34	        const text = heading.replace(/^#+\s+/, '');
+35	        const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+36	        return { level, text, id, index };
+37	    });
+38	
+39	    useEffect(() => {
+40	        if (tocItems.length === 0) return;
+41	
+42	        const observer = new IntersectionObserver(
+43	            (entries) => {
+44	                const visible = entries.filter(e => e.isIntersecting);
+45	                if (visible.length > 0) {
+46	                    setActiveId(visible[0].target.id);
+47	                }
+48	            },
+49	            { rootMargin: '-80px 0px -60% 0px', threshold: 0.1 }
+50	        );
+51	
+52	        tocItems.forEach((item) => {
+53	            const el = document.getElementById(item.id);
+54	            if (el) observer.observe(el);
+55	        });
+56	
+57	        return () => observer.disconnect();
+58	    }, [tocItems]);
+59	
+60	    if (tocItems.length === 0) return null;
+61	
+62	    return (
+63	        <div className="sticky top-28 rounded-2xl border border-[var(--border-color)] p-6">
+64	            <h3 className="text-[0.8125rem] font-semibold text-[var(--text-primary)] mb-4 uppercase tracking-wider flex items-center gap-2">
+65	                <svg className="w-4 h-4 text-[var(--accent)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+66	                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+67	                </svg>
+68	                On this page
+69	            </h3>
+70	            <nav className="space-y-1">
+71	                {tocItems.map((item) => {
+72	                    const isActive = activeId === item.id;
+73	                    return (
+74	                        <a
+75	                            key={item.index}
+76	                            href={`#${item.id}`}
+77	                            className={`block text-[0.8125rem] py-1.5 transition-all duration-200 border-l-2 ${
+78	                                item.level === 2 ? 'pl-3' : 'pl-6'
+79	                            } ${
+80	                                isActive
+81	                                    ? 'border-[var(--accent)] text-[var(--accent)] font-medium'
+82	                                    : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-color)]'
+83	                            }`}
+84	                        >
+85	                            {item.text}
+86	                        </a>
+87	                    );
+88	                })}
+89	            </nav>
+90	        </div>
+91	    );
+92	}
+93	
+94	/* ─── Related Posts ─── */
+95	const RelatedPosts = ({ currentPost }: { currentPost: BlogPost }) => {
+96	    const relatedPosts = getRelatedPosts(currentPost.id);
+97	
+98	    if (relatedPosts.length === 0) return null;
+99	
+100	    return (
+101	        <motion.section
+102	            className="mt-16 pt-16 border-t border-[var(--border-color)]"
+103	            initial={{ opacity: 0, y: 40 }}
+104	            whileInView={{ opacity: 1, y: 0 }}
+105	            viewport={{ once: true }}
+106	            transition={{ type: 'spring', stiffness: 100, damping: 18 }}
+107	        >
+108	            <h2 className="text-[1.5rem] font-bold text-[var(--text-primary)] mb-2 tracking-tight">
+109	                Keep Reading
+110	            </h2>
+111	            <p className="text-[0.9375rem] text-[var(--text-secondary)] mb-8">
+112	                More articles you might enjoy
+113	            </p>
+114	            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+115	                {relatedPosts.map((post: BlogPost, i: number) => (
+116	                    <motion.div
+117	                        key={post.id}
+118	                        initial={{ opacity: 0, y: 24 }}
+119	                        whileInView={{ opacity: 1, y: 0 }}
+120	                        viewport={{ once: true }}
+121	                        transition={{ duration: 0.5, delay: i * 0.08, ease: [0.25, 0.4, 0.25, 1] as const }}
+122	                        whileHover={{ y: -4, transition: { type: 'spring', stiffness: 300, damping: 20 } }}
+123	                    >
+124	                        <Link
+125	                            href={`/blog/${post.slug}`}
+126	                            className="group no-underline block h-full"
+127	                        >
+128	                            <article className="h-full rounded-2xl border border-[var(--border-color)] overflow-hidden hover:border-[var(--accent)]/30 transition-all duration-300 hover:shadow-[var(--shadow-md)]">
+129	                                <div className="h-[140px] relative overflow-hidden">
+130	                                    <Image
+131	                                        src={post.coverImage}
+132	                                        alt={post.title}
+133	                                        fill
+134	                                        className="object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+135	                                    />
+136	                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+137	                                </div>
+138	                                <div className="p-5">
+139	                                    <div className="flex items-center gap-2 mb-2.5">
+140	                                        <span className="text-[0.6875rem] px-2 py-0.5 bg-[var(--accent-muted)] text-[var(--accent)] rounded-full font-medium">
+141	                                            {post.category}
+142	                                        </span>
+143	                                        <span className="text-[0.6875rem] text-[var(--text-secondary)]">{post.readingTime} min</span>
+144	                                    </div>
+145	                                    <h3 className="text-[0.9375rem] font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-200 leading-snug mb-2 line-clamp-2">
+146	                                        {post.title}
+147	                                    </h3>
+148	                                    <p className="text-[var(--text-secondary)] text-[0.8125rem] line-clamp-2 leading-relaxed">
+149	                                        {post.excerpt}
+150	                                    </p>
+151	                                </div>
+152	                            </article>
+153	                        </Link>
+154	                    </motion.div>
+155	                ))}
+156	            </div>
+157	        </motion.section>
+158	    );
+159	};
+160	
+161	/* ─── Estimated Read Time Visual ─── */
+162	function ReadTimeVisual({ minutes }: { minutes: number }) {
+163	    return (
+164	        <div className="flex items-center gap-2 text-[0.8125rem] text-[var(--text-secondary)]">
+165	            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24" className="text-[var(--accent)]">
+166	                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+167	            </svg>
+168	            {minutes} min read
+169	        </div>
+170	    );
+171	}
+172	
+173	/* ─── Main Blog Post Client ─── */
+174	export default function BlogPostClient({ post }: { post: BlogPost }) {
+175	    const [copied, setCopied] = useState(false);
+176	
+177	    const handleCopyLink = useCallback(async () => {
+178	        try {
+179	            await navigator.clipboard.writeText(window.location.href);
+180	            setCopied(true);
+181	            setTimeout(() => setCopied(false), 2000);
+182	        } catch {
+183	            // Silently fail
+184	        }
+185	    }, []);
+186	
+187	    return (
+188	        <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
+189	            <ReadingProgress />
+190	
+191	            {/* Hero Section */}
+192	            <section className="relative">
+193	                {/* Cover image with overlay */}
+194	                <div className="relative h-[300px] md:h-[450px] overflow-hidden">
+195	                    <Image
+196	                        src={post.coverImage}
+197	                        alt={post.title}
+198	                        fill
+199	                        className="object-cover"
+200	                        sizes="100vw"
+201	                        priority
+202	                    />
+203	                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-[var(--bg-primary)]/40 to-transparent" />
+204	                </div>
+205	
+206	                {/* Content overlaying bottom of image */}
+207	                <div className="relative -mt-32 md:-mt-44 z-10 px-6">
+208	                    <div className="max-w-[800px] mx-auto">
+209	                        {/* Breadcrumb */}
+210	                        <motion.nav
+211	                            className="mb-6"
+212	                            initial={{ opacity: 0, y: 10 }}
+213	                            animate={{ opacity: 1, y: 0 }}
+214	                            transition={{ duration: 0.4 }}
+215	                        >
+216	                            <ol className="flex items-center gap-2 text-[0.8125rem]">
+217	                                <li>
+218	                                    <Link href="/" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">
+219	                                        Home
+220	                                    </Link>
+221	                                </li>
+222	                                <li className="text-[var(--text-secondary)]">/</li>
+223	                                <li>
+224	                                    <Link href="/blog" className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors">
+225	                                        Blog
+226	                                    </Link>
+227	                                </li>
+228	                                <li className="text-[var(--text-secondary)]">/</li>
+229	                                <li className="text-[var(--text-primary)] truncate max-w-[200px]">{post.title}</li>
+230	                            </ol>
+231	                        </motion.nav>
+232	
+233	                        {/* Meta */}
+234	                        <motion.div
+235	                            className="flex flex-wrap items-center gap-3 mb-5"
+236	                            initial={{ opacity: 0, y: 10 }}
+237	                            animate={{ opacity: 1, y: 0 }}
+238	                            transition={{ duration: 0.4, delay: 0.1 }}
+239	                        >
+240	                            <span className="px-3 py-1 bg-[var(--accent-muted)] text-[var(--accent)] rounded-full text-[0.75rem] font-medium">
+241	                                {post.category}
+242	                            </span>
+243	                            <ReadTimeVisual minutes={post.readingTime} />
+244	                            <span className="text-[0.8125rem] text-[var(--text-secondary)]">
+245	                                {formatDate(post.publishedAt)}
+246	                            </span>
+247	                        </motion.div>
+248	
+249	                        {/* Title */}
+250	                        <motion.h1
+251	                            className="text-[2rem] md:text-[2.75rem] font-bold leading-[1.15] mb-6 text-[var(--text-primary)] tracking-tight"
+252	                            initial={{ opacity: 0, y: 20 }}
+253	                            animate={{ opacity: 1, y: 0 }}
+254	                            transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 0.4, 0.25, 1] as const }}
+255	                        >
+256	                            {post.title}
+257	                        </motion.h1>
+258	
+259	                        {/* Excerpt */}
+260	                        <motion.p
+261	                            className="text-[1.0625rem] md:text-[1.125rem] text-[var(--text-secondary)] leading-relaxed mb-8 max-w-[650px]"
+262	                            initial={{ opacity: 0, y: 15 }}
+263	                            animate={{ opacity: 1, y: 0 }}
+264	                            transition={{ duration: 0.5, delay: 0.25 }}
+265	                        >
+266	                            {post.excerpt}
+267	                        </motion.p>
+268	
+269	                        {/* Author + Share */}
+270	                        <motion.div
+271	                            className="flex items-center justify-between pb-8 border-b border-[var(--border-color)]"
+272	                            initial={{ opacity: 0, y: 10 }}
+273	                            animate={{ opacity: 1, y: 0 }}
+274	                            transition={{ duration: 0.4, delay: 0.35 }}
+275	                        >
+276	                            <div className="flex items-center gap-3.5">
+277	                                <div className="relative">
+278	                                    <Image
+279	                                        src={post.author.avatar}
+280	                                        alt={post.author.name}
+281	                                        width={48}
+282	                                        height={48}
+283	                                        className="rounded-full object-cover border-2 border-[var(--border-color)]"
+284	                                    />
+285	                                </div>
+286	                                <div>
+287	                                    <p className="text-[0.9375rem] font-semibold text-[var(--text-primary)]">
+288	                                        {post.author.name}
+289	                                    </p>
+290	                                    <p className="text-[0.8125rem] text-[var(--text-secondary)]">
+291	                                        {post.author.bio}
+292	                                    </p>
+293	                                </div>
+294	                            </div>
+295	
+296	                            {/* Quick share */}
+297	                            <button
+298	                                onClick={handleCopyLink}
+299	                                className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--accent)] hover:border-[var(--accent)]/30 transition-all duration-200 cursor-pointer bg-transparent text-[0.8125rem]"
+300	                            >
+301	                                {copied ? (
+302	                                    <>
+303	                                        <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+304	                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+305	                                        </svg>
+306	                                        Copied!
+307	                                    </>
+308	                                ) : (
+309	                                    <>
+310	                                        <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+311	                                            <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m9.86-4.822a4.5 4.5 0 00-1.242-7.244l-4.5-4.5a4.5 4.5 0 00-6.364 6.364L5.05 8.05" />
+312	                                        </svg>
+313	                                        Share
+314	                                    </>
+315	                                )}
+316	                            </button>
+317	                        </motion.div>
+318	
+319	                        {/* Tags */}
+320	                        <motion.div
+321	                            className="flex flex-wrap gap-2 pt-6"
+322	                            initial={{ opacity: 0 }}
+323	                            animate={{ opacity: 1 }}
+324	                            transition={{ duration: 0.4, delay: 0.45 }}
+325	                        >
+326	                            {post.tags.map((tag) => (
+327	                                <Link
+328	                                    key={tag}
+329	                                    href={`/blog?tag=${tag}`}
+330	                                    className="text-[0.8125rem] px-3 py-1 bg-[var(--accent-muted)] text-[var(--text-secondary)] rounded-full hover:text-[var(--accent)] transition-colors no-underline"
+331	                                >
+332	                                    {tag}
+333	                                </Link>
+334	                            ))}
+335	                        </motion.div>
+336	                    </div>
+337	                </div>
+338	            </section>
+339	
+340	            {/* Article Content + TOC */}
+341	            <div className="max-w-6xl mx-auto px-6 pt-12 pb-16">
+342	                <div className="grid lg:grid-cols-[1fr_240px] gap-12">
+343	                    <article>
+344	                        <motion.div
+345	                            initial={{ opacity: 0, y: 20 }}
+346	                            animate={{ opacity: 1, y: 0 }}
+347	                            transition={{ duration: 0.5, delay: 0.5 }}
+348	                        >
+349	                            <ArticleContent content={post.content} />
+350	                        </motion.div>
+351	
+352	                        {/* Bottom Share */}
+353	                        <motion.div
+354	                            className="mt-12"
+355	                            initial={{ opacity: 0, y: 20 }}
+356	                            whileInView={{ opacity: 1, y: 0 }}
+357	                            viewport={{ once: true }}
+358	                            transition={{ duration: 0.4 }}
+359	                        >
+360	                            <ShareButtons post={post} />
+361	                        </motion.div>
+362	
+363	                        <RelatedPosts currentPost={post} />
+364	                    </article>
+365	
+366	                    {/* Sidebar TOC */}
+367	                    <motion.aside
+368	                        className="hidden lg:block"
+369	                        initial={{ opacity: 0, x: 20 }}
+370	                        animate={{ opacity: 1, x: 0 }}
+371	                        transition={{ duration: 0.5, delay: 0.6 }}
+372	                    >
+373	                        <TableOfContents content={post.content} />
+374	                    </motion.aside>
+375	                </div>
+376	            </div>
+377	
+378	            <Footer />
+379	        </div>
+380	    );
+381	}
+382
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:29:34Z)**_
+
+<think><details><summary>Thought Process</summary>
+The issue is clear. The TOC generates IDs with this code:
+
+```js
+const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+```
+
+But the `ArticleContent` component renders the markdown with `react-markdown`. The headings in the rendered HTML get IDs assigned by `rehype-slug` or manually, but the TOC is generating IDs independently using its own formula. If they don't match, the links won't work.
+
+Let me check how `ArticleContent` renders headings and whether it assigns IDs to them.
+</details></think>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:29:34Z)**_
+
+<tool-use data-tool-type="read" data-tool-name="Read"><details>
+<summary>Tool use: **Read**</summary>
+ `./src/components/ArticleContent.tsx`
+
+```text
+1	'use client';
+2	
+3	import ReactMarkdown from 'react-markdown';
+4	import rehypeHighlight from 'rehype-highlight';
+5	import rehypeRaw from 'rehype-raw';
+6	import remarkGfm from 'remark-gfm';
+7	import 'highlight.js/styles/github-dark.css';
+8	
+9	interface ArticleContentProps {
+10	    content: string;
+11	}
+12	
+13	export default function ArticleContent({ content }: ArticleContentProps) {
+14	    return (
+15	        <div className="article-content">
+16	            <ReactMarkdown
+17	                remarkPlugins={[remarkGfm]}
+18	                rehypePlugins={[rehypeHighlight, rehypeRaw]}
+19	            >
+20	                {content}
+21	            </ReactMarkdown>
+22	        </div>
+23	    );
+24	}
+25
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:29:44Z)**_
+
+<think><details><summary>Thought Process</summary>
+Found the root cause. The `ArticleContent` component uses `react-markdown` with `rehypeHighlight` and `rehypeRaw`, but **no `rehype-slug`**. So the rendered heading elements have no `id` attributes at all. The TOC generates IDs from the heading text, but those IDs don't exist in the DOM — no elements match them, so clicking the TOC links doesn't scroll anywhere.
+
+The fix is to either:
+1. Add `rehype-slug` to `ArticleContent` so the rendered headings get IDs that match what the TOC generates
+2. Or use a custom heading renderer in `react-markdown` to add IDs
+
+
+3. Or use a custom heading component that generates IDs the same way `rehype-slug` does, since the TOC's ID formula and `rehype-slug`'s formula are close but might diverge in edge cases — the safest bet is to add `rehype-slug` and then sync the TOC's ID generation logic to match exactly what it produces.
+
+Let me check if `rehype-slug` is already in the dependencies.
+</details></think>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:29:48Z)**_
+
+Found the bug. `ArticleContent` renders headings with **no `id` attributes** — `rehype-slug` is missing. The TOC generates IDs from heading text, but there's nothing in the DOM to scroll to.
+
+Fix: add `rehype-slug` to `ArticleContent` so rendered headings get matching IDs.
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:29:49Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Check if rehype-slug is installed
+
+`cat package.json | grep "rehype"`
+
+```text
+    "rehype-highlight": "^7.0.2",
+    "rehype-raw": "^7.0.0",
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:29:53Z)**_
+
+Not installed. Adding it:
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:30:02Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Install rehype-slug
+
+`npm install rehype-slug 2>&1 | tail -5`
+
+```text
+To address all issues, run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:30:07Z)**_
+
+<tool-use data-tool-type="write" data-tool-name="Edit"><details>
+<summary>Tool use: **Edit**</summary>
+
+```text
+The file /Users/nabirahmani/my-portfolio/src/components/ArticleContent.tsx has been updated successfully.
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:30:11Z)**_
+
+<tool-use data-tool-type="write" data-tool-name="Edit"><details>
+<summary>Tool use: **Edit**</summary>
+
+```text
+The file /Users/nabirahmani/my-portfolio/src/components/ArticleContent.tsx has been updated successfully.
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:30:16Z)**_
+
+Now the TOC ID formula needs to match `rehype-slug` exactly. `rehype-slug` uses `github-slugger` — it trims trailing dashes. Let me align the TOC's ID generation:
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:30:18Z)**_
+
+<tool-use data-tool-type="write" data-tool-name="Edit"><details>
+<summary>Tool use: **Edit**</summary>
+
+```text
+The file /Users/nabirahmani/my-portfolio/src/components/BlogPostClient.tsx has been updated successfully.
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:30:24Z)**_
+
+Also need smooth scrolling for the TOC links since the page uses Lenis. Let me update the TOC anchor clicks to use `scrollIntoView` with offset for the fixed nav:
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:30:37Z)**_
+
+<tool-use data-tool-type="write" data-tool-name="Edit"><details>
+<summary>Tool use: **Edit**</summary>
+
+```text
+The file /Users/nabirahmani/my-portfolio/src/components/BlogPostClient.tsx has been updated successfully.
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:30:54Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Verify build passes
+
+`npm run build 2>&1 | tail -15`
+
+```text
+├   ├ /projects/focus-flow/terms
+├   ├ /projects/dev-discipline/terms
+├   └ /projects/mihrab-by-raha/terms
+├ ○ /robots.txt                                        138 B        99.9 kB
+└ ○ /sitemap.xml                                       138 B        99.9 kB
++ First Load JS shared by all                        99.8 kB
+  ├ chunks/4bd1b696-cf72ae8a39fa05aa.js              54.1 kB
+  ├ chunks/964-b440f7af22c41ca5.js                   43.7 kB
+  └ other shared chunks (total)                      1.93 kB
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:31:07Z)**_
+
+Clean. Here's what was wrong and what was fixed:
+
+**Root cause:** `ArticleContent` rendered headings as plain `<h2>`, `<h3>` etc. with no `id` attributes — so the TOC links had nothing to scroll to.
+
+**Fix:**
+1. Installed `rehype-slug` and added it to the `rehypePlugins` array — now every heading automatically gets an `id` derived from its text
+2. Aligned the TOC's ID formula to trim leading/trailing dashes, matching `rehype-slug` exactly
+3. Replaced plain `href="#id"` anchor behaviour with a click handler that scrolls with a 96px offset (clears the fixed nav bar) and updates the URL hash

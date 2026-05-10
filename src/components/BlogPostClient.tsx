@@ -32,7 +32,7 @@ function TableOfContents({ content }: { content: string }) {
     const tocItems = headings.map((heading, index) => {
         const level = heading.match(/^#+/)?.[0].length || 2;
         const text = heading.replace(/^#+\s+/, '');
-        const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
         return { level, text, id, index };
     });
 
@@ -74,6 +74,14 @@ function TableOfContents({ content }: { content: string }) {
                         <a
                             key={item.index}
                             href={`#${item.id}`}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                const el = document.getElementById(item.id);
+                                if (!el) return;
+                                const top = el.getBoundingClientRect().top + window.scrollY - 96;
+                                window.scrollTo({ top, behavior: 'smooth' });
+                                history.pushState(null, '', `#${item.id}`);
+                            }}
                             className={`block text-[0.8125rem] py-1.5 transition-all duration-200 border-l-2 ${
                                 item.level === 2 ? 'pl-3' : 'pl-6'
                             } ${

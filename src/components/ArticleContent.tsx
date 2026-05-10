@@ -3,6 +3,7 @@
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
 import rehypeRaw from 'rehype-raw';
+import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import 'highlight.js/styles/github-dark.css';
 
@@ -15,7 +16,7 @@ export default function ArticleContent({ content }: ArticleContentProps) {
         <div className="article-content">
             <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeHighlight, rehypeRaw]}
+                rehypePlugins={[rehypeSlug, rehypeHighlight, rehypeRaw]}
             >
                 {content}
             </ReactMarkdown>
