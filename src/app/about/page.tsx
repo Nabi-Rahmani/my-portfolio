@@ -4,24 +4,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Footer from '@/components/Footer';
+import { fadeUp } from '@/lib/animations';
 
-const fadeUp = {
-    hidden: { opacity: 0, y: 24 },
-    visible: (i: number) => ({
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.6, delay: i * 0.1, ease: [0.25, 0.4, 0.25, 1] as const },
-    }),
-};
-
-const staggerContainer = {
+const aboutStaggerContainer = {
     hidden: {},
     visible: {
         transition: { staggerChildren: 0.08 },
     },
 };
 
-const staggerItem = {
+const aboutStaggerItem = {
     hidden: { opacity: 0, y: 16 },
     visible: {
         opacity: 1,
@@ -257,7 +249,7 @@ export default function About() {
                     </motion.div>
 
                     <motion.div
-                        variants={staggerContainer}
+                        variants={aboutStaggerContainer}
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, margin: '-60px' }}
@@ -266,7 +258,7 @@ export default function About() {
                         {values.map((value) => (
                             <motion.div
                                 key={value.title}
-                                variants={staggerItem}
+                                variants={aboutStaggerItem}
                                 className="group relative rounded-2xl border border-[var(--border-color)] p-7 transition-all duration-300 hover:border-[var(--accent)]/20"
                             >
                                 {/* Top accent line */}
@@ -308,7 +300,7 @@ export default function About() {
                     </motion.div>
 
                     <motion.div
-                        variants={staggerContainer}
+                        variants={aboutStaggerContainer}
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, margin: '-60px' }}
@@ -317,7 +309,7 @@ export default function About() {
                         {skillGroups.map((group) => (
                             <motion.div
                                 key={group.label}
-                                variants={staggerItem}
+                                variants={aboutStaggerItem}
                                 className="group rounded-2xl border border-[var(--border-color)] p-6 transition-all duration-300 hover:border-[var(--accent)]/20"
                             >
                                 <div className="flex items-center gap-3 mb-4">

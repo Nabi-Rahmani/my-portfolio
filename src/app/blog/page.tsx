@@ -8,14 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { blogPosts, blogCategories, getFeaturedPosts, getAllTags, searchPosts, getPostsByCategory, getPostsByTag } from '@/data/blog';
 import type { BlogPost, BlogFilter } from '@/types/blog';
 import Footer from '@/components/Footer';
-
-function formatDate(dateString: string) {
-    return new Date(dateString).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-    });
-}
+import { formatDateShort as formatDate } from '@/lib/utils';
 
 /* ─── Featured Hero Card ─── */
 const FeaturedCard = ({ post }: { post: BlogPost }) => (

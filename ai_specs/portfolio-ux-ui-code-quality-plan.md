@@ -19,19 +19,19 @@ Polish + modernize all portfolio sections (Home, Blog, Projects, About); extract
 ### Phase 1: Foundation — Shared Lib + UI Components
 
 - **Goal**: Create shared animations, utils, and UI components; remove all local duplicates
-- [ ] `src/lib/animations.ts` — export `fadeUp`, `staggerContainer`, `springCard` variants
-- [ ] `src/lib/utils.ts` — export `formatDate(date: string): string` and `cn(...classes: string[]): string` (inline implementation, no clsx package)
-- [ ] `src/components/ui/Button.tsx` — variants: `primary`, `secondary`, `ghost`; renders `<a>` when `href` passed, `<button>` otherwise; `disabled` prop supported
-- [ ] `src/components/ui/Badge.tsx` — variants: `accent` (accent-muted bg), `neutral` (bg-secondary); used for tags/categories
-- [ ] `src/components/ui/SocialIcon.tsx` — accepts `name: 'github' | 'linkedin' | 'twitter'`; contains all three SVG paths; renders accessible `<a>` wrapper
-- [ ] `src/components/ui/CardImage.tsx` — Next.js `<Image>` with fill + gradient overlay + hover-scale; `aspectRatio` prop (`'16/9' | '16/10'`)
-- [ ] `src/components/ui/Skeleton.tsx` — base `<div className="animate-pulse bg-[var(--bg-secondary)] rounded-xl" />`; export `SkeletonBlogCard`, `SkeletonProjectCard` composites matching real card layouts
-- [ ] `src/app/page.tsx` — remove local `fadeUp`, `socials` array; import from `src/lib/animations` + `SocialIcon`
-- [ ] `src/app/blog/page.tsx` — remove local `formatDate`; import from `src/lib/utils`
-- [ ] `src/components/BlogPostClient.tsx` — remove local `formatDate`; import from `src/lib/utils`
-- [ ] `src/components/Navigation.tsx` — delete commented-out Courses block (lines 41-47 incl. `TODO` comment); remove `'courses'` from `NavSection` type if unused
-- [ ] `src/app/page.tsx` — replace `<span>` "Coming Soon" store buttons with `<button disabled aria-disabled="true">` + disabled cursor styling
-- [ ] Verify: `grep -r "const fadeUp" src/` → 0 results; `grep -r "formatDate" src/` → only `src/lib/utils.ts`; `npm run build && npm run lint` pass
+- [x] `src/lib/animations.ts` — export `fadeUp`, `staggerContainer`, `springCard` variants
+- [x] `src/lib/utils.ts` — export `formatDate(date: string): string` and `cn(...classes: string[]): string` (inline implementation, no clsx package)
+- [x] `src/components/ui/Button.tsx` — variants: `primary`, `secondary`, `ghost`; renders `<a>` when `href` passed, `<button>` otherwise; `disabled` prop supported
+- [x] `src/components/ui/Badge.tsx` — variants: `accent` (accent-muted bg), `neutral` (bg-secondary); used for tags/categories
+- [x] `src/components/ui/SocialIcon.tsx` — accepts `name: 'github' | 'linkedin' | 'twitter'`; contains all three SVG paths; renders accessible `<a>` wrapper
+- [x] `src/components/ui/CardImage.tsx` — Next.js `<Image>` with fill + gradient overlay + hover-scale; `aspectRatio` prop (`'16/9' | '16/10'`)
+- [x] `src/components/ui/Skeleton.tsx` — base `<div className="animate-pulse bg-[var(--bg-secondary)] rounded-xl" />`; export `SkeletonBlogCard`, `SkeletonProjectCard` composites matching real card layouts
+- [x] `src/app/page.tsx` — remove local `fadeUp`, `socials` array; import from `src/lib/animations` + `SocialIcon`
+- [x] `src/app/blog/page.tsx` — remove local `formatDate`; import from `src/lib/utils`
+- [x] `src/components/BlogPostClient.tsx` — remove local `formatDate`; import from `src/lib/utils`
+- [x] `src/components/Navigation.tsx` — delete commented-out Courses block (lines 41-47 incl. `TODO` comment); remove `'courses'` from `NavSection` type if unused
+- [x] `src/app/page.tsx` — replace `<span>` "Coming Soon" store buttons with `<button disabled aria-disabled="true">` + disabled cursor styling
+- [x] Verify: `grep -r "const fadeUp" src/` → 0 results; `grep -r "formatDate" src/` → only `src/lib/utils.ts`; `npm run build && npm run lint` pass
 
 ### Phase 2: Home / Hero Polish
 

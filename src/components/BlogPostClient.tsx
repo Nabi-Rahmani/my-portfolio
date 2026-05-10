@@ -9,14 +9,7 @@ import { getRelatedPosts } from '@/data/blog';
 import ShareButtons from '@/components/ShareButtons';
 import ArticleContent from '@/components/ArticleContent';
 import Footer from '@/components/Footer';
-
-function formatDate(dateString: string) {
-    return new Date(dateString).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
-}
+import { formatDate } from '@/lib/utils';
 
 /* ─── Reading Progress Bar ─── */
 function ReadingProgress() {

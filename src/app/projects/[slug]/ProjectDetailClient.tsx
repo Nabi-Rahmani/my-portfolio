@@ -6,11 +6,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { useRef, useState, useCallback, useEffect } from 'react';
 import type { Project } from '@/types/project';
 import Footer from '@/components/Footer';
-
-const fadeUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0 },
-};
+import { fadeUp } from '@/lib/animations';
 
 export default function ProjectDetailClient({ project }: { project: Project }) {
     const heroRef = useRef<HTMLDivElement>(null);
