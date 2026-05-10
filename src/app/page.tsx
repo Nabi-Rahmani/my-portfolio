@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { getAllProjects } from '@/data/projects';
 import AtelierNav from '@/components/AtelierNav';
-import PhonePlaceholder from '@/components/PhonePlaceholder';
+import PhoneScreenshot from '@/components/PhoneScreenshot';
 import ScrollReveal from '@/components/ScrollReveal';
 
 declare global {
@@ -17,12 +17,6 @@ declare global {
 }
 
 const allProjects = getAllProjects().slice(0, 3);
-
-const phoneCaptions: Record<string, string> = {
-  'focus-flow': 'focus_flow / timer.dart\nsession_view → 25:00',
-  'dev-discipline': 'dev_discipline / plan.dart\nday_view → task_42',
-  'mihrab-by-raha': 'mihrab / prayer.dart\nprayer_times → Fajr',
-};
 
 const projectDescriptions: Record<string, string> = {
   'focus-flow':
@@ -168,7 +162,6 @@ export default function Home() {
         <div className="max-w-[1200px] mx-auto flex flex-col gap-24 md:gap-32">
           {allProjects.map((project, i) => {
             const isEven = i % 2 === 0;
-            const caption = phoneCaptions[project.slug] ?? `${project.slug}\nview → screen`;
             const description = projectDescriptions[project.slug] ?? project.subtitle;
 
             return (
@@ -184,7 +177,7 @@ export default function Home() {
                       whileHover={{ y: -8, rotate: isEven ? -1.5 : 1.5 }}
                       transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
                     >
-                      <PhonePlaceholder label="PRODUCT SHOT" caption={caption} />
+                      <PhoneScreenshot src={project.screenshots[0]} alt={project.title} />
                     </motion.div>
                   </div>
 

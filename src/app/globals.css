@@ -46,6 +46,11 @@
   --cream: #14110d;
   --ink: #f1e7d3;
   --atelier-accent: oklch(0.78 0.12 60);
+  --cream-2: #1e1a14;
+  --ink-soft: #d4c5b2;
+  --muted: #a89e92;
+  --line: #564d3e;
+  --accent-soft: oklch(0.20 0.04 70);
 }
 
 ::selection {
