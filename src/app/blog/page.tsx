@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useMemo, useEffect, Suspense } from 'react';
+import { useMemo, useRef, Suspense } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { SkeletonBlogCard } from '@/components/ui/Skeleton';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -235,6 +236,7 @@ function BlogContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
+    const debounceRef = useRef<ReturnType<typeof setTimeout>>(null);
 
     const filters = useMemo<BlogFilter>(() => ({
         search: searchParams.get('q') || undefined,
@@ -343,7 +345,13 @@ function BlogContent() {
                             type="text"
                             placeholder="Search articles..."
                             defaultValue={filters.search || ''}
-                            onChange={(e) => updateFilters({ ...filters, search: e.target.value || undefined })}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (debounceRef.current) clearTimeout(debounceRef.current);
+                                debounceRef.current = setTimeout(() => {
+                                    updateFilters({ ...filters, search: value || undefined });
+                                }, 300);
+                            }}
                             className="w-full pl-11 pr-4 py-3 rounded-xl text-[0.9375rem] bg-transparent border border-[var(--border-color)] text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/30 focus:border-[var(--accent)]/30 transition-all"
                         />
                     </div>
@@ -542,8 +550,16 @@ function BlogContent() {
 export default function BlogPage() {
     return (
         <Suspense fallback={
-            <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
-                <div className="animate-pulse text-[var(--text-secondary)]">Loading...</div>
+            <div className="min-h-screen bg-[var(--bg-primary)]">
+                <div className="max-w-[1000px] mx-auto px-6 pt-40 pb-12">
+                    <div className="flex flex-col gap-10">
+                        <SkeletonBlogCard />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <SkeletonBlogCard />
+                            <SkeletonBlogCard />
+                        </div>
+                    </div>
+                </div>
             </div>
         }>
             <BlogContent />

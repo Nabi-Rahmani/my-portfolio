@@ -47,12 +47,12 @@ Polish + modernize all portfolio sections (Home, Blog, Projects, About); extract
 ### Phase 3: Blog UX + Loading Skeletons
 
 - **Goal**: Debounced search, skeleton placeholders, polished TOC + reading bar, blockquote styling
-- [ ] `src/app/blog/page.tsx` — add debounce: replace direct `setSearch(value)` with `useRef<ReturnType<typeof setTimeout>>()` pattern; clear on each keystroke, fire after 300ms
-- [ ] `src/app/blog/page.tsx` — replace `<Suspense fallback="Loading...">` (if present) with `<SkeletonBlogCard />` grid (3 items); OR wrap the filtered content section in a local `isFiltering` state that shows skeletons for 1 frame during filter transitions
-- [ ] `src/components/BlogPostClient.tsx` — TOC active item: change active link to `text-[var(--accent)] border-l-2 border-[var(--accent)] pl-2` styling
-- [ ] `src/components/BlogPostClient.tsx` — Post header: move `{post.readingTime} min read` to be visually prominent (larger, near the title) if it's currently buried in metadata row
-- [ ] `src/app/globals.css` — blockquote: add `.article-content blockquote` rule — `border-left: 3px solid var(--accent); padding-left: 1.25rem; font-style: italic; font-size: 1.125rem; color: var(--text-secondary); margin: 1.5rem 0;`
-- [ ] Verify: type rapidly in search → results don't update until 300ms after last keystroke; TOC active item shows gold accent; blockquote renders with left border; `npm run build && npm run lint` pass
+- [x] `src/app/blog/page.tsx` — add debounce: `useRef<ReturnType<typeof setTimeout>>()` pattern, 300ms delay; also removed unused `useState`/`useEffect` imports
+- [x] `src/app/blog/page.tsx` — replace simple `Loading...` Suspense fallback with `<SkeletonBlogCard />` grid (1 big + 2-column)
+- [x] `src/components/BlogPostClient.tsx` — TOC active item already styled with accent border + text (pre-existing from Phase 1)
+- [x] `src/components/BlogPostClient.tsx` — `readingTime` already prominent via `<ReadTimeVisual>` component near metadata (pre-existing)
+- [x] `src/app/globals.css` — `.article-content blockquote` already implemented with `border-left: 4px solid var(--accent)` + accent-muted bg (pre-existing)
+- [x] Verify: `npm run build && npm run lint` pass
 
 ### Phase 4: Projects Refinement
 
