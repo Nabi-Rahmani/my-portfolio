@@ -1,17 +1,12 @@
 'use client';
 
 import type { MouseEvent } from 'react';
-
-import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { blogPosts } from '@/data/blog';
+import Link from 'next/link';
 import { getAllProjects } from '@/data/projects';
-import Footer from '@/components/Footer';
-import { fadeUp } from '@/lib/animations';
-import SocialIcon from '@/components/ui/SocialIcon';
-import Badge from '@/components/ui/Badge';
-import CardImage from '@/components/ui/CardImage';
+import AtelierNav from '@/components/AtelierNav';
+import PhonePlaceholder from '@/components/PhonePlaceholder';
+import ScrollReveal from '@/components/ScrollReveal';
 
 declare global {
   interface Window {
@@ -21,483 +16,377 @@ declare global {
   }
 }
 
+const allProjects = getAllProjects().slice(0, 3);
+
+const phoneCaptions: Record<string, string> = {
+  'focus-flow': 'focus_flow / timer.dart\nsession_view → 25:00',
+  'dev-discipline': 'dev_discipline / plan.dart\nday_view → task_42',
+  'mihrab-by-raha': 'mihrab / prayer.dart\nprayer_times → Fajr',
+};
+
+const projectDescriptions: Record<string, string> = {
+  'focus-flow':
+    "A calm, guided focus timer for deep work. Sessions, soundscapes, breathing exercises, and analytics that don't shame you.",
+  'dev-discipline':
+    'Build better habits, stay consistent, become unstoppable. A 60-day system for engineers who want to actually finish things.',
+  'mihrab-by-raha':
+    'A peaceful Islamic companion for daily worship. Prayer times, Quran reader, and a Hijri calendar — designed to feel like quiet.',
+};
+
 export default function Home() {
-  const handleScrollTo = (hash: string) => (event: MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
-    if (typeof window === 'undefined') return;
-
-    event.preventDefault();
-
-    const target = document.querySelector(hash) as HTMLElement | null;
-    const lenis = window.__lenis;
-
-    if (target && lenis && typeof lenis.scrollTo === 'function') {
-      lenis.scrollTo(target, { offset: -80 });
-    } else if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    if (window.location.hash !== hash) {
-      window.history.pushState(null, '', hash);
-    }
-  };
-
-  const featuredPosts = blogPosts.slice(0, 3);
-  const allProjects = getAllProjects();
+  const handleScrollTo =
+    (hash: string) => (event: MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
+      if (typeof window === 'undefined') return;
+      event.preventDefault();
+      const target = document.querySelector(hash) as HTMLElement | null;
+      const lenis = window.__lenis;
+      if (target && lenis && typeof lenis.scrollTo === 'function') {
+        lenis.scrollTo(target, { offset: -80 });
+      } else if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      if (window.location.hash !== hash) {
+        window.history.pushState(null, '', hash);
+      }
+    };
 
   return (
-    <div className="bg-[var(--bg-primary)] text-[var(--text-primary)] min-h-screen">
-      {/* Hero */}
-      <section id="home" className="hero-grid">
-        <div className="relative z-10 flex flex-col items-center justify-center min-h-[80vh] px-6 pt-16">
+    <div className="min-h-screen bg-[var(--cream)] text-[var(--ink)]">
+      <AtelierNav />
+
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
+      <section
+        id="home"
+        className="min-h-screen flex flex-col justify-between px-6 md:px-12 pt-28 md:pt-36 pb-12 md:pb-16"
+      >
+        {/* Main content — centered vertically */}
+        <div className="flex-1 flex flex-col justify-center max-w-[1200px] mx-auto w-full">
+          {/* Eyebrow */}
           <motion.div
-            initial="hidden"
-            animate="visible"
-            className="text-center max-w-[680px] w-full"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="flex items-center gap-4 mb-8 md:mb-12"
           >
-            {/* Initials avatar */}
-            <motion.div custom={0} variants={fadeUp} className="mb-6">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[var(--accent)] text-white font-bold text-[1.5rem] tracking-tight shadow-lg">
-                NR
-              </div>
-            </motion.div>
-
-            {/* Two-line greeting */}
-            <motion.p
-              custom={1}
-              variants={fadeUp}
-              className="text-[1.125rem] md:text-[1.375rem] text-[var(--text-secondary)] mb-1 font-medium"
+            <hr className="flex-none w-12 md:w-16 border-none border-t border-[var(--line)]" style={{ borderTopWidth: '1px', borderTopColor: 'var(--line)', borderTopStyle: 'solid' }} />
+            <span
+              className="text-[11px] tracking-[0.18em] uppercase text-[var(--muted)] whitespace-nowrap"
+              style={{ fontFamily: 'var(--font-mono)' }}
             >
-              Hey, I&apos;m
-            </motion.p>
-
-            <motion.h1
-              custom={2}
-              variants={fadeUp}
-              className="text-[2.75rem] md:text-[4.5rem] font-bold tracking-tight leading-[1.05] text-[var(--text-primary)] mb-5"
-            >
-              Nabi Rahmani
-            </motion.h1>
-
-            <motion.p
-              custom={3}
-              variants={fadeUp}
-              className="text-[1.125rem] md:text-[1.25rem] text-[var(--text-secondary)] mb-8 max-w-[520px] mx-auto leading-relaxed"
-            >
-              A Flutter developer who ships apps people actually love — from
-              pixel-perfect UI to offline-first architecture and real App Store launches.
-            </motion.p>
-
-            {/* CTA */}
-            <motion.div custom={4} variants={fadeUp}>
-              <Link
-                href="/#projects"
-                onClick={handleScrollTo('#projects')}
-                className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--text-primary)] text-[var(--bg-primary)] rounded-full text-[0.9375rem] font-medium no-underline hover:opacity-90 transition-opacity"
-              >
-                View My Work
-                <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
-                  <path d="M12 5v14m0 0l-7-7m7 7l7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </Link>
-            </motion.div>
-
-            {/* Metrics line */}
-            <motion.p custom={5} variants={fadeUp} className="text-[0.875rem] text-[var(--text-secondary)] mt-6">
-              3+ Years Experience &middot; 2 Published Apps &middot; Ankara, Turkey
-            </motion.p>
-
-            {/* Social icons */}
-            <motion.div custom={6} variants={fadeUp} className="flex gap-3 justify-center mt-4">
-              <SocialIcon name="github" href="https://github.com/Nabi-Rahmani" />
-              <SocialIcon name="linkedin" href="https://www.linkedin.com/in/muhammad-nabi-rahmani-%F0%9F%87%B5%F0%9F%87%B8-8945b21ba/" />
-              <SocialIcon name="twitter" href="https://x.com/nabirahmani_dev" />
-            </motion.div>
+              Flutter Developer · Ankara, Turkey
+            </span>
+            <hr className="flex-none w-12 md:w-16 border-none" style={{ borderTopWidth: '1px', borderTopColor: 'var(--line)', borderTopStyle: 'solid' }} />
           </motion.div>
+
+          {/* Name */}
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="mb-6 md:mb-8"
+            style={{
+              fontFamily: 'var(--font-serif)',
+              fontSize: 'clamp(72px, 13vw, 220px)',
+              lineHeight: 0.92,
+            }}
+          >
+            Nabi
+            <br />
+            <em style={{ fontStyle: 'italic', color: 'var(--atelier-accent)' }}>Rahmani.</em>
+          </motion.h1>
+
+          {/* Tagline */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="max-w-[560px] leading-relaxed text-[var(--muted)]"
+            style={{
+              fontFamily: 'var(--font-serif)',
+              fontStyle: 'italic',
+              fontSize: 'clamp(17px, 1.5vw, 22px)',
+            }}
+          >
+            Building mobile apps that feel inevitable — clean, offline-first, and actually shipped.
+          </motion.p>
         </div>
-      </section>
 
-      {/* Projects */}
-      <section id="projects" className="py-24 md:py-32 px-6">
-        <div className="max-w-[1000px] mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.5 }}
-            className="mb-16"
-          >
-            <p className="text-[0.8125rem] font-medium text-[var(--accent)] uppercase tracking-widest mb-3">
-              Featured Work
-            </p>
-            <h2 className="text-[2rem] md:text-[2.75rem] font-bold text-[var(--text-primary)] tracking-tight">
-              Selected Projects
-            </h2>
-          </motion.div>
-
-          {/* Mobile: horizontal scroll; Desktop: vertical stack */}
-          <div className="flex flex-row md:flex-col gap-6 md:gap-14 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory md:snap-none -mx-6 px-6 md:mx-0 md:px-0 pb-4 md:pb-0">
-            {allProjects.map((project, i) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ type: 'spring', stiffness: 120, damping: 18, delay: i * 0.1 }}
-                className="snap-start shrink-0 w-[85vw] md:w-auto group rounded-3xl overflow-hidden bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-shadow duration-500"
-              >
-                <a href={`/projects/${project.slug}`} className="no-underline block">
-                  <CardImage
-                    src={project.coverImage}
-                    alt={`${project.title} — ${project.subtitle}`}
-                    aspectRatio="16/9"
-                    sizes="(max-width: 768px) 85vw, 1000px"
-                  />
-                </a>
-                <div className="p-7 md:p-10">
-                  <a href={`/projects/${project.slug}`} className="no-underline block">
-                    {/* Platform badge */}
-                    <div className="mb-3">
-                      <Badge variant="neutral">
-                        {project.platform === 'both' ? 'iOS · Android' : project.platform === 'ios' ? 'iOS' : 'Android'}
-                      </Badge>
-                    </div>
-                    <h3 className="text-[1.75rem] md:text-[2.25rem] font-bold text-[var(--text-primary)] mb-3 tracking-tight group-hover:text-[var(--accent)] transition-colors duration-300">
-                      {project.title}
-                    </h3>
-                    <p className="text-[1rem] md:text-[1.0625rem] text-[var(--text-secondary)] mb-6 leading-relaxed">
-                      {project.subtitle}
-                    </p>
-                  </a>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.features.map((feature) => (
-                      <span key={feature} className="px-3 py-1.5 bg-[var(--bg-primary)] text-[var(--text-secondary)] rounded-lg text-[0.8125rem] border border-[var(--border-color)]">
-                        {feature}
-                      </span>
-                    ))}
+        {/* Stats row + CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="flex flex-wrap items-center justify-between gap-8 max-w-[1200px] mx-auto w-full mt-16"
+        >
+          {/* Stats */}
+          <div className="flex items-center">
+            {[
+              { value: '3+', label: 'years' },
+              { value: '2', label: 'apps' },
+              { value: '∞', label: 'çay' },
+            ].map((stat, i) => (
+              <div key={stat.label} className="flex items-center">
+                {i > 0 && (
+                  <div className="w-px h-10 bg-[var(--line)] mx-5 md:mx-6 shrink-0" />
+                )}
+                <div className="text-center">
+                  <div
+                    className="leading-none mb-1"
+                    style={{
+                      fontFamily: 'var(--font-serif)',
+                      fontStyle: 'italic',
+                      fontSize: 'clamp(24px, 3vw, 32px)',
+                    }}
+                  >
+                    {stat.value}
                   </div>
-                  <div className="flex gap-3 flex-wrap">
-                    <a
-                      href={`/projects/${project.slug}`}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--accent)] text-white rounded-full text-[0.875rem] font-medium no-underline hover:opacity-90 transition-opacity"
-                    >
-                      View Project
-                    </a>
-                    {project.links.github && (
-                      <a
-                        href={project.links.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--text-primary)] text-[var(--bg-primary)] rounded-full text-[0.875rem] font-medium no-underline hover:opacity-90 transition-opacity"
-                      >
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" /></svg>
-                        Source Code
-                      </a>
-                    )}
-                    {project.links.appStore && project.links.appStore !== '#' && (
-                      <a
-                        href={project.links.appStore}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border-color)] text-[var(--text-primary)] rounded-full text-[0.875rem] font-medium no-underline hover:bg-[var(--bg-primary)] hover:border-[var(--text-secondary)] transition-all duration-200"
-                      >
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>
-                        App Store
-                      </a>
-                    )}
-                    {project.links.appStore === '#' && (
-                      <button
-                        disabled
-                        aria-disabled="true"
-                        aria-label="iOS coming soon"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border-color)] text-[var(--text-secondary)] rounded-full text-[0.875rem] font-medium opacity-50 cursor-not-allowed"
-                      >
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>
-                        iOS Coming Soon
-                      </button>
-                    )}
-                    {project.links.playStore && project.links.playStore !== '#' && (
-                      <a
-                        href={project.links.playStore}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border-color)] text-[var(--text-primary)] rounded-full text-[0.875rem] font-medium no-underline hover:bg-[var(--bg-primary)] hover:border-[var(--text-secondary)] transition-all duration-200"
-                      >
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M3 20.5v-17c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v17c0 .83-.67 1.5-1.5 1.5S3 21.33 3 20.5zM15 12L7 7v10l8-5zm2-5l5.5 3.5a1.5 1.5 0 010 2.5L17 17V7z" /></svg>
-                        Play Store
-                      </a>
-                    )}
-                    {project.links.playStore === '#' && (
-                      <button
-                        disabled
-                        aria-disabled="true"
-                        aria-label="Android coming soon"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border-color)] text-[var(--text-secondary)] rounded-full text-[0.875rem] font-medium opacity-50 cursor-not-allowed"
-                      >
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M3 20.5v-17c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v17c0 .83-.67 1.5-1.5 1.5S3 21.33 3 20.5zM15 12L7 7v10l8-5zm2-5l5.5 3.5a1.5 1.5 0 010 2.5L17 17V7z" /></svg>
-                        Android Coming Soon
-                      </button>
-                    )}
+                  <div
+                    className="text-[11px] tracking-[0.1em] uppercase text-[var(--muted)]"
+                    style={{ fontFamily: 'var(--font-mono)' }}
+                  >
+                    {stat.label}
                   </div>
-                  {(project.links.privacy || project.links.terms) && (
-                    <div className="flex gap-4 flex-wrap mt-4 text-[0.8125rem]">
-                      {project.links.privacy && (
-                        <a href={project.links.privacy} className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors no-underline">
-                          Privacy Policy
-                        </a>
-                      )}
-                      {project.links.terms && (
-                        <a href={project.links.terms} className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors no-underline">
-                          Terms of Use
-                        </a>
-                      )}
-                    </div>
-                  )}
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </div>
+
+          {/* CTA pill */}
+          <a
+            href="#projects"
+            onClick={handleScrollTo('#projects')}
+            className="atelier-cta inline-flex items-center rounded-[999px] bg-[var(--ink)] text-[var(--cream)] text-[15px] no-underline px-6 py-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+          >
+            View selected work
+            <span aria-hidden="true">→</span>
+          </a>
+        </motion.div>
       </section>
 
-      {/* Blog */}
-      <section id="blog" className="py-24 md:py-32 px-6">
-        <div className="max-w-[1000px] mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.5 }}
-            className="mb-16"
-          >
-            <p className="text-[0.8125rem] font-medium text-[var(--accent)] uppercase tracking-widest mb-3">
-              Writing
-            </p>
-            <h2 className="text-[2rem] md:text-[2.75rem] font-bold text-[var(--text-primary)] tracking-tight">
-              Latest Articles
-            </h2>
-          </motion.div>
+      {/* ── Projects ─────────────────────────────────────────────────── */}
+      <section id="projects" className="py-24 md:py-32 px-6 md:px-12">
+        <div className="max-w-[1200px] mx-auto flex flex-col gap-24 md:gap-32">
+          {allProjects.map((project, i) => {
+            const isEven = i % 2 === 0;
+            const caption = phoneCaptions[project.slug] ?? `${project.slug}\nview → screen`;
+            const description = projectDescriptions[project.slug] ?? project.subtitle;
 
-          {/* 1 big + 2 grid pattern */}
-          <div className="flex flex-col gap-10">
-            {/* Big card — first post */}
-            {featuredPosts[0] && (
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ type: 'spring', stiffness: 120, damping: 18 }}
-                className="group rounded-3xl overflow-hidden border border-[var(--border-color)] shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-shadow duration-500"
-              >
-                <Link href={`/blog/${featuredPosts[0].slug}`} className="no-underline block">
-                  <CardImage
-                    src={featuredPosts[0].coverImage}
-                    alt={featuredPosts[0].title}
-                    aspectRatio="16/9"
-                    sizes="(max-width: 768px) 100vw, 1000px"
-                  />
-                </Link>
-                <div className="p-7 md:p-10">
-                  <Link href={`/blog/${featuredPosts[0].slug}`} className="no-underline block">
-                    <div className="flex items-center gap-3 mb-4">
-                      <Badge variant="accent">{featuredPosts[0].category}</Badge>
-                      <span className="text-[0.8125rem] text-[var(--text-secondary)]">
-                        {featuredPosts[0].readingTime} min read
-                      </span>
-                    </div>
-                    <h3 className="text-[1.75rem] md:text-[2.25rem] font-bold text-[var(--text-primary)] mb-3 tracking-tight group-hover:text-[var(--accent)] transition-colors duration-300">
-                      {featuredPosts[0].title}
-                    </h3>
-                    <p className="text-[1rem] md:text-[1.0625rem] text-[var(--text-secondary)] mb-6 leading-relaxed">
-                      {featuredPosts[0].excerpt}
-                    </p>
-                  </Link>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {featuredPosts[0].tags.slice(0, 4).map((tag) => (
-                      <span key={tag} className="px-3 py-1.5 bg-[var(--accent-muted)] text-[var(--text-secondary)] rounded-lg text-[0.8125rem]">
-                        {tag}
-                      </span>
-                    ))}
+            return (
+              <ScrollReveal key={project.id}>
+                <div
+                  className={`flex flex-col ${
+                    isEven ? 'md:flex-row' : 'md:flex-row-reverse'
+                  } gap-12 md:gap-16 items-center`}
+                >
+                  {/* Phone mockup */}
+                  <div className="shrink-0">
+                    <motion.div
+                      whileHover={{ y: -8, rotate: isEven ? -1.5 : 1.5 }}
+                      transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
+                    >
+                      <PhonePlaceholder label="PRODUCT SHOT" caption={caption} />
+                    </motion.div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <Image
-                      src={featuredPosts[0].author.avatar}
-                      alt={featuredPosts[0].author.name}
-                      width={32}
-                      height={32}
-                      className="rounded-full object-cover"
-                    />
-                    <span className="text-[0.875rem] text-[var(--text-secondary)]">
-                      {featuredPosts[0].author.name}
-                    </span>
+
+                  {/* Text content */}
+                  <div className="flex-1">
+                    <div
+                      className="text-[13px] text-[var(--muted)] mb-4 tracking-[0.1em]"
+                      style={{ fontFamily: 'var(--font-mono)' }}
+                    >
+                      {String(i + 1).padStart(3, '0')}
+                    </div>
+                    <h2
+                      className="mb-4 leading-tight"
+                      style={{
+                        fontFamily: 'var(--font-serif)',
+                        fontSize: 'clamp(36px, 5vw, 64px)',
+                      }}
+                    >
+                      {project.title}
+                    </h2>
+                    <p className="text-[15px] text-[var(--muted)] leading-[1.6] mb-6 max-w-[480px]">
+                      {description}
+                    </p>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2 mb-8">
+                      {project.features.map((tag) => (
+                        <span
+                          key={tag}
+                          className="border border-[var(--line)] text-[var(--muted)] rounded-[999px] px-3 py-0.5 text-[11px] tracking-[0.04em]"
+                          style={{ fontFamily: 'var(--font-mono)' }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Links */}
+                    <div className="flex flex-wrap gap-5 items-center">
+                      <Link
+                        href={`/projects/${project.slug}`}
+                        className="text-[13px] text-[var(--muted)] hover:text-[var(--ink)] transition-colors no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+                      >
+                        View project →
+                      </Link>
+                      {project.links.playStore && project.links.playStore !== '#' && (
+                        <a
+                          href={project.links.playStore}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[13px] text-[var(--muted)] hover:text-[var(--ink)] transition-colors no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+                        >
+                          Play Store ↗
+                        </a>
+                      )}
+                      {project.links.appStore === '#' && (
+                        <span className="text-[13px] text-[var(--muted)] opacity-50">
+                          iOS coming soon
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </motion.div>
-            )}
+              </ScrollReveal>
+            );
+          })}
+        </div>
+      </section>
 
-            {/* 2-column grid — next 2 posts */}
-            {featuredPosts.length > 1 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {featuredPosts.slice(1, 3).map((post, i) => (
-                  <motion.div
-                    key={post.id}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-60px' }}
-                    transition={{ type: 'spring', stiffness: 120, damping: 18, delay: i * 0.08 }}
-                    className="group rounded-3xl overflow-hidden border border-[var(--border-color)] shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-shadow duration-500 h-full"
-                  >
-                    <Link href={`/blog/${post.slug}`} className="no-underline block h-full flex flex-col">
-                      <CardImage
-                        src={post.coverImage}
-                        alt={post.title}
-                        aspectRatio="16/10"
-                        sizes="(max-width: 768px) 100vw, 500px"
-                      />
-                      <div className="p-6 md:p-7 flex flex-col flex-1">
-                        <div className="flex items-center gap-2.5 mb-3">
-                          <Badge variant="accent">{post.category}</Badge>
-                          <span className="text-[0.75rem] text-[var(--text-secondary)]">
-                            {post.readingTime} min
-                          </span>
-                        </div>
-                        <h3 className="text-[1.25rem] md:text-[1.5rem] font-bold text-[var(--text-primary)] mb-2.5 tracking-tight leading-snug group-hover:text-[var(--accent)] transition-colors duration-300">
-                          {post.title}
-                        </h3>
-                        <p className="text-[0.9375rem] text-[var(--text-secondary)] leading-relaxed mb-5 flex-1 line-clamp-2">
-                          {post.excerpt}
-                        </p>
-                        <div className="flex items-center justify-between pt-4 border-t border-[var(--border-color)]">
-                          <div className="flex items-center gap-2.5">
-                            <Image
-                              src={post.author.avatar}
-                              alt={post.author.name}
-                              width={28}
-                              height={28}
-                              className="rounded-full object-cover"
-                            />
-                            <span className="text-[0.8125rem] text-[var(--text-secondary)]">
-                              {post.author.name}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  </motion.div>
-                ))}
+      {/* ── About ────────────────────────────────────────────────────── */}
+      <section id="about" className="py-24 md:py-32 px-6 md:px-12">
+        <div className="max-w-[1200px] mx-auto">
+          <ScrollReveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
+              {/* Left: pull-quote */}
+              <p
+                className="leading-tight text-[var(--atelier-accent)] m-0"
+                style={{
+                  fontFamily: 'var(--font-serif)',
+                  fontStyle: 'italic',
+                  fontSize: 'clamp(36px, 4.5vw, 64px)',
+                }}
+              >
+                Craft over speed.
+                <br />
+                Ideally both.
+              </p>
+
+              {/* Right: bio + meta */}
+              <div>
+                <p className="text-[15px] text-[var(--muted)] leading-[1.65] mb-8">
+                  I&apos;m Nabi, a Flutter developer originally from Mazar-i-Sharif, Afghanistan, now
+                  living and working in Ankara, Turkey. I specialize in shipping mobile apps quickly
+                  without making the kind of mess that haunts you in two months — clean architecture,
+                  offline-first reliability, and a healthy distrust of feature creep. If you&apos;re
+                  hiring for craft over speed (or, ideally, both), I&apos;d love to talk.
+                </p>
+                <dl className="flex flex-col gap-3">
+                  {[
+                    { label: 'Based', value: 'Ankara, Turkey · GMT+3' },
+                    { label: 'Stack', value: 'Flutter · Dart · Firebase · Riverpod' },
+                    { label: 'Status', value: 'Open to collaborations', accent: true },
+                    { label: 'Speaks', value: 'English · Persian (Dari) · Turkish' },
+                  ].map(({ label, value, accent }) => (
+                    <div key={label} className="flex gap-6">
+                      <dt
+                        className="text-[11px] tracking-[0.1em] uppercase text-[var(--muted)] w-16 shrink-0 pt-0.5"
+                        style={{ fontFamily: 'var(--font-mono)' }}
+                      >
+                        {label}
+                      </dt>
+                      <dd
+                        className={`text-[15px] m-0 ${
+                          accent
+                            ? 'text-[var(--atelier-accent)] font-medium'
+                            : 'text-[var(--ink)]'
+                        }`}
+                      >
+                        {value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
               </div>
-            )}
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mt-14 text-center"
-          >
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-2 px-7 py-3.5 border border-[var(--border-color)] text-[var(--text-primary)] rounded-full text-[0.9375rem] font-medium no-underline hover:border-[var(--text-secondary)] transition-all duration-200"
-            >
-              View all articles
-              <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </Link>
-          </motion.div>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
-      {/* About */}
-      <section id="about" className="py-24 md:py-32 px-6">
-        <div className="max-w-[680px] mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.5 }}
-          >
-            <p className="text-[0.8125rem] font-medium text-[var(--accent)] uppercase tracking-widest mb-3">
-              Background
-            </p>
-            <h2 className="text-[2rem] md:text-[2.75rem] font-bold text-[var(--text-primary)] tracking-tight mb-6">
-              About Me
-            </h2>
-            <p className="text-[1.0625rem] text-[var(--text-secondary)] leading-relaxed mb-4">
-              I&apos;m Nabi Rahmani, a Flutter developer from Mazar-i-Sharif, Afghanistan, now based in Ankara, Turkey.
-              I specialize in building and shipping mobile apps fast — with clean architecture,
-              offline-first reliability, and polished UI on the App Store and Google Play.
-              I care deeply about the details that make an app feel great: smooth animations, snappy responses, and intuitive flows that get out of the user&apos;s way.
-            </p>
-            <ul className="mb-6 space-y-2">
-              <li className="flex items-start gap-2.5 text-[0.9375rem] text-[var(--text-secondary)]">
-                <span className="text-[var(--accent)] font-bold mt-0.5">→</span>
-                Offline-first mindset — apps should work everywhere, always
-              </li>
-              <li className="flex items-start gap-2.5 text-[0.9375rem] text-[var(--text-secondary)]">
-                <span className="text-[var(--accent)] font-bold mt-0.5">→</span>
-                Clean architecture over clever shortcuts
-              </li>
-              <li className="flex items-start gap-2.5 text-[0.9375rem] text-[var(--text-secondary)]">
-                <span className="text-[var(--accent)] font-bold mt-0.5">→</span>
-                Ship fast, iterate often, stay curious
-              </li>
-            </ul>
-            <Link
-              href="/about"
-              className="text-[0.875rem] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors no-underline inline-flex items-center gap-1 min-h-[48px]"
-            >
-              Learn more about me
-              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" /></svg>
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Contact */}
-      <section id="contact" className="py-24 md:py-32 px-6">
-        <div className="max-w-[600px] mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.5 }}
-          >
-            <p className="text-[0.8125rem] font-medium text-[var(--accent)] uppercase tracking-widest mb-3">
-              Contact
-            </p>
-            <h2 className="text-[2rem] md:text-[2.75rem] font-bold text-[var(--text-primary)] tracking-tight mb-5">
-              Let&apos;s Connect
-            </h2>
-            <p className="text-[1.0625rem] text-[var(--text-secondary)] leading-relaxed mb-10">
-              Interested in working together or just want to chat about Flutter development? Feel free to reach out.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      {/* ── Contact ──────────────────────────────────────────────────── */}
+      <section id="contact" className="py-24 md:py-32 px-6 md:px-12">
+        <div className="max-w-[1200px] mx-auto">
+          <ScrollReveal>
+            {/* Large email link */}
+            <div className="mb-12">
               <a
                 href="mailto:codewithnabi@gmail.com"
-                className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--text-primary)] text-[var(--bg-primary)] rounded-full text-[0.9375rem] font-medium no-underline hover:opacity-90 transition-opacity"
+                className="block no-underline group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
               >
-                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-                </svg>
-                codewithnabi@gmail.com
-              </a>
-              <a
-                href="https://www.linkedin.com/in/muhammad-nabi-rahmani-%F0%9F%87%B5%F0%9F%87%B8-8945b21ba/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-7 py-3.5 border border-[var(--border-color)] text-[var(--text-primary)] rounded-full text-[0.9375rem] font-medium no-underline hover:border-[var(--text-secondary)] transition-all duration-200"
-              >
-                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                </svg>
-                Connect on LinkedIn
+                <span
+                  className="block text-[var(--ink)] group-hover:text-[var(--atelier-accent)] transition-colors duration-300 leading-none break-words"
+                  style={{
+                    fontFamily: 'var(--font-serif)',
+                    fontStyle: 'italic',
+                    fontSize: 'clamp(28px, 7vw, 120px)',
+                  }}
+                >
+                  codewithnabi@gmail.com
+                  <span
+                    className="inline-block group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300"
+                    style={{ fontSize: '0.4em', verticalAlign: 'super', marginLeft: '6px' }}
+                    aria-hidden="true"
+                  >
+                    ↗
+                  </span>
+                </span>
               </a>
             </div>
-          </motion.div>
+
+            {/* Social pills */}
+            <div className="flex flex-wrap gap-3">
+              {[
+                { label: 'GitHub', href: 'https://github.com/Nabi-Rahmani', external: true },
+                {
+                  label: 'LinkedIn',
+                  href: 'https://www.linkedin.com/in/muhammad-nabi-rahmani-%F0%9F%87%B5%F0%9F%87%B8-8945b21ba/',
+                  external: true,
+                },
+                { label: 'X / Twitter', href: 'https://x.com/nabirahmani_dev', external: true },
+                { label: 'Blog', href: '/blog', external: false },
+              ].map(({ label, href, external }) => (
+                <a
+                  key={label}
+                  href={href}
+                  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  className="border border-[var(--line)] rounded-[999px] px-4 py-1.5 text-[13px] text-[var(--muted)] no-underline hover:bg-[var(--ink)] hover:text-[var(--cream)] hover:border-[var(--ink)] transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+                >
+                  {label}
+                </a>
+              ))}
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
-      <Footer showSocials />
+      {/* ── Footer ───────────────────────────────────────────────────── */}
+      <footer className="border-t border-[var(--line)] py-6 px-6 md:px-12">
+        <div className="max-w-[1200px] mx-auto flex flex-wrap justify-between items-center gap-2">
+          <span
+            className="text-[11px] text-[var(--muted)]"
+            style={{ fontFamily: 'var(--font-mono)' }}
+          >
+            © 2026 Muhammad Nabi Rahmani · Crafted in Ankara
+          </span>
+          <span
+            className="text-[11px] text-[var(--muted)]"
+            style={{ fontFamily: 'var(--font-mono)' }}
+          >
+            v.atelier · 03
+          </span>
+        </div>
+      </footer>
     </div>
   );
 }

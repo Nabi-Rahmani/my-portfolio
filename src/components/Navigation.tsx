@@ -167,6 +167,9 @@ export default function Navigation() {
         setDrawerOpen(false);
     };
 
+    // Home page uses AtelierNav instead — return after all hooks
+    if (pathname === '/') return null;
+
     return (
         <>
             {/* Unified Sticky Navigation — same pill on all sizes */}
