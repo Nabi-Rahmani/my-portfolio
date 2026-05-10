@@ -47,7 +47,7 @@ export default function Projects() {
                                 viewport={{ once: true, margin: '-60px' }}
                                 transition={{ type: 'spring', stiffness: 120, damping: 18, delay: i * 0.12 }}
                             >
-                                <Link href={`/projects/${project.slug}`} className="no-underline block">
+                                <a href={`/projects/${project.slug}`} className="no-underline block">
                                     <div className="relative aspect-[16/9] overflow-hidden">
                                         <Image
                                             src={project.coverImage}
@@ -58,16 +58,16 @@ export default function Projects() {
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
                                     </div>
-                                </Link>
+                                </a>
                                 <div className="p-7 md:p-10">
-                                    <Link href={`/projects/${project.slug}`} className="no-underline block">
+                                    <a href={`/projects/${project.slug}`} className="no-underline block">
                                         <h2 className="text-[1.75rem] md:text-[2.25rem] font-bold text-[var(--text-primary)] mb-3 tracking-tight group-hover:text-[var(--accent)] transition-colors duration-300">
                                             {project.title}
                                         </h2>
                                         <p className="text-[1rem] md:text-[1.0625rem] text-[var(--text-secondary)] mb-6 leading-relaxed">
                                             {project.subtitle}
                                         </p>
-                                    </Link>
+                                    </a>
                                     <div className="flex flex-wrap gap-2 mb-6">
                                         {project.features.map((feature, fi) => (
                                             <motion.span
@@ -83,6 +83,12 @@ export default function Projects() {
                                         ))}
                                     </div>
                                     <div className="flex gap-3 flex-wrap">
+                                        <a
+                                            href={`/projects/${project.slug}`}
+                                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--accent)] text-white rounded-full text-[0.875rem] font-medium no-underline hover:opacity-90 transition-opacity"
+                                        >
+                                            View Project
+                                        </a>
                                         {project.links.github && (
                                             <a
                                                 href={project.links.github}
@@ -129,6 +135,20 @@ export default function Projects() {
                                             </span>
                                         )}
                                     </div>
+                                    {(project.links.privacy || project.links.terms) && (
+                                        <div className="flex gap-4 flex-wrap mt-4 text-[0.8125rem]">
+                                            {project.links.privacy && (
+                                                <a href={project.links.privacy} className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors no-underline">
+                                                    Privacy Policy
+                                                </a>
+                                            )}
+                                            {project.links.terms && (
+                                                <a href={project.links.terms} className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors no-underline">
+                                                    Terms of Use
+                                                </a>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             </motion.div>
                         ))}

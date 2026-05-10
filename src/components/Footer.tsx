@@ -22,7 +22,7 @@ const socials = [
 ];
 
 const quickLinks = [
-    { label: 'Projects', href: '/#projects' },
+    { label: 'Projects', href: '/projects' },
     { label: 'Blog', href: '/blog' },
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/#contact' },
@@ -35,6 +35,7 @@ interface FooterProps {
 
 export default function Footer({ showSocials = false, links }: FooterProps) {
     const year = new Date().getFullYear();
+    const footerLinks = links ?? quickLinks;
 
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -77,7 +78,7 @@ export default function Footer({ showSocials = false, links }: FooterProps) {
                                 Crafting mobile experiences
                             </span>
                             <span className="hidden sm:inline text-[var(--text-secondary)] opacity-40">·</span>
-                            {quickLinks.map((link) => (
+                            {footerLinks.map((link) => (
                                 <Link
                                     key={link.href}
                                     href={link.href}

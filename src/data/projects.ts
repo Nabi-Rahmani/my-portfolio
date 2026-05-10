@@ -389,7 +389,7 @@ export const projects: Project[] = [
         links: {
             github: 'https://github.com/Nabi-Rahmani',
             appStore: '#',
-            playStore: '#',
+            playStore: 'https://play.google.com/store/apps/details?id=com.nabirahmani.raha',
             privacy: '/projects/mihrab-by-raha/privacy',
             terms: '/projects/mihrab-by-raha/terms',
         },
