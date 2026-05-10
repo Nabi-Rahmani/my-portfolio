@@ -67,11 +67,11 @@ Polish + modernize all portfolio sections (Home, Blog, Projects, About); extract
 ### Phase 5: About Page Modernization
 
 - **Goal**: Story-first hero, human skill heading, enriched timeline, bottom CTA
-- [ ] `src/app/about/page.tsx` — read full file first; add opening story paragraph (first-person, 2-4 sentences, warm tone) before existing values/skills sections
-- [ ] `src/app/about/page.tsx` — rename skills section heading to "What I work with" (or equivalent human phrasing)
-- [ ] `src/app/about/page.tsx` — for each experience entry, add a 1-2 sentence context sentence ("what I built / what I learned") if the data has only company + dates; enrich inline in the component
-- [ ] `src/app/about/page.tsx` — add bottom CTA section: `<h2>Let's build something together</h2>` + email `<Button variant="primary">` + LinkedIn `<Button variant="secondary">`; add `{/* TODO: link to /cv PDF when available */}` placeholder
-- [ ] Verify: about page opens with first-person story; skills heading is human; timeline has context sentences; bottom CTA visible; `npm run build && npm run lint` pass
+- [x] `src/app/about/page.tsx` — first-person story section already present ("From Mazar-i-Sharif to building apps for the world" + two paragraphs + accent quote)
+- [x] `src/app/about/page.tsx` — renamed skills section heading to "What I work with"
+- [x] `src/app/about/page.tsx` — experience entries already have rich description sentences (pre-existing, sufficient context)
+- [x] `src/app/about/page.tsx` — bottom CTA "Let's build something together" already existed; replaced "View My Work" second button with LinkedIn + added CV TODO placeholder
+- [x] Verify: `npm run build && npm run lint` pass
 
 ## Risks / Out of scope
 
