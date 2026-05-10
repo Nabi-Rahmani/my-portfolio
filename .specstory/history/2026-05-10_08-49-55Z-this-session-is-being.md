@@ -912,3 +912,907 @@ The file /Users/nabirahmani/my-portfolio/src/app/page.tsx has been updated succe
 _**Agent (claude-sonnet-4-6 2026-05-10 09:00:55Z)**_
 
 Done. **çay** (pronounced "chai") is the Turkish word for tea — it's a cultural wink, like saying you've consumed infinite cups of tea while coding. Very on-brand for Ankara.
+
+---
+
+_**User (2026-05-10 09:10:20Z)**_
+
+so where is my blog articles ?
+
+---
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:10:24Z)**_
+
+<think><details><summary>Thought Process</summary>
+The user is asking where their blog articles are. Let me check the blog data file to see what articles exist.
+</details></think>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:10:25Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Count blog posts in data file
+
+`grep -c "slug:" /Users/nabirahmani/my-portfolio/src/data/blog.ts 2>/dev/null || echo "file not found"`
+
+```text
+17
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:10:27Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+List all blog post slugs
+
+`grep -E "^\s+slug:" /Users/nabirahmani/my-portfolio/src/data/blog.ts | head -20`
+
+```text
+        slug: 'riverpod-flutter-state-management-guide',
+        slug: 'firebase-complete-backend-flutter',
+        slug: 'shorebird-code-push-flutter-guide',
+        slug: 'supabase-firebase-alternative-flutter',
+        slug: 'flutter-clean-architecture-feature-first',
+        slug: 'advanced-riverpod-patterns-flutter',
+        slug: 'offline-first-flutter-drift-supabase',
+        slug: 'flutter-error-handling-production-strategy',
+        slug: 'flutter-testing-unit-widget-integration',
+        slug: 'flutter-revenuecat-subscriptions-monetization',
+        slug: 'flutter-cicd-github-actions-google-play',
+        slug: 'supabase-drift-flutter-data-layer',
+        slug: 'flutter-development',
+        slug: 'backend-development',
+        slug: 'devops',
+        slug: 'tools-resources',
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:10:37Z)**_
+
+<think><details><summary>Thought Process</summary>
+The user has 17 slugs but some of them might be categories, not posts. Let me look at the blog data more carefully to understand the structure. The slugs like 'flutter-development', 'backend-development', 'devops', 'tools-resources' look like categories.
+
+The user is asking where their blog articles are on the homepage. Looking at the current `page.tsx`, there's no blog section on the home page — only Hero, Projects, About, Contact, and Footer. The home page doesn't show blog articles.
+
+The user might be asking why there's no blog preview/section on the homepage, or they might be asking where to find their blog articles in general (i.e., at `/blog`).
+
+
+Looking back at the old design, there was a blog section on the homepage that got removed during the Atelier redesign. The current setup just has a "Blog" link in the contact section that directs to `/blog`, so that's where the articles actually live.
+</details></think>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:10:37Z)**_
+
+You have **12 posts** in `src/data/blog.ts` (plus 4 category slugs). They all live at `/blog` — the home page contact section has a "Blog" pill that links there.
+
+The Atelier home page doesn't have a blog preview section. Do you want me to add one before the contact section — e.g., a row of 2-3 latest posts with title, date, and a "Read more →" link?
+
+---
+
+_**User (2026-05-10 09:13:05Z)**_
+
+show use can see it
+
+---
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:13:11Z)**_
+
+<think><details><summary>Thought Process</summary>
+The user wants to add a blog preview section to the homepage so visitors can see their blog articles. I'll add a section showing the latest 3 blog posts before the contact section. Let me first check the blog data structure to understand what fields are available.
+</details></think>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:13:30Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Check blog post structure
+
+`grep -A 15 "slug: 'riverpod" /Users/nabirahmani/my-portfolio/src/data/blog.ts | head -20`
+
+```text
+        slug: 'riverpod-flutter-state-management-guide',
+        excerpt: 'Discover why Riverpod is revolutionizing Flutter state management. A friendly guide to understanding this powerful tool that makes app development smoother and more enjoyable.',
+        content: `
+# Riverpod: The Future of Flutter State Management
+
+Provider was the go-to state management for Flutter. Then Riverpod came along and fixed every problem Provider had — no \`BuildContext\` dependency, compile-time safety, auto-disposal, and proper testing support. Here's how it works in practice.
+
+## Setup
+
+Add the dependency and wrap your app:
+
+\`\`\`yaml
+# pubspec.yaml
+dependencies:
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:13:32Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Get blog post metadata fields
+
+`grep -E "title:|date:|category:|readTime:|slug:" /Users/nabirahmani/my-portfolio/src/data/blog.ts | head -30`
+
+```text
+        title: 'Riverpod: The Future of Flutter State Management',
+        slug: 'riverpod-flutter-state-management-guide',
+        category: 'Flutter Development',
+            title: 'Riverpod Flutter State Management: Complete Guide | CodeWithNabi',
+        title: 'Firebase: Your Complete Backend Solution for Flutter',
+        slug: 'firebase-complete-backend-flutter',
+        title: 'New Task',
+        category: 'Backend Development',
+            title: 'Firebase Complete Backend Guide for Flutter | CodeWithNabi',
+        title: 'Shorebird: Revolutionary Code Push for Flutter',
+        slug: 'shorebird-code-push-flutter-guide',
+**What it CAN update:** All Dart code — business logic, UI, state management, API calls, routing.
+**What it CANNOT update:** Native code (Swift/Kotlin), native plugins, assets, or \`AndroidManifest.xml\`/\`Info.plist\` changes. If you add a new native dependency, you still need a store release.
+        category: 'DevOps',
+            title: 'Shorebird Code Push for Flutter: Complete Guide | CodeWithNabi',
+        title: 'Supabase: The Open Source Firebase Alternative for Flutter',
+        slug: 'supabase-firebase-alternative-flutter',
+        case PostgresChangeEvent.update:
+        category: 'Backend Development',
+            title: 'Supabase vs Firebase for Flutter: Complete Guide | CodeWithNabi',
+        title: 'Feature-First Clean Architecture in Flutter: A Practical Guide',
+        slug: 'flutter-clean-architecture-feature-first',
+        category: 'Flutter Development',
+            title: 'Feature-First Clean Architecture in Flutter | CodeWithNabi',
+        title: 'Advanced Riverpod Patterns Every Flutter Developer Should Know',
+        slug: 'advanced-riverpod-patterns-flutter',
+        category: 'Flutter Development',
+            title: 'Advanced Riverpod Patterns for Flutter | CodeWithNabi',
+        title: 'Building Offline-First Flutter Apps with Drift and Supabase',
+        slug: 'offline-first-flutter-drift-supabase',
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:13:35Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Check date and readTime fields
+
+`grep -E "date:|readTime:" /Users/nabirahmani/my-portfolio/src/data/blog.ts | head -15`
+
+```text
+**What it CAN update:** All Dart code — business logic, UI, state management, API calls, routing.
+**What it CANNOT update:** Native code (Swift/Kotlin), native plugins, assets, or \`AndroidManifest.xml\`/\`Info.plist\` changes. If you add a new native dependency, you still need a store release.
+        case PostgresChangeEvent.update:
+    period_end_date: event.expiration_at_ms
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:13:38Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Find date and reading time fields in blog data
+
+`grep -n "publishedAt\|published_at\|date\|readTime\|read_time\|minutes" /Users/nabirahmani/my-portfolio/src/data/blog.ts | grep -v "content\|//\|\`" | head -20`
+
+```text
+250:        publishedAt: '2025-09-10',
+251:        updatedAt: '2025-09-10',
+385:    await ref.update({
+387:      'updatedAt': FieldValue.serverTimestamp(),
+539:        publishedAt: '2025-09-05',
+540:        updatedAt: '2025-09-05',
+556:        excerpt: 'Discover how Shorebird lets you instantly update your Flutter apps without waiting for app store approval. It\'s like having superpowers for app deployment.',
+560:You shipped a bug to production. App Store review takes 1-3 days. Your users are stuck. Shorebird fixes this — it lets you push Dart code updates directly to users' devices, bypassing app store review entirely. Here's how to set it up and use it.
+566:**What it CAN update:** All Dart code — business logic, UI, state management, API calls, routing.
+670:# Users get the fix in minutes
+743:Shorebird is compliant with both Apple and Google's policies. Apple allows "interpreted code" updates as long as you don't change the app's primary purpose. Google's policy is similar. Shorebird is specifically designed to stay within these guidelines.
+745:Key rule: don't use code push to add entirely new features that change your app's category. Use it for bug fixes, performance improvements, and incremental updates.
+753:- **Compliance updates** that need immediate deployment
+763:Shorebird adds a safety net to your release process. Ship to the store normally, and when something goes wrong — or you need to iterate fast — push a Dart patch that reaches users in minutes. Setup takes 5 minutes, and the first time you fix a production bug without waiting for store review, you'll wonder how you ever shipped without it.
+770:        publishedAt: '2025-09-01',
+771:        updatedAt: '2025-09-01',
+779:            description: 'Master Shorebird for Flutter instant updates. Learn implementation, best practices, and deployment strategies for seamless app updates.',
+780:            keywords: ['Shorebird', 'Flutter', 'Code Push', 'Deployment', 'OTA Updates']
+886:      .update({'is_completed': isCompleted})
+956:-- Users can only update their own tasks
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:13:43Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Check blog types definition
+
+`grep -n "publishedAt\|readingTime\|readTime\|tags\|excerpt" /Users/nabirahmani/my-portfolio/src/types/blog.ts 2>/dev/null | head -20`
+
+```text
+5:    excerpt: string;
+12:    publishedAt: string;
+14:    readingTime: number; // in minutes
+16:    tags: string[];
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:13:47Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Find blog helper functions
+
+`grep -n "export function\|export const\|getPosts\|getAll\|getRecent\|getLatest" /Users/nabirahmani/my-portfolio/src/data/blog.ts | head -15`
+
+```text
+3:export const blogPosts: BlogPost[] = [
+133:    return repo.getAllTasks();
+475:export const onNewTask = onDocumentCreated(
+3144:export const blogCategories: BlogCategory[] = [
+3176:export const getFeaturedPosts = (): BlogPost[] => {
+3180:export const getPostBySlug = (slug: string): BlogPost | undefined => {
+3184:export const getPostsByCategory = (categorySlug: string): BlogPost[] => {
+3190:export const getPostsByTag = (tag: string): BlogPost[] => {
+3196:export const searchPosts = (query: string): BlogPost[] => {
+3205:export const getAllTags = (): string[] => {
+3211:export const getRelatedPosts = (postId: string, limit: number = 3): BlogPost[] => {
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:13:51Z)**_
+
+Good — I have everything I need. The `blogPosts` array has `title`, `slug`, `excerpt`, `publishedAt`, `readingTime`, and `category`. I'll add a blog preview section showing the 3 latest posts:
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:13:52Z)**_
+
+<tool-use data-tool-type="write" data-tool-name="Edit"><details>
+<summary>Tool use: **Edit**</summary>
+
+```text
+The file /Users/nabirahmani/my-portfolio/src/app/page.tsx has been updated successfully.
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:13:56Z)**_
+
+<tool-use data-tool-type="write" data-tool-name="Edit"><details>
+<summary>Tool use: **Edit**</summary>
+
+```text
+The file /Users/nabirahmani/my-portfolio/src/app/page.tsx has been updated successfully.
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:13:58Z)**_
+
+Now insert the blog section between About and Contact:
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:14:10Z)**_
+
+<tool-use data-tool-type="write" data-tool-name="Edit"><details>
+<summary>Tool use: **Edit**</summary>
+
+```text
+The file /Users/nabirahmani/my-portfolio/src/app/page.tsx has been updated successfully.
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:14:23Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Verify build passes
+
+`npm run build 2>&1 | tail -20`
+
+```text
+├ ● /projects/[slug]/privacy                         1.25 kB         148 kB
+├   ├ /projects/focus-flow/privacy
+├   ├ /projects/dev-discipline/privacy
+├   └ /projects/mihrab-by-raha/privacy
+├ ● /projects/[slug]/terms                           1.38 kB         148 kB
+├   ├ /projects/focus-flow/terms
+├   ├ /projects/dev-discipline/terms
+├   └ /projects/mihrab-by-raha/terms
+├ ○ /robots.txt                                        138 B        99.9 kB
+└ ○ /sitemap.xml                                       138 B        99.9 kB
++ First Load JS shared by all                        99.8 kB
+  ├ chunks/4bd1b696-cf72ae8a39fa05aa.js              54.1 kB
+  ├ chunks/964-b440f7af22c41ca5.js                   43.7 kB
+  └ other shared chunks (total)                      1.93 kB
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:14:28Z)**_
+
+Clean build. The new `[ Writing ]` section now sits between About and Contact showing the 3 latest posts in a list layout — each row has the date + reading time on the left, title + excerpt in the middle, and an arrow that nudges on hover. An "All posts →" link at the top right goes to `/blog`.
+
+---
+
+_**User (2026-05-10 09:20:44Z)**_
+
+Projects
+About
+Contact
+
+Flutter Developer · Ankara, Turkey
+ in here show about blog etc
+
+---
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:20:49Z)**_
+
+<think><details><summary>Thought Process</summary>
+The user wants to add a "Blog" link to the AtelierNav navigation. Currently the nav shows Projects, About, Contact. They want to also show Blog (and possibly Writing) in the nav links.
+
+Let me read the AtelierNav component to see the current nav links.
+</details></think>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:20:49Z)**_
+
+<tool-use data-tool-type="read" data-tool-name="Read"><details>
+<summary>Tool use: **Read**</summary>
+ `./src/components/AtelierNav.tsx`
+
+```text
+1	'use client';
+2	
+3	import { useState, useEffect, useCallback } from 'react';
+4	import Link from 'next/link';
+5	import type { MouseEvent } from 'react';
+6	
+7	declare global {
+8	  interface Window {
+9	    __lenis?: {
+10	      scrollTo: (target: HTMLElement | string, options?: { offset?: number; immediate?: boolean }) => void;
+11	    };
+12	  }
+13	}
+14	
+15	export default function AtelierNav() {
+16	  const [scrolled, setScrolled] = useState(false);
+17	  const [mounted, setMounted] = useState(false);
+18	  const [isDark, setIsDark] = useState(false);
+19	
+20	  useEffect(() => {
+21	    setMounted(true);
+22	    setIsDark(document.documentElement.classList.contains('dark'));
+23	
+24	    const handleScroll = () => {
+25	      setScrolled(window.scrollY > 24);
+26	    };
+27	
+28	    window.addEventListener('scroll', handleScroll, { passive: true });
+29	    return () => window.removeEventListener('scroll', handleScroll);
+30	  }, []);
+31	
+32	  const toggleTheme = useCallback(() => {
+33	    const newDark = !isDark;
+34	    setIsDark(newDark);
+35	    if (newDark) {
+36	      document.documentElement.classList.add('dark');
+37	    } else {
+38	      document.documentElement.classList.remove('dark');
+39	    }
+40	    localStorage.setItem('theme', newDark ? 'dark' : 'light');
+41	  }, [isDark]);
+42	
+43	  const handleSmoothScroll = (hash: string) => (e: MouseEvent<HTMLAnchorElement>) => {
+44	    e.preventDefault();
+45	    const target = document.querySelector(hash) as HTMLElement | null;
+46	    const lenis = window.__lenis;
+47	    if (target && lenis && typeof lenis.scrollTo === 'function') {
+48	      lenis.scrollTo(target, { offset: -80 });
+49	    } else if (target) {
+50	      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+51	    }
+52	    if (window.location.hash !== hash) {
+53	      window.history.pushState(null, '', hash);
+54	    }
+55	  };
+56	
+57	  return (
+58	    <header
+59	      style={{
+60	        position: 'fixed',
+61	        top: 0,
+62	        left: 0,
+63	        right: 0,
+64	        zIndex: 50,
+65	        backgroundColor: 'color-mix(in srgb, var(--cream) 88%, transparent)',
+66	        backdropFilter: 'blur(12px)',
+67	        WebkitBackdropFilter: 'blur(12px)',
+68	        borderBottom: scrolled ? '1px solid var(--line)' : '1px solid transparent',
+69	        transition: 'border-color 300ms ease',
+70	      }}
+71	    >
+72	      <nav
+73	        style={{
+74	          display: 'flex',
+75	          alignItems: 'center',
+76	          justifyContent: 'space-between',
+77	          padding: '0 48px',
+78	          height: '56px',
+79	          maxWidth: '1440px',
+80	          margin: '0 auto',
+81	        }}
+82	      >
+83	        {/* Left: pulsing dot + brand */}
+84	        <Link
+85	          href="/#home"
+86	          onClick={handleSmoothScroll('#home')}
+87	          style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}
+88	          className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+89	        >
+90	          <span
+91	            style={{
+92	              width: '8px',
+93	              height: '8px',
+94	              borderRadius: '50%',
+95	              backgroundColor: 'var(--atelier-accent)',
+96	              animation: 'pulse-dot 2s ease-in-out infinite',
+97	              display: 'block',
+98	              flexShrink: 0,
+99	            }}
+100	          />
+101	          <span
+102	            style={{
+103	              fontFamily: 'var(--font-mono)',
+104	              fontSize: '12px',
+105	              letterSpacing: '0.04em',
+106	              textTransform: 'uppercase',
+107	              color: 'var(--ink)',
+108	            }}
+109	          >
+110	            codewithnabi
+111	          </span>
+112	        </Link>
+113	
+114	        {/* Right: nav links + theme toggle */}
+115	        <div style={{ display: 'flex', alignItems: 'center', gap: '28px' }}>
+116	          {[
+117	            { label: 'Projects', hash: '#projects' },
+118	            { label: 'About', hash: '#about' },
+119	            { label: 'Contact', hash: '#contact' },
+120	          ].map((item) => (
+121	            <a
+122	              key={item.hash}
+123	              href={item.hash}
+124	              onClick={handleSmoothScroll(item.hash)}
+125	              className="nav-link focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+126	              style={{
+127	                fontSize: '13px',
+128	                color: 'var(--ink-soft)',
+129	                textDecoration: 'none',
+130	                transition: 'color 200ms ease',
+131	              }}
+132	            >
+133	              {item.label}
+134	            </a>
+135	          ))}
+136	
+137	          {/* Theme toggle */}
+138	          <button
+139	            onClick={toggleTheme}
+140	            aria-label="Toggle theme"
+141	            style={{
+142	              width: '32px',
+143	              height: '32px',
+144	              borderRadius: '50%',
+145	              border: '1px solid var(--line)',
+146	              display: 'flex',
+147	              alignItems: 'center',
+148	              justifyContent: 'center',
+149	              color: 'var(--muted)',
+150	              background: 'transparent',
+151	              cursor: 'pointer',
+152	              transition: 'transform 300ms ease',
+153	            }}
+154	            className="hover:rotate-[20deg] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+155	          >
+156	            {mounted && (
+157	              isDark ? (
+158	                <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+159	                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+160	                </svg>
+161	              ) : (
+162	                <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
+163	                  <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+164	                </svg>
+165	              )
+166	            )}
+167	          </button>
+168	        </div>
+169	      </nav>
+170	    </header>
+171	  );
+172	}
+173
+```
+</details></tool-use>
+
+---
+
+_**User (2026-05-10 09:20:50Z)**_
+
+[Request interrupted by user]
+
+_**User (2026-05-10 09:21:14Z)**_
+
+Projects
+About
+Contact
+
+Flutter Developer · Ankara, Turkey
+ blog home
+
+---
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:21:18Z)**_
+
+<think><details><summary>Thought Process</summary>
+The user wants to add "Blog" to the AtelierNav navigation links. They also want to show it on the home page navigation. Let me add "Writing" or "Blog" as a nav item. Since there's now a `#blog` section on the home page, I should add it as a hash link like the others.
+</details></think>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:21:22Z)**_
+
+<tool-use data-tool-type="write" data-tool-name="Edit"><details>
+<summary>Tool use: **Edit**</summary>
+
+```text
+The file /Users/nabirahmani/my-portfolio/src/components/AtelierNav.tsx has been updated successfully.
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:21:24Z)**_
+
+Done — "Writing" is now the third nav item and scrolls directly to the blog section on the home page.
+
+---
+
+_**User (2026-05-10 09:22:15Z)**_
+
+add hover like mouse based on '/Users/nabirahmani/my-portfolio/specs/design_handoff_portfolio_redesign'
+
+---
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:22:21Z)**_
+
+<think><details><summary>Thought Process</summary>
+The user wants to add a mouse-based hover effect, and they're referencing the design spec. Let me read the spec files to understand what hover effects are described.
+</details></think>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:22:22Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+List spec files
+
+`ls /Users/nabirahmani/my-portfolio/specs/design_handoff_portfolio_redesign/`
+
+```text
+README.md
+designs
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:22:25Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+List design files
+
+`ls /Users/nabirahmani/my-portfolio/specs/design_handoff_portfolio_redesign/designs/`
+
+```text
+atelier.html
+quiet.html
+studio.html
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:22:28Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Find mouse/hover effects in atelier design
+
+`grep -n "mouse\|cursor\|mousemove\|parallax\|magnetic\|spotlight\|glow\|hover" /Users/nabirahmani/my-portfolio/specs/design_handoff_portfolio_redesign/designs/atelier.html | head -40`
+
+```text
+87:.nav__links a:hover { opacity: 1; }
+97:.nav__links a:hover::after { width: 100%; }
+104:  cursor: pointer;
+110:.theme-toggle:hover { background: var(--cream-2); transform: rotate(20deg); }
+199:.hero__cta:hover { gap: 22px; transform: translateY(-2px); }
+201:.hero__cta:hover .arr { transform: translateX(4px); }
+324:.project:hover .phone { transform: translateY(-8px) rotate(-1.5deg); }
+325:.project:nth-child(even):hover .phone { transform: translateY(-8px) rotate(1.5deg); }
+443:.contact__email:hover::after { transform: translate(8px, -8px); }
+463:.contact__socials a:hover {
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:22:32Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Find mouse tracking JS in atelier design
+
+`grep -n "mouse\|mousemove\|addEventListener\|clientX\|clientY\|spotlight\|cursor\|radial\|lerp\|magnetic" /Users/nabirahmani/my-portfolio/specs/design_handoff_portfolio_redesign/designs/atelier.html | head -50`
+
+```text
+104:  cursor: pointer;
+659:addEventListener('scroll', () => {
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:22:35Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Find mouse effect descriptions in README spec
+
+`grep -n "mouse\|mousemove\|cursor\|spotlight\|glow\|parallax\|magnetic" /Users/nabirahmani/my-portfolio/specs/design_handoff_portfolio_redesign/README.md | head -40`
+
+```text
+39:- **Signature moves:** Custom cursor with `mix-blend-mode: difference` + radial spotlight following mouse; phone mockups in 3-stack with idle float animation and parallax on scroll; morphing blob brand mark; hover glitch on hero name; tag-filter that dims non-matching project cards; auto-scrolling stack ticker; Konami code easter egg (↑↑↓↓←→←→BA) hue-rotates the page.
+45:- **Signature moves:** Project list as expandable rows (click to open detail); ambient cursor glow; bracketed section labels (`[ 01 / WORK ]`); index of writing as plain rows; large mailto link as the contact CTA.
+180:- **Custom cursor:** Two layered fixed elements — outer ring + inner dot. Use `mix-blend-mode: difference`. Outer lerps to mouse with 0.18 factor; inner snaps. Outer grows + fills with accent on hover over interactive elements.
+182:- **Phone parallax:** On scroll, each `.project__visual` is translated by `(viewport-center-distance) * -0.04`.
+188:- **Cursor glow:** 280px radial gradient lerping to mouse position with 0.08 factor.
+230:5. **Motion library:** Use `framer-motion` for scroll reveal and the Studio cursor / parallax. Keep `prefers-reduced-motion` as a kill switch.
+236:   - Keep the cursor as a visual layer only — never replace the native pointer for keyboard users (the CSS `cursor: none` is already gated to `(hover: hover)` via `@media (hover: none)`).
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:22:38Z)**_
+
+<tool-use data-tool-type="read" data-tool-name="Read"><details>
+<summary>Tool use: **Read**</summary>
+ `./specs/design_handoff_portfolio_redesign/README.md`
+
+```text
+175	- Hover on project card: phone translateY(-8px) + rotate(±1.5deg), 600ms cubic-bezier(.2,.8,.2,1).
+176	- Nav link underline grows from 0 to 100% width on hover (300ms).
+177	- Theme toggle rotates 20° on hover.
+178	
+179	### Studio-specific
+180	- **Custom cursor:** Two layered fixed elements — outer ring + inner dot. Use `mix-blend-mode: difference`. Outer lerps to mouse with 0.18 factor; inner snaps. Outer grows + fills with accent on hover over interactive elements.
+181	- **Spotlight:** `radial-gradient(400px 400px at var(--mx) var(--my), accent 18%, transparent 70%)` on a fixed full-viewport element, `pointer-events: none`.
+182	- **Phone parallax:** On scroll, each `.project__visual` is translated by `(viewport-center-distance) * -0.04`.
+183	- **Tag filter:** Buttons toggle `.dimmed` on non-matching `<article>`s; dimmed = opacity 0.25 + grayscale(0.7).
+184	- **Konami code:** Listen for `↑↑↓↓←→←→ b a`; on match, body gets `filter: hue-rotate(40deg)` for 4s and a toast slides in from bottom.
+185	
+186	### Quiet-specific
+187	- **Expandable rows:** Click any `.idx__row` to set `.open`; max-height transitions 0 → 600px over 500ms. Only one open at a time.
+188	- **Cursor glow:** 280px radial gradient lerping to mouse position with 0.08 factor.
+189	- **Row hover:** padding-left animates 0 → 12px; an `→` glyph fades in at the left edge.
+190	
+191	---
+192	
+193	## State Management
+194	
+195	Most of this is presentational. For Next.js, you'll need:
+196	
+197	- `theme: 'light' | 'dark'` — Context provider, hydrate from `localStorage` and `prefers-color-scheme`.
+198	- `activeFilter: 'all' | 'productivity' | 'habits' | 'lifestyle'` — local state in Projects component (Studio variant only).
+199	- `openProject: string | null` — local state in ProjectIndex (Quiet variant only).
+200	- No data fetching — content is static. Define projects + posts as a typed array in `lib/content.ts` or MDX.
+201	
+202	---
+203	
+204	## Assets
+205	
+206	- **None bundled.** All visual assets in the prototypes are CSS placeholders.
+207	- **You will need to source or commission:**
+208	  - Profile photo (currently exists at `/assets/branding/profile.jpg` on the live site)
+209	  - 3 project screenshots — one per app, 9:19.5 aspect, ideally a real screen captured from the running app
+210	  - Optional: app icons for each project (Focus Flow, Dev Discipline, Mihrab)
+211	  - Favicon + OG image (already exists at `/assets/branding/og-image.jpg`)
+212	
+213	Until those exist, ship the monospace placeholder pattern (`PRODUCT SHOT — focus_flow / timer.dart`) — it looks intentional rather than missing.
+214	
+215	---
+216	
+217	## Implementation Notes for Claude Code
+218	
+219	1. **Start with Atelier** unless the user picked otherwise — it's the lowest-risk default and translates cleanly to a Tailwind theme.
+220	2. **Tailwind config:** Add `cream`, `ink`, `accent` color tokens, `serif: Instrument Serif`, `sans: Geist`, `mono: JetBrains Mono`. Set up dark mode via `class` strategy.
+221	3. **Component breakdown:**
+222	   - `<SiteNav />` — sticky, uses scroll listener for `.scrolled` state
+223	   - `<Hero />` — variant-specific
+224	   - `<Projects />` — takes a `projects` array prop; per-variant card component
+225	   - `<About />` — static; pull bio from MDX if you want to make it editable
+226	   - `<Contact />` — static
+227	   - `<ThemeToggle />` — uses `next-themes`
+228	   - `<ScrollReveal>{children}</ScrollReveal>` — wraps in framer-motion `whileInView` instead of hand-rolled IO
+229	4. **Phone mockup component:** Build a reusable `<PhonePlaceholder label caption />` and a `<PhoneScreenshot src alt />`. Same outer bezel, different inner content.
+230	5. **Motion library:** Use `framer-motion` for scroll reveal and the Studio cursor / parallax. Keep `prefers-reduced-motion` as a kill switch.
+231	6. **Don't lose:**
+232	   - Dark mode (it works in all three variants — port it)
+233	   - The pulsing "open to work" status indicator
+234	   - Mono-labeled placeholder pattern (until real screenshots exist)
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:22:54Z)**_
+
+<think><details><summary>Thought Process</summary>
+The spec describes two mouse-based effects:
+
+1. **Atelier (our design)** - No custom cursor/spotlight specified. The Atelier section doesn't mention any cursor effects specifically - those are Studio-specific and Quiet-specific effects.
+
+2. **Studio-specific**: Custom cursor with mix-blend-mode: difference + spotlight following mouse
+3. **Quiet-specific**: Cursor glow - 280px radial gradient lerping to mouse position with 0.08 factor
+
+Since the user is on Atelier design but asks for "hover like mouse", the most fitting effect from the spec is the **cursor glow** from Quiet which is a subtle ambient glow that follows the mouse. This is much more subtle and elegant than the Studio cursor with mix-blend-mode.
+
+
+I'll implement a cursor glow effect using a 280-400px radial gradient that tracks the mouse position with lerping, styled with the Atelier accent color at low opacity. I'm building a MouseGlow component that tracks mouse movement with smoothing and renders a non-interactive overlay div.
+
+Adding motion preferences and touch device detection...
+</details></think>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:22:54Z)**_
+
+The spec describes a **cursor glow** — a 280–400px radial gradient that lerps to the mouse position. That's the Atelier-appropriate effect. I'll build it as a standalone component with `prefers-reduced-motion` and touch device guards.
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:22:54Z)**_
+
+<tool-use data-tool-type="search" data-tool-name="Glob"><details>
+<summary>Tool use: **Glob**</summary>
+ pattern `src/components/Mouse*.tsx`
+
+```text
+No files found
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:23:06Z)**_
+
+<tool-use data-tool-type="write" data-tool-name="Write"><details>
+<summary>Tool use: **Write**</summary>
+
+```tsx
+'use client';
+
+import { useEffect, useRef } from 'react';
+import { useReducedMotion } from 'framer-motion';
+
+export default function MouseGlow() {
+  const glowRef = useRef<HTMLDivElement>(null);
+  const mouse = useRef({ x: -1000, y: -1000 });
+  const current = useRef({ x: -1000, y: -1000 });
+  const rafRef = useRef<number | null>(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    // Skip on touch-only devices
+    if (!window.matchMedia('(hover: hover)').matches) return;
+    if (shouldReduceMotion) return;
+
+    const onMove = (e: MouseEvent) => {
+      mouse.current = { x: e.clientX, y: e.clientY };
+    };
+
+    window.addEventListener('mousemove', onMove, { passive: true });
+
+    const tick = () => {
+      const LERP = 0.08;
+      current.current.x += (mouse.current.x - current.current.x) * LERP;
+      current.current.y += (mouse.current.y - current.current.y) * LERP;
+
+      if (glowRef.current) {
+        glowRef.current.style.transform = `translate(${current.current.x}px, ${current.current.y}px)`;
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
+  }, [shouldReduceMotion]);
+
+  if (shouldReduceMotion) return null;
+
+  return (
+    <div
+      aria-hidden="true"
+      style={{
+        position: 'fixed',
+        inset: 0,
+        pointerEvents: 'none',
+        zIndex: 1,
+        overflow: 'hidden',
+      }}
+    >
+      <div
+        ref={glowRef}
+        style={{
+          position: 'absolute',
+          top: '-200px',
+          left: '-200px',
+          width: '400px',
+          height: '400px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, oklch(0.58 0.12 40 / 0.12) 0%, transparent 70%)',
+          willChange: 'transform',
+        }}
+      />
+    </div>
+  );
+}
+
+```
+
+```text
+File created successfully at: /Users/nabirahmani/my-portfolio/src/components/MouseGlow.tsx
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:23:08Z)**_
+
+Now add it to the home page, right inside the root div:
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:23:09Z)**_
+
+<tool-use data-tool-type="write" data-tool-name="Edit"><details>
+<summary>Tool use: **Edit**</summary>
+
+```text
+The file /Users/nabirahmani/my-portfolio/src/app/page.tsx has been updated successfully.
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:23:13Z)**_
+
+<tool-use data-tool-type="write" data-tool-name="Edit"><details>
+<summary>Tool use: **Edit**</summary>
+
+```text
+The file /Users/nabirahmani/my-portfolio/src/app/page.tsx has been updated successfully.
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:23:27Z)**_
+
+<tool-use data-tool-type="shell" data-tool-name="Bash"><details>
+<summary>Tool use: **Bash**</summary>
+Verify build passes
+
+`npm run build 2>&1 | tail -15`
+
+```text
+├   ├ /projects/focus-flow/terms
+├   ├ /projects/dev-discipline/terms
+├   └ /projects/mihrab-by-raha/terms
+├ ○ /robots.txt                                        138 B        99.9 kB
+└ ○ /sitemap.xml                                       138 B        99.9 kB
++ First Load JS shared by all                        99.8 kB
+  ├ chunks/4bd1b696-cf72ae8a39fa05aa.js              54.1 kB
+  ├ chunks/964-b440f7af22c41ca5.js                   43.7 kB
+  └ other shared chunks (total)                      1.93 kB
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+```
+</details></tool-use>
+
+_**Agent (claude-sonnet-4-6 2026-05-10 09:23:32Z)**_
+
+Clean. Here's what was added:
+
+- **`MouseGlow` component** — a 400px radial gradient circle in `--atelier-accent` at 12% opacity, lerping toward the cursor at 0.08 factor per frame via `requestAnimationFrame`. Feels soft and ambient, not distracting.
+- **Guards**: skips on touch devices (`hover: hover` media query) and respects `prefers-reduced-motion`
+- **`z-index: 1`** — sits above the background but below all content, so it never blocks clicks or text selection

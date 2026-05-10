@@ -115,6 +115,7 @@ export default function AtelierNav() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '28px' }}>
           {[
             { label: 'Projects', hash: '#projects' },
+            { label: 'Writing', hash: '#blog' },
             { label: 'About', hash: '#about' },
             { label: 'Contact', hash: '#contact' },
           ].map((item) => (

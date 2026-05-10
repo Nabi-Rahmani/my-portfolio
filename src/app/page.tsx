@@ -4,9 +4,11 @@ import type { MouseEvent } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { getAllProjects } from '@/data/projects';
+import { blogPosts } from '@/data/blog';
 import AtelierNav from '@/components/AtelierNav';
 import PhoneScreenshot from '@/components/PhoneScreenshot';
 import ScrollReveal from '@/components/ScrollReveal';
+import MouseGlow from '@/components/MouseGlow';
 
 declare global {
   interface Window {
@@ -17,6 +19,7 @@ declare global {
 }
 
 const allProjects = getAllProjects().slice(0, 3);
+const latestPosts = blogPosts.slice(0, 3);
 
 const projectDescriptions: Record<string, string> = {
   'focus-flow':
@@ -46,6 +49,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[var(--cream)] text-[var(--ink)]">
+      <MouseGlow />
       <AtelierNav />
 
       {/* ── Hero ─────────────────────────────────────────────────────── */}
@@ -325,6 +329,75 @@ export default function Home() {
               </div>
             </div>
           </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ── Blog ─────────────────────────────────────────────────────── */}
+      <section id="blog" className="py-24 md:py-32 px-6 md:px-12">
+        <div className="max-w-[1200px] mx-auto">
+          <ScrollReveal>
+            <div className="flex items-end justify-between mb-16 md:mb-20">
+              <span
+                className="text-[11px] tracking-[0.22em] uppercase text-[var(--muted)]"
+                style={{ fontFamily: 'var(--font-mono)' }}
+              >
+                [ Writing ]
+              </span>
+              <Link
+                href="/blog"
+                className="text-[13px] font-medium text-[var(--ink)] hover:text-[var(--atelier-accent)] transition-colors no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+              >
+                All posts →
+              </Link>
+            </div>
+          </ScrollReveal>
+
+          <div className="flex flex-col divide-y divide-[var(--line)]">
+            {latestPosts.map((post, i) => (
+              <ScrollReveal key={post.id} delay={i * 0.08}>
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="group flex flex-col md:flex-row md:items-baseline gap-3 md:gap-10 py-8 no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+                >
+                  {/* Date + reading time */}
+                  <div
+                    className="shrink-0 text-[11px] tracking-[0.1em] uppercase text-[var(--muted)] w-36"
+                    style={{ fontFamily: 'var(--font-mono)' }}
+                  >
+                    {new Date(post.publishedAt).toLocaleDateString('en-GB', {
+                      day: '2-digit', month: 'short', year: 'numeric',
+                    })}
+                    <span className="mx-2 opacity-40">·</span>
+                    {post.readingTime} min
+                  </div>
+
+                  {/* Title + excerpt */}
+                  <div className="flex-1">
+                    <h3
+                      className="text-[var(--ink)] group-hover:text-[var(--atelier-accent)] transition-colors duration-200 leading-snug mb-2"
+                      style={{
+                        fontFamily: 'var(--font-serif)',
+                        fontSize: 'clamp(18px, 2vw, 24px)',
+                      }}
+                    >
+                      {post.title}
+                    </h3>
+                    <p className="text-[14px] text-[var(--muted)] leading-[1.55] line-clamp-2 m-0">
+                      {post.excerpt}
+                    </p>
+                  </div>
+
+                  {/* Arrow */}
+                  <span
+                    className="shrink-0 text-[var(--muted)] group-hover:text-[var(--atelier-accent)] group-hover:translate-x-1 transition-all duration-200 hidden md:block"
+                    aria-hidden="true"
+                  >
+                    →
+                  </span>
+                </Link>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
       </section>
 

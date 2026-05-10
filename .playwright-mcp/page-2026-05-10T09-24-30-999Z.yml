@@ -1,0 +1,171 @@
+- main [ref=e2]:
+  - generic [ref=e3]:
+    - navigation [ref=e5]:
+      - link "codewithnabi" [ref=e6] [cursor=pointer]:
+        - /url: /#home
+        - generic [ref=e8]: codewithnabi
+      - generic [ref=e9]:
+        - link "Projects" [ref=e10] [cursor=pointer]:
+          - /url: "#projects"
+        - link "Writing" [ref=e11] [cursor=pointer]:
+          - /url: "#blog"
+        - link "About" [ref=e12] [cursor=pointer]:
+          - /url: "#about"
+        - link "Contact" [ref=e13] [cursor=pointer]:
+          - /url: "#contact"
+        - button "Toggle theme" [ref=e14] [cursor=pointer]
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - separator [ref=e18]
+          - generic [ref=e19]: Flutter Developer · Ankara, Turkey
+          - separator [ref=e20]
+        - heading "Nabi Rahmani." [level=1] [ref=e21]:
+          - text: Nabi
+          - emphasis [ref=e22]: Rahmani.
+        - paragraph [ref=e23]: Building mobile apps that feel inevitable — clean, offline-first, and actually shipped.
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - generic [ref=e27]:
+            - generic [ref=e28]: 3+
+            - generic [ref=e29]: years
+          - generic [ref=e32]:
+            - generic [ref=e33]: "3"
+            - generic [ref=e34]: apps
+          - generic [ref=e37]:
+            - generic [ref=e38]: ∞
+            - generic [ref=e39]: çay
+        - link "View selected work" [ref=e40] [cursor=pointer]:
+          - /url: "#projects"
+          - text: View selected work
+          - generic [ref=e41]: →
+    - generic [ref=e42]:
+      - generic [ref=e44]: "[ Selected Work ]"
+      - generic [ref=e45]:
+        - generic [ref=e47]:
+          - img "Focus Flow" [ref=e52]
+          - generic [ref=e53]:
+            - generic [ref=e54]: "001"
+            - heading "Focus Flow" [level=2] [ref=e55]
+            - paragraph [ref=e56]: A calm, guided focus timer for deep work. Sessions, soundscapes, breathing exercises, and analytics that don't shame you.
+            - generic [ref=e57]:
+              - generic [ref=e58]: Focus timer
+              - generic [ref=e59]: Session modes
+              - generic [ref=e60]: 95+ sounds
+              - generic [ref=e61]: Analytics
+              - generic [ref=e62]: Breathing exercises
+              - generic [ref=e63]: Pro tier
+            - generic [ref=e64]:
+              - link "View project →" [ref=e65] [cursor=pointer]:
+                - /url: /projects/focus-flow
+              - link "Play Store ↗" [ref=e66] [cursor=pointer]:
+                - /url: https://play.google.com/store/apps/details?id=com.nabirahmani.focus_flow
+              - generic [ref=e67]: iOS coming soon
+        - generic [ref=e69]:
+          - img "Dev Discipline" [ref=e74]
+          - generic [ref=e75]:
+            - generic [ref=e76]: "002"
+            - heading "Dev Discipline" [level=2] [ref=e77]
+            - paragraph [ref=e78]: Build better habits, stay consistent, become unstoppable. A 60-day system for engineers who want to actually finish things.
+            - generic [ref=e79]:
+              - generic [ref=e80]: 60-Day Plans
+              - generic [ref=e81]: Daily Tasks
+              - generic [ref=e82]: Streak Tracking
+              - generic [ref=e83]: Progress Insights
+              - generic [ref=e84]: Journaling
+              - generic [ref=e85]: Gamification
+            - generic [ref=e86]:
+              - link "View project →" [ref=e87] [cursor=pointer]:
+                - /url: /projects/dev-discipline
+              - link "Play Store ↗" [ref=e88] [cursor=pointer]:
+                - /url: https://play.google.com/store/apps/details?id=com.nabirahmani.dev_discipline
+              - generic [ref=e89]: iOS coming soon
+        - generic [ref=e91]:
+          - img "Mihrab by Raha" [ref=e96]
+          - generic [ref=e97]:
+            - generic [ref=e98]: "003"
+            - heading "Mihrab by Raha" [level=2] [ref=e99]
+            - paragraph [ref=e100]: A peaceful Islamic companion for daily worship. Prayer times, Quran reader, and a Hijri calendar — designed to feel like quiet.
+            - generic [ref=e101]:
+              - generic [ref=e102]: Prayer Times
+              - generic [ref=e103]: Quran Reader
+              - generic [ref=e104]: Hijri Calendar
+              - generic [ref=e105]: Daily Dhikr
+              - generic [ref=e106]: Islamic Library
+              - generic [ref=e107]: Themes
+            - generic [ref=e108]:
+              - link "View project →" [ref=e109] [cursor=pointer]:
+                - /url: /projects/mihrab-by-raha
+              - link "Play Store ↗" [ref=e110] [cursor=pointer]:
+                - /url: https://play.google.com/store/apps/details?id=com.nabirahmani.raha
+              - generic [ref=e111]: iOS coming soon
+    - generic [ref=e113]:
+      - generic [ref=e115]: "[ About ]"
+      - generic [ref=e117]:
+        - paragraph [ref=e118]:
+          - text: Craft over speed.
+          - text: Ideally both.
+        - generic [ref=e119]:
+          - paragraph [ref=e120]:
+            - text: I'm Nabi, a Flutter developer originally from Mazar-i-Sharif, Afghanistan, now living and working in Ankara, Turkey. I specialize in
+            - strong [ref=e121]: shipping mobile apps quickly
+            - text: without making the kind of mess that haunts you in two months —
+            - strong [ref=e122]: clean architecture, offline-first reliability
+            - text: ", and a healthy distrust of feature creep. If you're hiring for craft over speed (or, ideally, both), I'd love to talk."
+          - generic [ref=e123]:
+            - generic [ref=e124]:
+              - term [ref=e125]: Based
+              - definition [ref=e126]: Ankara, Turkey · GMT+3
+            - generic [ref=e127]:
+              - term [ref=e128]: Stack
+              - definition [ref=e129]: Flutter · Dart · Firebase · Riverpod
+            - generic [ref=e130]:
+              - term [ref=e131]: Status
+              - definition [ref=e132]: Open to collaborations
+            - generic [ref=e133]:
+              - term [ref=e134]: Speaks
+              - definition [ref=e135]: English · Persian (Dari) · Turkish
+    - generic [ref=e137]:
+      - generic [ref=e139]:
+        - generic [ref=e140]: "[ Writing ]"
+        - link "All posts →" [ref=e141] [cursor=pointer]:
+          - /url: /blog
+      - generic [ref=e142]:
+        - 'link "10 Sept 2025·12 min Riverpod: The Future of Flutter State Management Discover why Riverpod is revolutionizing Flutter state management. A friendly guide to understanding this powerful tool that makes app development smoother and more enjoyable." [ref=e144] [cursor=pointer]':
+          - /url: /blog/riverpod-flutter-state-management-guide
+          - generic [ref=e145]: 10 Sept 2025·12 min
+          - generic [ref=e146]:
+            - 'heading "Riverpod: The Future of Flutter State Management" [level=3] [ref=e147]'
+            - paragraph [ref=e148]: Discover why Riverpod is revolutionizing Flutter state management. A friendly guide to understanding this powerful tool that makes app development smoother and more enjoyable.
+        - 'link "05 Sept 2025·10 min Firebase: Your Complete Backend Solution for Flutter Explore how Firebase transforms Flutter development by handling all the complex backend stuff, so you can focus on creating amazing user experiences." [ref=e150] [cursor=pointer]':
+          - /url: /blog/firebase-complete-backend-flutter
+          - generic [ref=e151]: 05 Sept 2025·10 min
+          - generic [ref=e152]:
+            - 'heading "Firebase: Your Complete Backend Solution for Flutter" [level=3] [ref=e153]'
+            - paragraph [ref=e154]: Explore how Firebase transforms Flutter development by handling all the complex backend stuff, so you can focus on creating amazing user experiences.
+        - 'link "01 Sept 2025·9 min Shorebird: Revolutionary Code Push for Flutter Discover how Shorebird lets you instantly update your Flutter apps without waiting for app store approval. It''s like having superpowers for app deployment." [ref=e156] [cursor=pointer]':
+          - /url: /blog/shorebird-code-push-flutter-guide
+          - generic [ref=e157]: 01 Sept 2025·9 min
+          - generic [ref=e158]:
+            - 'heading "Shorebird: Revolutionary Code Push for Flutter" [level=3] [ref=e159]'
+            - paragraph [ref=e160]: Discover how Shorebird lets you instantly update your Flutter apps without waiting for app store approval. It's like having superpowers for app deployment.
+    - generic [ref=e162]:
+      - generic [ref=e164]: "[ Get in Touch ]"
+      - generic [ref=e165]:
+        - link "codewithnabi@gmail.com" [ref=e167] [cursor=pointer]:
+          - /url: mailto:codewithnabi@gmail.com
+          - generic [ref=e168]:
+            - text: codewithnabi@gmail.com
+            - generic [ref=e169]: ↗
+        - generic [ref=e170]:
+          - link "GitHub" [ref=e171] [cursor=pointer]:
+            - /url: https://github.com/Nabi-Rahmani
+          - link "LinkedIn" [ref=e172] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/muhammad-nabi-rahmani-%F0%9F%87%B5%F0%9F%87%B8-8945b21ba/
+          - link "X / Twitter" [ref=e173] [cursor=pointer]:
+            - /url: https://x.com/nabirahmani_dev
+          - link "Blog" [ref=e174] [cursor=pointer]:
+            - /url: /blog
+    - generic [ref=e176]:
+      - generic [ref=e177]: © 2026 Muhammad Nabi Rahmani · Crafted in Ankara
+      - generic [ref=e178]: v.atelier · 03
