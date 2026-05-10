@@ -64,7 +64,7 @@ export default function Home() {
           >
             <hr className="flex-none w-12 md:w-16 border-none border-t border-[var(--line)]" style={{ borderTopWidth: '1px', borderTopColor: 'var(--line)', borderTopStyle: 'solid' }} />
             <span
-              className="text-[11px] tracking-[0.18em] uppercase text-[var(--muted)] whitespace-nowrap"
+              className="text-[13px] tracking-[0.14em] uppercase text-[var(--ink-soft)] whitespace-nowrap"
               style={{ fontFamily: 'var(--font-mono)' }}
             >
               Flutter Developer · Ankara, Turkey
@@ -94,14 +94,15 @@ export default function Home() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.35 }}
-            className="max-w-[560px] leading-relaxed text-[var(--muted)]"
+            className="max-w-[560px] leading-relaxed text-[var(--ink-soft)]"
             style={{
               fontFamily: 'var(--font-serif)',
               fontStyle: 'italic',
               fontSize: 'clamp(17px, 1.5vw, 22px)',
             }}
           >
-            Building mobile apps that feel inevitable — clean, offline-first, and actually shipped.
+            Building mobile apps that feel inevitable — clean, offline-first, and{' '}
+            <span style={{ color: 'var(--atelier-accent)' }}>actually shipped.</span>
           </motion.p>
         </div>
 
@@ -116,7 +117,7 @@ export default function Home() {
           <div className="flex items-center">
             {[
               { value: '3+', label: 'years' },
-              { value: '2', label: 'apps' },
+              { value: '3', label: 'apps' },
               { value: '∞', label: 'çay' },
             ].map((stat, i) => (
               <div key={stat.label} className="flex items-center">
@@ -149,7 +150,7 @@ export default function Home() {
           <a
             href="#projects"
             onClick={handleScrollTo('#projects')}
-            className="atelier-cta inline-flex items-center rounded-[999px] bg-[var(--ink)] text-[var(--cream)] text-[15px] no-underline px-6 py-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+            className="atelier-cta inline-flex items-center rounded-[999px] bg-[var(--ink)] text-[var(--cream)] text-[15px] font-medium no-underline px-6 py-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
           >
             View selected work
             <span aria-hidden="true">→</span>
@@ -159,6 +160,16 @@ export default function Home() {
 
       {/* ── Projects ─────────────────────────────────────────────────── */}
       <section id="projects" className="py-24 md:py-32 px-6 md:px-12">
+        <div className="max-w-[1200px] mx-auto mb-16 md:mb-20">
+          <ScrollReveal>
+            <span
+              className="text-[11px] tracking-[0.22em] uppercase text-[var(--muted)]"
+              style={{ fontFamily: 'var(--font-mono)' }}
+            >
+              [ Selected Work ]
+            </span>
+          </ScrollReveal>
+        </div>
         <div className="max-w-[1200px] mx-auto flex flex-col gap-24 md:gap-32">
           {allProjects.map((project, i) => {
             const isEven = i % 2 === 0;
@@ -198,7 +209,7 @@ export default function Home() {
                     >
                       {project.title}
                     </h2>
-                    <p className="text-[15px] text-[var(--muted)] leading-[1.6] mb-6 max-w-[480px]">
+                    <p className="text-[15px] text-[var(--ink-soft)] leading-[1.6] mb-6 max-w-[480px]">
                       {description}
                     </p>
 
@@ -219,7 +230,7 @@ export default function Home() {
                     <div className="flex flex-wrap gap-5 items-center">
                       <Link
                         href={`/projects/${project.slug}`}
-                        className="text-[13px] text-[var(--muted)] hover:text-[var(--ink)] transition-colors no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+                        className="text-[13px] font-medium text-[var(--ink)] hover:text-[var(--atelier-accent)] transition-colors no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
                       >
                         View project →
                       </Link>
@@ -251,6 +262,14 @@ export default function Home() {
       <section id="about" className="py-24 md:py-32 px-6 md:px-12">
         <div className="max-w-[1200px] mx-auto">
           <ScrollReveal>
+            <span
+              className="block text-[11px] tracking-[0.22em] uppercase text-[var(--muted)] mb-16 md:mb-20"
+              style={{ fontFamily: 'var(--font-mono)' }}
+            >
+              [ About ]
+            </span>
+          </ScrollReveal>
+          <ScrollReveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
               {/* Left: pull-quote */}
               <p
@@ -268,11 +287,13 @@ export default function Home() {
 
               {/* Right: bio + meta */}
               <div>
-                <p className="text-[15px] text-[var(--muted)] leading-[1.65] mb-8">
+                <p className="text-[15px] text-[var(--ink-soft)] leading-[1.65] mb-8">
                   I&apos;m Nabi, a Flutter developer originally from Mazar-i-Sharif, Afghanistan, now
-                  living and working in Ankara, Turkey. I specialize in shipping mobile apps quickly
-                  without making the kind of mess that haunts you in two months — clean architecture,
-                  offline-first reliability, and a healthy distrust of feature creep. If you&apos;re
+                  living and working in Ankara, Turkey. I specialize in{' '}
+                  <strong className="font-semibold text-[var(--ink)]">shipping mobile apps quickly</strong>{' '}
+                  without making the kind of mess that haunts you in two months —{' '}
+                  <strong className="font-semibold text-[var(--ink)]">clean architecture, offline-first reliability</strong>,
+                  and a healthy distrust of feature creep. If you&apos;re
                   hiring for craft over speed (or, ideally, both), I&apos;d love to talk.
                 </p>
                 <dl className="flex flex-col gap-3">
@@ -310,6 +331,14 @@ export default function Home() {
       {/* ── Contact ──────────────────────────────────────────────────── */}
       <section id="contact" className="py-24 md:py-32 px-6 md:px-12">
         <div className="max-w-[1200px] mx-auto">
+          <ScrollReveal>
+            <span
+              className="block text-[11px] tracking-[0.22em] uppercase text-[var(--muted)] mb-16 md:mb-20"
+              style={{ fontFamily: 'var(--font-mono)' }}
+            >
+              [ Get in Touch ]
+            </span>
+          </ScrollReveal>
           <ScrollReveal>
             {/* Large email link */}
             <div className="mb-12">

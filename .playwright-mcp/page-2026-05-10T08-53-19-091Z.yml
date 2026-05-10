@@ -1,0 +1,150 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e3]:
+      - navigation [ref=e5]:
+        - link "codewithnabi" [ref=e6] [cursor=pointer]:
+          - /url: /#home
+          - generic [ref=e8]: codewithnabi
+        - generic [ref=e9]:
+          - link "Projects" [ref=e10] [cursor=pointer]:
+            - /url: "#projects"
+          - link "About" [ref=e11] [cursor=pointer]:
+            - /url: "#about"
+          - link "Contact" [ref=e12] [cursor=pointer]:
+            - /url: "#contact"
+          - button "Toggle theme" [ref=e13] [cursor=pointer]:
+            - img [ref=e14]
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - generic [ref=e18]:
+            - separator [ref=e19]
+            - generic [ref=e20]: Flutter Developer · Ankara, Turkey
+            - separator [ref=e21]
+          - heading "Nabi Rahmani." [level=1] [ref=e22]:
+            - text: Nabi
+            - emphasis [ref=e23]: Rahmani.
+          - paragraph [ref=e24]: Building mobile apps that feel inevitable — clean, offline-first, and actually shipped.
+        - generic [ref=e25]:
+          - generic [ref=e26]:
+            - generic [ref=e28]:
+              - generic [ref=e29]: 3+
+              - generic [ref=e30]: years
+            - generic [ref=e33]:
+              - generic [ref=e34]: "2"
+              - generic [ref=e35]: apps
+            - generic [ref=e38]:
+              - generic [ref=e39]: ∞
+              - generic [ref=e40]: çay
+          - link "View selected work" [ref=e41] [cursor=pointer]:
+            - /url: "#projects"
+            - text: View selected work
+            - generic [ref=e42]: →
+      - generic [ref=e43]:
+        - generic [ref=e45]: "[ Selected Work ]"
+        - generic [ref=e46]:
+          - generic [ref=e48]:
+            - img "Focus Flow" [ref=e53]
+            - generic [ref=e54]:
+              - generic [ref=e55]: "001"
+              - heading "Focus Flow" [level=2] [ref=e56]
+              - paragraph [ref=e57]: A calm, guided focus timer for deep work. Sessions, soundscapes, breathing exercises, and analytics that don't shame you.
+              - generic [ref=e58]:
+                - generic [ref=e59]: Focus timer
+                - generic [ref=e60]: Session modes
+                - generic [ref=e61]: 95+ sounds
+                - generic [ref=e62]: Analytics
+                - generic [ref=e63]: Breathing exercises
+                - generic [ref=e64]: Pro tier
+              - generic [ref=e65]:
+                - link "View project →" [ref=e66] [cursor=pointer]:
+                  - /url: /projects/focus-flow
+                - link "Play Store ↗" [ref=e67] [cursor=pointer]:
+                  - /url: https://play.google.com/store/apps/details?id=com.nabirahmani.focus_flow
+                - generic [ref=e68]: iOS coming soon
+          - generic [ref=e70]:
+            - img "Dev Discipline" [ref=e75]
+            - generic [ref=e76]:
+              - generic [ref=e77]: "002"
+              - heading "Dev Discipline" [level=2] [ref=e78]
+              - paragraph [ref=e79]: Build better habits, stay consistent, become unstoppable. A 60-day system for engineers who want to actually finish things.
+              - generic [ref=e80]:
+                - generic [ref=e81]: 60-Day Plans
+                - generic [ref=e82]: Daily Tasks
+                - generic [ref=e83]: Streak Tracking
+                - generic [ref=e84]: Progress Insights
+                - generic [ref=e85]: Journaling
+                - generic [ref=e86]: Gamification
+              - generic [ref=e87]:
+                - link "View project →" [ref=e88] [cursor=pointer]:
+                  - /url: /projects/dev-discipline
+                - link "Play Store ↗" [ref=e89] [cursor=pointer]:
+                  - /url: https://play.google.com/store/apps/details?id=com.nabirahmani.dev_discipline
+                - generic [ref=e90]: iOS coming soon
+          - generic [ref=e92]:
+            - img "Mihrab by Raha" [ref=e97]
+            - generic [ref=e98]:
+              - generic [ref=e99]: "003"
+              - heading "Mihrab by Raha" [level=2] [ref=e100]
+              - paragraph [ref=e101]: A peaceful Islamic companion for daily worship. Prayer times, Quran reader, and a Hijri calendar — designed to feel like quiet.
+              - generic [ref=e102]:
+                - generic [ref=e103]: Prayer Times
+                - generic [ref=e104]: Quran Reader
+                - generic [ref=e105]: Hijri Calendar
+                - generic [ref=e106]: Daily Dhikr
+                - generic [ref=e107]: Islamic Library
+                - generic [ref=e108]: Themes
+              - generic [ref=e109]:
+                - link "View project →" [ref=e110] [cursor=pointer]:
+                  - /url: /projects/mihrab-by-raha
+                - link "Play Store ↗" [ref=e111] [cursor=pointer]:
+                  - /url: https://play.google.com/store/apps/details?id=com.nabirahmani.raha
+                - generic [ref=e112]: iOS coming soon
+      - generic [ref=e114]:
+        - generic [ref=e116]: "[ About ]"
+        - generic [ref=e118]:
+          - paragraph [ref=e119]:
+            - text: Craft over speed.
+            - text: Ideally both.
+          - generic [ref=e120]:
+            - paragraph [ref=e121]:
+              - text: I'm Nabi, a Flutter developer originally from Mazar-i-Sharif, Afghanistan, now living and working in Ankara, Turkey. I specialize in
+              - strong [ref=e122]: shipping mobile apps quickly
+              - text: without making the kind of mess that haunts you in two months —
+              - strong [ref=e123]: clean architecture, offline-first reliability
+              - text: ", and a healthy distrust of feature creep. If you're hiring for craft over speed (or, ideally, both), I'd love to talk."
+            - generic [ref=e124]:
+              - generic [ref=e125]:
+                - term [ref=e126]: Based
+                - definition [ref=e127]: Ankara, Turkey · GMT+3
+              - generic [ref=e128]:
+                - term [ref=e129]: Stack
+                - definition [ref=e130]: Flutter · Dart · Firebase · Riverpod
+              - generic [ref=e131]:
+                - term [ref=e132]: Status
+                - definition [ref=e133]: Open to collaborations
+              - generic [ref=e134]:
+                - term [ref=e135]: Speaks
+                - definition [ref=e136]: English · Persian (Dari) · Turkish
+      - generic [ref=e138]:
+        - generic [ref=e140]: "[ Get in Touch ]"
+        - generic [ref=e141]:
+          - link "codewithnabi@gmail.com" [ref=e143] [cursor=pointer]:
+            - /url: mailto:codewithnabi@gmail.com
+            - generic [ref=e144]:
+              - text: codewithnabi@gmail.com
+              - generic [ref=e145]: ↗
+          - generic [ref=e146]:
+            - link "GitHub" [ref=e147] [cursor=pointer]:
+              - /url: https://github.com/Nabi-Rahmani
+            - link "LinkedIn" [ref=e148] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/muhammad-nabi-rahmani-%F0%9F%87%B5%F0%9F%87%B8-8945b21ba/
+            - link "X / Twitter" [ref=e149] [cursor=pointer]:
+              - /url: https://x.com/nabirahmani_dev
+            - link "Blog" [ref=e150] [cursor=pointer]:
+              - /url: /blog
+      - generic [ref=e152]:
+        - generic [ref=e153]: © 2026 Muhammad Nabi Rahmani · Crafted in Ankara
+        - generic [ref=e154]: v.atelier · 03
+  - button "Open Next.js Dev Tools" [ref=e160] [cursor=pointer]:
+    - img [ref=e161]
+  - alert [ref=e164]
