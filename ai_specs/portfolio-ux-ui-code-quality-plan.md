@@ -57,12 +57,12 @@ Polish + modernize all portfolio sections (Home, Blog, Projects, About); extract
 ### Phase 4: Projects Refinement
 
 - **Goal**: Platform filter bar, horizontal screenshot gallery on mobile, platform badges on cards
-- [ ] `src/app/projects/page.tsx` — read file first; add `platform` filter state; render filter chips row (`All | iOS | Android | Both`) using `<Badge>` as clickable buttons; filter `allProjects` by `project.platform`
-- [ ] `src/app/projects/page.tsx` — add platform badge row under each project title using `<Badge variant="neutral">` showing `platform === 'both' ? 'iOS · Android' : platform === 'ios' ? 'iOS' : 'Android'`
-- [ ] `src/app/page.tsx` — add same platform badge to home page project cards
-- [ ] `src/app/projects/[slug]/page.tsx` — read file first; find screenshots section; wrap in `<div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-3">` with each screenshot as `<div className="snap-start shrink-0 w-[80vw] md:w-[360px]">`
-- [ ] Audit all `<Image>` components across `src/app/projects/` — ensure descriptive `alt` text
-- [ ] Verify: filter chips work; screenshots swipe on mobile; platform badges visible; `npm run build && npm run lint` pass
+- [x] `src/app/projects/page.tsx` — added `platform` filter state + filter chips row (`All | iOS | Android | iOS·Android`); filters `allProjects` by `project.platform`; also replaced inline Image with `<CardImage>`
+- [x] `src/app/projects/page.tsx` — added `<Badge variant="neutral">` platform badge under each project title
+- [x] `src/app/page.tsx` — platform badge already added in Phase 2
+- [x] `src/app/projects/[slug]/ProjectDetailClient.tsx` — screenshot gallery already uses `overflow-x-auto snap-x snap-mandatory` with fixed-width cards (pre-existing, well implemented)
+- [x] Audit `<Image>` alt text — all descriptive: `${project.title} screenshot ${i+1}`, `${project.title} icon`, etc.
+- [x] Verify: `npm run build && npm run lint` pass
 
 ### Phase 5: About Page Modernization
 
