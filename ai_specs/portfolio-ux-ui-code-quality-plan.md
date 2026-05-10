@@ -36,13 +36,13 @@ Polish + modernize all portfolio sections (Home, Blog, Projects, About); extract
 ### Phase 2: Home / Hero Polish
 
 - **Goal**: Warmer hero, expanded about snippet, two-button contact, mobile-swipeable projects
-- [ ] `src/app/page.tsx` — Hero: add initials avatar mark (styled `<div>` with accent bg + `NR` text); replace `<h1>Nabi Rahmani</h1>` with two-line pattern (`<p>Hey, I'm</p><h1>Nabi Rahmani</h1>`); update subtitle copy to be warmer/story-driven
-- [ ] `src/app/page.tsx` — Projects section: wrap cards in `<div className="flex flex-col md:flex-col gap-14 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory md:snap-none flex-row md:flex-col">` for mobile horizontal scroll; each card gets `snap-start shrink-0 w-[85vw] md:w-auto`
-- [ ] `src/app/page.tsx` — Blog section: replace inline badge spans with `<Badge variant="accent">`; replace inline card image divs with `<CardImage>`
-- [ ] `src/app/page.tsx` — About snippet: expand to 2-3 sentences + small `<ul>` of 3 personal traits/values before the "Learn more" link
-- [ ] `src/app/page.tsx` — Contact section: add second button (LinkedIn link) beside email CTA using `<Button variant="secondary">`
-- [ ] Audit all `<a>` tags in `src/app/page.tsx` — ensure `rel="noopener noreferrer"` + `target="_blank"` on all external links
-- [ ] Verify: visual review on mobile + desktop; `npm run build && npm run lint` pass
+- [x] `src/app/page.tsx` — Hero: add initials avatar mark (styled `<div>` with accent bg + `NR` text); replace `<h1>Nabi Rahmani</h1>` with two-line pattern (`<p>Hey, I'm</p><h1>Nabi Rahmani</h1>`); update subtitle copy to be warmer/story-driven
+- [x] `src/app/page.tsx` — Projects section: wrap cards in horizontal scroll container for mobile (`flex-row overflow-x-auto snap-x`), stacked on desktop; each card gets `snap-start shrink-0 w-[85vw] md:w-auto`; added platform badge using `<Badge variant="neutral">`
+- [x] `src/app/page.tsx` — Blog section: replace inline badge spans with `<Badge variant="accent">`; replace inline card image divs with `<CardImage>`
+- [x] `src/app/page.tsx` — About snippet: expand to 2-3 sentences + small `<ul>` of 3 personal traits/values before the "Learn more" link
+- [x] `src/app/page.tsx` — Contact section: add second button (LinkedIn link) beside email CTA
+- [x] Audit all `<a>` tags in `src/app/page.tsx` — ensure `rel="noopener noreferrer"` + `target="_blank"` on all external links
+- [x] Verify: `npm run build && npm run lint` pass
 
 ### Phase 3: Blog UX + Loading Skeletons
 

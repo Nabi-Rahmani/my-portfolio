@@ -10,6 +10,8 @@ import { getAllProjects } from '@/data/projects';
 import Footer from '@/components/Footer';
 import { fadeUp } from '@/lib/animations';
 import SocialIcon from '@/components/ui/SocialIcon';
+import Badge from '@/components/ui/Badge';
+import CardImage from '@/components/ui/CardImage';
 
 declare global {
   interface Window {
@@ -52,25 +54,41 @@ export default function Home() {
             animate="visible"
             className="text-center max-w-[680px] w-full"
           >
-            <motion.h1
-              custom={0}
+            {/* Initials avatar */}
+            <motion.div custom={0} variants={fadeUp} className="mb-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[var(--accent)] text-white font-bold text-[1.5rem] tracking-tight shadow-lg">
+                NR
+              </div>
+            </motion.div>
+
+            {/* Two-line greeting */}
+            <motion.p
+              custom={1}
               variants={fadeUp}
-              className="text-[2.75rem] md:text-[4.5rem] font-bold tracking-tight leading-[1.05] text-[var(--text-primary)] mb-4"
+              className="text-[1.125rem] md:text-[1.375rem] text-[var(--text-secondary)] mb-1 font-medium"
+            >
+              Hey, I&apos;m
+            </motion.p>
+
+            <motion.h1
+              custom={2}
+              variants={fadeUp}
+              className="text-[2.75rem] md:text-[4.5rem] font-bold tracking-tight leading-[1.05] text-[var(--text-primary)] mb-5"
             >
               Nabi Rahmani
             </motion.h1>
 
             <motion.p
-              custom={1}
+              custom={3}
               variants={fadeUp}
               className="text-[1.125rem] md:text-[1.25rem] text-[var(--text-secondary)] mb-8 max-w-[520px] mx-auto leading-relaxed"
             >
-              Flutter Developer crafting beautiful mobile experiences
-              with clean code and intuitive design.
+              A Flutter developer who ships apps people actually love — from
+              pixel-perfect UI to offline-first architecture and real App Store launches.
             </motion.p>
 
-            {/* Single CTA */}
-            <motion.div custom={2} variants={fadeUp}>
+            {/* CTA */}
+            <motion.div custom={4} variants={fadeUp}>
               <Link
                 href="/#projects"
                 onClick={handleScrollTo('#projects')}
@@ -84,12 +102,12 @@ export default function Home() {
             </motion.div>
 
             {/* Metrics line */}
-            <motion.p custom={3} variants={fadeUp} className="text-[0.875rem] text-[var(--text-secondary)] mt-6">
+            <motion.p custom={5} variants={fadeUp} className="text-[0.875rem] text-[var(--text-secondary)] mt-6">
               3+ Years Experience &middot; 2 Published Apps &middot; Ankara, Turkey
             </motion.p>
 
-            {/* Social icons - subtle, below metrics */}
-            <motion.div custom={4} variants={fadeUp} className="flex gap-3 justify-center mt-4">
+            {/* Social icons */}
+            <motion.div custom={6} variants={fadeUp} className="flex gap-3 justify-center mt-4">
               <SocialIcon name="github" href="https://github.com/Nabi-Rahmani" />
               <SocialIcon name="linkedin" href="https://www.linkedin.com/in/muhammad-nabi-rahmani-%F0%9F%87%B5%F0%9F%87%B8-8945b21ba/" />
               <SocialIcon name="twitter" href="https://x.com/nabirahmani_dev" />
@@ -116,7 +134,8 @@ export default function Home() {
             </h2>
           </motion.div>
 
-          <div className="flex flex-col gap-14">
+          {/* Mobile: horizontal scroll; Desktop: vertical stack */}
+          <div className="flex flex-row md:flex-col gap-6 md:gap-14 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory md:snap-none -mx-6 px-6 md:mx-0 md:px-0 pb-4 md:pb-0">
             {allProjects.map((project, i) => (
               <motion.div
                 key={project.id}
@@ -124,22 +143,24 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ type: 'spring', stiffness: 120, damping: 18, delay: i * 0.1 }}
-                className="group rounded-3xl overflow-hidden bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-shadow duration-500"
+                className="snap-start shrink-0 w-[85vw] md:w-auto group rounded-3xl overflow-hidden bg-[var(--bg-secondary)] border border-[var(--border-color)] shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-shadow duration-500"
               >
                 <a href={`/projects/${project.slug}`} className="no-underline block">
-                  <div className="relative aspect-[16/9] overflow-hidden">
-                    <Image
-                      src={project.coverImage}
-                      alt={`${project.title} — ${project.subtitle}`}
-                      fill
-                      className="object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
-                      sizes="(max-width: 768px) 100vw, 1000px"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                  </div>
+                  <CardImage
+                    src={project.coverImage}
+                    alt={`${project.title} — ${project.subtitle}`}
+                    aspectRatio="16/9"
+                    sizes="(max-width: 768px) 85vw, 1000px"
+                  />
                 </a>
                 <div className="p-7 md:p-10">
                   <a href={`/projects/${project.slug}`} className="no-underline block">
+                    {/* Platform badge */}
+                    <div className="mb-3">
+                      <Badge variant="neutral">
+                        {project.platform === 'both' ? 'iOS · Android' : project.platform === 'ios' ? 'iOS' : 'Android'}
+                      </Badge>
+                    </div>
                     <h3 className="text-[1.75rem] md:text-[2.25rem] font-bold text-[var(--text-primary)] mb-3 tracking-tight group-hover:text-[var(--accent)] transition-colors duration-300">
                       {project.title}
                     </h3>
@@ -268,23 +289,17 @@ export default function Home() {
                 className="group rounded-3xl overflow-hidden border border-[var(--border-color)] shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-shadow duration-500"
               >
                 <Link href={`/blog/${featuredPosts[0].slug}`} className="no-underline block">
-                  <div className="relative aspect-[16/9] overflow-hidden">
-                    <Image
-                      src={featuredPosts[0].coverImage}
-                      alt={featuredPosts[0].title}
-                      fill
-                      className="object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
-                      sizes="(max-width: 768px) 100vw, 1000px"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                  </div>
+                  <CardImage
+                    src={featuredPosts[0].coverImage}
+                    alt={featuredPosts[0].title}
+                    aspectRatio="16/9"
+                    sizes="(max-width: 768px) 100vw, 1000px"
+                  />
                 </Link>
                 <div className="p-7 md:p-10">
                   <Link href={`/blog/${featuredPosts[0].slug}`} className="no-underline block">
                     <div className="flex items-center gap-3 mb-4">
-                      <span className="px-2.5 py-1 rounded-full bg-[var(--accent-muted)] text-[var(--accent)] text-[0.75rem] font-medium">
-                        {featuredPosts[0].category}
-                      </span>
+                      <Badge variant="accent">{featuredPosts[0].category}</Badge>
                       <span className="text-[0.8125rem] text-[var(--text-secondary)]">
                         {featuredPosts[0].readingTime} min read
                       </span>
@@ -332,21 +347,15 @@ export default function Home() {
                     className="group rounded-3xl overflow-hidden border border-[var(--border-color)] shadow-[var(--shadow-md)] hover:shadow-[var(--shadow-lg)] transition-shadow duration-500 h-full"
                   >
                     <Link href={`/blog/${post.slug}`} className="no-underline block h-full flex flex-col">
-                      <div className="relative aspect-[16/10] overflow-hidden">
-                        <Image
-                          src={post.coverImage}
-                          alt={post.title}
-                          fill
-                          className="object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
-                          sizes="(max-width: 768px) 100vw, 500px"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                      </div>
+                      <CardImage
+                        src={post.coverImage}
+                        alt={post.title}
+                        aspectRatio="16/10"
+                        sizes="(max-width: 768px) 100vw, 500px"
+                      />
                       <div className="p-6 md:p-7 flex flex-col flex-1">
                         <div className="flex items-center gap-2.5 mb-3">
-                          <span className="px-2.5 py-0.5 rounded-full bg-[var(--accent-muted)] text-[var(--accent)] text-[0.6875rem] font-medium">
-                            {post.category}
-                          </span>
+                          <Badge variant="accent">{post.category}</Badge>
                           <span className="text-[0.75rem] text-[var(--text-secondary)]">
                             {post.readingTime} min
                           </span>
@@ -416,7 +425,22 @@ export default function Home() {
               I&apos;m Nabi Rahmani, a Flutter developer from Mazar-i-Sharif, Afghanistan, now based in Ankara, Turkey.
               I specialize in building and shipping mobile apps fast — with clean architecture,
               offline-first reliability, and polished UI on the App Store and Google Play.
+              I care deeply about the details that make an app feel great: smooth animations, snappy responses, and intuitive flows that get out of the user&apos;s way.
             </p>
+            <ul className="mb-6 space-y-2">
+              <li className="flex items-start gap-2.5 text-[0.9375rem] text-[var(--text-secondary)]">
+                <span className="text-[var(--accent)] font-bold mt-0.5">→</span>
+                Offline-first mindset — apps should work everywhere, always
+              </li>
+              <li className="flex items-start gap-2.5 text-[0.9375rem] text-[var(--text-secondary)]">
+                <span className="text-[var(--accent)] font-bold mt-0.5">→</span>
+                Clean architecture over clever shortcuts
+              </li>
+              <li className="flex items-start gap-2.5 text-[0.9375rem] text-[var(--text-secondary)]">
+                <span className="text-[var(--accent)] font-bold mt-0.5">→</span>
+                Ship fast, iterate often, stay curious
+              </li>
+            </ul>
             <Link
               href="/about"
               className="text-[0.875rem] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors no-underline inline-flex items-center gap-1 min-h-[48px]"
@@ -447,15 +471,28 @@ export default function Home() {
               Interested in working together or just want to chat about Flutter development? Feel free to reach out.
             </p>
 
-            <a
-              href="mailto:codewithnabi@gmail.com"
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--text-primary)] text-[var(--bg-primary)] rounded-full text-[0.9375rem] font-medium no-underline hover:opacity-90 transition-opacity"
-            >
-              <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-              </svg>
-              codewithnabi@gmail.com
-            </a>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a
+                href="mailto:codewithnabi@gmail.com"
+                className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--text-primary)] text-[var(--bg-primary)] rounded-full text-[0.9375rem] font-medium no-underline hover:opacity-90 transition-opacity"
+              >
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                </svg>
+                codewithnabi@gmail.com
+              </a>
+              <a
+                href="https://www.linkedin.com/in/muhammad-nabi-rahmani-%F0%9F%87%B5%F0%9F%87%B8-8945b21ba/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-7 py-3.5 border border-[var(--border-color)] text-[var(--text-primary)] rounded-full text-[0.9375rem] font-medium no-underline hover:border-[var(--text-secondary)] transition-all duration-200"
+              >
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                </svg>
+                Connect on LinkedIn
+              </a>
+            </div>
           </motion.div>
         </div>
       </section>
