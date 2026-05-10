@@ -1,0 +1,88 @@
+- generic [active] [ref=e1]:
+  - banner:
+    - navigation [ref=e2]:
+      - link "codewithnabi" [ref=e3] [cursor=pointer]:
+        - /url: /#home
+        - img [ref=e4]
+        - generic [ref=e6]: codewithnabi
+      - generic [ref=e8]:
+        - link "Projects" [ref=e9] [cursor=pointer]:
+          - /url: /projects
+          - img [ref=e11]
+          - generic [ref=e13]: Projects
+        - link "Blog" [ref=e14] [cursor=pointer]:
+          - /url: /blog
+          - img [ref=e15]
+          - generic [ref=e17]: Blog
+        - link "About" [ref=e18] [cursor=pointer]:
+          - /url: /about
+          - img [ref=e19]
+          - generic [ref=e21]: About
+        - link "Contact" [ref=e22] [cursor=pointer]:
+          - /url: /#contact
+          - img [ref=e23]
+          - generic [ref=e25]: Contact
+      - button "Toggle theme" [ref=e27] [cursor=pointer]:
+        - img [ref=e28]
+  - main [ref=e30]:
+    - main [ref=e32]:
+      - generic [ref=e33]:
+        - navigation [ref=e34]:
+          - link "Focus Flow" [ref=e35] [cursor=pointer]:
+            - /url: /projects/focus-flow
+          - img [ref=e36]
+          - generic [ref=e38]: Privacy Policy
+        - generic [ref=e39]:
+          - img "Focus Flow icon" [ref=e40]
+          - generic [ref=e41]:
+            - heading "Privacy Policy" [level=1] [ref=e42]
+            - paragraph [ref=e43]: "Last updated: February 10, 2026"
+        - paragraph [ref=e44]: Welcome to FocusFlow. We are committed to protecting your privacy and ensuring you have a positive experience using our productivity and focus timer application. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application FocusFlow. Please read this privacy policy carefully.
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - heading "1. Information You Provide" [level=2] [ref=e47]
+            - paragraph [ref=e48]: "We collect information you directly provide when using the app:"
+            - list [ref=e49]:
+              - listitem [ref=e50]: Task titles, descriptions, completion status, and timestamps
+              - listitem [ref=e51]: Timer duration preferences (focus and break lengths)
+              - listitem [ref=e52]: Daily reminder notification settings
+              - listitem [ref=e53]: Sound preferences, volume settings, and mixing preferences
+              - listitem [ref=e54]: Theme, appearance customization, and haptic feedback preferences
+          - generic [ref=e55]:
+            - heading "2. Automatically Collected Information" [level=2] [ref=e56]
+            - paragraph [ref=e57]: "The app automatically collects usage and device data to provide core functionality:"
+            - list [ref=e58]:
+              - listitem [ref=e59]: Focus session duration, completion data, and category counts
+              - listitem [ref=e60]: Daily and weekly progress statistics and streak tracking
+              - listitem [ref=e61]: Device type, model, operating system version, and app version
+              - listitem [ref=e62]: Timezone information for notification scheduling
+              - listitem [ref=e63]: Selected ambient sounds, volume levels, and audio playback history
+          - generic [ref=e64]:
+            - heading "3. How We Use Your Information" [level=2] [ref=e65]
+            - paragraph [ref=e66]: We use collected information to operate the Pomodoro timer, manage your tasks and to-do lists, display progress statistics and insights, sync data to home screen widgets, send daily reminder notifications, personalize the app based on your preferences, and monitor app performance and stability.
+          - generic [ref=e67]:
+            - heading "4. Data Storage & Security" [level=2] [ref=e68]
+            - paragraph [ref=e69]: All your personal data is stored locally on your device. Tasks are stored in a local SQLite database using Drift. Settings and preferences are stored using SharedPreferences. We do not transmit your task data, session history, or personal statistics to any remote servers. Data is stored in sandboxed app storage protected by the operating system.
+          - generic [ref=e70]:
+            - heading "5. Widgets & Live Activities" [level=2] [ref=e71]
+            - paragraph [ref=e72]: When you use iOS Live Activities or Home Widgets, timer status and progress data is shared with widget extensions via App Groups (iOS) or SharedPreferences (Android). This data remains local to your device and is not transmitted elsewhere. Widget data is encrypted and protected by device security.
+          - generic [ref=e73]:
+            - heading "6. Notifications" [level=2] [ref=e74]
+            - paragraph [ref=e75]: If you enable daily reminders, notification scheduling uses your device's local timezone. Notification content is generated locally on your device. No notification data is sent to external services. You can disable notifications at any time in Settings.
+          - generic [ref=e76]:
+            - heading "7. Children's Privacy" [level=2] [ref=e77]
+            - paragraph [ref=e78]: Our App is not directed to children under the age of 13. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us.
+          - generic [ref=e79]:
+            - heading "8. Your Privacy Rights" [level=2] [ref=e80]
+            - paragraph [ref=e81]: You have the right to access, delete, and export your data. You can opt out of analytics through device settings and manage notifications in app Settings. California residents have additional rights under CCPA, and European residents have rights under GDPR including data portability and the right to object to processing.
+          - generic [ref=e82]:
+            - heading "9. Data Breach Notification" [level=2] [ref=e83]
+            - paragraph [ref=e84]: In the unlikely event of a data breach, we will notify affected users within 72 hours, describe the nature of the breach, provide recommended actions, and report to relevant authorities as required by law.
+          - generic [ref=e85]:
+            - heading "10. Changes to This Policy" [level=2] [ref=e86]
+            - paragraph [ref=e87]: We may update this Privacy Policy from time to time. We will notify you by updating the "Last Updated" date, displaying an in-app notification for material changes, and posting the new Privacy Policy in the app. Your continued use constitutes acceptance of the updated policy.
+          - generic [ref=e88]:
+            - heading "11. Contact Us" [level=2] [ref=e89]
+            - paragraph [ref=e90]: If you have any questions about this Privacy Policy, please contact us at codewithnabi@gmail.com or visit https://www.codewithnabi.dev/.
+        - paragraph [ref=e91]: © 2026 Mohammad Nabi Rahmani. All rights reserved.
+  - alert [ref=e92]

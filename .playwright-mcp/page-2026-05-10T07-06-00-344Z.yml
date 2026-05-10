@@ -1,0 +1,164 @@
+- generic [active] [ref=e1]:
+  - banner:
+    - navigation [ref=e2]:
+      - link "codewithnabi" [ref=e3] [cursor=pointer]:
+        - /url: /#home
+        - img [ref=e5]
+        - generic [ref=e7]: codewithnabi
+      - generic [ref=e9]:
+        - link "Projects" [ref=e10] [cursor=pointer]:
+          - /url: /#projects
+          - img [ref=e12]
+          - generic [ref=e14]: Projects
+        - link "Blog" [ref=e15] [cursor=pointer]:
+          - /url: /blog
+          - img [ref=e16]
+          - generic [ref=e18]: Blog
+        - link "About" [ref=e19] [cursor=pointer]:
+          - /url: /about
+          - img [ref=e20]
+          - generic [ref=e22]: About
+        - link "Contact" [ref=e23] [cursor=pointer]:
+          - /url: /#contact
+          - img [ref=e24]
+          - generic [ref=e26]: Contact
+      - button "Toggle theme" [ref=e28] [cursor=pointer]:
+        - img [ref=e29]
+  - main [ref=e31]:
+    - generic [ref=e32]:
+      - generic [ref=e34]:
+        - navigation [ref=e35]:
+          - link "Home" [ref=e36] [cursor=pointer]:
+            - /url: /
+          - img [ref=e37]
+          - link "Projects" [ref=e39] [cursor=pointer]:
+            - /url: /projects
+          - img [ref=e40]
+          - generic [ref=e42]: Mihrab by Raha
+        - generic [ref=e43]:
+          - generic [ref=e44]:
+            - generic:
+              - img "Mihrab by Raha icon"
+            - heading "Mihrab by Raha" [level=1] [ref=e45]
+            - paragraph [ref=e46]: A peaceful Islamic companion for your daily worship
+            - generic [ref=e47]:
+              - link "Get on Play Store" [ref=e48] [cursor=pointer]:
+                - /url: https://play.google.com/store/apps/details?id=com.nabirahmani.raha
+                - img [ref=e49]
+                - text: Get on Play Store
+              - generic [ref=e51]:
+                - img [ref=e52]
+                - text: iOS Coming Soon
+              - link "Source" [ref=e54] [cursor=pointer]:
+                - /url: https://github.com/Nabi-Rahmani
+                - img [ref=e55]
+                - text: Source
+          - img "Mihrab by Raha hero" [ref=e58]
+      - generic [ref=e59]:
+        - heading "See it in action" [level=2] [ref=e61]
+        - generic [ref=e63]:
+          - generic [ref=e64] [cursor=pointer]:
+            - img "Mihrab by Raha screenshot 1"
+          - generic [ref=e65] [cursor=pointer]:
+            - img "Mihrab by Raha screenshot 2"
+          - generic [ref=e66] [cursor=pointer]:
+            - img "Mihrab by Raha screenshot 3"
+          - generic [ref=e67] [cursor=pointer]:
+            - img "Mihrab by Raha screenshot 4"
+          - generic [ref=e68] [cursor=pointer]:
+            - img "Mihrab by Raha screenshot 5"
+          - generic [ref=e69] [cursor=pointer]:
+            - img "Mihrab by Raha screenshot 6"
+      - generic [ref=e71]:
+        - generic [ref=e72]:
+          - generic [ref=e73]: Features
+          - heading "Everything you need for a consistent spiritual routine" [level=2] [ref=e74]
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - generic: "01"
+            - generic [ref=e77]:
+              - heading "Accurate Prayer Times" [level=3] [ref=e78]
+              - paragraph [ref=e79]: Stay connected with timely prayer reminders and a clean overview of all five daily prayers based on your location and selected method.
+          - generic [ref=e80]:
+            - generic: "02"
+            - generic [ref=e81]:
+              - heading "Beautiful Quran Reading" [level=3] [ref=e82]
+              - paragraph [ref=e83]: Read the Quran in a clear, distraction-free interface designed for comfort and reflection, whether you are reading daily or revisiting selected surahs.
+          - generic [ref=e84]:
+            - generic: "03"
+            - generic [ref=e85]:
+              - heading "Hijri Calendar Guidance" [level=3] [ref=e86]
+              - paragraph [ref=e87]: Track Islamic dates and upcoming occasions with an easy-to-read Hijri calendar that helps you plan meaningful days and worship moments.
+          - generic [ref=e88]:
+            - generic: "04"
+            - generic [ref=e89]:
+              - heading "Dhikr and Remembrance" [level=3] [ref=e90]
+              - paragraph [ref=e91]: Build consistency in remembrance with dedicated dhikr flows that are simple, calming, and easy to return to throughout the day.
+          - generic [ref=e92]:
+            - generic: "05"
+            - generic [ref=e93]:
+              - heading "Curated Islamic Library" [level=3] [ref=e94]
+              - paragraph [ref=e95]: Access a growing collection of essential Islamic content in one place so you can learn, revisit, and reflect without jumping between multiple apps.
+          - generic [ref=e96]:
+            - generic: "06"
+            - generic [ref=e97]:
+              - heading "Personal Themes and Mood" [level=3] [ref=e98]
+              - paragraph [ref=e99]: Customize the look and feel with soothing themes that match your preference and keep your spiritual routine visually calm and personal.
+      - generic [ref=e102]:
+        - heading "What is Mihrab by Raha?" [level=2] [ref=e103]
+        - paragraph [ref=e104]: Mihrab by Raha is a thoughtfully designed Islamic lifestyle app to support your daily spiritual routine. From accurate prayer times and Quran reading to dhikr, Islamic calendar guidance, and a curated library, it brings your essentials into one calm, focused experience.
+      - generic [ref=e106]:
+        - heading "Built with" [level=2] [ref=e107]
+        - generic [ref=e108]:
+          - generic: Flutter
+          - generic: Dart
+          - generic: Riverpod
+          - generic: Drift
+          - generic: SQLite
+        - generic [ref=e109]:
+          - generic: Prayer Times
+          - generic: Quran Reader
+          - generic: Hijri Calendar
+          - generic: Daily Dhikr
+          - generic: Islamic Library
+          - generic: Themes
+      - generic [ref=e111]:
+        - generic [ref=e112]:
+          - img
+          - img
+          - img
+          - img
+          - img
+        - heading "Enjoying Mihrab by Raha?" [level=2] [ref=e113]
+        - paragraph [ref=e114]: Your feedback helps other developers discover this app and helps me improve it. Leave a rating or review on the Play Store — it takes less than a minute.
+        - link "Rate on Play Store" [ref=e115] [cursor=pointer]:
+          - /url: https://play.google.com/store/apps/details?id=com.nabirahmani.raha
+          - img [ref=e116]
+          - text: Rate on Play Store
+      - generic [ref=e120]:
+        - img "Mihrab by Raha icon" [ref=e122]
+        - heading "Ready to try Mihrab by Raha?" [level=2] [ref=e123]
+        - paragraph [ref=e124]: Download Mihrab by Raha today and experience a peaceful islamic companion for your daily worship.
+        - generic [ref=e125]:
+          - link "Download Now" [ref=e126] [cursor=pointer]:
+            - /url: https://play.google.com/store/apps/details?id=com.nabirahmani.raha
+            - img [ref=e127]
+            - text: Download Now
+          - generic [ref=e129]:
+            - img [ref=e130]
+            - text: iOS Coming Soon
+      - generic [ref=e135]:
+        - generic [ref=e137]:
+          - generic [ref=e138]: Crafting mobile experiences
+          - generic [ref=e139]: ·
+          - link "Privacy Policy" [ref=e140] [cursor=pointer]:
+            - /url: /projects/mihrab-by-raha/privacy
+          - link "Terms of Use" [ref=e141] [cursor=pointer]:
+            - /url: /projects/mihrab-by-raha/terms
+          - link "All Projects" [ref=e142] [cursor=pointer]:
+            - /url: /projects
+        - generic [ref=e143]:
+          - generic [ref=e144]: © 2026 Mohammad Nabi Rahmani
+          - button "Back to top" [ref=e145] [cursor=pointer]:
+            - generic [ref=e146]: Top
+            - img [ref=e147]
