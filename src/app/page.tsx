@@ -266,12 +266,20 @@ export default function Home() {
       <section id="about" className="py-24 md:py-32 px-6 md:px-12">
         <div className="max-w-[1200px] mx-auto">
           <ScrollReveal>
-            <span
-              className="block text-[11px] tracking-[0.22em] uppercase text-[var(--muted)] mb-16 md:mb-20"
-              style={{ fontFamily: 'var(--font-mono)' }}
-            >
-              [ About ]
-            </span>
+            <div className="flex items-end justify-between mb-16 md:mb-20">
+              <span
+                className="text-[11px] tracking-[0.22em] uppercase text-[var(--muted)]"
+                style={{ fontFamily: 'var(--font-mono)' }}
+              >
+                [ About ]
+              </span>
+              <Link
+                href="/about"
+                className="text-[13px] font-medium text-[var(--ink)] hover:text-[var(--atelier-accent)] transition-colors no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+              >
+                More →
+              </Link>
+            </div>
           </ScrollReveal>
           <ScrollReveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">

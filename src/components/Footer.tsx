@@ -24,6 +24,7 @@ const socials = [
 const quickLinks = [
     { label: 'Projects', href: '/projects' },
     { label: 'Blog', href: '/blog' },
+    { label: 'Courses', href: '/courses' },
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/#contact' },
 ];
@@ -75,7 +76,7 @@ export default function Footer({ showSocials = false, links }: FooterProps) {
                         {/* Tagline and quick links on same line */}
                         <div className="flex flex-wrap justify-center items-center gap-4 text-center">
                             <span className="text-[0.875rem] text-[var(--text-secondary)]">
-                                Crafting mobile experiences
+                                Flutter developer · Ankara, Turkey
                             </span>
                             <span className="hidden sm:inline text-[var(--text-secondary)] opacity-40">·</span>
                             {footerLinks.map((link) => (

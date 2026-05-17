@@ -37,21 +37,29 @@ export default function Projects() {
                 <div className="max-w-[1000px] mx-auto">
                     {/* Header */}
                     <div className="text-center mb-12">
+                        <motion.p
+                            className="text-[0.8125rem] font-medium text-[var(--accent)] uppercase tracking-widest mb-3"
+                            initial={{ opacity: 0, y: 16 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4 }}
+                        >
+                            Selected Work
+                        </motion.p>
                         <motion.h1
                             className="text-[2rem] md:text-[2.75rem] font-bold text-[var(--text-primary)] mb-4 tracking-tight"
-                            initial={{ opacity: 0, y: -80, scale: 0.6 }}
+                            initial={{ opacity: 0, y: -40, scale: 0.9 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ type: 'spring', stiffness: 200, damping: 12 }}
+                            transition={{ type: 'spring', stiffness: 200, damping: 16, delay: 0.1 }}
                         >
-                            My Projects
+                            Apps I&apos;ve shipped
                         </motion.h1>
                         <motion.p
-                            className="text-[1rem] text-[var(--text-secondary)]"
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ type: 'spring', stiffness: 260, damping: 15, delay: 0.3 }}
+                            className="text-[1rem] text-[var(--text-secondary)] max-w-[480px] mx-auto leading-relaxed"
+                            initial={{ opacity: 0, y: 16 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, delay: 0.25 }}
                         >
-                            Flutter applications I&apos;ve built with passion
+                            Flutter apps built from idea to App Store — clean architecture, offline-first, and actually in production.
                         </motion.p>
                     </div>
 
@@ -138,62 +146,50 @@ export default function Projects() {
                                             href={`/projects/${project.slug}`}
                                             className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--accent)] text-white rounded-full text-[0.875rem] font-medium no-underline hover:opacity-90 transition-opacity"
                                         >
-                                            View Project
+                                            Case Study →
                                         </a>
-                                        {project.links.github && (
-                                            <a
-                                                href={project.links.github}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[var(--text-primary)] text-[var(--bg-primary)] rounded-full text-[0.875rem] font-medium no-underline hover:opacity-90 transition-opacity"
-                                            >
-                                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d={githubIcon} /></svg>
-                                                Source Code
-                                            </a>
-                                        )}
                                         {project.links.appStore && project.links.appStore !== '#' && (
                                             <a
                                                 href={project.links.appStore}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border-color)] text-[var(--text-primary)] rounded-full text-[0.875rem] font-medium no-underline hover:bg-[var(--bg-primary)] hover:border-[var(--text-secondary)] transition-all duration-200"
+                                                className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border-color)] text-[var(--text-primary)] rounded-full text-[0.875rem] font-medium no-underline hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all duration-200"
                                             >
                                                 <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d={appleIcon} /></svg>
-                                                App Store
+                                                App Store ↗
                                             </a>
-                                        )}
-                                        {project.links.appStore === '#' && (
-                                            <button
-                                                disabled
-                                                aria-disabled="true"
-                                                aria-label="iOS coming soon"
-                                                className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border-color)] text-[var(--text-secondary)] rounded-full text-[0.875rem] font-medium opacity-50 cursor-not-allowed"
-                                            >
-                                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d={appleIcon} /></svg>
-                                                iOS Coming Soon
-                                            </button>
                                         )}
                                         {project.links.playStore && project.links.playStore !== '#' && (
                                             <a
                                                 href={project.links.playStore}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border-color)] text-[var(--text-primary)] rounded-full text-[0.875rem] font-medium no-underline hover:bg-[var(--bg-primary)] hover:border-[var(--text-secondary)] transition-all duration-200"
+                                                className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border-color)] text-[var(--text-primary)] rounded-full text-[0.875rem] font-medium no-underline hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all duration-200"
                                             >
                                                 <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d={playIcon} /></svg>
-                                                Play Store
+                                                Play Store ↗
                                             </a>
                                         )}
-                                        {project.links.playStore === '#' && (
-                                            <button
-                                                disabled
-                                                aria-disabled="true"
-                                                aria-label="Android coming soon"
-                                                className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border-color)] text-[var(--text-secondary)] rounded-full text-[0.875rem] font-medium opacity-50 cursor-not-allowed"
+                                        {project.links.github && (
+                                            <a
+                                                href={project.links.github}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--border-color)] text-[var(--text-secondary)] rounded-full text-[0.875rem] font-medium no-underline hover:text-[var(--text-primary)] hover:border-[var(--text-secondary)] transition-all duration-200"
                                             >
-                                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d={playIcon} /></svg>
-                                                Android Coming Soon
-                                            </button>
+                                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d={githubIcon} /></svg>
+                                                GitHub ↗
+                                            </a>
+                                        )}
+                                        {(project.links.appStore === '#' || project.links.playStore === '#') && (
+                                            <span className="inline-flex items-center gap-1.5 px-4 py-2.5 text-[0.8125rem] text-[var(--text-secondary)] opacity-60">
+                                                {project.links.appStore === '#' && (
+                                                    <>
+                                                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d={appleIcon} /></svg>
+                                                        iOS in progress
+                                                    </>
+                                                )}
+                                            </span>
                                         )}
                                     </div>
                                     {(project.links.privacy || project.links.terms) && (

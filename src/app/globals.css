@@ -4,52 +4,52 @@
 :root {
   --bg-primary: #f8f4ee;
   --bg-secondary: #f0ebe3;
-  --text-primary: #1a1410;
-  --text-secondary: #6e6259;
-  --border-color: rgba(26, 20, 16, 0.08);
+  --text-primary: #161210;
+  --text-secondary: #574d47;
+  --border-color: rgba(26, 20, 16, 0.1);
   --accent: #c48a3f;
   --accent-hover: #b37a32;
-  --accent-muted: rgba(196, 138, 63, 0.1);
+  --accent-muted: rgba(196, 138, 63, 0.12);
   --background: var(--bg-primary);
   --foreground: var(--text-primary);
-  --shadow-sm: 0 1px 3px rgba(26, 20, 16, 0.05);
-  --shadow-md: 0 4px 16px rgba(26, 20, 16, 0.07);
-  --shadow-lg: 0 12px 40px rgba(26, 20, 16, 0.09);
+  --shadow-sm: 0 1px 3px rgba(26, 20, 16, 0.06);
+  --shadow-md: 0 4px 16px rgba(26, 20, 16, 0.09);
+  --shadow-lg: 0 12px 40px rgba(26, 20, 16, 0.12);
 
   /* Atelier design tokens — home page */
   --cream: #f4ecdd;
   --cream-2: #ebe1cd;
-  --ink: #1b1814;
-  --ink-soft: #2a2620;
-  --muted: #7a6f5e;
-  --line: #cbbfa6;
-  --atelier-accent: oklch(0.58 0.12 40);
+  --ink: #161210;
+  --ink-soft: #2a2218;
+  --muted: #65594a;
+  --line: #c4b69e;
+  --atelier-accent: oklch(0.56 0.13 42);
   --accent-soft: oklch(0.92 0.04 70);
 }
 
 .dark {
   --bg-primary: #0e0c0a;
   --bg-secondary: #1a1714;
-  --text-primary: #ede7df;
-  --text-secondary: #9a8e82;
-  --border-color: rgba(237, 231, 223, 0.08);
+  --text-primary: #ede9e2;
+  --text-secondary: #b5aa9f;
+  --border-color: rgba(237, 231, 223, 0.1);
   --accent: #daa04e;
   --accent-hover: #e8ae5a;
-  --accent-muted: rgba(218, 160, 78, 0.1);
+  --accent-muted: rgba(218, 160, 78, 0.12);
   --background: var(--bg-primary);
   --foreground: var(--text-primary);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.6);
 
   /* Atelier dark overrides */
   --cream: #14110d;
-  --ink: #f1e7d3;
-  --atelier-accent: oklch(0.78 0.12 60);
+  --ink: #f0e8d8;
+  --atelier-accent: oklch(0.76 0.13 58);
   --cream-2: #1e1a14;
-  --ink-soft: #d4c5b2;
-  --muted: #a89e92;
-  --line: #564d3e;
+  --ink-soft: #ddd0bc;
+  --muted: #bdb5ae;
+  --line: #4e4638;
   --accent-soft: oklch(0.20 0.04 70);
 }
 

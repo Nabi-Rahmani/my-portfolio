@@ -14,7 +14,7 @@ declare global {
     }
 }
 
-type NavSection = 'home' | 'projects' | 'blog' | 'about' | 'contact';
+type NavSection = 'home' | 'projects' | 'blog' | 'courses' | 'about' | 'contact';
 
 const navItems: {
     section: NavSection;
@@ -43,6 +43,13 @@ const navItems: {
         href: '/blog',
         hash: '#blog',
         icon: 'M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.99 4H7V9h7.01V7zm3 4H7v2h10.01v-2zm0 4H7v2h10.01v-2z',
+    },
+    {
+        section: 'courses',
+        label: 'Courses',
+        href: '/courses',
+        hash: '',
+        icon: 'M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z',
     },
     {
         section: 'about',
@@ -131,6 +138,7 @@ export default function Navigation() {
 
         if (pathname.startsWith('/projects') && section === 'projects') return true;
         if (pathname.startsWith('/blog') && section === 'blog') return true;
+        if (pathname.startsWith('/courses') && section === 'courses') return true;
         if (pathname.startsWith('/about') && section === 'about') return true;
         if (pathname.startsWith('/contact') && section === 'contact') return true;
 

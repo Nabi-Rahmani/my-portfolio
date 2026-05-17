@@ -122,7 +122,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                             </motion.h1>
 
                             <motion.p
-                                className="text-[1.125rem] md:text-[1.25rem] lg:text-[1.375rem] text-[var(--text-secondary)] leading-relaxed mb-8 max-w-[520px] mx-auto md:mx-0"
+                                className="text-[1.125rem] md:text-[1.25rem] lg:text-[1.375rem] text-[var(--text-primary)] opacity-[0.75] leading-relaxed mb-8 max-w-[520px] mx-auto md:mx-0"
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ type: 'spring', stiffness: 140, damping: 16, delay: 0.25 }}
@@ -151,9 +151,8 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                     </motion.a>
                                 )}
                                 {project.links.playStore === '#' && (
-                                    <span className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-3.5 border border-[var(--border-color)] text-[var(--text-secondary)] rounded-full text-[0.9375rem] md:text-[1rem] font-medium opacity-80 cursor-not-allowed">
-                                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M3 20.5v-17c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v17c0 .83-.67 1.5-1.5 1.5S3 21.33 3 20.5zM15 12L7 7v10l8-5zm2-5l5.5 3.5a1.5 1.5 0 010 2.5L17 17V7z" /></svg>
-                                        Android Coming Soon
+                                    <span className="inline-flex items-center gap-1.5 text-[0.875rem] text-[var(--text-secondary)] opacity-60">
+                                        Android in progress
                                     </span>
                                 )}
                                 {project.links.appStore && project.links.appStore !== '#' && (
@@ -170,9 +169,8 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                     </motion.a>
                                 )}
                                 {project.links.appStore === '#' && (
-                                    <span className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-3.5 border border-[var(--border-color)] text-[var(--text-secondary)] rounded-full text-[0.9375rem] md:text-[1rem] font-medium opacity-80 cursor-not-allowed">
-                                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>
-                                        iOS Coming Soon
+                                    <span className="inline-flex items-center gap-1.5 text-[0.875rem] text-[var(--text-secondary)] opacity-60">
+                                        iOS in progress
                                     </span>
                                 )}
                                 {project.links.github && (
@@ -180,12 +178,12 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                         href={project.links.github}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-3.5 border border-[var(--border-color)] text-[var(--text-primary)] rounded-full text-[0.9375rem] md:text-[1rem] font-medium no-underline hover:bg-[var(--bg-secondary)] transition-colors"
-                                        whileHover={{ scale: 1.08, y: -2 }}
+                                        className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-3.5 border border-[var(--border-color)] text-[var(--text-secondary)] rounded-full text-[0.9375rem] md:text-[1rem] font-medium no-underline hover:text-[var(--text-primary)] hover:border-[var(--text-secondary)] transition-colors"
+                                        whileHover={{ scale: 1.04, y: -2 }}
                                         whileTap={{ scale: 0.94 }}
                                     >
                                         <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" /></svg>
-                                        Source
+                                        GitHub ↗
                                     </motion.a>
                                 )}
                             </motion.div>
@@ -347,7 +345,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                         <h3 className="text-[1.0625rem] font-semibold mb-2.5 text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-300">
                                             {feature.title}
                                         </h3>
-                                        <p className="text-[0.875rem] text-[var(--text-secondary)] leading-[1.7]">
+                                        <p className="text-[0.875rem] text-[var(--text-primary)] opacity-[0.72] leading-[1.7]">
                                             {feature.description}
                                         </p>
                                     </div>
@@ -371,8 +369,8 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                         transition={{ type: 'spring', stiffness: 120, damping: 16 }}
                         className="text-center max-w-[640px] mx-auto"
                     >
-                        <h2 className="text-[1.75rem] md:text-[2.25rem] font-bold tracking-tight mb-6">What is {project.title}?</h2>
-                        <p className="text-[1rem] md:text-[1.0625rem] text-[var(--text-secondary)] leading-relaxed">
+                        <h2 className="text-[1.75rem] md:text-[2.25rem] font-bold tracking-tight mb-6">About {project.title}</h2>
+                        <p className="text-[1rem] md:text-[1.0625rem] text-[var(--text-primary)] opacity-[0.78] leading-relaxed">
                             {project.description}
                         </p>
                     </motion.div>
@@ -472,7 +470,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                         </motion.h2>
 
                         <motion.p
-                            className="text-[0.9375rem] md:text-[1rem] text-[var(--text-secondary)] leading-relaxed mb-8 max-w-[480px] mx-auto"
+                            className="text-[0.9375rem] md:text-[1rem] text-[var(--text-primary)] opacity-[0.72] leading-relaxed mb-8 max-w-[480px] mx-auto"
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
@@ -531,8 +529,8 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                         <h2 className="text-[1.75rem] md:text-[2.5rem] font-bold tracking-tight mb-4">
                             Ready to try {project.title}?
                         </h2>
-                        <p className="text-[1rem] text-[var(--text-secondary)] mb-8 leading-relaxed">
-                            Download {project.title} today and experience {project.subtitle.toLowerCase()}.
+                        <p className="text-[1rem] text-[var(--text-primary)] opacity-[0.72] mb-8 leading-relaxed">
+                            {project.subtitle}. Available now on Android — iOS coming soon.
                         </p>
 
                         <div className="flex gap-3 flex-wrap justify-center">
@@ -550,9 +548,8 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                 </motion.a>
                             )}
                             {project.links.playStore === '#' && (
-                                <span className="inline-flex items-center gap-2 px-8 py-3.5 border border-[var(--border-color)] text-[var(--text-secondary)] rounded-full text-[1rem] font-semibold opacity-80 cursor-not-allowed">
-                                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M3 20.5v-17c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v17c0 .83-.67 1.5-1.5 1.5S3 21.33 3 20.5zM15 12L7 7v10l8-5zm2-5l5.5 3.5a1.5 1.5 0 010 2.5L17 17V7z" /></svg>
-                                    Android Coming Soon
+                                <span className="inline-flex items-center gap-1.5 text-[0.875rem] text-[var(--text-secondary)] opacity-55">
+                                    Android in progress
                                 </span>
                             )}
                             {project.links.appStore && project.links.appStore !== '#' && (
@@ -569,9 +566,8 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                 </motion.a>
                             )}
                             {project.links.appStore === '#' && (
-                                <span className="inline-flex items-center gap-2 px-8 py-3.5 border border-[var(--border-color)] text-[var(--text-secondary)] rounded-full text-[1rem] font-semibold opacity-80 cursor-not-allowed">
-                                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>
-                                    iOS Coming Soon
+                                <span className="inline-flex items-center gap-1.5 text-[0.875rem] text-[var(--text-secondary)] opacity-55">
+                                    iOS in progress
                                 </span>
                             )}
                         </div>

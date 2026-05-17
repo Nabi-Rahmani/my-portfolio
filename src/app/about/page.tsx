@@ -58,16 +58,30 @@ const skillGroups = [
 const experiences = [
     {
         role: 'Flutter Developer',
-        company: 'Freelance & Published Apps',
+        company: 'Focus Flow',
         description:
-            'Built and published Focus Flow (iOS) and Dev Discipline (Android). Clean Architecture with Riverpod state management, offline-first data sync via Drift and Supabase, and RevenueCat monetization integration.',
-        highlights: ['App Store', 'Google Play', 'RevenueCat', 'Offline-First'],
+            'Productivity focus timer with 95+ ambient sounds, Pomodoro sessions, guided breathing, and detailed analytics. Offline-first with Drift + SQLite, RevenueCat subscriptions, live on Google Play.',
+        highlights: ['Google Play', 'RevenueCat', 'Drift', 'Offline-First'],
+    },
+    {
+        role: 'Flutter Developer',
+        company: 'Dev Discipline',
+        description:
+            '60-day structured discipline app with habit tracking, streak building, journaling, and gamified progress insights. Clean Architecture with Riverpod, live on Google Play.',
+        highlights: ['Google Play', 'Riverpod', 'Gamification', 'Habit Tracking'],
+    },
+    {
+        role: 'Flutter Developer',
+        company: 'Mihrab by Raha',
+        description:
+            'Peaceful Islamic companion app with accurate prayer times, Quran reader, Hijri calendar, daily dhikr, and curated library. Offline-first, live on Google Play.',
+        highlights: ['Google Play', 'Prayer Times', 'Quran', 'Offline-First'],
     },
     {
         role: 'Full-Stack Web Developer',
         company: 'Portfolio & Course Platform',
         description:
-            'Built this portfolio site with Next.js 15, React 19, TypeScript, and Tailwind CSS. Includes a blog, course platform with video lessons, and project showcases.',
+            'Built this portfolio with Next.js 15, React 19, TypeScript, and Tailwind CSS — including a blog, course platform with video lessons, and project showcases.',
         highlights: ['Next.js 15', 'React 19', 'TypeScript', 'Tailwind CSS'],
     },
 ];
@@ -106,22 +120,23 @@ export default function About() {
                         <div className="flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-14">
                             {/* Profile Photo */}
                             <motion.div
-                                initial={{ opacity: 0, scale: 0.8 }}
+                                initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
                                 className="shrink-0"
                             >
-                                <div className="relative">
+                                <div className="relative w-[140px] h-[140px] md:w-[170px] md:h-[170px]">
                                     {/* Glow ring */}
                                     <div className="absolute -inset-1.5 rounded-2xl bg-gradient-to-br from-[var(--accent)] via-[var(--accent-hover)] to-[var(--accent)] opacity-20 blur-md" />
-                                    <div className="relative w-[140px] h-[140px] md:w-[170px] md:h-[170px] rounded-2xl overflow-hidden border-2 border-[var(--accent)]/20">
+                                    <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-[var(--accent)]/20 bg-[var(--bg-secondary)]">
                                         <Image
                                             src="/assets/branding/profile.jpg"
                                             alt="Nabi Rahmani - Flutter Developer"
-                                            fill
-                                            className="object-cover"
-                                            sizes="170px"
+                                            width={340}
+                                            height={340}
+                                            className="w-full h-full object-cover"
                                             priority
+                                            quality={85}
                                         />
                                     </div>
                                     {/* Status dot */}
@@ -147,13 +162,13 @@ export default function About() {
                                     variants={fadeUp}
                                     className="text-[2.25rem] md:text-[3rem] font-bold tracking-tight leading-[1.1] text-[var(--text-primary)] mb-4"
                                 >
-                                    I build apps people{' '}
-                                    <span className="text-[var(--accent)]">actually use</span>
+                                    3 apps shipped.{' '}
+                                    <span className="text-[var(--accent)]">More on the way.</span>
                                 </motion.h1>
                                 <motion.p
                                     custom={2}
                                     variants={fadeUp}
-                                    className="text-[1.0625rem] md:text-[1.125rem] text-[var(--text-secondary)] leading-relaxed max-w-[520px]"
+                                    className="text-[1.0625rem] md:text-[1.125rem] text-[var(--text-primary)] opacity-[0.75] leading-relaxed max-w-[520px]"
                                 >
                                     Flutter developer from Afghanistan, based in Turkey. I ship polished mobile apps
                                     from idea to App Store &mdash; fast, reliable, and built to last.
@@ -167,7 +182,7 @@ export default function About() {
                                 >
                                     {[
                                         { value: '3+', label: 'Years' },
-                                        { value: '2', label: 'Published Apps' },
+                                        { value: '3', label: 'Published Apps' },
                                         { value: '2', label: 'Platforms' },
                                     ].map((stat) => (
                                         <div key={stat.label} className="text-center md:text-left">
@@ -207,12 +222,12 @@ export default function About() {
 
                         {/* Right - Story text */}
                         <motion.div custom={1} variants={fadeUp} className="space-y-5">
-                            <p className="text-[1.0625rem] text-[var(--text-secondary)] leading-[1.8]">
+                            <p className="text-[1.0625rem] text-[var(--text-primary)] leading-[1.8] opacity-[0.82]">
                                 I&apos;m Nabi Rahmani, a Flutter developer from Mazar-i-Sharif, Afghanistan, now
                                 based in Ankara, Turkey. I specialize in building and shipping mobile apps fast
                                 &mdash; from idea to the App Store and Google Play &mdash; with Flutter and Dart.
                             </p>
-                            <p className="text-[1.0625rem] text-[var(--text-secondary)] leading-[1.8]">
+                            <p className="text-[1.0625rem] text-[var(--text-primary)] leading-[1.8] opacity-[0.82]">
                                 I focus on clean architecture, offline-first reliability, and polished UI. I build
                                 with Riverpod, Drift, and Supabase to create apps that work seamlessly online or
                                 off, with maintainable codebases that scale.
@@ -384,7 +399,7 @@ export default function About() {
                                                 </p>
                                             </div>
                                         </div>
-                                        <p className="text-[0.9375rem] text-[var(--text-secondary)] leading-relaxed mb-5">
+                                        <p className="text-[0.9375rem] text-[var(--text-primary)] opacity-[0.78] leading-relaxed mb-5">
                                             {exp.description}
                                         </p>
                                         <div className="flex flex-wrap gap-2">
@@ -418,11 +433,11 @@ export default function About() {
                             Get In Touch
                         </p>
                         <h2 className="text-[1.75rem] md:text-[2.25rem] font-bold text-[var(--text-primary)] tracking-tight mb-5">
-                            Let&apos;s build something together
+                            Have a project? Let&apos;s talk.
                         </h2>
-                        <p className="text-[1.0625rem] text-[var(--text-secondary)] leading-relaxed mb-8">
-                            Interested in working together, have a project idea, or just want to chat about Flutter?
-                            I&apos;d love to hear from you.
+                        <p className="text-[1.0625rem] text-[var(--text-primary)] opacity-[0.75] leading-relaxed mb-8">
+                            Open to freelance projects, full-time roles, and interesting collaborations.
+                            If you&apos;re building something with Flutter or need a mobile app shipped — I&apos;d love to hear about it.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
