@@ -410,12 +410,12 @@ export const projects: Project[] = [
         },
         platform: 'both',
         privacyContent: {
-            lastUpdated: 'March 15, 2026',
-            intro: 'Raha ("we", "our", "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application.',
+            lastUpdated: 'May 23, 2026',
+            intro: 'Raha ("we", "our", "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application Mihrab by Raha. The app uses anonymous product analytics (Mixpanel) and crash reporting (Sentry) to improve stability and user experience, and downloads optional audio content (such as Adhan calls and recitations) on demand from our cloud storage (Supabase). Please read this privacy policy carefully.',
             sections: [
                 {
                     title: '1. Information We Collect',
-                    content: 'Since Raha emphasizes full functionality without account creation, we collect minimal personal data. Automatically collected information includes device information (model, OS version, unique device identifiers), IP address (used only for location-based prayer time calculation, not stored), approximate location (used solely for prayer time detection — not stored or transmitted), and usage statistics such as feature usage and crash logs which are completely anonymous. User-provided information stored locally only includes:',
+                    content: 'Since Raha emphasizes full functionality without account creation, we collect minimal personal data. Automatically collected information includes device information (model, OS version, anonymous device identifiers), IP address (used only for location-based prayer time calculation, not stored), approximate location (used solely for prayer time detection — not stored or transmitted), and anonymized usage statistics and crash logs. User-provided information stored locally only includes:',
                     list: [
                         'Habit tracking data (completion status, streaks)',
                         'Prayer time preferences (calculation method, offsets)',
@@ -429,60 +429,77 @@ export const projects: Project[] = [
                     content: 'We use your information to:',
                     list: [
                         'Calculate accurate prayer times based on your location (processed locally)',
-                        'Provide habit tracking functionality (stored locally)',
+                        'Provide habit tracking, dhikr, Quran reading, and calendar functionality (stored locally)',
                         'Send prayer time and habit reminders (scheduled locally)',
-                        'Improve app performance and user experience (through anonymous analytics)',
+                        'Improve app performance and user experience (through anonymized analytics via Mixpanel)',
+                        'Diagnose crashes and errors (via Sentry, only on failure)',
+                        'Deliver downloadable audio content (Adhan, recitations) via Supabase Storage',
                         'Enable premium features through RevenueCat (payment processing only)',
                     ],
                 },
                 {
                     title: '3. Data Storage and Security',
-                    content: 'All personal habit and prayer data is stored exclusively on your device. No personally identifiable information is transmitted to or stored on our servers. Supabase is used solely for anonymous analytics collection (no personal identifiers), validating premium subscriptions through RevenueCat, and hosting static assets (prayer times calculation data). We employ industry-standard security measures to protect any transmitted data. All local data storage uses Flutter\'s secure storage mechanisms where appropriate.',
+                    content: 'Your personal content — habit tracking, prayer preferences, dhikr counts, Quran reading positions, and settings — is stored exclusively on your device. No personally identifiable information is transmitted to or stored on our servers. However, anonymized analytics events are transmitted to Mixpanel, crash and error data are transmitted to Sentry, and audio assets are downloaded over HTTPS from our Supabase Storage bucket when you choose to use them. We employ industry-standard security measures to protect any transmitted data. All local data storage uses Flutter\'s secure storage mechanisms where appropriate.',
                 },
                 {
-                    title: '4. Data Sharing',
+                    title: '4. Analytics (Mixpanel)',
+                    content: 'We use Mixpanel, Inc. to understand how the app is used so we can improve features and fix issues. Mixpanel receives anonymized event data such as feature interactions, screen views, and app/OS/device metadata, identified only by a randomly generated anonymous device ID. We do not send your habit data, prayer logs, dhikr counts, reading positions, name, email, or precise location to Mixpanel. You can disable analytics at any time from in-app Settings → Privacy; once disabled, no further events are sent. Mixpanel\'s privacy policy is available at https://mixpanel.com/legal/privacy-policy.',
+                },
+                {
+                    title: '5. Crash Reporting (Sentry)',
+                    content: 'We use Sentry (Functional Software, Inc.) to detect and diagnose crashes and errors. Sentry receives stack traces, error messages, breadcrumbs, and app/OS/device information, tagged with an anonymous install ID. Data is only transmitted when an error or crash occurs. We do not include your habit data, prayer logs, dhikr counts, or any user-authored text in crash reports. Sentry\'s privacy policy is available at https://sentry.io/privacy/.',
+                },
+                {
+                    title: '6. Cloud-Hosted Audio (Supabase Storage)',
+                    content: 'Optional audio content such as Adhan (call to prayer) sounds and recitations is hosted on Supabase Storage and downloaded to your device over HTTPS the first time you select it. Downloaded audio is cached locally so it can play offline afterward. To serve these files, Supabase processes standard request metadata such as IP address, user agent, and timestamp. No account, login, habit data, or listening history is sent to Supabase. Supabase\'s privacy policy is available at https://supabase.com/privacy.',
+                },
+                {
+                    title: '7. Data Sharing',
                     content: 'We do not sell or rent your personal information. We may share:',
                     list: [
-                        'Completely anonymous usage analytics with third-party services (Firebase Analytics)',
+                        'Anonymized usage analytics with Mixpanel',
+                        'Anonymized crash and error data with Sentry',
+                        'Standard request metadata with Supabase to serve audio downloads',
                         'Required information with payment processors (Apple App Store, Google Play Store) for subscription services via RevenueCat',
                         'Information only when legally required to do so (we have no personal data to share)',
                     ],
                 },
                 {
-                    title: '5. Your Rights',
+                    title: '8. Your Rights',
                     content: 'You have the right to:',
                     list: [
                         'Access all your data stored locally on your device through the app interface',
                         'Delete your habit data and reset the app through Settings',
-                        'Opt-out of anonymous analytics collection through Settings',
+                        'Opt out of Mixpanel analytics at any time from in-app Settings → Privacy',
+                        'Disable crash reporting by uninstalling the app',
                         'Control all notification permissions through your device settings',
                         'Export your data (where applicable) for backup purposes',
                     ],
                 },
                 {
-                    title: '6. Children\'s Privacy',
+                    title: '9. Children\'s Privacy',
                     content: 'Raha is designed for Muslim parents and professionals. While not specifically directed at children, we do not knowingly collect personal information from children under 13. If we become aware that we have inadvertently received personal information from someone under 13, we will delete such information from our records.',
                 },
                 {
-                    title: '7. International Data Transmissions',
-                    content: 'Any minimal data transmitted (anonymous analytics, subscription validation) may be processed in the United States or other countries where our service providers operate. No personal habit or prayer data ever leaves your device.',
+                    title: '10. International Data Transmissions',
+                    content: 'Any minimal data transmitted (anonymized analytics via Mixpanel, crash data via Sentry, audio downloads via Supabase, subscription validation via RevenueCat) may be processed in the United States or other countries where our service providers operate. No personal habit or prayer data ever leaves your device.',
                 },
                 {
-                    title: '8. Changes to This Policy',
+                    title: '11. Changes to This Policy',
                     content: 'We will notify users of material changes through an in-app notification or other appropriate means. Your continued use of the app after such changes constitutes your acceptance of the new policy.',
                 },
                 {
-                    title: '9. Contact Us',
+                    title: '12. Contact Us',
                     content: 'For questions about this Privacy Policy, please contact us at codewithnabi@gmail.com or visit https://www.codewithnabi.dev/.',
                 },
                 {
-                    title: '10. Religious Context Note',
+                    title: '13. Religious Context Note',
                     content: 'While Raha is designed to support Islamic practices, we do not collect or store any sensitive religious data beyond what users voluntarily input as part of their habit tracking. All such data remains exclusively on the user\'s device.',
                 },
             ],
         },
         termsContent: {
-            lastUpdated: 'March 15, 2026',
+            lastUpdated: 'May 23, 2026',
             intro: 'By downloading, installing, or using the Raha application ("App"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the App.',
             sections: [
                 {
@@ -506,8 +523,8 @@ export const projects: Project[] = [
                     content: 'All content, features, and functionality of Raha, including but not limited to the design, text, graphics, images, video, audio, software, and the selection and arrangement thereof, are the proprietary property of Nabi Rahmani and are protected by copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws. You are granted a limited, non-exclusive, non-transferable, revocable license to download and install a copy of the App on your mobile device and use it for personal, non-commercial purposes only.',
                 },
                 {
-                    title: '6. Subscription and Payments',
-                    content: 'Raha offers both free and premium features. Premium features are available through subscription. All payments are processed through Apple App Store (iOS) or Google Play Store (Android). We do not directly collect or store payment information. Subscriptions automatically renew unless canceled according to the store\'s policies. Users may cancel subscriptions at any time through their respective app store settings. Refunds for subscription payments are subject to the refund policies of Apple App Store or Google Play Store.',
+                    title: '6. Subscriptions, Payments, and Third-Party Services',
+                    content: 'Raha offers both free and premium features. Premium features are available through subscription, with payments processed through Apple App Store (iOS) or Google Play Store (Android) via RevenueCat; we do not directly collect or store payment information. Subscriptions automatically renew unless canceled according to the store\'s policies, and refunds are subject to those policies. The App also integrates with the following third-party services to operate and improve the product: Mixpanel for anonymized product analytics, Sentry for crash and error reporting, and Supabase Storage for hosting downloadable audio content such as Adhan calls and recitations. Use of these services is governed by their own terms and privacy policies, and we are not responsible for third-party services or their terms.',
                 },
                 {
                     title: '7. Disclaimer of Warranties',
