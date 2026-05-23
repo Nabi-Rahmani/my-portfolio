@@ -60,8 +60,8 @@ export const projects: Project[] = [
         },
         platform: 'both',
         privacyContent: {
-            lastUpdated: 'February 10, 2026',
-            intro: 'Welcome to FocusFlow. We are committed to protecting your privacy and ensuring you have a positive experience using our productivity and focus timer application. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application FocusFlow. Please read this privacy policy carefully.',
+            lastUpdated: 'May 23, 2026',
+            intro: 'Welcome to FocusFlow. We are committed to protecting your privacy and ensuring you have a positive experience using our productivity and focus timer application. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application FocusFlow. The app uses anonymous product analytics (Mixpanel) and crash reporting (Sentry) to improve stability and user experience, and downloads optional ambient sound packs on demand from our cloud storage (Supabase). Please read this privacy policy carefully.',
             sections: [
                 {
                     title: '1. Information You Provide',
@@ -76,13 +76,16 @@ export const projects: Project[] = [
                 },
                 {
                     title: '2. Automatically Collected Information',
-                    content: 'The app automatically collects usage and device data to provide core functionality:',
+                    content: 'The app automatically collects usage and device data to provide core functionality and improve the app:',
                     list: [
                         'Focus session duration, completion data, and category counts',
                         'Daily and weekly progress statistics and streak tracking',
                         'Device type, model, operating system version, and app version',
                         'Timezone information for notification scheduling',
                         'Selected ambient sounds, volume levels, and audio playback history',
+                        'Anonymized analytics events (feature usage, session completions, screen views) via Mixpanel',
+                        'Crash reports, error stack traces, and breadcrumbs via Sentry (no personal content)',
+                        'An anonymous device identifier generated locally — not linked to your name, email, or account',
                     ],
                 },
                 {
@@ -91,40 +94,52 @@ export const projects: Project[] = [
                 },
                 {
                     title: '4. Data Storage & Security',
-                    content: 'All your personal data is stored locally on your device. Tasks are stored in a local SQLite database using Drift. Settings and preferences are stored using SharedPreferences. We do not transmit your task data, session history, or personal statistics to any remote servers. Data is stored in sandboxed app storage protected by the operating system.',
+                    content: 'Your personal content — tasks, session history, progress statistics, and preferences — is stored locally on your device. Tasks are stored in a local SQLite database using Drift, and settings are stored using SharedPreferences, both in sandboxed app storage protected by the operating system. We do not upload your task data, notes, or personal statistics to our servers. However, anonymized analytics events are transmitted to Mixpanel, crash and error data are transmitted to Sentry, and ambient sound files are downloaded over HTTPS from our Supabase Storage bucket when you choose to use them. See the sections below for details on each.',
                 },
                 {
-                    title: '5. Widgets & Live Activities',
+                    title: '5. Analytics (Mixpanel)',
+                    content: 'We use Mixpanel, Inc. to understand how the app is used so we can improve features and fix issues. Mixpanel receives anonymized event data such as feature interactions, session completions, screen views, and app/OS/device metadata, identified only by a randomly generated anonymous device ID. We do not send your task titles, notes, name, email, account information, or precise location to Mixpanel. You can disable analytics at any time from in-app Settings → Privacy; once disabled, no further events are sent. Mixpanel\'s privacy policy is available at https://mixpanel.com/legal/privacy-policy.',
+                },
+                {
+                    title: '6. Crash Reporting (Sentry)',
+                    content: 'We use Sentry (Functional Software, Inc.) to detect and diagnose crashes and errors. Sentry receives stack traces, error messages, breadcrumbs, and app/OS/device information, tagged with an anonymous install ID. Data is only transmitted when an error or crash occurs. We do not include your task content, notes, or any user-authored text in crash reports. Sentry\'s privacy policy is available at https://sentry.io/privacy/.',
+                },
+                {
+                    title: '7. Cloud-Hosted Sounds (Supabase Storage)',
+                    content: 'Ambient sound packs are hosted on Supabase Storage and downloaded to your device over HTTPS the first time you select a sound. Downloaded sounds are cached locally so they can play offline afterward. To serve these files, Supabase processes standard request metadata such as IP address, user agent, and timestamp. No account, login, task data, or listening history is sent to Supabase. Supabase\'s privacy policy is available at https://supabase.com/privacy.',
+                },
+                {
+                    title: '8. Widgets & Live Activities',
                     content: 'When you use iOS Live Activities or Home Widgets, timer status and progress data is shared with widget extensions via App Groups (iOS) or SharedPreferences (Android). This data remains local to your device and is not transmitted elsewhere. Widget data is encrypted and protected by device security.',
                 },
                 {
-                    title: '6. Notifications',
+                    title: '9. Notifications',
                     content: 'If you enable daily reminders, notification scheduling uses your device\'s local timezone. Notification content is generated locally on your device. No notification data is sent to external services. You can disable notifications at any time in Settings.',
                 },
                 {
-                    title: '7. Children\'s Privacy',
+                    title: '10. Children\'s Privacy',
                     content: 'Our App is not directed to children under the age of 13. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us.',
                 },
                 {
-                    title: '8. Your Privacy Rights',
-                    content: 'You have the right to access, delete, and export your data. You can opt out of analytics through device settings and manage notifications in app Settings. California residents have additional rights under CCPA, and European residents have rights under GDPR including data portability and the right to object to processing.',
+                    title: '11. Your Privacy Rights',
+                    content: 'You have the right to access, delete, and export your data. You can opt out of Mixpanel analytics at any time from in-app Settings → Privacy; opting out stops further analytics collection but does not retroactively remove previously sent anonymous events. Crash reporting can be disabled by uninstalling the app. Notifications can be managed in app Settings. California residents have additional rights under CCPA, and European residents have rights under GDPR including data portability and the right to object to processing.',
                 },
                 {
-                    title: '9. Data Breach Notification',
+                    title: '12. Data Breach Notification',
                     content: 'In the unlikely event of a data breach, we will notify affected users within 72 hours, describe the nature of the breach, provide recommended actions, and report to relevant authorities as required by law.',
                 },
                 {
-                    title: '10. Changes to This Policy',
+                    title: '13. Changes to This Policy',
                     content: 'We may update this Privacy Policy from time to time. We will notify you by updating the "Last Updated" date, displaying an in-app notification for material changes, and posting the new Privacy Policy in the app. Your continued use constitutes acceptance of the updated policy.',
                 },
                 {
-                    title: '11. Contact Us',
+                    title: '14. Contact Us',
                     content: 'If you have any questions about this Privacy Policy, please contact us at codewithnabi@gmail.com or visit https://www.codewithnabi.dev/.',
                 },
             ],
         },
         termsContent: {
-            lastUpdated: 'February 10, 2026',
+            lastUpdated: 'May 23, 2026',
             intro: 'These Terms of Use constitute a legally binding agreement between you and Nabi Rahmani governing your access to and use of the FocusFlow mobile application. By downloading, installing, or using the App, you acknowledge that you have read, understood, and agree to be bound by these Terms.',
             sections: [
                 {
@@ -154,7 +169,7 @@ export const projects: Project[] = [
                 },
                 {
                     title: '5. Third-Party Services',
-                    content: 'The App is distributed through Apple App Store (iOS) and Google Play Store (Android), subject to their respective Terms of Service. The App may integrate with notification services and analytics services. We are not responsible for third-party services or their terms.',
+                    content: 'The App is distributed through Apple App Store (iOS) and Google Play Store (Android), subject to their respective Terms of Service. The App also integrates with the following third-party services: Mixpanel for anonymized product analytics, Sentry for crash and error reporting, and Supabase Storage for hosting ambient sound packs that are downloaded to your device on demand. Use of these services is governed by their own terms and privacy policies, and we are not responsible for third-party services or their terms.',
                 },
                 {
                     title: '6. Disclaimer of Warranties',
