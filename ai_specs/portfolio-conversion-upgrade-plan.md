@@ -44,12 +44,12 @@ Close real conversion/proof/SEO gaps on `codewithnabi.dev`. Central config + gat
 - [x] `src/app/projects/[slug]/ProjectDetailClient.tsx` - metric chips block, same conditional rule.
 - [x] Verify: `npm run lint && npm run build`; manual — fill one project's metrics → chips on home + detail; empty project → none, layout intact. **Verified: temporarily populated focus-flow metrics, confirmed via curl that chips render on both home cards and detail hero, then reverted to empty placeholders; other two projects with empty metrics render no chip row.**
 
-### Phase 4: Per-app SoftwareApplication JSON-LD
+### Phase 4: Per-app SoftwareApplication JSON-LD ✅
 
 - **Goal**: Crawlable rich-snippet schema per app.
-- [ ] `src/components/ProjectStructuredData.tsx` - emit `SoftwareApplication`/`MobileApplication` JSON-LD: `name`, `operatingSystem`(from `platform`), `applicationCategory`, `offers`(price "0"), `downloadUrl`=`playStore` (skip when `'#'`), `aggregateRating` ONLY if `metrics.rating`+`ratingCount`.
-- [ ] `src/app/projects/[slug]/page.tsx` - render `<ProjectStructuredData project={project} />` in the **server** component (not client).
-- [ ] Verify: `npm run lint && npm run build`; validate output via schema.org / Google Rich Results Test.
+- [x] `src/components/ProjectStructuredData.tsx` - emit `SoftwareApplication`/`MobileApplication` JSON-LD: `name`, `operatingSystem`(from `platform`), `applicationCategory`, `offers`(price "0"), `downloadUrl`=`playStore` (skip when `'#'`), `aggregateRating` ONLY if `metrics.rating`+`ratingCount`.
+- [x] `src/app/projects/[slug]/page.tsx` - render `<ProjectStructuredData project={project} />` in the **server** component (not client).
+- [x] Verify: `npm run lint && npm run build`; validate output via schema.org / Google Rich Results Test. **Verified structurally via built static HTML: valid JSON-LD emitted per project with correct `downloadUrl` (real Play Store links) and `aggregateRating` correctly omitted for empty metrics; full Google Rich Results Test requires a public deployed URL, not runnable from local build.**
 
 ### Phase 5: `/uses` + `/now` pages
 

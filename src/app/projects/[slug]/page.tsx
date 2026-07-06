@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { projects, getProjectBySlug } from '@/data/projects';
 import ProjectDetailClient from './ProjectDetailClient';
+import ProjectStructuredData from '@/components/ProjectStructuredData';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
@@ -46,5 +47,10 @@ export default async function ProjectDetail({ params }: { params: Promise<{ slug
         notFound();
     }
 
-    return <ProjectDetailClient project={project} />;
+    return (
+        <>
+            <ProjectStructuredData project={project} />
+            <ProjectDetailClient project={project} />
+        </>
+    );
 }
