@@ -284,6 +284,44 @@ export default function Home() {
                       ))}
                     </div>
 
+                    {/* Metric chips */}
+                    {project.metrics && (project.metrics.downloads || (project.metrics.rating && project.metrics.ratingCount) || project.metrics.countries || project.metrics.crashFree) && (
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {project.metrics.downloads && (
+                          <span
+                            className="text-[12px] text-[var(--atelier-accent)] tracking-[0.02em]"
+                            style={{ fontFamily: 'var(--font-mono)' }}
+                          >
+                            {project.metrics.downloads} downloads
+                          </span>
+                        )}
+                        {project.metrics.rating && project.metrics.ratingCount && (
+                          <span
+                            className="text-[12px] text-[var(--atelier-accent)] tracking-[0.02em]"
+                            style={{ fontFamily: 'var(--font-mono)' }}
+                          >
+                            ★ {project.metrics.rating} ({project.metrics.ratingCount})
+                          </span>
+                        )}
+                        {project.metrics.countries && (
+                          <span
+                            className="text-[12px] text-[var(--atelier-accent)] tracking-[0.02em]"
+                            style={{ fontFamily: 'var(--font-mono)' }}
+                          >
+                            {project.metrics.countries} countries
+                          </span>
+                        )}
+                        {project.metrics.crashFree && (
+                          <span
+                            className="text-[12px] text-[var(--atelier-accent)] tracking-[0.02em]"
+                            style={{ fontFamily: 'var(--font-mono)' }}
+                          >
+                            {project.metrics.crashFree} crash-free
+                          </span>
+                        )}
+                      </div>
+                    )}
+
                     {/* Links */}
                     <div className="flex flex-wrap gap-5 items-center">
                       <Link

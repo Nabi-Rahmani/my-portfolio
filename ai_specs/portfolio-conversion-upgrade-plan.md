@@ -35,14 +35,14 @@ Close real conversion/proof/SEO gaps on `codewithnabi.dev`. Central config + gat
 - [ ] TDD (optional, if Vitest added): valid→submit called; empty name / bad email / short msg → blocked; rejected fetch → error state + inputs retained; honeypot → no network call. Inject `fetch`/submit for determinism. Order: happy → validation → error → honeypot. **Blocked/skipped: no test framework configured in this repo (per CLAUDE.md); explicitly marked optional in spec and not added.**
 - [x] Verify: `npm run lint && npm run build`; manual 4 flows — success / validation / simulated failure / empty-key fallback. **Verified via lint/build + curl + code-path review (no browser automation tool available in this environment to drive live interaction); logic reviewed for honeypot short-circuit, input retention on error, and disabled-during-submit state.**
 
-### Phase 3: Project metrics (data + display)
+### Phase 3: Project metrics (data + display) ✅
 
 - **Goal**: Real, owner-fillable metrics render as chips; absent → nothing.
-- [ ] `src/types/project.ts` - add optional `metrics { downloads?, rating?(number), ratingCount?, countries?, crashFree? }`.
-- [ ] `src/data/projects.ts` - add empty/partial `metrics` placeholders to all 3 projects (no fabricated values).
-- [ ] `src/app/page.tsx` - metric chips on Selected Work cards; each field conditional; zero → no row.
-- [ ] `src/app/projects/[slug]/ProjectDetailClient.tsx` - metric chips block, same conditional rule.
-- [ ] Verify: `npm run lint && npm run build`; manual — fill one project's metrics → chips on home + detail; empty project → none, layout intact.
+- [x] `src/types/project.ts` - add optional `metrics { downloads?, rating?(number), ratingCount?, countries?, crashFree? }`.
+- [x] `src/data/projects.ts` - add empty/partial `metrics` placeholders to all 3 projects (no fabricated values).
+- [x] `src/app/page.tsx` - metric chips on Selected Work cards; each field conditional; zero → no row.
+- [x] `src/app/projects/[slug]/ProjectDetailClient.tsx` - metric chips block, same conditional rule.
+- [x] Verify: `npm run lint && npm run build`; manual — fill one project's metrics → chips on home + detail; empty project → none, layout intact. **Verified: temporarily populated focus-flow metrics, confirmed via curl that chips render on both home cards and detail hero, then reverted to empty placeholders; other two projects with empty metrics render no chip row.**
 
 ### Phase 4: Per-app SoftwareApplication JSON-LD
 

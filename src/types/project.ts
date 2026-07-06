@@ -16,6 +16,14 @@ export interface LegalPage {
     sections: LegalSection[];
 }
 
+export interface ProjectMetrics {
+    downloads?: string;
+    rating?: number;
+    ratingCount?: string;
+    countries?: string;
+    crashFree?: string;
+}
+
 export interface Project {
     id: string;
     slug: string;
@@ -41,4 +49,5 @@ export interface Project {
     platform: 'ios' | 'android' | 'both';
     privacyContent?: LegalPage;
     termsContent?: LegalPage;
+    metrics?: ProjectMetrics;
 }
