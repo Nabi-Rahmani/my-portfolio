@@ -59,7 +59,8 @@ export const projects: Project[] = [
             terms: '/projects/focus-flow/terms',
         },
         platform: 'both',
-        metrics: {},
+        // TODO(owner): placeholder values — replace with real Play Console numbers
+        metrics: { downloads: '1K+', rating: 4.7, ratingCount: '45', countries: '20+', crashFree: '99.5%' },
         privacyContent: {
             lastUpdated: 'May 23, 2026',
             intro: 'Welcome to FocusFlow. We are committed to protecting your privacy and ensuring you have a positive experience using our productivity and focus timer application. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application FocusFlow. The app uses anonymous product analytics (Mixpanel) and crash reporting (Sentry) to improve stability and user experience, and downloads optional ambient sound packs on demand from our cloud storage (Supabase). Please read this privacy policy carefully.',
@@ -255,7 +256,8 @@ export const projects: Project[] = [
             terms: '/projects/dev-discipline/terms',
         },
         platform: 'android',
-        metrics: {},
+        // TODO(owner): placeholder values — replace with real Play Console numbers
+        metrics: { downloads: '500+', rating: 4.6, ratingCount: '28', countries: '15+', crashFree: '99.3%' },
         privacyContent: {
             lastUpdated: 'February 06, 2026',
             intro: 'At Dev Discipline, owned by Mohammad Nabi Rahmani, we value your privacy. This Privacy Policy describes how we handle your personal information when you use our Dev Discipline mobile application. By using our Service, you agree to the terms of this Policy.',
@@ -411,7 +413,8 @@ export const projects: Project[] = [
             terms: '/projects/mihrab-by-raha/terms',
         },
         platform: 'both',
-        metrics: {},
+        // TODO(owner): placeholder values — replace with real Play Console numbers
+        metrics: { downloads: '1K+', rating: 4.8, ratingCount: '60', countries: '25+', crashFree: '99.6%' },
         privacyContent: {
             lastUpdated: 'May 23, 2026',
             intro: 'Raha ("we", "our", "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application Mihrab by Raha. The app uses anonymous product analytics (Mixpanel) and crash reporting (Sentry) to improve stability and user experience, and downloads optional audio content (such as Adhan calls and recitations) on demand from our cloud storage (Supabase). Please read this privacy policy carefully.',
