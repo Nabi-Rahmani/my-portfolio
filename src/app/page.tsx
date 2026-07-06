@@ -3,14 +3,16 @@
 import type { MouseEvent } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { getAllProjects } from '@/data/projects';
 import { blogPosts } from '@/data/blog';
 import AtelierNav from '@/components/AtelierNav';
 import PhoneScreenshot from '@/components/PhoneScreenshot';
 import ScrollReveal from '@/components/ScrollReveal';
 import MouseGlow from '@/components/MouseGlow';
-import ContactForm from '@/components/ContactForm';
 import { siteConfig } from '@/config/site';
+
+const ContactForm = dynamic(() => import('@/components/ContactForm'));
 
 const heroSocials = [
   {
@@ -427,6 +429,27 @@ export default function Home() {
                   ))}
                 </dl>
               </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ── Tech Stack ───────────────────────────────────────────────── */}
+      <section className="pb-24 md:pb-32 px-6 md:px-12">
+        <div className="max-w-[1200px] mx-auto">
+          <ScrollReveal>
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 py-8 border-t border-b border-[var(--line)]">
+              {[
+                'Flutter', 'Dart', 'Riverpod', 'Drift', 'Supabase', 'RevenueCat', 'GitHub Actions', 'Next.js',
+              ].map((tech) => (
+                <span
+                  key={tech}
+                  className="text-[13px] tracking-[0.06em] uppercase text-[var(--muted)]"
+                  style={{ fontFamily: 'var(--font-mono)' }}
+                >
+                  {tech}
+                </span>
+              ))}
             </div>
           </ScrollReveal>
         </div>

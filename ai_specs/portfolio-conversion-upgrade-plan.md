@@ -62,13 +62,13 @@ Close real conversion/proof/SEO gaps on `codewithnabi.dev`. Central config + gat
 - [x] `src/app/sitemap.ts` - append `/uses` + `/now` to `basePages`.
 - [x] Verify: `npm run lint && npm run build`; manual — both pages render dark+light; appear in `/sitemap.xml`; footer links work. **Verified: build produces static `/uses` and `/now` routes, both URLs confirmed present in generated `sitemap.xml`; pages use only theme CSS vars (`--bg-primary`/`--accent`/`--border-color`/`--text-*`) matching `/about`'s dark-default + light-toggle pattern, no hardcoded colors.**
 
-### Phase 6: Polish, perf & a11y
+### Phase 6: Polish, perf & a11y (mobile Perf target blocked — pre-existing, see note)
 
 - **Goal**: Meet Lighthouse targets; no regressions.
-- [ ] `src/app/page.tsx` - optional compact tech-stack strip (Flutter/Dart/Riverpod/Drift/Supabase/RevenueCat/GitHub Actions/Next.js), atelier palette.
-- [ ] Image audit - confirm below-fold `loading="lazy"` / `priority={false}`; only true LCP images `priority`; no CLS.
-- [ ] Both-theme check across all new UI (form, chips, pages, CTAs).
-- [ ] Verify: `npm run lint && npm run build`; Lighthouse `/` mobile+desktop — Perf ≥90, A11y ≥95, Best-Practices ≥95, SEO ≥95.
+- [x] `src/app/page.tsx` - optional compact tech-stack strip (Flutter/Dart/Riverpod/Drift/Supabase/RevenueCat/GitHub Actions/Next.js), atelier palette.
+- [x] Image audit - confirm below-fold `loading="lazy"` / `priority={false}`; only true LCP images `priority`; no CLS. **Audited all `<Image>` usages: `PhoneScreenshot`/`CardImage` project cards/screenshot gallery/lightbox all default to lazy (no `priority` in mapped lists); every `priority` usage is a genuine single above-fold hero/cover image (or a responsive `hidden`/`lg:hidden` pair of the same hero image, only one visible at a time). CLS = 0 in Lighthouse.**
+- [x] Both-theme check across all new UI (form, chips, pages, CTAs). **All Phase 1-5 additions use existing theme vars (`--bg-primary`/`--accent`/`--border-color`/`--text-*` on non-home routes, `--cream`/`--ink`/`--atelier-accent`/`--line`/`--muted` on home) with zero hardcoded colors — confirmed by reading every new/changed block; no separate dark/light branching needed since all vars already flip with the `.dark` class / atelier page has one fixed warm palette by design.**
+- [ ] Verify: `npm run lint && npm run build`; Lighthouse `/` mobile+desktop — Perf ≥90, A11y ≥95, Best-Practices ≥95, SEO ≥95. **BLOCKED (mobile Performance target only): `npm run lint`/`npm run build` pass. Ran `npx lighthouse` against a local production build — mobile Performance 80 / A11y 100 / Best-Practices 100 / SEO 100; desktop Performance 100 / A11y 100 / Best-Practices 100 / SEO 100. A11y/BP/SEO exceed target on both form factors. Mobile Performance (80) is below the ≥90 target. Confirmed via the pre-Phase-1 baseline commit (`df0cb16`) benchmarked in an isolated worktree, which also scored 80 on mobile with an identical ~5s LCP — root cause is the hero `<h1>` being wrapped in a Framer Motion `initial={{opacity:0}}` mount animation (text only paints after JS hydrates + animates in), a site-wide pattern predating this spec. Fixing it requires a hero-animation redesign (e.g. CSS-driven reveal instead of JS-gated opacity), which is out of scope for a "polish" phase and needs explicit owner sign-off before a broader animation-architecture change. One real regression from this plan's own work WAS found and fixed here: bundling `ContactForm`'s JS unconditionally cost ~0.8s of mobile FCP even while gated off (no Web3Forms key configured) — fixed via `next/dynamic` code-splitting, restoring mobile Performance to the 80 baseline (verified before/after).**
 
 ## Risks / Out of scope
 
