@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Footer from '@/components/Footer';
 import { fadeUp } from '@/lib/animations';
+import { siteConfig } from '@/config/site';
 
 const aboutStaggerContainer = {
     hidden: {},
@@ -436,8 +437,8 @@ export default function About() {
                             Have a project? Let&apos;s talk.
                         </h2>
                         <p className="text-[1.0625rem] text-[var(--text-primary)] opacity-[0.75] leading-relaxed mb-8">
-                            Open to freelance projects, full-time roles, and interesting collaborations.
-                            If you&apos;re building something with Flutter or need a mobile app shipped — I&apos;d love to hear about it.
+                            {siteConfig.availability}. If you&apos;re building something with Flutter or need a
+                            mobile app shipped — I&apos;d love to hear about it.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
@@ -450,7 +451,6 @@ export default function About() {
                                 </svg>
                                 codewithnabi@gmail.com
                             </a>
-                            {/* TODO: link to /cv PDF when available */}
                             <a
                                 href="https://www.linkedin.com/in/muhammad-nabi-rahmani-%F0%9F%87%B5%F0%9F%87%B8-8945b21ba/"
                                 target="_blank"
@@ -462,6 +462,30 @@ export default function About() {
                                 </svg>
                                 LinkedIn
                             </a>
+                            {siteConfig.calendlyUrl && (
+                                <a
+                                    href={siteConfig.calendlyUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-7 py-3.5 border border-[var(--border-color)] text-[var(--text-primary)] rounded-full text-[0.9375rem] font-medium no-underline hover:border-[var(--text-secondary)] transition-all duration-200"
+                                >
+                                    Book a 15-min call
+                                </a>
+                            )}
+                            {siteConfig.cvAvailable && (
+                                <a
+                                    href={siteConfig.cvPath}
+                                    download
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-7 py-3.5 border border-[var(--border-color)] text-[var(--text-primary)] rounded-full text-[0.9375rem] font-medium no-underline hover:border-[var(--text-secondary)] transition-all duration-200"
+                                >
+                                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 16l-6-6h4V4h4v6h4l-6 6zm-8 2h16v2H4v-2z" />
+                                    </svg>
+                                    Download CV
+                                </a>
+                            )}
                         </div>
 
                         {/* Social links */}
