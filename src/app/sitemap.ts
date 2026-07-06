@@ -29,6 +29,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'weekly' as const,
             priority: 0.9,
         },
+        {
+            url: 'https://codewithnabi.dev/uses',
+            lastModified: new Date(),
+            changeFrequency: 'monthly' as const,
+            priority: 0.5,
+        },
+        {
+            url: 'https://codewithnabi.dev/now',
+            lastModified: new Date(),
+            changeFrequency: 'monthly' as const,
+            priority: 0.5,
+        },
     ];
 
     // Project detail pages

@@ -26,6 +26,8 @@ const quickLinks = [
     { label: 'Blog', href: '/blog' },
     { label: 'Courses', href: '/courses' },
     { label: 'About', href: '/about' },
+    { label: 'Uses', href: '/uses' },
+    { label: 'Now', href: '/now' },
     { label: 'Contact', href: '/#contact' },
 ];
 

@@ -313,6 +313,12 @@ export default function About() {
                         <h2 className="text-[1.75rem] md:text-[2.25rem] font-bold text-[var(--text-primary)] tracking-tight">
                             What I work with
                         </h2>
+                        <Link
+                            href="/uses"
+                            className="inline-block mt-3 text-[0.875rem] text-[var(--accent)] hover:underline no-underline"
+                        >
+                            See my full setup on /uses →
+                        </Link>
                     </motion.div>
 
                     <motion.div

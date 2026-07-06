@@ -51,16 +51,16 @@ Close real conversion/proof/SEO gaps on `codewithnabi.dev`. Central config + gat
 - [x] `src/app/projects/[slug]/page.tsx` - render `<ProjectStructuredData project={project} />` in the **server** component (not client).
 - [x] Verify: `npm run lint && npm run build`; validate output via schema.org / Google Rich Results Test. **Verified structurally via built static HTML: valid JSON-LD emitted per project with correct `downloadUrl` (real Play Store links) and `aggregateRating` correctly omitted for empty metrics; full Google Rich Results Test requires a public deployed URL, not runnable from local build.**
 
-### Phase 5: `/uses` + `/now` pages
+### Phase 5: `/uses` + `/now` pages ✅
 
 - **Goal**: Two static, theme-correct, indexed pages.
-- [ ] `src/data/uses.ts` - typed categories (Hardware, Editor & Terminal, Flutter/Dart pkgs, Design, Web stack, Services).
-- [ ] `src/app/uses/page.tsx` - server component; `export const metadata`; `Navigation`+`Footer`; `/about` styling; both themes.
-- [ ] `src/data/now.ts` - `lastUpdated` + sections Building/Learning/Reading.
-- [ ] `src/app/now/page.tsx` - server component; `export const metadata`; prominent `lastUpdated`.
-- [ ] `src/components/Footer.tsx` - add `/now` (and `/uses`) to `quickLinks`; cross-link `/uses` from `/about`.
-- [ ] `src/app/sitemap.ts` - append `/uses` + `/now` to `basePages`.
-- [ ] Verify: `npm run lint && npm run build`; manual — both pages render dark+light; appear in `/sitemap.xml`; footer links work.
+- [x] `src/data/uses.ts` - typed categories (Hardware, Editor & Terminal, Flutter/Dart pkgs, Design, Web stack, Services).
+- [x] `src/app/uses/page.tsx` - server component; `export const metadata`; `Navigation`+`Footer`; `/about` styling; both themes.
+- [x] `src/data/now.ts` - `lastUpdated` + sections Building/Learning/Reading.
+- [x] `src/app/now/page.tsx` - server component; `export const metadata`; prominent `lastUpdated`.
+- [x] `src/components/Footer.tsx` - add `/now` (and `/uses`) to `quickLinks`; cross-link `/uses` from `/about`.
+- [x] `src/app/sitemap.ts` - append `/uses` + `/now` to `basePages`.
+- [x] Verify: `npm run lint && npm run build`; manual — both pages render dark+light; appear in `/sitemap.xml`; footer links work. **Verified: build produces static `/uses` and `/now` routes, both URLs confirmed present in generated `sitemap.xml`; pages use only theme CSS vars (`--bg-primary`/`--accent`/`--border-color`/`--text-*`) matching `/about`'s dark-default + light-toggle pattern, no hardcoded colors.**
 
 ### Phase 6: Polish, perf & a11y
 
