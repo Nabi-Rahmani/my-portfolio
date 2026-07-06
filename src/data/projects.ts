@@ -360,10 +360,10 @@ export const projects: Project[] = [
     {
         id: '3',
         slug: 'mihrab-by-raha',
-        title: 'Mihrab by Raha',
+        title: 'Raha',
         subtitle: 'A peaceful Islamic companion for your daily worship',
         description:
-            'Mihrab by Raha is a thoughtfully designed Islamic lifestyle app to support your daily spiritual routine. From accurate prayer times and Quran reading to dhikr, Islamic calendar guidance, and a curated library, it brings your essentials into one calm, focused experience.',
+            'Raha is a thoughtfully designed Islamic lifestyle app to support your daily spiritual routine. From accurate prayer times and Quran reading to dhikr, Islamic calendar guidance, and a curated library, it brings your essentials into one calm, focused experience.',
         coverImage: '/assets/projects/mihrab-by-raha/project-cover/cover_mihrab_by_raha.png',
         iconLight: '/assets/projects/mihrab-by-raha/icon/icon-android-foreground-1024.png',
         iconDark: '/assets/projects/mihrab-by-raha/icon/icon-android-foreground-1024.png',

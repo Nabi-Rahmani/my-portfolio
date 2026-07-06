@@ -22,6 +22,7 @@ const navItems: {
     href: string;
     hash: string;
     icon: string;
+    hidden?: boolean;
 }[] = [
     {
         section: 'home',
@@ -45,11 +46,13 @@ const navItems: {
         icon: 'M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.99 4H7V9h7.01V7zm3 4H7v2h10.01v-2zm0 4H7v2h10.01v-2z',
     },
     {
+        // Demo content for now — re-enable (remove `hidden`) when courses ship for real
         section: 'courses',
         label: 'Courses',
         href: '/courses',
         hash: '',
         icon: 'M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z',
+        hidden: true,
     },
     {
         section: 'about',
@@ -214,7 +217,7 @@ export default function Navigation() {
 
                     {/* Desktop nav items (hidden on mobile) */}
                     <div className="hidden md:flex items-center gap-1">
-                        {navItems.filter((item) => item.section !== 'home').map((item) => {
+                        {navItems.filter((item) => item.section !== 'home' && !item.hidden).map((item) => {
                             const active = isActive(item.section);
                             const isSectionLink = item.section === 'contact';
 
@@ -329,7 +332,7 @@ export default function Navigation() {
 
                             {/* Nav items */}
                             <div className="flex-1 px-4 py-4 space-y-1 overflow-y-auto">
-                                {navItems.map((item, i) => {
+                                {navItems.filter((item) => !item.hidden).map((item, i) => {
                                     const active = isActive(item.section);
                                     const isSectionLink = item.section === 'home' || item.section === 'contact';
 

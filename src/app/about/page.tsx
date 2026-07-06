@@ -73,7 +73,7 @@ const experiences = [
     },
     {
         role: 'Flutter Developer',
-        company: 'Mihrab by Raha',
+        company: 'Raha',
         description:
             'Peaceful Islamic companion app with accurate prayer times, Quran reader, Hijri calendar, daily dhikr, and curated library. Offline-first, live on Google Play.',
         highlights: ['Google Play', 'Prayer Times', 'Quran', 'Offline-First'],

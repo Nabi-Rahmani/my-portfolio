@@ -9,7 +9,7 @@ export const nowData: { lastUpdated: string; sections: NowSection[] } = {
         {
             label: 'Building',
             items: [
-                'Polishing Focus Flow, Dev Discipline, and Mihrab by Raha based on user feedback',
+                'Polishing Focus Flow, Dev Discipline, and Raha based on user feedback',
                 'Improving this portfolio\'s conversion, SEO, and proof surfaces',
             ],
         },
