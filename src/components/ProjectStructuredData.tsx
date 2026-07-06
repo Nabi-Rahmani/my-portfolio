@@ -7,8 +7,6 @@ const platformToOS: Record<Project['platform'], string> = {
 };
 
 export default function ProjectStructuredData({ project }: { project: Project }) {
-    const hasRating = Boolean(project.metrics?.rating && project.metrics?.ratingCount);
-
     const data = {
         '@context': 'https://schema.org',
         '@type': 'MobileApplication',
@@ -25,15 +23,6 @@ export default function ProjectStructuredData({ project }: { project: Project })
         },
         ...(project.links.playStore && project.links.playStore !== '#'
             ? { downloadUrl: project.links.playStore }
-            : {}),
-        ...(hasRating
-            ? {
-                  aggregateRating: {
-                      '@type': 'AggregateRating',
-                      ratingValue: project.metrics!.rating,
-                      ratingCount: project.metrics!.ratingCount,
-                  },
-              }
             : {}),
     };
 

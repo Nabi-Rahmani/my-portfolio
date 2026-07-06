@@ -188,34 +188,22 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                 )}
                             </motion.div>
 
-                            {/* Metric chips */}
-                            {project.metrics && (project.metrics.downloads || (project.metrics.rating && project.metrics.ratingCount) || project.metrics.countries || project.metrics.crashFree) && (
+                            {/* Badges */}
+                            {project.badges && project.badges.length > 0 && (
                                 <motion.div
                                     className="flex flex-wrap gap-2 mt-5 justify-center md:justify-start"
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ type: 'spring', stiffness: 140, damping: 16, delay: 0.5 }}
                                 >
-                                    {project.metrics.downloads && (
-                                        <span className="px-3 py-1.5 bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-secondary)] rounded-lg text-[0.8125rem] font-medium">
-                                            {project.metrics.downloads} downloads
+                                    {project.badges.map((badge) => (
+                                        <span
+                                            key={badge}
+                                            className="px-3 py-1.5 bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-secondary)] rounded-lg text-[0.8125rem] font-medium"
+                                        >
+                                            {badge}
                                         </span>
-                                    )}
-                                    {project.metrics.rating && project.metrics.ratingCount && (
-                                        <span className="px-3 py-1.5 bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-secondary)] rounded-lg text-[0.8125rem] font-medium">
-                                            ★ {project.metrics.rating} ({project.metrics.ratingCount})
-                                        </span>
-                                    )}
-                                    {project.metrics.countries && (
-                                        <span className="px-3 py-1.5 bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-secondary)] rounded-lg text-[0.8125rem] font-medium">
-                                            {project.metrics.countries} countries
-                                        </span>
-                                    )}
-                                    {project.metrics.crashFree && (
-                                        <span className="px-3 py-1.5 bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-secondary)] rounded-lg text-[0.8125rem] font-medium">
-                                            {project.metrics.crashFree} crash-free
-                                        </span>
-                                    )}
+                                    ))}
                                 </motion.div>
                             )}
                         </div>

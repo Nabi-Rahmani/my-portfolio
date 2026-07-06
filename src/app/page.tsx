@@ -286,41 +286,18 @@ export default function Home() {
                       ))}
                     </div>
 
-                    {/* Metric chips */}
-                    {project.metrics && (project.metrics.downloads || (project.metrics.rating && project.metrics.ratingCount) || project.metrics.countries || project.metrics.crashFree) && (
+                    {/* Badges */}
+                    {project.badges && project.badges.length > 0 && (
                       <div className="flex flex-wrap gap-2 mb-6">
-                        {project.metrics.downloads && (
+                        {project.badges.map((badge) => (
                           <span
-                            className="text-[12px] text-[var(--atelier-accent)] tracking-[0.02em]"
+                            key={badge}
+                            className="border border-[var(--atelier-accent)] text-[var(--atelier-accent)] rounded-[999px] px-3 py-0.5 text-[11px] tracking-[0.04em]"
                             style={{ fontFamily: 'var(--font-mono)' }}
                           >
-                            {project.metrics.downloads} downloads
+                            {badge}
                           </span>
-                        )}
-                        {project.metrics.rating && project.metrics.ratingCount && (
-                          <span
-                            className="text-[12px] text-[var(--atelier-accent)] tracking-[0.02em]"
-                            style={{ fontFamily: 'var(--font-mono)' }}
-                          >
-                            ★ {project.metrics.rating} ({project.metrics.ratingCount})
-                          </span>
-                        )}
-                        {project.metrics.countries && (
-                          <span
-                            className="text-[12px] text-[var(--atelier-accent)] tracking-[0.02em]"
-                            style={{ fontFamily: 'var(--font-mono)' }}
-                          >
-                            {project.metrics.countries} countries
-                          </span>
-                        )}
-                        {project.metrics.crashFree && (
-                          <span
-                            className="text-[12px] text-[var(--atelier-accent)] tracking-[0.02em]"
-                            style={{ fontFamily: 'var(--font-mono)' }}
-                          >
-                            {project.metrics.crashFree} crash-free
-                          </span>
-                        )}
+                        ))}
                       </div>
                     )}
 

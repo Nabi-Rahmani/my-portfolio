@@ -35,19 +35,19 @@ Close real conversion/proof/SEO gaps on `codewithnabi.dev`. Central config + gat
 - [ ] TDD (optional, if Vitest added): valid→submit called; empty name / bad email / short msg → blocked; rejected fetch → error state + inputs retained; honeypot → no network call. Inject `fetch`/submit for determinism. Order: happy → validation → error → honeypot. **Blocked/skipped: no test framework configured in this repo (per CLAUDE.md); explicitly marked optional in spec and not added.**
 - [x] Verify: `npm run lint && npm run build`; manual 4 flows — success / validation / simulated failure / empty-key fallback. **Verified via lint/build + curl + code-path review (no browser automation tool available in this environment to drive live interaction); logic reviewed for honeypot short-circuit, input retention on error, and disabled-during-submit state.**
 
-### Phase 3: Project metrics (data + display) ✅ (placeholder numbers now populated — see note)
+### Phase 3: Project metrics (data + display) ✅ (superseded — fabricated numbers replaced with honest badges)
 
 - **Goal**: Real, owner-fillable metrics render as chips; absent → nothing.
-- [x] `src/types/project.ts` - add optional `metrics { downloads?, rating?(number), ratingCount?, countries?, crashFree? }`.
-- [x] `src/data/projects.ts` - add empty/partial `metrics` placeholders to all 3 projects (no fabricated values). **DEVIATION (owner-approved 2026-07-06): owner explicitly asked to populate all 3 projects with made-up but plausible placeholder numbers (downloads/rating/ratingCount/countries/crashFree) instead of leaving them empty, overriding the original spec's "never invent numbers" rule — confirmed twice via explicit prompt before applying. Each entry is marked `// TODO(owner): placeholder values — replace with real Play Console numbers` in `projects.ts` so they're not mistaken for verified data. Real numbers should replace these before the site is treated as final/shipped, since these numbers are currently visible to site visitors as if real.**
-- [x] `src/app/page.tsx` - metric chips on Selected Work cards; each field conditional; zero → no row.
-- [x] `src/app/projects/[slug]/ProjectDetailClient.tsx` - metric chips block, same conditional rule.
-- [x] Verify: `npm run lint && npm run build`; manual — fill one project's metrics → chips on home + detail; empty project → none, layout intact. **Verified: temporarily populated focus-flow metrics, confirmed via curl that chips render on both home cards and detail hero, then reverted to empty placeholders; other two projects with empty metrics render no chip row.**
+- [x] `src/types/project.ts` - originally added `metrics { downloads?, rating?, ratingCount?, countries?, crashFree? }`.
+- [x] `src/data/projects.ts` - originally populated all 3 projects with plausible-but-fake placeholder numbers (owner-approved 2026-07-06). **SUPERSEDED same day: owner flagged that these numeric stats sit directly next to the real Play Store links, so any visitor who clicks through would immediately see the real numbers don't match — a credibility risk the original spec's "never invent numbers" rule was meant to prevent. Reverted the numeric `metrics` object entirely (removed `ProjectMetrics` type) and replaced with `Project.badges?: string[]` — true, unfalsifiable qualitative claims (`'Live on Google Play'`, `'Actively maintained'`, `'Solo-built'`) that can't be disproven by clicking through to the store.**
+- [x] `src/app/page.tsx` - renders `project.badges` as pills on Selected Work cards (was metric chips); absent/empty → no row.
+- [x] `src/app/projects/[slug]/ProjectDetailClient.tsx` - same badge pill block on the detail hero.
+- [x] Verify: `npm run lint && npm run build` pass; confirmed via built static HTML that all 3 projects render the 3 badge pills on both home and detail, and none of the old fake numeric strings remain anywhere in the output.
 
-### Phase 4: Per-app SoftwareApplication JSON-LD ✅
+### Phase 4: Per-app SoftwareApplication JSON-LD ✅ (aggregateRating removed — see Phase 3 note)
 
 - **Goal**: Crawlable rich-snippet schema per app.
-- [x] `src/components/ProjectStructuredData.tsx` - emit `SoftwareApplication`/`MobileApplication` JSON-LD: `name`, `operatingSystem`(from `platform`), `applicationCategory`, `offers`(price "0"), `downloadUrl`=`playStore` (skip when `'#'`), `aggregateRating` ONLY if `metrics.rating`+`ratingCount`.
+- [x] `src/components/ProjectStructuredData.tsx` - emits `MobileApplication` JSON-LD: `name`, `operatingSystem`(from `platform`), `applicationCategory`, `offers`(price "0"), `downloadUrl`=`playStore` (skip when `'#'`). **`aggregateRating` removed entirely along with the fake `metrics.rating`/`ratingCount` it depended on — fabricated review counts in structured data is a more serious issue than a visual chip (Google's Rich Results guidelines explicitly prohibit fake ratings); confirmed via built HTML that no project emits `aggregateRating` now.**
 - [x] `src/app/projects/[slug]/page.tsx` - render `<ProjectStructuredData project={project} />` in the **server** component (not client).
 - [x] Verify: `npm run lint && npm run build`; validate output via schema.org / Google Rich Results Test. **Verified structurally via built static HTML: valid JSON-LD emitted per project with correct `downloadUrl` (real Play Store links) and `aggregateRating` correctly omitted for empty metrics; full Google Rich Results Test requires a public deployed URL, not runnable from local build.**
 
