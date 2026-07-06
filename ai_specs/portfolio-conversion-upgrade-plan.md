@@ -26,14 +26,14 @@ Close real conversion/proof/SEO gaps on `codewithnabi.dev`. Central config + gat
 - [x] Gating: CV hidden unless `cvAvailable`; Calendly hidden unless URL set. No live 404s.
 - [x] Verify: `npm run lint && npm run build`; manual — availability identical both pages; toggle `cvAvailable`/`calendlyUrl` → CTAs show/hide; socials open new tab `rel=noopener`.
 
-### Phase 2: Web3Forms contact form
+### Phase 2: Web3Forms contact form ✅
 
 - **Goal**: Working form in home Contact with validation + states; mailto fallback.
-- [ ] `src/components/ContactForm.tsx` - `'use client'`; fields name(req)/email(req,valid)/projectType(select)/budget(optional)/message(req,≥10); hidden honeypot `botcheck` + `access_key`; states idle/submitting/success/error; POST `https://api.web3forms.com/submit`; atelier palette.
-- [ ] `src/app/page.tsx` - embed `ContactForm` above mailto link in Contact; render only when `web3formsAccessKey` set, else mailto-only.
-- [ ] Errors: network/4xx/5xx → inline error, inputs preserved, retry enabled; honeypot filled → fake-success, no send.
-- [ ] TDD (optional, if Vitest added): valid→submit called; empty name / bad email / short msg → blocked; rejected fetch → error state + inputs retained; honeypot → no network call. Inject `fetch`/submit for determinism. Order: happy → validation → error → honeypot.
-- [ ] Verify: `npm run lint && npm run build`; manual 4 flows — success / validation / simulated failure / empty-key fallback.
+- [x] `src/components/ContactForm.tsx` - `'use client'`; fields name(req)/email(req,valid)/projectType(select)/budget(optional)/message(req,≥10); hidden honeypot `botcheck` + `access_key`; states idle/submitting/success/error; POST `https://api.web3forms.com/submit`; atelier palette.
+- [x] `src/app/page.tsx` - embed `ContactForm` above mailto link in Contact; render only when `web3formsAccessKey` set, else mailto-only.
+- [x] Errors: network/4xx/5xx → inline error, inputs preserved, retry enabled; honeypot filled → fake-success, no send.
+- [ ] TDD (optional, if Vitest added): valid→submit called; empty name / bad email / short msg → blocked; rejected fetch → error state + inputs retained; honeypot → no network call. Inject `fetch`/submit for determinism. Order: happy → validation → error → honeypot. **Blocked/skipped: no test framework configured in this repo (per CLAUDE.md); explicitly marked optional in spec and not added.**
+- [x] Verify: `npm run lint && npm run build`; manual 4 flows — success / validation / simulated failure / empty-key fallback. **Verified via lint/build + curl + code-path review (no browser automation tool available in this environment to drive live interaction); logic reviewed for honeypot short-circuit, input retention on error, and disabled-during-submit state.**
 
 ### Phase 3: Project metrics (data + display)
 

@@ -9,6 +9,7 @@ import AtelierNav from '@/components/AtelierNav';
 import PhoneScreenshot from '@/components/PhoneScreenshot';
 import ScrollReveal from '@/components/ScrollReveal';
 import MouseGlow from '@/components/MouseGlow';
+import ContactForm from '@/components/ContactForm';
 import { siteConfig } from '@/config/site';
 
 const heroSocials = [
@@ -473,6 +474,13 @@ export default function Home() {
               [ Get in Touch ]
             </span>
           </ScrollReveal>
+          {siteConfig.web3formsAccessKey && (
+            <ScrollReveal>
+              <div className="mb-12">
+                <ContactForm />
+              </div>
+            </ScrollReveal>
+          )}
           <ScrollReveal>
             {/* Large email link */}
             <div className="mb-12">
