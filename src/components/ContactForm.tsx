@@ -27,7 +27,7 @@ const projectTypes = ['Full-time', 'Freelance', 'Collaboration', 'Other'];
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const inputClasses =
-  'w-full bg-transparent border border-[var(--line)] rounded-lg px-4 py-3 text-[15px] text-[var(--ink)] placeholder:text-[var(--muted)] focus:outline-none focus:border-[var(--atelier-accent)] transition-colors disabled:opacity-60 disabled:cursor-not-allowed';
+  'w-full bg-transparent border border-[var(--line)] rounded-lg px-4 py-3 text-[15px] text-[var(--ink)] placeholder:text-[var(--muted)] focus:outline-none focus-visible:border-[var(--atelier-accent)] focus-visible:ring-2 focus-visible:ring-[var(--atelier-accent)]/30 transition-colors disabled:opacity-60 disabled:cursor-not-allowed';
 
 function validate(values: FormValues) {
   const errors: Partial<Record<keyof FormValues, string>> = {};
@@ -127,7 +127,11 @@ export default function ContactForm() {
 
   if (state === 'success') {
     return (
-      <div className="border border-[var(--line)] rounded-lg px-6 py-8 text-center">
+      <div
+        className="border border-[var(--line)] rounded-lg px-6 py-8 text-center"
+        role="status"
+        aria-live="polite"
+      >
         <p
           className="text-[var(--ink)]"
           style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: '20px' }}

@@ -30,6 +30,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.9,
         },
         {
+            url: 'https://codewithnabi.dev/courses',
+            lastModified: new Date(),
+            changeFrequency: 'monthly' as const,
+            priority: 0.6,
+        },
+        {
             url: 'https://codewithnabi.dev/uses',
             lastModified: new Date(),
             changeFrequency: 'monthly' as const,

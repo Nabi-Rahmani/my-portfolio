@@ -74,8 +74,15 @@ export default function Navigation() {
     if (!drawerOpen) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setDrawerOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+
     return () => {
       document.body.style.overflow = prev;
+      window.removeEventListener('keydown', onKeyDown);
     };
   }, [drawerOpen]);
 

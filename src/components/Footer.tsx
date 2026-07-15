@@ -84,7 +84,7 @@ export default function Footer({ showSocials = true, links, className }: FooterP
                 download
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[11px] text-[var(--muted)] no-underline transition-colors hover:text-[var(--ink)]"
+                className="text-[11px] text-[var(--muted)] no-underline transition-colors hover:text-[var(--ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
                 style={{ fontFamily: 'var(--font-mono)' }}
               >
                 Download CV

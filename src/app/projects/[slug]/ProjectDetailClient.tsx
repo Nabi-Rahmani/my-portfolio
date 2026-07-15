@@ -141,7 +141,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                   {project.iconLight && (
                     <Image
                       src={project.iconLight}
-                      alt=""
+                      alt={`${project.title} app icon`}
                       width={96}
                       height={96}
                       className="rounded-2xl shadow-lg dark:hidden w-20 h-20 md:w-24 md:h-24"
@@ -151,7 +151,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                   {project.iconDark && (
                     <Image
                       src={project.iconDark}
-                      alt=""
+                      alt={`${project.title} app icon`}
                       width={96}
                       height={96}
                       className="rounded-2xl shadow-lg hidden dark:block w-20 h-20 md:w-24 md:h-24"

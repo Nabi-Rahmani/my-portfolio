@@ -9,13 +9,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     if (!project) {
         return {
-            title: 'Project Not Found - Muhammad Nabi Rahmani',
+            title: { absolute: 'Project not found | Muhammad Nabi Rahmani' },
             description: 'The requested project could not be found.',
         };
     }
 
     return {
-        title: `${project.title} - Muhammad Nabi Rahmani`,
+        // absolute: root title.template does not apply to generateMetadata on this route
+        title: { absolute: `${project.title} | Muhammad Nabi Rahmani` },
         description: project.subtitle,
         keywords: [...project.techStack, ...project.features, 'Flutter', 'Mobile App'],
         openGraph: {

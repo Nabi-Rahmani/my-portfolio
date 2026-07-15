@@ -9,13 +9,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     if (!post) {
         return {
-            title: 'Post Not Found - Muhammad Nabi Rahmani',
-            description: 'The requested blog post could not be found.',
+            title: { absolute: 'Post not found | Muhammad Nabi Rahmani' },
+            description: 'The requested writing post could not be found.',
         };
     }
 
     return {
-        title: `${post.title} - Muhammad Nabi Rahmani`,
+        // absolute: root title.template does not apply to generateMetadata on this route
+        title: { absolute: `${post.title} | Muhammad Nabi Rahmani` },
         description: post.excerpt,
         keywords: [post.category, ...post.tags, 'Flutter development', 'Programming tutorial'],
         authors: [{ name: post.author.name }],

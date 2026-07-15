@@ -28,7 +28,8 @@ export const metadata: Metadata = {
     default: "Muhammad Nabi Rahmani - Flutter Developer | codewithnabi",
     template: "%s | Muhammad Nabi Rahmani"
   },
-  description: "Flutter Developer crafting beautiful mobile experiences with clean code and intuitive design.",
+  description:
+    "Muhammad Nabi Rahmani — Flutter / mobile engineer in Ankara. Shipped apps, clean architecture, available for freelance and full-time remote.",
   keywords: ["Flutter Developer", "Mobile App Developer", "Dart", "Firebase", "codewithnabi", "Muhammad Nabi Rahmani", "App Development", "Mobile Development"],
   authors: [{ name: "Muhammad Nabi Rahmani", url: "https://codewithnabi.dev" }],
   creator: "Muhammad Nabi Rahmani",
@@ -47,7 +48,8 @@ export const metadata: Metadata = {
     url: "https://www.codewithnabi.dev",
     siteName: "codewithnabi",
     title: "Muhammad Nabi Rahmani - Flutter Developer",
-    description: "Flutter Developer crafting beautiful mobile experiences.",
+    description:
+      "Flutter / mobile engineer in Ankara — shipped products, honest proof, available for freelance and full-time remote.",
     images: [
       {
         url: "https://www.codewithnabi.dev/assets/branding/og-image.jpg",
@@ -62,7 +64,8 @@ export const metadata: Metadata = {
     site: "@nabirahmani_dev",
     creator: "@nabirahmani_dev",
     title: "Muhammad Nabi Rahmani - Flutter Developer",
-    description: "Flutter Developer crafting beautiful mobile experiences.",
+    description:
+      "Flutter / mobile engineer in Ankara — shipped products, honest proof, available for freelance and full-time remote.",
     images: ["https://www.codewithnabi.dev/assets/branding/og-image.jpg"],
   },
   alternates: {
