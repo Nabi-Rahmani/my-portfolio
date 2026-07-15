@@ -2,26 +2,42 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Footer from '@/components/Footer';
-import { fadeUp } from '@/lib/animations';
+import {
+    atelierEase,
+    fadeUpMotion,
+    selectVariants,
+    staggerContainer,
+    staggerContainerReduced,
+} from '@/lib/animations';
 import { siteConfig } from '@/config/site';
 
-const aboutStaggerContainer = {
-    hidden: {},
-    visible: {
-        transition: { staggerChildren: 0.08 },
-    },
-};
-
-const aboutStaggerItem = {
+const aboutStaggerItemFull = {
     hidden: { opacity: 0, y: 16 },
     visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.5, ease: [0.25, 0.4, 0.25, 1] as const },
+        transition: { duration: 0.5, ease: atelierEase },
     },
 };
+
+const aboutStaggerItemReduced = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { duration: 0.15 },
+    },
+};
+
+function useAboutMotion() {
+    const reduceMotion = useReducedMotion();
+    return {
+        fadeUp: fadeUpMotion(reduceMotion),
+        stagger: selectVariants(reduceMotion, staggerContainer, staggerContainerReduced),
+        staggerItem: selectVariants(reduceMotion, aboutStaggerItemFull, aboutStaggerItemReduced),
+    };
+}
 
 const skillGroups = [
     {
@@ -112,6 +128,9 @@ const socials = [
 ];
 
 export default function About() {
+    const { fadeUp, stagger, staggerItem } = useAboutMotion();
+    const reduceMotion = useReducedMotion();
+
     return (
         <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]">
             {/* Hero Section */}
@@ -121,9 +140,13 @@ export default function About() {
                         <div className="flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-14">
                             {/* Profile Photo */}
                             <motion.div
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.7, ease: [0.25, 0.4, 0.25, 1] }}
+                                initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
+                                animate={reduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
+                                transition={
+                                    reduceMotion
+                                        ? { duration: 0.15 }
+                                        : { duration: 0.7, ease: atelierEase }
+                                }
                                 className="shrink-0"
                             >
                                 <div className="relative w-[140px] h-[140px] md:w-[170px] md:h-[170px]">
@@ -265,7 +288,7 @@ export default function About() {
                     </motion.div>
 
                     <motion.div
-                        variants={aboutStaggerContainer}
+                        variants={stagger}
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, margin: '-60px' }}
@@ -274,7 +297,7 @@ export default function About() {
                         {values.map((value) => (
                             <motion.div
                                 key={value.title}
-                                variants={aboutStaggerItem}
+                                variants={staggerItem}
                                 className="group relative rounded-2xl border border-[var(--border-color)] p-7 transition-all duration-300 hover:border-[var(--accent)]/20"
                             >
                                 {/* Top accent line */}
@@ -322,7 +345,7 @@ export default function About() {
                     </motion.div>
 
                     <motion.div
-                        variants={aboutStaggerContainer}
+                        variants={stagger}
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, margin: '-60px' }}
@@ -331,7 +354,7 @@ export default function About() {
                         {skillGroups.map((group) => (
                             <motion.div
                                 key={group.label}
-                                variants={aboutStaggerItem}
+                                variants={staggerItem}
                                 className="group rounded-2xl border border-[var(--border-color)] p-6 transition-all duration-300 hover:border-[var(--accent)]/20"
                             >
                                 <div className="flex items-center gap-3 mb-4">

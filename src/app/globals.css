@@ -1,22 +1,14 @@
 @import "tailwindcss";
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * Atelier design system — single site-wide token foundation.
+ * Canonical names: cream / ink / muted / line / atelier-accent.
+ * Semantic names (bg-primary, text-primary, accent, …) are aliases only.
+ * Do not introduce a second competing palette.
+ */
 :root {
-  --bg-primary: #f8f4ee;
-  --bg-secondary: #f0ebe3;
-  --text-primary: #161210;
-  --text-secondary: #574d47;
-  --border-color: rgba(26, 20, 16, 0.1);
-  --accent: #c48a3f;
-  --accent-hover: #b37a32;
-  --accent-muted: rgba(196, 138, 63, 0.12);
-  --background: var(--bg-primary);
-  --foreground: var(--text-primary);
-  --shadow-sm: 0 1px 3px rgba(26, 20, 16, 0.06);
-  --shadow-md: 0 4px 16px rgba(26, 20, 16, 0.09);
-  --shadow-lg: 0 12px 40px rgba(26, 20, 16, 0.12);
-
-  /* Atelier design tokens — home page */
+  /* ── Atelier canonical ───────────────────────────────────────────── */
   --cream: #f4ecdd;
   --cream-2: #ebe1cd;
   --ink: #161210;
@@ -25,42 +17,55 @@
   --line: #c4b69e;
   --atelier-accent: oklch(0.56 0.13 42);
   --accent-soft: oklch(0.92 0.04 70);
+  --accent-hover: oklch(0.50 0.14 42);
+
+  /* ── Semantic aliases → Atelier (one system) ─────────────────────── */
+  --bg-primary: var(--cream);
+  --bg-secondary: var(--cream-2);
+  --text-primary: var(--ink);
+  --text-secondary: var(--muted);
+  --border-color: color-mix(in srgb, var(--line) 55%, transparent);
+  --accent: var(--atelier-accent);
+  --accent-muted: var(--accent-soft);
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
+
+  --shadow-sm: 0 1px 3px color-mix(in srgb, var(--ink) 8%, transparent);
+  --shadow-md: 0 4px 16px color-mix(in srgb, var(--ink) 10%, transparent);
+  --shadow-lg: 0 12px 40px color-mix(in srgb, var(--ink) 14%, transparent);
 }
 
 .dark {
-  --bg-primary: #0e0c0a;
-  --bg-secondary: #1a1714;
-  --text-primary: #ede9e2;
-  --text-secondary: #b5aa9f;
-  --border-color: rgba(237, 231, 223, 0.1);
-  --accent: #daa04e;
-  --accent-hover: #e8ae5a;
-  --accent-muted: rgba(218, 160, 78, 0.12);
-  --background: var(--bg-primary);
-  --foreground: var(--text-primary);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
-  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.6);
-
-  /* Atelier dark overrides */
+  /* Override Atelier canonical only — aliases follow via var() */
   --cream: #14110d;
-  --ink: #f0e8d8;
-  --atelier-accent: oklch(0.76 0.13 58);
   --cream-2: #1e1a14;
+  --ink: #f0e8d8;
   --ink-soft: #ddd0bc;
   --muted: #bdb5ae;
   --line: #4e4638;
+  --atelier-accent: oklch(0.76 0.13 58);
   --accent-soft: oklch(0.20 0.04 70);
+  --accent-hover: oklch(0.82 0.12 58);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.6);
 }
 
 ::selection {
   background: var(--accent);
-  color: #fff;
+  color: var(--cream);
 }
 
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
+}
+
+/* Focus ring utility for shared interactive chrome */
+:focus-visible {
+  outline: 2px solid var(--atelier-accent);
+  outline-offset: 2px;
 }
 
 /* Article prose styles */
@@ -237,11 +242,11 @@ body {
     inset: 0;
     pointer-events: none;
     opacity: 0.7;
-    background-color: rgba(196, 138, 63, 0.03);
+    background-color: color-mix(in srgb, var(--atelier-accent) 6%, transparent);
     background-image:
-      radial-gradient(ellipse at 50% 45%, rgba(196, 138, 63, 0.1) 0%, transparent 60%),
-      repeating-linear-gradient(0deg, rgba(170, 120, 50, 0.2) 0px, rgba(170, 120, 50, 0.2) 1px, transparent 1px, transparent 24px),
-      repeating-linear-gradient(90deg, rgba(170, 120, 50, 0.2) 0px, rgba(170, 120, 50, 0.2) 1px, transparent 1px, transparent 24px);
+      radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--atelier-accent) 16%, transparent) 0%, transparent 60%),
+      repeating-linear-gradient(0deg, color-mix(in srgb, var(--atelier-accent) 20%, transparent) 0px, color-mix(in srgb, var(--atelier-accent) 20%, transparent) 1px, transparent 1px, transparent 24px),
+      repeating-linear-gradient(90deg, color-mix(in srgb, var(--atelier-accent) 20%, transparent) 0px, color-mix(in srgb, var(--atelier-accent) 20%, transparent) 1px, transparent 1px, transparent 24px);
     -webkit-mask-image:
       linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%),
       radial-gradient(ellipse 90% 85% at 50% 45%, black 0%, black 40%, transparent 100%);
@@ -258,20 +263,20 @@ body {
     inset: 0;
     pointer-events: none;
     z-index: 0;
-    background: 
-      radial-gradient(ellipse 80% 60% at 20% 20%, rgba(196, 138, 63, 0.08) 0%, transparent 50%),
-      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(196, 138, 63, 0.06) 0%, transparent 50%),
-      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(196, 138, 63, 0.04) 0%, transparent 60%);
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 20%, color-mix(in srgb, var(--atelier-accent) 12%, transparent) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 50% at 80% 80%, color-mix(in srgb, var(--atelier-accent) 8%, transparent) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, color-mix(in srgb, var(--atelier-accent) 6%, transparent) 0%, transparent 60%);
     animation: meshFloat 20s ease-in-out infinite;
   }
   .dark .hero-grid::before {
     opacity: 1;
-    background-color: rgba(26, 20, 14, 0.15);
+    background-color: color-mix(in srgb, var(--cream) 40%, transparent);
     background-image:
-      radial-gradient(ellipse at 50% 45%, rgba(218, 160, 78, 0.12) 0%, transparent 55%),
-      radial-gradient(ellipse at 50% 45%, rgba(196, 138, 63, 0.06) 0%, transparent 45%),
-      repeating-linear-gradient(0deg, rgba(170, 120, 50, 0.18) 0px, rgba(170, 120, 50, 0.18) 1px, transparent 1px, transparent 24px),
-      repeating-linear-gradient(90deg, rgba(170, 120, 50, 0.18) 0px, rgba(170, 120, 50, 0.18) 1px, transparent 1px, transparent 24px);
+      radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--atelier-accent) 18%, transparent) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--atelier-accent) 8%, transparent) 0%, transparent 45%),
+      repeating-linear-gradient(0deg, color-mix(in srgb, var(--atelier-accent) 18%, transparent) 0px, color-mix(in srgb, var(--atelier-accent) 18%, transparent) 1px, transparent 1px, transparent 24px),
+      repeating-linear-gradient(90deg, color-mix(in srgb, var(--atelier-accent) 18%, transparent) 0px, color-mix(in srgb, var(--atelier-accent) 18%, transparent) 1px, transparent 1px, transparent 24px);
     -webkit-mask-image:
       linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%),
       radial-gradient(ellipse 90% 85% at 50% 45%, black 0%, black 40%, transparent 100%);
@@ -282,10 +287,10 @@ body {
     mask-composite: intersect;
   }
   .dark .hero-grid::after {
-    background: 
+    background:
       radial-gradient(ellipse 80% 60% at 20% 30%, rgba(78, 58, 120, 0.15) 0%, transparent 50%),
       radial-gradient(ellipse 60% 50% at 80% 70%, rgba(30, 50, 80, 0.12) 0%, transparent 50%),
-      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(218, 160, 78, 0.06) 0%, transparent 60%);
+      radial-gradient(ellipse 40% 40% at 50% 50%, color-mix(in srgb, var(--atelier-accent) 8%, transparent) 0%, transparent 60%);
     animation: meshFloatDark 25s ease-in-out infinite;
   }
 }
@@ -355,4 +360,34 @@ body {
 }
 .atelier-cta:hover {
   gap: 22px;
+}
+
+/*
+ * Heavy motion only when the user has not requested reduced motion.
+ * Prefer targeted suppression over a blanket * { animation: none }.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .hero-grid::after,
+  .dark .hero-grid::after {
+    animation: none !important;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1); }
+  }
+
+  .nav-link::after {
+    transition: none;
+  }
+
+  .atelier-cta,
+  .atelier-cta:hover {
+    gap: 14px;
+    transition: opacity 150ms ease;
+  }
+
+  html:focus-within {
+    scroll-behavior: auto;
+  }
 }

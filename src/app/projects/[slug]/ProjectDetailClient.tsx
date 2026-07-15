@@ -2,17 +2,19 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useRef, useState, useCallback, useEffect } from 'react';
 import type { Project } from '@/types/project';
 import Footer from '@/components/Footer';
-import { fadeUp } from '@/lib/animations';
+import { fadeUpMotion } from '@/lib/animations';
 
 export default function ProjectDetailClient({ project }: { project: Project }) {
     const heroRef = useRef<HTMLDivElement>(null);
+    const reduceMotion = useReducedMotion();
+    const fadeUp = fadeUpMotion(reduceMotion);
     const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
-    const heroY = useTransform(scrollYProgress, [0, 1], [0, 120]);
-    const heroScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+    const heroY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [0, 120]);
+    const heroScale = useTransform(scrollYProgress, [0, 1], reduceMotion ? [1, 1] : [1, 1.08]);
 
     // Lightbox state
     const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
