@@ -25,3 +25,29 @@ export function getValidStoreUrl(
 ): string | undefined {
   return isValidStoreUrl(url) ? url.trim() : undefined;
 }
+
+/**
+ * Project GitHub CTA only when the URL points at a real repo path
+ * (`github.com/owner/repo`), not a bare profile.
+ */
+export function getValidProjectGithubUrl(
+  url: string | undefined | null,
+): string | undefined {
+  if (!isValidStoreUrl(url)) return undefined;
+  try {
+    const parsed = new URL(url.trim());
+    const host = parsed.hostname.replace(/^www\./, '');
+    if (host !== 'github.com') return undefined;
+    const parts = parsed.pathname.split('/').filter(Boolean);
+    if (parts.length < 2) return undefined;
+    return url.trim();
+  } catch {
+    return undefined;
+  }
+}
+
+/** Non-empty screenshot paths for galleries (skips blanks / broken entries). */
+export function getProjectScreenshots(screenshots: string[] | undefined): string[] {
+  if (!screenshots?.length) return [];
+  return screenshots.filter((src) => typeof src === 'string' && src.trim().length > 0);
+}

@@ -582,6 +582,15 @@ export function getProjectBySlug(slug: string): Project | undefined {
     return projects.find((p) => p.slug === slug);
 }
 
+/** Full project set for `/projects`. Home uses a curated subset of this list. */
 export function getAllProjects(): Project[] {
     return projects;
+}
+
+/**
+ * Curated home subset (shipping proof first). Keep in sync with home engagement.
+ * Full catalog remains `getAllProjects()`.
+ */
+export function getFeaturedProjects(limit = 3): Project[] {
+    return projects.slice(0, limit);
 }

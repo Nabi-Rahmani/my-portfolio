@@ -4,7 +4,7 @@ import type { MouseEvent } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { getAllProjects } from '@/data/projects';
+import { getFeaturedProjects } from '@/data/projects';
 import { blogPosts } from '@/data/blog';
 import PhoneScreenshot from '@/components/PhoneScreenshot';
 import ScrollReveal from '@/components/ScrollReveal';
@@ -24,7 +24,7 @@ import { atelierEase, selectTransition } from '@/lib/animations';
 const ContactForm = dynamic(() => import('@/components/ContactForm'));
 
 /** Curated subset for home — full set lives on /projects */
-const curatedProjects = getAllProjects().slice(0, 3);
+const curatedProjects = getFeaturedProjects(3);
 const latestPosts = blogPosts.slice(0, 3);
 
 /** Hiring-manager value lines (owner may refine — see work item copy notes). */
