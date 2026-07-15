@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { siteConfig } from '@/config/site';
+import { contactMailto, siteConfig } from '@/config/site';
 
 type FormState = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -27,7 +27,7 @@ const projectTypes = ['Full-time', 'Freelance', 'Collaboration', 'Other'];
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const inputClasses =
-  'w-full bg-transparent border border-[var(--line)] rounded-lg px-4 py-3 text-[15px] text-[var(--ink)] placeholder:text-[var(--muted)] focus:outline-none focus:border-[var(--atelier-accent)] transition-colors';
+  'w-full bg-transparent border border-[var(--line)] rounded-lg px-4 py-3 text-[15px] text-[var(--ink)] placeholder:text-[var(--muted)] focus:outline-none focus:border-[var(--atelier-accent)] transition-colors disabled:opacity-60 disabled:cursor-not-allowed';
 
 function validate(values: FormValues) {
   const errors: Partial<Record<keyof FormValues, string>> = {};
@@ -43,16 +43,39 @@ function validate(values: FormValues) {
   return errors;
 }
 
+function buildFallbackBody(values: FormValues): string {
+  const lines = [
+    values.message.trim(),
+    '',
+    `— ${values.name.trim()} (${values.email.trim()})`,
+    `Project type: ${values.projectType}`,
+  ];
+  if (values.budget.trim()) {
+    lines.push(`Budget: ${values.budget.trim()}`);
+  }
+  return lines.join('\n');
+}
+
 export default function ContactForm() {
   const [values, setValues] = useState<FormValues>(initialValues);
   const [errors, setErrors] = useState<Partial<Record<keyof FormValues, string>>>({});
   const [state, setState] = useState<FormState>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const isSubmitting = state === 'submitting';
+
   const handleChange = (field: keyof FormValues) => (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     setValues((prev) => ({ ...prev, [field]: event.target.value }));
+    // Clear field error as the user edits; keep typed values on validation failure.
+    if (errors[field]) {
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next[field];
+        return next;
+      });
+    }
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -65,6 +88,7 @@ export default function ContactForm() {
     setErrors(validationErrors);
     if (Object.keys(validationErrors).length > 0) return;
 
+    // Bots: success-trap without sending (anti-spam). Real users never take this path.
     if (honeypot) {
       setState('success');
       return;
@@ -93,11 +117,11 @@ export default function ContactForm() {
         setState('success');
       } else {
         setState('error');
-        setErrorMessage('Something went wrong, please try again or email me directly.');
+        setErrorMessage('Something went wrong. You can try again or email me directly.');
       }
     } catch {
       setState('error');
-      setErrorMessage('Something went wrong, please try again or email me directly.');
+      setErrorMessage('Something went wrong. You can try again or email me directly.');
     }
   };
 
@@ -113,6 +137,11 @@ export default function ContactForm() {
       </div>
     );
   }
+
+  const directEmailHref = contactMailto({
+    subject: `Portfolio contact — ${values.projectType}`,
+    body: values.message.trim().length >= 10 ? buildFallbackBody(values) : undefined,
+  });
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5 max-w-[560px]" noValidate>
@@ -136,6 +165,7 @@ export default function ContactForm() {
           placeholder="Your name"
           value={values.name}
           onChange={handleChange('name')}
+          disabled={isSubmitting}
           className={inputClasses}
           aria-invalid={Boolean(errors.name)}
           aria-describedby={errors.name ? 'cf-name-error' : undefined}
@@ -156,6 +186,7 @@ export default function ContactForm() {
           placeholder="Your email"
           value={values.email}
           onChange={handleChange('email')}
+          disabled={isSubmitting}
           className={inputClasses}
           aria-invalid={Boolean(errors.email)}
           aria-describedby={errors.email ? 'cf-email-error' : undefined}
@@ -175,6 +206,7 @@ export default function ContactForm() {
             name="projectType"
             value={values.projectType}
             onChange={handleChange('projectType')}
+            disabled={isSubmitting}
             className={inputClasses}
           >
             {projectTypes.map((type) => (
@@ -194,6 +226,7 @@ export default function ContactForm() {
             placeholder="Budget (optional)"
             value={values.budget}
             onChange={handleChange('budget')}
+            disabled={isSubmitting}
             maxLength={60}
             className={inputClasses}
           />
@@ -208,6 +241,7 @@ export default function ContactForm() {
           placeholder="Tell me about your project…"
           value={values.message}
           onChange={handleChange('message')}
+          disabled={isSubmitting}
           rows={5}
           className={inputClasses}
           aria-invalid={Boolean(errors.message)}
@@ -221,15 +255,29 @@ export default function ContactForm() {
       </div>
 
       {state === 'error' && (
-        <p className="text-[13px] text-red-500">{errorMessage}</p>
+        <div
+          role="alert"
+          className="rounded-lg border border-red-500/30 bg-red-500/5 px-4 py-3 text-[13px] text-red-600 dark:text-red-400"
+        >
+          <p className="mb-2">{errorMessage}</p>
+          <p>
+            Prefer email?{' '}
+            <a
+              href={directEmailHref}
+              className="font-medium underline underline-offset-2 hover:text-red-700 dark:hover:text-red-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+            >
+              Email me directly
+            </a>
+          </p>
+        </div>
       )}
 
       <button
         type="submit"
-        disabled={state === 'submitting'}
+        disabled={isSubmitting}
         className="atelier-cta inline-flex items-center justify-center rounded-[999px] bg-[var(--ink)] text-[var(--cream)] text-[15px] font-medium px-6 py-3 self-start disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
       >
-        {state === 'submitting' ? 'Sending…' : 'Send message'}
+        {isSubmitting ? 'Sending…' : state === 'error' ? 'Try again' : 'Send message'}
       </button>
     </form>
   );

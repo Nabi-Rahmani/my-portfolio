@@ -11,7 +11,12 @@ import {
     staggerContainer,
     staggerContainerReduced,
 } from '@/lib/animations';
-import { siteConfig } from '@/config/site';
+import {
+    contactMailto,
+    hasCalendly,
+    hasCv,
+    siteConfig,
+} from '@/config/site';
 
 const aboutStaggerItemFull = {
     hidden: { opacity: 0, y: 16 },
@@ -472,13 +477,13 @@ export default function About() {
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
                             <a
-                                href="mailto:codewithnabi@gmail.com"
+                                href={contactMailto()}
                                 className="inline-flex items-center gap-2 px-7 py-3.5 bg-[var(--text-primary)] text-[var(--bg-primary)] rounded-full text-[0.9375rem] font-medium no-underline hover:opacity-90 transition-opacity"
                             >
                                 <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
                                 </svg>
-                                codewithnabi@gmail.com
+                                {siteConfig.contactEmail}
                             </a>
                             <a
                                 href="https://www.linkedin.com/in/muhammad-nabi-rahmani-%F0%9F%87%B5%F0%9F%87%B8-8945b21ba/"
@@ -491,7 +496,7 @@ export default function About() {
                                 </svg>
                                 LinkedIn
                             </a>
-                            {siteConfig.calendlyUrl && (
+                            {hasCalendly() && (
                                 <a
                                     href={siteConfig.calendlyUrl}
                                     target="_blank"
@@ -501,7 +506,7 @@ export default function About() {
                                     Book a 15-min call
                                 </a>
                             )}
-                            {siteConfig.cvAvailable && (
+                            {hasCv() && (
                                 <a
                                     href={siteConfig.cvPath}
                                     download

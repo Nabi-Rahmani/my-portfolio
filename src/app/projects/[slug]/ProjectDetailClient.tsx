@@ -7,11 +7,16 @@ import { useRef, useState, useCallback, useEffect } from 'react';
 import type { Project } from '@/types/project';
 import Footer from '@/components/Footer';
 import { fadeUpMotion } from '@/lib/animations';
+import { getValidStoreUrl } from '@/lib/links';
 
 export default function ProjectDetailClient({ project }: { project: Project }) {
     const heroRef = useRef<HTMLDivElement>(null);
     const reduceMotion = useReducedMotion();
     const fadeUp = fadeUpMotion(reduceMotion);
+    const playStoreUrl = getValidStoreUrl(project.links.playStore);
+    const appStoreUrl = getValidStoreUrl(project.links.appStore);
+    const wantsIos = project.platform === 'ios' || project.platform === 'both';
+    const wantsAndroid = project.platform === 'android' || project.platform === 'both';
     const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
     const heroY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [0, 120]);
     const heroScale = useTransform(scrollYProgress, [0, 1], reduceMotion ? [1, 1] : [1, 1.08]);
@@ -139,9 +144,9 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ type: 'spring', stiffness: 140, damping: 14, delay: 0.4 }}
                             >
-                                {project.links.playStore && project.links.playStore !== '#' && (
+                                {playStoreUrl && (
                                     <motion.a
-                                        href={project.links.playStore}
+                                        href={playStoreUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-3.5 bg-[var(--accent)] text-white rounded-full text-[0.9375rem] md:text-[1rem] font-semibold no-underline shadow-lg"
@@ -152,14 +157,14 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                         Get on Play Store
                                     </motion.a>
                                 )}
-                                {project.links.playStore === '#' && (
+                                {wantsAndroid && !playStoreUrl && (
                                     <span className="inline-flex items-center gap-1.5 text-[0.875rem] text-[var(--text-secondary)] opacity-60">
-                                        Android in progress
+                                        Android not released
                                     </span>
                                 )}
-                                {project.links.appStore && project.links.appStore !== '#' && (
+                                {appStoreUrl && (
                                     <motion.a
-                                        href={project.links.appStore}
+                                        href={appStoreUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-3.5 bg-[var(--text-primary)] text-[var(--bg-primary)] rounded-full text-[0.9375rem] md:text-[1rem] font-semibold no-underline"
@@ -170,9 +175,9 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                         App Store
                                     </motion.a>
                                 )}
-                                {project.links.appStore === '#' && (
+                                {wantsIos && !appStoreUrl && (
                                     <span className="inline-flex items-center gap-1.5 text-[0.875rem] text-[var(--text-secondary)] opacity-60">
-                                        iOS in progress
+                                        iOS not released
                                     </span>
                                 )}
                                 {project.links.github && (
@@ -451,7 +456,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
             {/* ════════════════════════════════════════════ */}
             {/* RATE & REVIEW CTA                            */}
             {/* ════════════════════════════════════════════ */}
-            {project.links.playStore && project.links.playStore !== '#' && (
+            {playStoreUrl && (
                 <section className="px-6 py-16 md:py-24">
                     <motion.div
                         className="max-w-[640px] mx-auto text-center"
@@ -501,7 +506,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                         </motion.p>
 
                         <motion.a
-                            href={project.links.playStore}
+                            href={playStoreUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2.5 px-7 py-3.5 border-2 border-[var(--accent)] text-[var(--accent)] rounded-full text-[0.9375rem] font-semibold no-underline hover:bg-[var(--accent)] hover:text-white transition-colors duration-300"
@@ -551,13 +556,20 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                             Ready to try {project.title}?
                         </h2>
                         <p className="text-[1rem] text-[var(--text-primary)] opacity-[0.72] mb-8 leading-relaxed">
-                            {project.subtitle}. Available now on Android — iOS coming soon.
+                            {project.subtitle}
+                            {playStoreUrl && !appStoreUrl
+                                ? '. Available now on Android — iOS not released yet.'
+                                : playStoreUrl && appStoreUrl
+                                  ? '. Available on Android and iOS.'
+                                  : appStoreUrl && !playStoreUrl
+                                    ? '. Available now on iOS — Android not released yet.'
+                                    : '.'}
                         </p>
 
                         <div className="flex gap-3 flex-wrap justify-center">
-                            {project.links.playStore && project.links.playStore !== '#' && (
+                            {playStoreUrl && (
                                 <motion.a
-                                    href={project.links.playStore}
+                                    href={playStoreUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--accent)] text-white rounded-full text-[1rem] font-semibold no-underline shadow-lg"
@@ -568,14 +580,14 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                     Download Now
                                 </motion.a>
                             )}
-                            {project.links.playStore === '#' && (
+                            {wantsAndroid && !playStoreUrl && (
                                 <span className="inline-flex items-center gap-1.5 text-[0.875rem] text-[var(--text-secondary)] opacity-55">
-                                    Android in progress
+                                    Android not released
                                 </span>
                             )}
-                            {project.links.appStore && project.links.appStore !== '#' && (
+                            {appStoreUrl && (
                                 <motion.a
-                                    href={project.links.appStore}
+                                    href={appStoreUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-flex items-center gap-2 px-8 py-3.5 bg-[var(--text-primary)] text-[var(--bg-primary)] rounded-full text-[1rem] font-semibold no-underline"
@@ -586,9 +598,9 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                                     App Store
                                 </motion.a>
                             )}
-                            {project.links.appStore === '#' && (
+                            {wantsIos && !appStoreUrl && (
                                 <span className="inline-flex items-center gap-1.5 text-[0.875rem] text-[var(--text-secondary)] opacity-55">
-                                    iOS in progress
+                                    iOS not released
                                 </span>
                             )}
                         </div>

@@ -1,4 +1,5 @@
 import type { Project } from '@/types/project';
+import { getValidStoreUrl } from '@/lib/links';
 
 const platformToOS: Record<Project['platform'], string> = {
     ios: 'iOS',
@@ -7,6 +8,10 @@ const platformToOS: Record<Project['platform'], string> = {
 };
 
 export default function ProjectStructuredData({ project }: { project: Project }) {
+    const playStore = getValidStoreUrl(project.links.playStore);
+    const appStore = getValidStoreUrl(project.links.appStore);
+    const downloadUrl = playStore ?? appStore;
+
     const data = {
         '@context': 'https://schema.org',
         '@type': 'MobileApplication',
@@ -21,9 +26,7 @@ export default function ProjectStructuredData({ project }: { project: Project })
             price: '0',
             priceCurrency: 'USD',
         },
-        ...(project.links.playStore && project.links.playStore !== '#'
-            ? { downloadUrl: project.links.playStore }
-            : {}),
+        ...(downloadUrl ? { downloadUrl } : {}),
     };
 
     return (

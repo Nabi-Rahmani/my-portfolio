@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 
 import { footerNav, socialLinks } from '@/config/navigation';
-import { siteConfig } from '@/config/site';
+import { hasCv, siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 
 interface FooterProps {
@@ -78,7 +78,7 @@ export default function Footer({ showSocials = true, links, className }: FooterP
               ))}
             </div>
 
-            {siteConfig.cvAvailable && (
+            {hasCv() && (
               <a
                 href={siteConfig.cvPath}
                 download

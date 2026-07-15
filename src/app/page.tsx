@@ -10,7 +10,14 @@ import PhoneScreenshot from '@/components/PhoneScreenshot';
 import ScrollReveal from '@/components/ScrollReveal';
 import MouseGlow from '@/components/MouseGlow';
 import Footer from '@/components/Footer';
-import { siteConfig } from '@/config/site';
+import {
+  contactMailto,
+  hasCalendly,
+  hasCv,
+  hasWeb3FormsKey,
+  siteConfig,
+} from '@/config/site';
+import { getValidStoreUrl } from '@/lib/links';
 
 const ContactForm = dynamic(() => import('@/components/ContactForm'));
 
@@ -174,7 +181,7 @@ export default function Home() {
                 View selected work
                 <span aria-hidden="true">→</span>
               </a>
-              {siteConfig.cvAvailable && (
+              {hasCv() && (
                 <a
                   href={siteConfig.cvPath}
                   download
@@ -292,7 +299,7 @@ export default function Home() {
                       </div>
                     )}
 
-                    {/* Links */}
+                    {/* Links — store CTAs only when URL is valid; never primary # */}
                     <div className="flex flex-wrap gap-5 items-center">
                       <Link
                         href={`/projects/${project.slug}`}
@@ -300,21 +307,41 @@ export default function Home() {
                       >
                         View project →
                       </Link>
-                      {project.links.playStore && project.links.playStore !== '#' && (
-                        <a
-                          href={project.links.playStore}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[13px] text-[var(--muted)] hover:text-[var(--ink)] transition-colors no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-                        >
-                          Play Store ↗
-                        </a>
-                      )}
-                      {project.links.appStore === '#' && (
-                        <span className="text-[13px] text-[var(--muted)] opacity-50">
-                          iOS coming soon
-                        </span>
-                      )}
+                      {(() => {
+                        const playStore = getValidStoreUrl(project.links.playStore);
+                        const appStore = getValidStoreUrl(project.links.appStore);
+                        const wantsIos =
+                          project.platform === 'ios' || project.platform === 'both';
+                        return (
+                          <>
+                            {playStore && (
+                              <a
+                                href={playStore}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[13px] text-[var(--muted)] hover:text-[var(--ink)] transition-colors no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+                              >
+                                Play Store ↗
+                              </a>
+                            )}
+                            {appStore && (
+                              <a
+                                href={appStore}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[13px] text-[var(--muted)] hover:text-[var(--ink)] transition-colors no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+                              >
+                                App Store ↗
+                              </a>
+                            )}
+                            {wantsIos && !appStore && (
+                              <span className="text-[13px] text-[var(--muted)] opacity-50">
+                                iOS not released
+                              </span>
+                            )}
+                          </>
+                        );
+                      })()}
                     </div>
                   </div>
                 </div>
@@ -497,24 +524,36 @@ export default function Home() {
         <div className="max-w-[1200px] mx-auto">
           <ScrollReveal>
             <span
-              className="block text-[11px] tracking-[0.22em] uppercase text-[var(--muted)] mb-16 md:mb-20"
+              className="block text-[11px] tracking-[0.22em] uppercase text-[var(--muted)] mb-6"
               style={{ fontFamily: 'var(--font-mono)' }}
             >
               [ Get in Touch ]
             </span>
+            <p
+              className="mb-12 md:mb-16 text-[15px] font-medium text-[var(--atelier-accent)]"
+              style={{ fontFamily: 'var(--font-mono)' }}
+            >
+              {siteConfig.availability}
+            </p>
           </ScrollReveal>
-          {siteConfig.web3formsAccessKey && (
+          {hasWeb3FormsKey() ? (
             <ScrollReveal>
               <div className="mb-12">
                 <ContactForm />
               </div>
             </ScrollReveal>
+          ) : (
+            <ScrollReveal>
+              <p className="mb-8 max-w-[560px] text-[15px] text-[var(--ink-soft)] leading-relaxed">
+                Prefer email? Reach me directly — I read every message.
+              </p>
+            </ScrollReveal>
           )}
           <ScrollReveal>
-            {/* Large email link */}
+            {/* Large email link — always available real fallback */}
             <div className="mb-12">
               <a
-                href="mailto:codewithnabi@gmail.com"
+                href={contactMailto()}
                 className="block no-underline group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
               >
                 <span
@@ -525,7 +564,7 @@ export default function Home() {
                     fontSize: 'clamp(28px, 7vw, 120px)',
                   }}
                 >
-                  codewithnabi@gmail.com
+                  {siteConfig.contactEmail}
                   <span
                     className="inline-block group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300"
                     style={{ fontSize: '0.4em', verticalAlign: 'super', marginLeft: '6px' }}
@@ -537,8 +576,8 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Calendly CTA */}
-            {siteConfig.calendlyUrl && (
+            {/* Calendly CTA — only when URL configured */}
+            {hasCalendly() && (
               <div className="mb-8">
                 <a
                   href={siteConfig.calendlyUrl}
