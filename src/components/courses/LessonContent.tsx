@@ -27,7 +27,7 @@ export function LessonContent({ content }: LessonContentProps) {
                 fontWeight: 700,
                 marginTop: '2rem',
                 marginBottom: '1rem',
-                color: 'var(--text-primary)',
+                color: 'var(--ink)',
               }}
             >
               {children}
@@ -40,8 +40,8 @@ export function LessonContent({ content }: LessonContentProps) {
                 fontWeight: 700,
                 marginTop: '2rem',
                 marginBottom: '0.75rem',
-                color: 'var(--text-primary)',
-                borderBottom: '1px solid var(--border-color)',
+                color: 'var(--ink)',
+                borderBottom: '1px solid var(--line)',
                 paddingBottom: '0.5rem',
               }}
             >
@@ -55,7 +55,7 @@ export function LessonContent({ content }: LessonContentProps) {
                 fontWeight: 600,
                 marginTop: '1.5rem',
                 marginBottom: '0.5rem',
-                color: 'var(--text-primary)',
+                color: 'var(--ink)',
               }}
             >
               {children}
@@ -68,7 +68,7 @@ export function LessonContent({ content }: LessonContentProps) {
                 fontWeight: 600,
                 marginTop: '1.25rem',
                 marginBottom: '0.5rem',
-                color: 'var(--text-primary)',
+                color: 'var(--ink)',
               }}
             >
               {children}
@@ -79,7 +79,7 @@ export function LessonContent({ content }: LessonContentProps) {
               style={{
                 marginBottom: '1rem',
                 lineHeight: 1.7,
-                color: 'var(--text-secondary)',
+                color: 'var(--ink-soft)',
               }}
             >
               {children}
@@ -112,7 +112,7 @@ export function LessonContent({ content }: LessonContentProps) {
               style={{
                 marginBottom: '0.5rem',
                 lineHeight: 1.6,
-                color: 'var(--text-secondary)',
+                color: 'var(--ink-soft)',
               }}
             >
               {children}
@@ -124,7 +124,7 @@ export function LessonContent({ content }: LessonContentProps) {
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                color: 'var(--accent)',
+                color: 'var(--atelier-accent)',
                 textDecoration: 'underline',
                 textUnderlineOffset: '2px',
               }}
@@ -138,12 +138,12 @@ export function LessonContent({ content }: LessonContentProps) {
               return (
                 <code
                   style={{
-                    backgroundColor: 'var(--bg-secondary)',
+                    backgroundColor: 'var(--cream-2)',
                     padding: '0.2rem 0.4rem',
                     borderRadius: '4px',
                     fontSize: '0.875rem',
                     fontFamily: 'monospace',
-                    color: 'var(--accent)',
+                    color: 'var(--atelier-accent)',
                   }}
                   {...props}
                 >
@@ -175,12 +175,12 @@ export function LessonContent({ content }: LessonContentProps) {
           blockquote: ({ children }) => (
             <blockquote
               style={{
-                borderLeft: '4px solid var(--accent)',
+                borderLeft: '4px solid var(--atelier-accent)',
                 paddingLeft: '1rem',
                 marginLeft: 0,
                 marginBottom: '1rem',
                 fontStyle: 'italic',
-                color: 'var(--text-secondary)',
+                color: 'var(--ink-soft)',
               }}
             >
               {children}
@@ -202,12 +202,12 @@ export function LessonContent({ content }: LessonContentProps) {
           th: ({ children }) => (
             <th
               style={{
-                backgroundColor: 'var(--bg-secondary)',
+                backgroundColor: 'var(--cream-2)',
                 padding: '0.75rem',
                 textAlign: 'left',
                 fontWeight: 600,
-                borderBottom: '2px solid var(--border-color)',
-                color: 'var(--text-primary)',
+                borderBottom: '2px solid var(--line)',
+                color: 'var(--ink)',
               }}
             >
               {children}
@@ -217,8 +217,8 @@ export function LessonContent({ content }: LessonContentProps) {
             <td
               style={{
                 padding: '0.75rem',
-                borderBottom: '1px solid var(--border-color)',
-                color: 'var(--text-secondary)',
+                borderBottom: '1px solid var(--line)',
+                color: 'var(--ink-soft)',
               }}
             >
               {children}
@@ -228,7 +228,7 @@ export function LessonContent({ content }: LessonContentProps) {
             <hr
               style={{
                 border: 'none',
-                borderTop: '1px solid var(--border-color)',
+                borderTop: '1px solid var(--line)',
                 margin: '2rem 0',
               }}
             />
@@ -254,7 +254,7 @@ export function LessonContent({ content }: LessonContentProps) {
             );
           },
           strong: ({ children }) => (
-            <strong style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
+            <strong style={{ fontWeight: 600, color: 'var(--ink)' }}>
               {children}
             </strong>
           ),

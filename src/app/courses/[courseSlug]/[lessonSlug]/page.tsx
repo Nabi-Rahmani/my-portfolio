@@ -9,6 +9,7 @@ import { VideoPlayer } from '@/components/courses/VideoPlayer';
 import { LessonContent } from '@/components/courses/LessonContent';
 import { ProgressBar } from '@/components/courses/ProgressBar';
 import { useCourseProgress } from '@/hooks/useCourseProgress';
+import { cn } from '@/lib/utils';
 
 export default function LessonPage() {
   const params = useParams<{ courseSlug?: string | string[]; lessonSlug?: string | string[] }>();
@@ -33,13 +34,12 @@ export default function LessonPage() {
   } = useCourseProgress(data?.course.id || '');
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Reset scroll position when lesson changes
   useEffect(() => {
     if (contentRef.current) {
       contentRef.current.scrollTop = 0;
@@ -47,7 +47,6 @@ export default function LessonPage() {
     window.scrollTo(0, 0);
   }, [lessonSlug]);
 
-  // Set current lesson on mount
   useEffect(() => {
     if (data?.lesson.id) {
       setCurrentLesson(data.lesson.id);
@@ -56,18 +55,9 @@ export default function LessonPage() {
 
   if (!courseSlug || !lessonSlug) {
     return (
-      <main
-        style={{
-          minHeight: '100vh',
-          backgroundColor: 'var(--bg-primary)',
-          paddingTop: '80px',
-          display: 'grid',
-          placeItems: 'center',
-          color: 'var(--text-secondary)',
-        }}
-      >
+      <div className="grid min-h-screen place-items-center bg-[var(--cream)] pt-14 text-[var(--muted)]">
         Loading…
-      </main>
+      </div>
     );
   }
 
@@ -80,14 +70,7 @@ export default function LessonPage() {
   const isComplete = isLessonComplete(lesson.id);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        minHeight: '100vh',
-        backgroundColor: 'var(--bg-primary)',
-        marginTop: '70px', // Space for main navigation
-      }}
-    >
+    <div className="flex min-h-screen bg-[var(--cream)] text-[var(--ink)] pt-14">
       {/* Sidebar - Desktop */}
       {!isMobile && (
         <CourseSidebar
@@ -97,59 +80,30 @@ export default function LessonPage() {
         />
       )}
 
-      {/* Sidebar - Mobile */}
+      {/* Sidebar - Mobile drawer */}
       {isMobile && (
         <CourseSidebar
           course={course}
           currentLessonId={lesson.id}
           completedLessons={completedLessons}
-          isMobile={true}
+          isMobile
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
         />
       )}
 
-      {/* Main Content */}
-      <main
-        style={{
-          flex: 1,
-          minWidth: 0,
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        {/* Top Bar */}
-        <header
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '12px 24px',
-            backgroundColor: 'var(--bg-primary)',
-            borderBottom: '1px solid var(--border-color)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            {/* Mobile Menu Button */}
+      <div className="flex min-w-0 flex-1 flex-col">
+        {/* Top bar */}
+        <header className="flex items-center justify-between gap-4 border-b border-[var(--line)] bg-[var(--cream)] px-4 py-3 md:px-6">
+          <div className="flex min-w-0 items-center gap-3">
             {isMobile && (
               <button
+                type="button"
                 onClick={() => setSidebarOpen(true)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  padding: '8px',
-                  cursor: 'pointer',
-                  color: 'var(--text-primary)',
-                }}
+                aria-label="Open course menu"
+                className="shrink-0 cursor-pointer rounded-full border border-[var(--line)] bg-transparent p-2 text-[var(--ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
               >
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
                   <line x1="3" y1="12" x2="21" y2="12" />
                   <line x1="3" y1="6" x2="21" y2="6" />
                   <line x1="3" y1="18" x2="21" y2="18" />
@@ -157,23 +111,24 @@ export default function LessonPage() {
               </button>
             )}
 
-            {/* Breadcrumb */}
-            <nav style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.875rem' }}>
+            <nav
+              className="flex min-w-0 items-center gap-2 text-[0.875rem]"
+              aria-label="Lesson breadcrumb"
+            >
               <Link
                 href={`/courses/${course.slug}`}
-                style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}
+                className="truncate text-[var(--muted)] no-underline transition-colors hover:text-[var(--atelier-accent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
               >
                 {course.title}
               </Link>
-              <span style={{ color: 'var(--text-secondary)' }}>/</span>
-              <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>
-                {module.title}
+              <span className="shrink-0 text-[var(--muted)]" aria-hidden>
+                /
               </span>
+              <span className="truncate font-medium text-[var(--ink)]">{module.title}</span>
             </nav>
           </div>
 
-          {/* Progress */}
-          <div style={{ width: '150px' }}>
+          <div className="w-[100px] shrink-0 sm:w-[150px]">
             <ProgressBar
               percentage={getCompletionPercentage(course.totalLessons)}
               size="sm"
@@ -182,88 +137,41 @@ export default function LessonPage() {
           </div>
         </header>
 
-        {/* Lesson Content */}
+        {/* Lesson body */}
         <div
           ref={contentRef}
-          style={{
-            flex: 1,
-            overflow: 'auto',
-            padding: isMobile ? '24px 16px' : '40px 60px',
-            paddingBottom: '150px', // Space for bottom nav
-          }}
+          className="flex-1 overflow-auto px-4 py-6 pb-32 md:px-10 md:py-10 md:pb-36"
         >
-          {/* Lesson Header */}
-          <div style={{ marginBottom: '32px' }}>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                marginBottom: '12px',
-              }}
-            >
-              <span
-                style={{
-                  padding: '4px 10px',
-                  backgroundColor: 'var(--bg-secondary)',
-                  color: 'var(--text-secondary)',
-                  borderRadius: '4px',
-                  fontSize: '0.75rem',
-                  textTransform: 'capitalize',
-                }}
-              >
+          <div className="mb-8">
+            <div className="mb-3 flex flex-wrap items-center gap-2">
+              <span className="rounded border border-[var(--line)] bg-[var(--cream-2)] px-2.5 py-1 text-[0.75rem] capitalize text-[var(--muted)]">
                 {lesson.type}
               </span>
-              <span
-                style={{
-                  fontSize: '0.875rem',
-                  color: 'var(--text-secondary)',
-                }}
-              >
-                {lesson.duration} min
-              </span>
+              <span className="text-[0.875rem] text-[var(--muted)]">{lesson.duration} min</span>
               {lesson.isFree && (
-                <span
-                  style={{
-                    padding: '4px 10px',
-                    backgroundColor: 'var(--accent)',
-                    color: 'white',
-                    borderRadius: '4px',
-                    fontSize: '0.75rem',
-                    fontWeight: 500,
-                  }}
-                >
-                  FREE PREVIEW
+                <span className="rounded bg-[var(--atelier-accent)] px-2.5 py-1 text-[0.75rem] font-medium text-[var(--cream)]">
+                  Free preview
                 </span>
               )}
             </div>
             <h1
+              className="leading-tight text-[var(--ink)]"
               style={{
-                fontSize: isMobile ? '1.75rem' : '2.25rem',
-                fontWeight: 700,
-                color: 'var(--text-primary)',
-                lineHeight: 1.3,
+                fontFamily: 'var(--font-serif)',
+                fontSize: 'clamp(1.5rem, 3vw, 2.25rem)',
               }}
             >
               {lesson.title}
             </h1>
             {lesson.description && (
-              <p
-                style={{
-                  marginTop: '12px',
-                  fontSize: '1.125rem',
-                  color: 'var(--text-secondary)',
-                  lineHeight: 1.6,
-                }}
-              >
+              <p className="mt-3 text-[1.0625rem] leading-relaxed text-[var(--ink-soft)]">
                 {lesson.description}
               </p>
             )}
           </div>
 
-          {/* Video Player */}
           {(lesson.type === 'video' || lesson.type === 'mixed') && lesson.content.videoUrl && (
-            <div style={{ marginBottom: '40px' }}>
+            <div className="mb-10">
               <VideoPlayer
                 videoUrl={lesson.content.videoUrl}
                 provider={lesson.content.videoProvider}
@@ -272,206 +180,107 @@ export default function LessonPage() {
             </div>
           )}
 
-          {/* Markdown Content */}
           {lesson.content.markdown && (
-            <div
-              style={{
-                maxWidth: '800px',
-              }}
-            >
+            <div className="max-w-[800px]">
               <LessonContent content={lesson.content.markdown} />
             </div>
           )}
 
-          {/* Mark Complete Button */}
-          <div
-            style={{
-              marginTop: '48px',
-              paddingTop: '32px',
-              borderTop: '1px solid var(--border-color)',
-            }}
-          >
+          <div className="mt-12 border-t border-[var(--line)] pt-8">
             <button
+              type="button"
               onClick={() => toggleLessonComplete(lesson.id)}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '14px 28px',
-                backgroundColor: isComplete ? '#10b981' : 'var(--bg-secondary)',
-                color: isComplete ? 'white' : 'var(--text-primary)',
-                border: isComplete ? 'none' : '1px solid var(--border-color)',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontSize: '1rem',
-                fontWeight: 500,
-                transition: 'all 0.2s ease',
-              }}
+              className={cn(
+                'inline-flex cursor-pointer items-center gap-3 rounded-full px-6 py-3.5 text-[1rem] font-medium transition-colors duration-200 motion-reduce:transition-none',
+                'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]',
+                isComplete
+                  ? 'border-none bg-emerald-500 text-white'
+                  : 'border border-[var(--line)] bg-[var(--cream-2)] text-[var(--ink)] hover:border-[var(--atelier-accent)]/40',
+              )}
             >
               {isComplete ? (
                 <>
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                   Completed
                 </>
               ) : (
                 <>
-                  <div
-                    style={{
-                      width: '20px',
-                      height: '20px',
-                      borderRadius: '50%',
-                      border: '2px solid var(--border-color)',
-                    }}
+                  <span
+                    className="inline-block h-5 w-5 rounded-full border-2 border-[var(--line)]"
+                    aria-hidden
                   />
-                  Mark as Complete
+                  Mark as complete
                 </>
               )}
             </button>
           </div>
         </div>
 
-        {/* Bottom Navigation - Previous/Next */}
+        {/* Bottom lesson navigation — accounts for site top nav only (no mobile bottom bar) */}
         <nav
-          style={{
-            position: 'fixed',
-            bottom: isMobile ? '100px' : '0',
-            left: isMobile ? '0' : '280px',
-            right: '0',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '16px 24px',
-            backgroundColor: 'var(--bg-primary)',
-            borderTop: '2px solid var(--border-color)',
-            zIndex: 200,
-            boxShadow: '0 -4px 12px rgba(0,0,0,0.15)',
-          }}
+          className={cn(
+            'fixed bottom-0 right-0 z-[200] flex items-center justify-between gap-3 border-t border-[var(--line)] bg-[var(--cream)] px-4 py-3 shadow-[0_-4px_16px_color-mix(in_srgb,var(--ink)_8%,transparent)] md:px-6',
+            isMobile ? 'left-0' : 'left-[280px]',
+          )}
+          aria-label="Lesson navigation"
         >
-          {/* Previous */}
           {navigation?.previousLesson ? (
             <button
+              type="button"
               onClick={() => {
-                router.push(`/courses/${course.slug}/${navigation.previousLesson!.lesson.slug}`);
+                router.push(
+                  `/courses/${course.slug}/${navigation.previousLesson!.lesson.slug}`,
+                );
               }}
               data-lenis-prevent
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '12px 20px',
-                backgroundColor: 'var(--bg-secondary)',
-                color: 'var(--text-primary)',
-                borderRadius: '8px',
-                fontSize: '0.9rem',
-                fontWeight: 500,
-                border: '1px solid var(--border-color)',
-                cursor: 'pointer',
-              }}
+              className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--cream-2)] px-4 py-2.5 text-[0.875rem] font-medium text-[var(--ink)] transition-colors hover:border-[var(--atelier-accent)]/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
             >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
-              <span>Previous</span>
+              <span className="hidden sm:inline">Previous</span>
             </button>
           ) : (
-            <div style={{ width: '100px' }} />
+            <div className="w-10 sm:w-24" aria-hidden />
           )}
 
-          {/* Progress Info */}
-          <div
-            style={{
-              textAlign: 'center',
-              fontSize: '0.875rem',
-              color: 'var(--text-secondary)',
-            }}
-          >
+          <div className="text-center text-[0.8125rem] text-[var(--muted)]">
             {navigation?.progress.completedLessons} / {navigation?.progress.totalLessons} lessons
           </div>
 
-          {/* Next */}
           {navigation?.nextLesson ? (
             <button
+              type="button"
               onClick={() => {
                 router.push(`/courses/${course.slug}/${navigation.nextLesson!.lesson.slug}`);
               }}
               data-lenis-prevent
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '12px 24px',
-                backgroundColor: 'var(--accent)',
-                color: 'white',
-                borderRadius: '8px',
-                fontSize: '1rem',
-                fontWeight: 600,
-                border: 'none',
-                cursor: 'pointer',
-              }}
+              className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-[var(--ink)] px-5 py-2.5 text-[0.9375rem] font-semibold text-[var(--cream)] transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
             >
-              <span>Next Lesson</span>
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
+              <span>Next</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </button>
           ) : (
             <button
+              type="button"
               onClick={() => {
                 router.push(`/courses/${course.slug}`);
               }}
               data-lenis-prevent
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '12px 24px',
-                backgroundColor: '#10b981',
-                color: 'white',
-                borderRadius: '8px',
-                fontSize: '1rem',
-                fontWeight: 600,
-                border: 'none',
-                cursor: 'pointer',
-              }}
+              className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-emerald-500 px-5 py-2.5 text-[0.9375rem] font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
             >
-              <span>Finish Course</span>
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
+              <span>Finish</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </button>
           )}
         </nav>
-      </main>
+      </div>
     </div>
   );
 }

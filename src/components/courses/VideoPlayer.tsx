@@ -11,10 +11,8 @@ interface VideoPlayerProps {
 export function VideoPlayer({ videoUrl, provider = 'youtube', title }: VideoPlayerProps) {
   const [isLoading, setIsLoading] = useState(true);
 
-  // Extract video ID and create embed URL
   const getEmbedUrl = () => {
     if (provider === 'youtube') {
-      // Handle different YouTube URL formats
       const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
       const match = videoUrl.match(regExp);
       const videoId = match && match[2].length === 11 ? match[2] : null;
@@ -22,12 +20,10 @@ export function VideoPlayer({ videoUrl, provider = 'youtube', title }: VideoPlay
       if (videoId) {
         return `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`;
       }
-      // If already an embed URL, use it directly
       if (videoUrl.includes('youtube.com/embed/')) {
         return videoUrl;
       }
     } else if (provider === 'vimeo') {
-      // Handle Vimeo URLs
       const regExp = /vimeo\.com\/(?:.*#|.*\/videos\/)?([0-9]+)/;
       const match = videoUrl.match(regExp);
       const videoId = match ? match[1] : null;
@@ -40,64 +36,24 @@ export function VideoPlayer({ videoUrl, provider = 'youtube', title }: VideoPlay
   };
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        width: '100%',
-        paddingTop: '56.25%', // 16:9 aspect ratio
-        backgroundColor: '#000',
-        borderRadius: '12px',
-        overflow: 'hidden',
-      }}
-    >
+    <div className="relative w-full overflow-hidden rounded-xl border border-[var(--line)] bg-black pt-[56.25%]">
       {isLoading && (
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'var(--bg-secondary)',
-          }}
-        >
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-[var(--cream-2)]">
           <div
-            style={{
-              width: '40px',
-              height: '40px',
-              border: '3px solid var(--border-color)',
-              borderTopColor: 'var(--accent)',
-              borderRadius: '50%',
-              animation: 'spin 1s linear infinite',
-            }}
+            className="h-10 w-10 animate-spin rounded-full border-[3px] border-[var(--line)] border-t-[var(--atelier-accent)] motion-reduce:animate-none"
+            aria-hidden
           />
+          <span className="sr-only">Loading video</span>
         </div>
       )}
       <iframe
         src={getEmbedUrl()}
         title={title || 'Video lesson'}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          border: 'none',
-        }}
+        className="absolute inset-0 h-full w-full border-0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
         onLoad={() => setIsLoading(false)}
       />
-      <style jsx>{`
-        @keyframes spin {
-          to {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
     </div>
   );
 }

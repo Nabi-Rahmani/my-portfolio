@@ -1,10 +1,10 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Courses | codewithnabi',
+  title: 'Courses',
   description: 'Learn Flutter development with comprehensive courses. From beginner to production-ready apps.',
   openGraph: {
-    title: 'Courses | codewithnabi',
+    title: 'Courses — Muhammad Nabi Rahmani',
     description: 'Learn Flutter development with comprehensive courses.',
     type: 'website',
   },
