@@ -68,42 +68,45 @@ body {
   outline-offset: 2px;
 }
 
-/* Article prose styles */
+/* Article prose styles — Atelier reading surface */
 .article-content {
-  color: var(--text-primary);
+  color: var(--ink);
   font-size: 1.125rem;
   line-height: 1.8;
 }
 
 .article-content h2 {
+  font-family: var(--font-serif);
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 600;
   margin-top: 2.5rem;
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--accent);
-  color: var(--text-primary);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
   scroll-margin-top: 6rem;
+  letter-spacing: -0.01em;
 }
 
 .article-content h3 {
+  font-family: var(--font-serif);
   font-size: 1.25rem;
   font-weight: 600;
   margin-top: 2rem;
   margin-bottom: 0.75rem;
   padding-left: 0.75rem;
-  border-left: 3px solid var(--accent);
-  color: var(--text-primary);
+  border-left: 3px solid var(--atelier-accent);
+  color: var(--ink);
   scroll-margin-top: 6rem;
 }
 
 .article-content p {
   margin-bottom: 1.5rem;
-  color: var(--text-primary);
+  color: var(--ink-soft);
 }
 
 .article-content a {
-  color: var(--accent);
+  color: var(--atelier-accent);
   text-decoration: none;
   transition: text-decoration 0.2s;
 }
@@ -114,7 +117,7 @@ body {
 
 .article-content strong {
   font-weight: 600;
-  color: var(--text-primary);
+  color: var(--ink);
 }
 
 .article-content pre {
@@ -125,7 +128,7 @@ body {
   margin: 1.5rem 0;
   font-size: 0.875rem;
   line-height: 1.7;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--line);
 }
 
 .article-content pre code {
@@ -137,26 +140,28 @@ body {
 }
 
 .article-content :not(pre) > code {
-  background: var(--bg-secondary);
+  background: var(--cream-2);
   padding: 0.15rem 0.4rem;
   border-radius: 0.375rem;
   font-size: 0.875em;
-  color: var(--accent);
-  border: 1px solid var(--border-color);
+  color: var(--atelier-accent);
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
 }
 
 .article-content blockquote {
-  border-left: 4px solid var(--accent);
-  background: var(--accent-muted);
+  border-left: 3px solid var(--atelier-accent);
+  background: var(--accent-soft);
   padding: 1rem 1.25rem;
   margin: 1.5rem 0;
   border-radius: 0 0.5rem 0.5rem 0;
   font-style: italic;
-  color: var(--text-secondary);
+  color: var(--muted);
 }
 
 .article-content blockquote p {
   margin-bottom: 0;
+  color: var(--muted);
 }
 
 .article-content ul {
@@ -173,7 +178,7 @@ body {
 
 .article-content li {
   margin-bottom: 0.5rem;
-  color: var(--text-primary);
+  color: var(--ink-soft);
 }
 
 .article-content li > ul,
@@ -192,22 +197,22 @@ body {
 }
 
 .article-content th {
-  background: var(--bg-secondary);
+  background: var(--cream-2);
   font-weight: 600;
   text-align: left;
   padding: 0.75rem 1rem;
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
+  border: 1px solid var(--line);
+  color: var(--ink);
 }
 
 .article-content td {
   padding: 0.75rem 1rem;
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
 }
 
 .article-content tr:nth-child(even) {
-  background: var(--accent-muted);
+  background: color-mix(in srgb, var(--accent-soft) 60%, transparent);
 }
 
 .article-content img {
@@ -220,7 +225,7 @@ body {
 .article-content hr {
   border: none;
   height: 1px;
-  background: var(--border-color);
+  background: var(--line);
   margin: 2.5rem 0;
 }
 

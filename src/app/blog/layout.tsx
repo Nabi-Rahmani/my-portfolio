@@ -2,19 +2,19 @@ import type { Metadata } from "next";
 import BlogLayoutClient from "@/components/BlogLayoutClient";
 
 export const metadata: Metadata = {
-    title: 'Blog & Insights - Muhammad Nabi Rahmani',
-    description: 'Thoughts, tutorials, and experiences about Flutter development, programming, and building great mobile applications.',
-    keywords: ['Flutter blog', 'Mobile development tutorials', 'Programming insights', 'Flutter tutorials', 'Dart programming'],
+    title: 'Writing - Muhammad Nabi Rahmani',
+    description: 'Notes on Flutter development, mobile architecture, and shipping apps people actually use.',
+    keywords: ['Flutter blog', 'Mobile development tutorials', 'Programming insights', 'Flutter tutorials', 'Dart programming', 'Writing'],
     openGraph: {
-        title: 'Blog & Insights - Muhammad Nabi Rahmani',
-        description: 'Thoughts, tutorials, and experiences about Flutter development, programming, and building great mobile applications.',
+        title: 'Writing - Muhammad Nabi Rahmani',
+        description: 'Notes on Flutter development, mobile architecture, and shipping apps people actually use.',
         url: 'https://codewithnabi.dev/blog',
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Blog & Insights - Muhammad Nabi Rahmani',
-        description: 'Thoughts, tutorials, and experiences about Flutter development, programming, and building great mobile applications.',
+        title: 'Writing - Muhammad Nabi Rahmani',
+        description: 'Notes on Flutter development, mobile architecture, and shipping apps people actually use.',
     },
 };
 

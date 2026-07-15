@@ -1,13 +1,13 @@
 'use client';
 
 export default function BlogLayoutClient({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    return (
-        <div className="bg-[var(--bg-primary)] text-[var(--text-primary)] min-h-screen">
-            {children}
-        </div>
-    );
+  return (
+    <div className="bg-[var(--cream)] text-[var(--ink)] min-h-screen">
+      {children}
+    </div>
+  );
 }
