@@ -6,9 +6,16 @@ interface PhoneScreenshotProps {
   src: string;
   alt: string;
   className?: string;
+  /** Prefer true for the first above-the-fold project visual. */
+  priority?: boolean;
 }
 
-export default function PhoneScreenshot({ src, alt, className }: PhoneScreenshotProps) {
+export default function PhoneScreenshot({
+  src,
+  alt,
+  className,
+  priority = false,
+}: PhoneScreenshotProps) {
   return (
     <div
       className={className}
@@ -37,7 +44,7 @@ export default function PhoneScreenshot({ src, alt, className }: PhoneScreenshot
           fill
           style={{ objectFit: 'cover', objectPosition: 'top' }}
           sizes="280px"
-          priority={false}
+          priority={priority}
         />
       </div>
     </div>
