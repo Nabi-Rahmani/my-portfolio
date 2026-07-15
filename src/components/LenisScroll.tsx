@@ -7,7 +7,10 @@ import Lenis from 'lenis';
 declare global {
   interface Window {
     __lenis?: {
-      scrollTo: (target: HTMLElement | string, options?: { offset?: number; immediate?: boolean }) => void;
+      scrollTo: (
+        target: HTMLElement | string | number,
+        options?: { offset?: number; immediate?: boolean },
+      ) => void;
     };
   }
 }

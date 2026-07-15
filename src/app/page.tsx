@@ -6,10 +6,10 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { getAllProjects } from '@/data/projects';
 import { blogPosts } from '@/data/blog';
-import AtelierNav from '@/components/AtelierNav';
 import PhoneScreenshot from '@/components/PhoneScreenshot';
 import ScrollReveal from '@/components/ScrollReveal';
 import MouseGlow from '@/components/MouseGlow';
+import Footer from '@/components/Footer';
 import { siteConfig } from '@/config/site';
 
 const ContactForm = dynamic(() => import('@/components/ContactForm'));
@@ -31,14 +31,6 @@ const heroSocials = [
     icon: 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z',
   },
 ];
-
-declare global {
-  interface Window {
-    __lenis?: {
-      scrollTo: (target: HTMLElement | string, options?: { offset?: number; immediate?: boolean }) => void;
-    };
-  }
-}
 
 const allProjects = getAllProjects().slice(0, 3);
 const latestPosts = blogPosts.slice(0, 3);
@@ -72,7 +64,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[var(--cream)] text-[var(--ink)]">
       <MouseGlow />
-      <AtelierNav />
 
       {/* ── Hero ─────────────────────────────────────────────────────── */}
       <section
@@ -571,7 +562,7 @@ export default function Home() {
                   external: true,
                 },
                 { label: 'X / Twitter', href: 'https://x.com/nabirahmani_dev', external: true },
-                { label: 'Blog', href: '/blog', external: false },
+                { label: 'Writing', href: '/blog', external: false },
               ].map(({ label, href, external }) => (
                 <a
                   key={label}
@@ -587,54 +578,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Footer ───────────────────────────────────────────────────── */}
-      <footer className="border-t border-[var(--line)] py-6 px-6 md:px-12">
-        <div className="max-w-[1200px] mx-auto flex flex-wrap justify-between items-center gap-4">
-          <span
-            className="text-[11px] text-[var(--muted)]"
-            style={{ fontFamily: 'var(--font-mono)' }}
-          >
-            © 2026 Muhammad Nabi Rahmani · Crafted in Ankara
-          </span>
-          <div className="flex items-center gap-4">
-            {siteConfig.cvAvailable && (
-              <a
-                href={siteConfig.cvPath}
-                download
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[11px] text-[var(--muted)] hover:text-[var(--ink)] transition-colors no-underline"
-                style={{ fontFamily: 'var(--font-mono)' }}
-              >
-                Download CV
-              </a>
-            )}
-            <div className="flex items-center gap-1">
-              {heroSocials.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  title={social.label}
-                  className="p-1.5 rounded-lg text-[var(--muted)] hover:text-[var(--atelier-accent)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-                >
-                  <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
-                    <path d={social.icon} />
-                  </svg>
-                </a>
-              ))}
-            </div>
-          </div>
-          <span
-            className="text-[11px] text-[var(--muted)]"
-            style={{ fontFamily: 'var(--font-mono)' }}
-          >
-            v.atelier · 03
-          </span>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
