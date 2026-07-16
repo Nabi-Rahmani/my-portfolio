@@ -1,696 +1,278 @@
 'use client';
 
-import type { MouseEvent } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
-import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { getFeaturedProjects } from '@/data/projects';
-import { blogPosts } from '@/data/blog';
-import PhoneScreenshot from '@/components/PhoneScreenshot';
-import ScrollReveal from '@/components/ScrollReveal';
-import MouseGlow from '@/components/MouseGlow';
+import Image from 'next/image';
+import Link from 'next/link';
+import { motion, useReducedMotion } from 'framer-motion';
+
 import Footer from '@/components/Footer';
-import {
-  contactMailto,
-  hasCalendly,
-  hasCv,
-  hasWeb3FormsKey,
-  siteConfig,
-} from '@/config/site';
-import { scrollToHash, socialLinks } from '@/config/navigation';
+import ProjectAppIcon from '@/components/ProjectAppIcon';
+import CardImage from '@/components/ui/CardImage';
+import { getFeaturedPosts } from '@/data/blog';
+import { getFeaturedProjects } from '@/data/projects';
+import { contactMailto, hasCalendly, hasCv, hasWeb3FormsKey, siteConfig } from '@/config/site';
+import { fadeUpMotion } from '@/lib/animations';
 import { getValidStoreUrl } from '@/lib/links';
-import { atelierEase, selectTransition } from '@/lib/animations';
+import { cn } from '@/lib/utils';
 
 const ContactForm = dynamic(() => import('@/components/ContactForm'));
+const projects = getFeaturedProjects(3);
+const articles = getFeaturedPosts().slice(0, 3);
 
-/** Curated subset for home — full set lives on /projects */
-const curatedProjects = getFeaturedProjects(3);
-const latestPosts = blogPosts.slice(0, 3);
+const principles = [
+  {
+    number: '01',
+    title: 'Quiet by design',
+    body: 'Interfaces should reduce effort, make the next action obvious, and stay out of the user’s way.',
+  },
+  {
+    number: '02',
+    title: 'Local-first foundations',
+    body: 'Core product experiences remain dependable without asking the network for permission.',
+  },
+  {
+    number: '03',
+    title: 'Built to ship',
+    body: 'Architecture, polish, store readiness, and maintenance are treated as one product problem.',
+  },
+];
 
-/** Hiring-manager value lines (owner may refine — see work item copy notes). */
-const projectValueLines: Record<string, string> = {
-  'focus-flow':
-    'A calm focus timer for deep work — sessions, soundscapes, and analytics that stay out of the way.',
-  'dev-discipline':
-    'A 60-day discipline system for engineers who want habits that stick — not another empty streak counter.',
-  'mihrab-by-raha':
-    'A quiet Islamic companion for daily worship — prayer times, Quran, and Hijri calendar in one calm app.',
-};
-
-const platformLabel: Record<string, string> = {
-  ios: 'iOS',
-  android: 'Android',
-  both: 'Android · iOS planned',
-};
+function platformLabel(platform: 'ios' | 'android' | 'both') {
+  if (platform === 'android') return 'Android';
+  if (platform === 'ios') return 'iOS';
+  return 'Android · iOS planned';
+}
 
 export default function Home() {
   const reduceMotion = useReducedMotion();
-
-  const handleScrollTo =
-    (hash: string) => (event: MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
-      event.preventDefault();
-      scrollToHash(hash, reduceMotion);
-    };
-
-  const heroEnter = (delay: number) =>
-    selectTransition(reduceMotion, {
-      duration: 0.6,
-      delay,
-      ease: atelierEase,
-    });
+  const reveal = fadeUpMotion(reduceMotion);
 
   return (
     <div className="min-h-screen bg-[var(--cream)] text-[var(--ink)]">
-      <MouseGlow />
+      <section id="home" className="relative flex min-h-[min(940px,100svh)] items-center overflow-hidden px-6 pb-20 pt-28 md:px-12 lg:px-16" aria-label="Introduction">
+        <div className="organic-blob absolute -right-[12vw] top-[15%] h-[45vw] max-h-[620px] w-[45vw] max-w-[620px] opacity-70" aria-hidden />
+        <div className="editorial-dots absolute right-[6%] top-[18%] h-44 w-44" aria-hidden />
+        <div className="editorial-lines absolute bottom-[12%] left-[3%] h-28 w-28 opacity-70" aria-hidden />
 
-      {/* ── Hero — cold-land: who / stack / available / next step ───── */}
-      <section
-        id="home"
-        className="min-h-screen flex flex-col justify-between px-6 md:px-12 pt-28 md:pt-36 pb-12 md:pb-16"
-        aria-label="Introduction"
-      >
-        <div className="flex-1 flex flex-col justify-center max-w-[1200px] mx-auto w-full">
-          {/* Availability + role eyebrow */}
-          <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={heroEnter(0.08)}
-            className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-8 md:mb-10"
-          >
-            <span
-              className="inline-flex items-center gap-2 self-start rounded-[999px] border border-[var(--atelier-accent)]/40 bg-[var(--atelier-accent)]/10 px-3 py-1 text-[12px] font-medium text-[var(--atelier-accent)]"
-              style={{ fontFamily: 'var(--font-mono)' }}
-            >
-              <span
-                className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--atelier-accent)] motion-safe:animate-pulse"
-                aria-hidden
-              />
-              {siteConfig.availability}
-            </span>
-            <span
-              className="text-[13px] tracking-[0.12em] uppercase text-[var(--ink-soft)]"
-              style={{ fontFamily: 'var(--font-mono)' }}
-            >
-              Flutter · Mobile engineer · Ankara
-            </span>
+        <div className="relative z-10 mx-auto w-full max-w-[1320px]">
+          <motion.div initial="hidden" animate="visible" variants={reveal} custom={0}>
+            <div className="mb-8 flex flex-wrap items-center gap-3">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--cream)] px-4 py-2 text-[0.72rem] font-medium text-[var(--ink-soft)]">
+                <span className="h-2 w-2 rounded-full bg-[var(--atelier-accent)]" aria-hidden />
+                {siteConfig.availability}
+              </span>
+              <span className="editorial-kicker">Flutter · Mobile engineering · Ankara</span>
+            </div>
           </motion.div>
 
           <motion.h1
-            initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={heroEnter(0.16)}
-            className="mb-6 md:mb-8"
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontSize: 'clamp(64px, 12vw, 200px)',
-              lineHeight: 0.92,
-            }}
+            className="editorial-display max-w-[1120px] text-[clamp(4.3rem,12vw,10.5rem)] leading-[0.78]"
+            initial="hidden"
+            animate="visible"
+            variants={reveal}
+            custom={1}
           >
             Nabi
-            <br />
-            <em style={{ fontStyle: 'italic', color: 'var(--atelier-accent)' }}>Rahmani.</em>
+            <span className="block italic text-[var(--accent-ink)]">Rahmani.</span>
           </motion.h1>
 
-          <motion.p
-            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={heroEnter(0.28)}
-            className="max-w-[34rem] leading-relaxed text-[var(--ink-soft)]"
-            style={{
-              fontFamily: 'var(--font-serif)',
-              fontStyle: 'italic',
-              fontSize: 'clamp(17px, 1.5vw, 22px)',
-            }}
+          <motion.div
+            className="mt-12 grid max-w-[1120px] gap-8 md:grid-cols-[1.3fr_1fr] md:items-end"
+            initial="hidden"
+            animate="visible"
+            variants={reveal}
+            custom={2}
           >
-            I build Flutter apps that feel inevitable — offline-first, cleanly architected, and{' '}
-            <span style={{ color: 'var(--atelier-accent)' }}>actually shipped</span> to real users.
-          </motion.p>
+            <p className="max-w-[700px] text-[clamp(1.35rem,3vw,2.3rem)] leading-[1.22] tracking-[-0.03em] text-[var(--ink-soft)]">
+              I build thoughtful Flutter products with calm interfaces, local-first foundations, and production architecture.
+            </p>
+            <div className="flex flex-wrap gap-3 md:justify-end">
+              <Link href="/projects" className="inline-flex items-center gap-3 rounded-full bg-[var(--ink)] px-6 py-3.5 text-[0.9rem] font-medium text-[var(--cream)] no-underline transition-transform motion-safe:hover:-translate-y-1">
+                Explore the work
+                <span aria-hidden>↗</span>
+              </Link>
+              <Link href="/#contact" className="inline-flex items-center rounded-full border border-[var(--line)] bg-[var(--cream)] px-6 py-3.5 text-[0.9rem] font-medium text-[var(--ink)] no-underline transition-colors hover:border-[var(--atelier-accent)]">
+                Start a conversation
+              </Link>
+            </div>
+          </motion.div>
 
-          <motion.p
-            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={heroEnter(0.36)}
-            className="mt-4 max-w-[32rem] text-[14px] leading-relaxed text-[var(--muted)]"
+          <motion.div
+            className="mt-14 flex flex-wrap gap-x-8 gap-y-3 border-t border-[var(--line)] pt-5"
+            initial="hidden"
+            animate="visible"
+            variants={reveal}
+            custom={3}
           >
-            Hiring for a Flutter / mobile engineer? Here is selected work, then a straight path to
-            reach me.
-          </motion.p>
-        </div>
-
-        {/* Proof chips + dual CTAs */}
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={heroEnter(0.44)}
-          className="flex flex-wrap items-end justify-between gap-8 max-w-[1200px] mx-auto w-full mt-14 md:mt-16"
-        >
-          {/* Honest identity chips — not invented social-proof metrics */}
-          <div className="flex items-center">
-            {[
-              { value: '3+', label: 'years shipping' },
-              { value: '3', label: 'apps on Play' },
-              { value: '∞', label: 'çay' },
-            ].map((stat, i) => (
-              <div key={stat.label} className="flex items-center">
-                {i > 0 && (
-                  <div className="w-px h-10 bg-[var(--line)] mx-4 md:mx-6 shrink-0" aria-hidden />
-                )}
-                <div className="text-left sm:text-center">
-                  <div
-                    className="leading-none mb-1"
-                    style={{
-                      fontFamily: 'var(--font-serif)',
-                      fontStyle: 'italic',
-                      fontSize: 'clamp(22px, 2.8vw, 30px)',
-                    }}
-                  >
-                    {stat.value}
-                  </div>
-                  <div
-                    className="text-[10px] tracking-[0.08em] uppercase text-[var(--muted)]"
-                    style={{ fontFamily: 'var(--font-mono)' }}
-                  >
-                    {stat.label}
-                  </div>
-                </div>
-              </div>
+            {['Flutter & Dart', 'Riverpod', 'Offline-first', `${projects.length} shipped apps`].map((item) => (
+              <span key={item} className="text-[0.75rem] text-[var(--muted)]">{item}</span>
             ))}
+          </motion.div>
+        </div>
+      </section>
+
+      <section id="projects" className="border-t border-[var(--line)] px-6 py-24 md:px-12 md:py-32 lg:px-16" aria-label="Selected projects">
+        <div className="mx-auto max-w-[1320px]">
+          <div className="mb-14 grid gap-6 md:grid-cols-[1fr_1.2fr] md:items-end">
+            <div>
+              <p className="editorial-kicker mb-5">Selected work · 2024—2026</p>
+              <h2 className="editorial-display text-[clamp(3rem,6vw,5.5rem)] leading-[0.92]">Three products.<br />Three stories.</h2>
+            </div>
+            <p className="max-w-[520px] text-[1rem] leading-[1.75] text-[var(--muted)] md:justify-self-end">
+              Each app has its own focused landing page with real screenshots, features, technical stack, and release status.
+            </p>
           </div>
 
-          <div className="flex flex-col items-stretch sm:items-end gap-4">
-            <div className="flex flex-wrap items-center gap-3">
-              <a
-                href="#projects"
-                onClick={handleScrollTo('#projects')}
-                className="atelier-cta inline-flex items-center gap-1.5 rounded-[999px] bg-[var(--ink)] text-[var(--cream)] text-[15px] font-medium no-underline px-6 py-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-              >
-                View selected work
-                <span aria-hidden="true">→</span>
-              </a>
-              <a
-                href="#contact"
-                onClick={handleScrollTo('#contact')}
-                className="inline-flex items-center rounded-[999px] border border-[var(--line)] text-[var(--ink)] text-[15px] font-medium no-underline px-6 py-3 hover:border-[var(--ink)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-              >
-                Get in touch
-              </a>
-              {hasCv() && (
-                <a
-                  href={siteConfig.cvPath}
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center rounded-[999px] border border-[var(--line)] text-[var(--ink)] text-[15px] font-medium no-underline px-6 py-3 hover:border-[var(--ink)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+          <div className="grid gap-7 lg:grid-cols-3">
+            {projects.map((project, index) => {
+              const playStoreUrl = getValidStoreUrl(project.links.playStore);
+              return (
+                <motion.article
+                  key={project.id}
+                  className="group overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[var(--cream)] shadow-[var(--shadow-sm)] transition-[transform,box-shadow] duration-500 motion-safe:hover:-translate-y-2 hover:shadow-[var(--shadow-md)]"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-60px' }}
+                  variants={reveal}
+                  custom={index}
                 >
-                  Download CV
-                </a>
-              )}
-            </div>
-
-            <div className="flex items-center gap-1 self-end">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  title={social.label}
-                  className="p-2 rounded-lg text-[var(--muted)] hover:text-[var(--atelier-accent)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-                >
-                  <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
-                    <path d={social.icon} />
-                  </svg>
-                </a>
-              ))}
-            </div>
+                  <Link href={`/projects/${project.slug}`} className="block no-underline">
+                    <CardImage src={project.coverImage} alt={`${project.title} — ${project.subtitle}`} aspectRatio="16/10" sizes="(max-width: 1024px) 100vw, 33vw" priority={index === 0} />
+                  </Link>
+                  <div className="p-7 md:p-8">
+                    <div className="mb-6 flex items-center justify-between gap-4">
+                      <ProjectAppIcon title={project.title} iconLight={project.iconLight} iconDark={project.iconDark} size="sm" />
+                      <span className="editorial-kicker text-right">{platformLabel(project.platform)}</span>
+                    </div>
+                    <Link href={`/projects/${project.slug}`} className="block no-underline">
+                      <h3 className="editorial-display text-[clamp(2.25rem,4vw,3.4rem)] leading-[0.95] text-[var(--ink)]">{project.title}</h3>
+                      <p className="mt-4 min-h-[3.5rem] text-[0.95rem] leading-[1.65] text-[var(--muted)]">{project.subtitle}</p>
+                    </Link>
+                    <div className="mt-6 flex flex-wrap gap-2">
+                      {project.techStack.slice(0, 3).map((tech) => <span key={tech} className="rounded-full border border-[var(--line)] px-3 py-1 text-[0.68rem] text-[var(--muted)]">{tech}</span>)}
+                    </div>
+                    <div className="mt-8 flex items-center justify-between gap-4 border-t border-[var(--line)] pt-5">
+                      <Link href={`/projects/${project.slug}`} aria-label={`View ${project.title} project`} data-testid={`view-project-${project.slug}`} className="text-[0.84rem] font-semibold text-[var(--ink)] underline decoration-[var(--atelier-accent)] decoration-2 underline-offset-4">View project</Link>
+                      {playStoreUrl && <span className="text-[0.68rem] text-[var(--muted)]">Live on Play</span>}
+                    </div>
+                  </div>
+                </motion.article>
+              );
+            })}
           </div>
-        </motion.div>
-      </section>
 
-      {/* ── Projects — curated proof ─────────────────────────────────── */}
-      <section id="projects" className="py-24 md:py-32 px-6 md:px-12" aria-label="Selected work">
-        <div className="max-w-[1200px] mx-auto mb-14 md:mb-20">
-          <ScrollReveal>
-            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-              <div>
-                <span
-                  className="block text-[11px] tracking-[0.22em] uppercase text-[var(--muted)] mb-3"
-                  style={{ fontFamily: 'var(--font-mono)' }}
-                >
-                  [ Selected Work ]
-                </span>
-                <p
-                  className="max-w-[28rem] text-[var(--ink-soft)] m-0"
-                  style={{
-                    fontFamily: 'var(--font-serif)',
-                    fontStyle: 'italic',
-                    fontSize: 'clamp(18px, 2vw, 22px)',
-                  }}
-                >
-                  Real apps on Google Play — not concept decks.
-                </p>
-              </div>
-              <Link
-                href="/projects"
-                className="text-[13px] font-medium text-[var(--ink)] hover:text-[var(--atelier-accent)] transition-colors no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)] shrink-0"
-              >
-                All projects →
-              </Link>
-            </div>
-          </ScrollReveal>
-        </div>
-
-        <div className="max-w-[1200px] mx-auto flex flex-col gap-24 md:gap-32">
-          {curatedProjects.map((project, i) => {
-            const isEven = i % 2 === 0;
-            const description = projectValueLines[project.slug] ?? project.subtitle;
-            const playStore = getValidStoreUrl(project.links.playStore);
-            const appStore = getValidStoreUrl(project.links.appStore);
-            const wantsIos = project.platform === 'ios' || project.platform === 'both';
-            const techPreview = project.techStack.slice(0, 4);
-            const featurePreview = project.features.slice(0, 4);
-
-            return (
-              <ScrollReveal key={project.id}>
-                <article
-                  className={`flex flex-col ${
-                    isEven ? 'md:flex-row' : 'md:flex-row-reverse'
-                  } gap-12 md:gap-16 items-center`}
-                >
-                  <div className="shrink-0">
-                    <motion.div
-                      whileHover={
-                        reduceMotion
-                          ? undefined
-                          : { y: -8, rotate: isEven ? -1.5 : 1.5 }
-                      }
-                      transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
-                    >
-                      <PhoneScreenshot
-                        src={project.screenshots[0]}
-                        alt={`${project.title} app screenshot`}
-                        priority={i === 0}
-                      />
-                    </motion.div>
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <div
-                      className="text-[13px] text-[var(--muted)] mb-3 tracking-[0.1em]"
-                      style={{ fontFamily: 'var(--font-mono)' }}
-                    >
-                      {String(i + 1).padStart(3, '0')}
-                      <span className="mx-2 opacity-40">·</span>
-                      {platformLabel[project.platform] ?? project.platform}
-                    </div>
-                    <h2
-                      className="mb-4 leading-tight"
-                      style={{
-                        fontFamily: 'var(--font-serif)',
-                        fontSize: 'clamp(36px, 5vw, 64px)',
-                      }}
-                    >
-                      {project.title}
-                    </h2>
-                    <p className="text-[15px] text-[var(--ink-soft)] leading-[1.6] mb-5 max-w-[480px]">
-                      {description}
-                    </p>
-
-                    {/* Stack cues — scannable proof of how it was built */}
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {techPreview.map((tech) => (
-                        <span
-                          key={tech}
-                          className="border border-[var(--line)] text-[var(--muted)] rounded-[999px] px-3 py-0.5 text-[11px] tracking-[0.04em]"
-                          style={{ fontFamily: 'var(--font-mono)' }}
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Feature highlights (trimmed to reduce clutter) */}
-                    <div className="flex flex-wrap gap-2 mb-5">
-                      {featurePreview.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-[12px] text-[var(--ink-soft)]"
-                        >
-                          <span className="text-[var(--atelier-accent)] mr-1" aria-hidden>
-                            ·
-                          </span>
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    {project.badges && project.badges.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-6">
-                        {project.badges.map((badge) => (
-                          <span
-                            key={badge}
-                            className="border border-[var(--atelier-accent)] text-[var(--atelier-accent)] rounded-[999px] px-3 py-0.5 text-[11px] tracking-[0.04em]"
-                            style={{ fontFamily: 'var(--font-mono)' }}
-                          >
-                            {badge}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
-                    <div className="flex flex-wrap gap-5 items-center">
-                      <Link
-                        href={`/projects/${project.slug}`}
-                        className="text-[13px] font-medium text-[var(--ink)] hover:text-[var(--atelier-accent)] transition-colors no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-                      >
-                        View project →
-                      </Link>
-                      {playStore && (
-                        <a
-                          href={playStore}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[13px] text-[var(--muted)] hover:text-[var(--ink)] transition-colors no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-                        >
-                          Play Store ↗
-                        </a>
-                      )}
-                      {appStore && (
-                        <a
-                          href={appStore}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[13px] text-[var(--muted)] hover:text-[var(--ink)] transition-colors no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-                        >
-                          App Store ↗
-                        </a>
-                      )}
-                      {wantsIos && !appStore && (
-                        <span className="text-[13px] text-[var(--muted)] opacity-50">
-                          iOS not released
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </article>
-              </ScrollReveal>
-            );
-          })}
+          <div className="mt-12 text-center">
+            <Link href="/projects" className="inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-6 py-3 text-[0.85rem] font-medium text-[var(--ink)] no-underline hover:border-[var(--atelier-accent)]">All project details <span aria-hidden>→</span></Link>
+          </div>
         </div>
       </section>
 
-      {/* ── About preview ────────────────────────────────────────────── */}
-      <section id="about" className="py-24 md:py-32 px-6 md:px-12" aria-label="About">
-        <div className="max-w-[1200px] mx-auto">
-          <ScrollReveal>
-            <div className="flex items-end justify-between mb-16 md:mb-20">
-              <span
-                className="text-[11px] tracking-[0.22em] uppercase text-[var(--muted)]"
-                style={{ fontFamily: 'var(--font-mono)' }}
-              >
-                [ About ]
-              </span>
-              <Link
-                href="/about"
-                className="text-[13px] font-medium text-[var(--ink)] hover:text-[var(--atelier-accent)] transition-colors no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-              >
-                Full story →
-              </Link>
+      <section className="border-t border-[var(--line)] px-6 py-24 md:px-12 md:py-32 lg:px-16" aria-label="Engineering principles">
+        <div className="mx-auto max-w-[1320px]">
+          <div className="mb-16 grid gap-6 md:grid-cols-2 md:items-end">
+            <div>
+              <p className="editorial-kicker mb-5">How I build</p>
+              <h2 className="editorial-display text-[clamp(3rem,6vw,5.8rem)] leading-[0.92]">Design discipline.<br />Engineering depth.</h2>
             </div>
-          </ScrollReveal>
-          <ScrollReveal>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-start">
-              <p
-                className="leading-tight text-[var(--atelier-accent)] m-0"
-                style={{
-                  fontFamily: 'var(--font-serif)',
-                  fontStyle: 'italic',
-                  fontSize: 'clamp(36px, 4.5vw, 64px)',
-                }}
+            <p className="max-w-[540px] text-[1.05rem] leading-[1.75] text-[var(--muted)] md:justify-self-end">
+              A senior mobile workflow means thinking beyond screens: data ownership, failure states, maintainability, store delivery, and the feel of every interaction.
+            </p>
+          </div>
+
+          <div className="grid border-y border-[var(--line)] md:grid-cols-3">
+            {principles.map((principle, index) => (
+              <motion.div
+                key={principle.number}
+                className={cn('py-10 md:px-8 md:py-12', index > 0 && 'border-t border-[var(--line)] md:border-l md:border-t-0')}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={reveal}
+                custom={index}
               >
-                Craft over speed.
-                <br />
-                Ideally both.
-              </p>
-
-              <div>
-                <p className="text-[15px] text-[var(--ink-soft)] leading-[1.65] mb-6">
-                  I&apos;m Nabi — a Flutter developer from Mazar-i-Sharif, Afghanistan, now based in
-                  Ankara. I ship mobile products that stay maintainable after launch:{' '}
-                  <strong className="font-semibold text-[var(--ink)]">clean architecture</strong>,{' '}
-                  <strong className="font-semibold text-[var(--ink)]">offline-first reliability</strong>,
-                  and a healthy distrust of feature creep. If you&apos;re hiring for someone who
-                  finishes apps — not just prototypes — I&apos;d like to talk.
-                </p>
-                <dl className="flex flex-col gap-3 mb-8">
-                  {[
-                    { label: 'Based', value: 'Ankara, Turkey · GMT+3' },
-                    { label: 'Stack', value: 'Flutter · Dart · Riverpod · Drift · Firebase' },
-                    { label: 'Status', value: siteConfig.availability, accent: true },
-                    { label: 'Speaks', value: 'English · Persian (Dari) · Turkish' },
-                  ].map(({ label, value, accent }) => (
-                    <div key={label} className="flex gap-6">
-                      <dt
-                        className="text-[11px] tracking-[0.1em] uppercase text-[var(--muted)] w-16 shrink-0 pt-0.5"
-                        style={{ fontFamily: 'var(--font-mono)' }}
-                      >
-                        {label}
-                      </dt>
-                      <dd
-                        className={`text-[15px] m-0 ${
-                          accent
-                            ? 'text-[var(--atelier-accent)] font-medium'
-                            : 'text-[var(--ink)]'
-                        }`}
-                      >
-                        {value}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-                <a
-                  href="#contact"
-                  onClick={handleScrollTo('#contact')}
-                  className="inline-flex items-center gap-1.5 text-[14px] font-medium text-[var(--ink)] no-underline hover:text-[var(--atelier-accent)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-                >
-                  Let&apos;s talk
-                  <span aria-hidden>→</span>
-                </a>
-              </div>
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* ── Stack strip ──────────────────────────────────────────────── */}
-      <section className="pb-24 md:pb-32 px-6 md:px-12" aria-label="Technology stack">
-        <div className="max-w-[1200px] mx-auto">
-          <ScrollReveal>
-            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 py-8 border-t border-b border-[var(--line)]">
-              {[
-                'Flutter',
-                'Dart',
-                'Riverpod',
-                'Drift',
-                'Supabase',
-                'RevenueCat',
-                'GitHub Actions',
-                'Next.js',
-              ].map((tech) => (
-                <span
-                  key={tech}
-                  className="text-[13px] tracking-[0.06em] uppercase text-[var(--muted)]"
-                  style={{ fontFamily: 'var(--font-mono)' }}
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </ScrollReveal>
-        </div>
-      </section>
-
-      {/* ── Writing ──────────────────────────────────────────────────── */}
-      <section id="blog" className="py-24 md:py-32 px-6 md:px-12" aria-label="Writing">
-        <div className="max-w-[1200px] mx-auto">
-          <ScrollReveal>
-            <div className="flex items-end justify-between mb-16 md:mb-20">
-              <div>
-                <span
-                  className="block text-[11px] tracking-[0.22em] uppercase text-[var(--muted)] mb-2"
-                  style={{ fontFamily: 'var(--font-mono)' }}
-                >
-                  [ Writing ]
-                </span>
-                <p className="text-[14px] text-[var(--muted)] m-0 max-w-sm">
-                  Practical notes on Flutter production, architecture, and shipping.
-                </p>
-              </div>
-              <Link
-                href="/blog"
-                className="text-[13px] font-medium text-[var(--ink)] hover:text-[var(--atelier-accent)] transition-colors no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)] shrink-0"
-              >
-                All posts →
-              </Link>
-            </div>
-          </ScrollReveal>
-
-          <div className="flex flex-col divide-y divide-[var(--line)]">
-            {latestPosts.map((post, i) => (
-              <ScrollReveal key={post.id} delay={reduceMotion ? 0 : i * 0.08}>
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="group flex flex-col md:flex-row md:items-baseline gap-3 md:gap-10 py-8 no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-                >
-                  <div
-                    className="shrink-0 text-[11px] tracking-[0.1em] uppercase text-[var(--muted)] w-36"
-                    style={{ fontFamily: 'var(--font-mono)' }}
-                  >
-                    {new Date(post.publishedAt).toLocaleDateString('en-GB', {
-                      day: '2-digit',
-                      month: 'short',
-                      year: 'numeric',
-                    })}
-                    <span className="mx-2 opacity-40">·</span>
-                    {post.readingTime} min
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <h3
-                      className="text-[var(--ink)] group-hover:text-[var(--atelier-accent)] transition-colors duration-200 leading-snug mb-2"
-                      style={{
-                        fontFamily: 'var(--font-serif)',
-                        fontSize: 'clamp(18px, 2vw, 24px)',
-                      }}
-                    >
-                      {post.title}
-                    </h3>
-                    <p className="text-[14px] text-[var(--muted)] leading-[1.55] line-clamp-2 m-0">
-                      {post.excerpt}
-                    </p>
-                  </div>
-
-                  <span
-                    className="shrink-0 text-[var(--muted)] group-hover:text-[var(--atelier-accent)] motion-safe:group-hover:translate-x-1 transition-all duration-200 hidden md:block"
-                    aria-hidden="true"
-                  >
-                    →
-                  </span>
-                </Link>
-              </ScrollReveal>
+                <span className="editorial-kicker text-[var(--accent-ink)]">{principle.number}</span>
+                <h3 className="mt-8 text-[1.2rem] font-semibold">{principle.title}</h3>
+                <p className="mt-3 text-[0.9rem] leading-[1.7] text-[var(--muted)]">{principle.body}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Contact ──────────────────────────────────────────────────── */}
-      <section id="contact" className="py-24 md:py-32 px-6 md:px-12" aria-label="Contact">
-        <div className="max-w-[1200px] mx-auto">
-          <ScrollReveal>
-            <span
-              className="block text-[11px] tracking-[0.22em] uppercase text-[var(--muted)] mb-4"
-              style={{ fontFamily: 'var(--font-mono)' }}
-            >
-              [ Get in Touch ]
-            </span>
-            <h2
-              className="mb-4 text-[var(--ink)] leading-tight"
-              style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: 'clamp(28px, 4vw, 44px)',
-              }}
-            >
-              Have a role or project in mind?
+      <section id="about" className="border-t border-[var(--line)] bg-[var(--cream-2)] px-6 py-24 md:px-12 md:py-32 lg:px-16" aria-label="About Nabi">
+        <div className="mx-auto grid max-w-[1320px] gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
+          <div>
+            <p className="editorial-kicker mb-6">About</p>
+            <h2 className="editorial-display max-w-[850px] text-[clamp(3.2rem,7vw,7rem)] leading-[0.9]">
+              Product thinking, expressed through Flutter.
             </h2>
-            <p
-              className="mb-3 text-[15px] font-medium text-[var(--atelier-accent)]"
-              style={{ fontFamily: 'var(--font-mono)' }}
-            >
-              {siteConfig.availability}
+          </div>
+          <div>
+            <p className="text-[1.05rem] leading-[1.8] text-[var(--ink-soft)]">
+              I’m a Flutter engineer based in Ankara, focused on turning thoughtful ideas into dependable mobile products. My work spans interface design, local-first architecture, subscriptions, analytics, and the final details required to ship.
             </p>
-            <p className="mb-12 md:mb-16 max-w-[36rem] text-[15px] text-[var(--ink-soft)] leading-relaxed">
-              Freelance, full-time remote, or a collaboration — tell me what you&apos;re building.
-              I reply personally.
-            </p>
-          </ScrollReveal>
+            <Link href="/about" className="mt-8 inline-flex items-center gap-2 font-semibold text-[var(--ink)] underline decoration-[var(--atelier-accent)] decoration-2 underline-offset-4">
+              Read my story <span aria-hidden>↗</span>
+            </Link>
+          </div>
+        </div>
+      </section>
 
-          {hasWeb3FormsKey() ? (
-            <ScrollReveal>
-              <div className="mb-12">
-                <ContactForm />
+      {articles.length > 0 && (
+        <section id="blog" className="border-t border-[var(--line)] px-6 py-24 md:px-12 md:py-32 lg:px-16" aria-label="Selected articles">
+          <div className="mx-auto max-w-[1320px]">
+            <div className="mb-14 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="editorial-kicker mb-5">Articles</p>
+                <h2 className="editorial-display text-[clamp(3rem,6vw,5.5rem)] leading-[0.9]">Notes from the work.</h2>
               </div>
-            </ScrollReveal>
-          ) : (
-            <ScrollReveal>
-              <p className="mb-8 max-w-[560px] text-[15px] text-[var(--ink-soft)] leading-relaxed">
-                Prefer email? Reach me directly — I read every message.
-              </p>
-            </ScrollReveal>
-          )}
-
-          <ScrollReveal>
-            <div className="mb-12">
-              <a
-                href={contactMailto()}
-                className="block no-underline group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-              >
-                <span
-                  className="block text-[var(--ink)] group-hover:text-[var(--atelier-accent)] transition-colors duration-300 leading-none break-words"
-                  style={{
-                    fontFamily: 'var(--font-serif)',
-                    fontStyle: 'italic',
-                    fontSize: 'clamp(28px, 7vw, 120px)',
-                  }}
-                >
-                  {siteConfig.contactEmail}
-                  <span
-                    className="inline-block motion-safe:group-hover:translate-x-1 motion-safe:group-hover:-translate-y-1 transition-transform duration-300"
-                    style={{ fontSize: '0.4em', verticalAlign: 'super', marginLeft: '6px' }}
-                    aria-hidden="true"
-                  >
-                    ↗
-                  </span>
-                </span>
-              </a>
+              <Link href="/blog" className="text-[0.9rem] font-semibold text-[var(--ink)] underline decoration-[var(--atelier-accent)] decoration-2 underline-offset-4">All articles</Link>
             </div>
 
-            {hasCalendly() && (
-              <div className="mb-8">
-                <a
-                  href={siteConfig.calendlyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center rounded-[999px] bg-[var(--ink)] text-[var(--cream)] text-[15px] font-medium no-underline px-6 py-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-                >
-                  Book a 15-min call
-                  <span aria-hidden="true" className="ml-1">
-                    ↗
-                  </span>
+            <div className="grid gap-10 md:grid-cols-3">
+              {articles.map((post, index) => (
+                <motion.article key={post.id} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={reveal} custom={index}>
+                  <Link href={`/blog/${post.slug}`} className="group block no-underline">
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem] bg-[var(--cream-2)]">
+                      <Image src={post.coverImage} alt={post.title} fill className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.02]" sizes="(max-width: 768px) 100vw, 33vw" />
+                    </div>
+                    <div className="mt-5 flex items-center gap-3 text-[0.7rem] text-[var(--muted)]">
+                      <span>{post.category}</span><span aria-hidden>·</span><span>{post.readingTime} min</span>
+                    </div>
+                    <h3 className="mt-3 text-[1.25rem] font-semibold leading-[1.35] text-[var(--ink)] transition-colors group-hover:text-[var(--accent-ink)]">{post.title}</h3>
+                    <p className="mt-3 line-clamp-3 text-[0.88rem] leading-[1.7] text-[var(--muted)]">{post.excerpt}</p>
+                  </Link>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section id="contact" className="border-t border-[var(--line)] bg-[var(--cream-2)] px-6 py-24 md:px-12 md:py-32 lg:px-16" aria-label="Contact">
+        <div className="mx-auto grid max-w-[1320px] gap-14 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <p className="editorial-kicker mb-6">Contact</p>
+            <h2 className="editorial-display text-[clamp(3.2rem,7vw,7rem)] leading-[0.88]">Let’s build something considered.</h2>
+            <p className="mt-8 max-w-[500px] text-[1rem] leading-[1.8] text-[var(--muted)]">{siteConfig.availability}. Tell me about the product, team, or problem you’re working on.</p>
+            <div className="mt-8 flex flex-wrap gap-4 text-[0.82rem]">
+              <a href={contactMailto()} className="font-semibold text-[var(--ink)] underline decoration-[var(--atelier-accent)] decoration-2 underline-offset-4">{siteConfig.contactEmail}</a>
+              {hasCalendly() && <a href={siteConfig.calendlyUrl} target="_blank" rel="noopener noreferrer" className="text-[var(--ink)]">Book a call</a>}
+              {hasCv() && <a href={siteConfig.cvPath} target="_blank" rel="noopener noreferrer" className="text-[var(--ink)]">Resume</a>}
+            </div>
+          </div>
+          <div className="rounded-[2rem] border border-[var(--line)] bg-[var(--cream)] p-6 shadow-[var(--shadow-sm)] md:p-10">
+            {hasWeb3FormsKey() ? (
+              <ContactForm />
+            ) : (
+              <div className="flex min-h-[300px] flex-col justify-between">
+                <p className="editorial-display text-[clamp(2rem,4vw,3.4rem)] leading-[1.05]">A direct note is the best place to start.</p>
+                <a href={contactMailto({ subject: 'Portfolio inquiry' })} className="mt-12 inline-flex w-fit items-center gap-3 rounded-full bg-[var(--ink)] px-6 py-3.5 text-[0.9rem] font-medium text-[var(--cream)] no-underline transition-transform motion-safe:hover:-translate-y-1">
+                  Write an email <span aria-hidden>↗</span>
                 </a>
               </div>
             )}
-
-            <div className="flex flex-wrap gap-3">
-              {[
-                ...socialLinks.map((s) => ({
-                  label: s.label,
-                  href: s.href,
-                  external: true as const,
-                })),
-                { label: 'Writing', href: '/blog', external: false as const },
-              ].map(({ label, href, external }) => (
-                <a
-                  key={label}
-                  href={href}
-                  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  className="border border-[var(--line)] rounded-[999px] px-4 py-1.5 text-[13px] text-[var(--muted)] no-underline hover:bg-[var(--ink)] hover:text-[var(--cream)] hover:border-[var(--ink)] transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-                >
-                  {label}
-                </a>
-              ))}
-            </div>
-          </ScrollReveal>
+          </div>
         </div>
       </section>
 

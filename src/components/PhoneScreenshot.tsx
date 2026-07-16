@@ -29,7 +29,6 @@ export default function PhoneScreenshot({
         overflow: 'hidden',
       }}
     >
-      {/* Inner screen — no notch; screenshots include their own status bar */}
       <div
         style={{
           position: 'absolute',

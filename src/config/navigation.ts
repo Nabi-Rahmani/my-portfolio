@@ -1,35 +1,31 @@
-/**
- * Site-wide navigation IA for the Portfolio Quality Pass.
- * Visitor-facing blog label is Writing; route remains /blog.
- * Courses stays in main nav without dominating the hiring path.
- */
-
-export type NavId = 'projects' | 'writing' | 'about' | 'contact' | 'courses';
+export type NavId = 'home' | 'projects' | 'articles' | 'github' | 'about' | 'contact';
 
 export interface NavItem {
   id: NavId;
   label: string;
-  /** Real route used off-home (and as progressive-enhancement href on home). */
   href: string;
-  /** Home section hash when a matching section exists on `/`. */
   hash?: string;
+  external?: boolean;
 }
 
-/** Primary main-nav destinations (order: hiring path first, Courses last among primaries). */
 export const primaryNav: NavItem[] = [
-  { id: 'projects', label: 'Projects', href: '/projects', hash: '#projects' },
-  { id: 'writing', label: 'Writing', href: '/blog', hash: '#blog' },
-  { id: 'about', label: 'About', href: '/about', hash: '#about' },
+  { id: 'home', label: 'Home', href: '/' },
+  { id: 'projects', label: 'Projects', href: '/projects' },
+  { id: 'articles', label: 'Articles', href: '/blog' },
+  {
+    id: 'github',
+    label: 'GitHub',
+    href: 'https://github.com/Nabi-Rahmani',
+    external: true,
+  },
+  { id: 'about', label: 'About', href: '/about' },
   { id: 'contact', label: 'Contact', href: '/#contact', hash: '#contact' },
-  { id: 'courses', label: 'Courses', href: '/courses' },
 ];
 
-/** Footer primary destinations + secondary pages (same labels as nav where shared). */
 export const footerNav: { label: string; href: string }[] = [
   { label: 'Projects', href: '/projects' },
-  { label: 'Writing', href: '/blog' },
+  { label: 'Articles', href: '/blog' },
   { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/#contact' },
   { label: 'Courses', href: '/courses' },
   { label: 'Now', href: '/now' },
   { label: 'Uses', href: '/uses' },
@@ -50,11 +46,6 @@ export const socialLinks: {
     href: 'https://www.linkedin.com/in/muhammad-nabi-rahmani-%F0%9F%87%B5%F0%9F%87%B8-8945b21ba/',
     icon: 'M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z',
   },
-  {
-    label: 'X (Twitter)',
-    href: 'https://x.com/nabirahmani_dev',
-    icon: 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z',
-  },
 ];
 
 declare global {
@@ -68,24 +59,17 @@ declare global {
   }
 }
 
-/** Smooth-scroll to a hash target when present (Lenis-aware). */
 export function scrollToHash(hash: string, reduceMotion?: boolean | null): boolean {
   if (typeof window === 'undefined' || !hash) return false;
   const target = document.querySelector(hash) as HTMLElement | null;
   if (!target) return false;
 
-  const lenis = window.__lenis;
-  if (lenis && typeof lenis.scrollTo === 'function') {
-    lenis.scrollTo(target, { offset: -80, immediate: !!reduceMotion });
+  if (window.__lenis) {
+    window.__lenis.scrollTo(target, { offset: -80, immediate: !!reduceMotion });
   } else {
-    target.scrollIntoView({
-      behavior: reduceMotion ? 'auto' : 'smooth',
-      block: 'start',
-    });
+    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
   }
 
-  if (window.location.hash !== hash) {
-    window.history.pushState(null, '', hash);
-  }
+  if (window.location.hash !== hash) window.history.pushState(null, '', hash);
   return true;
 }

@@ -32,7 +32,7 @@ export default function CardImage({
         sizes={sizes}
         priority={priority}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[var(--ink)]/30 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-[var(--ink)]/10" />
     </div>
   );
 }

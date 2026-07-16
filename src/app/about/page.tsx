@@ -67,12 +67,12 @@ const skillGroups = [
     skills: ['Flutter', 'Dart', 'Riverpod', 'Drift', 'Hive', 'Firebase'],
   },
   {
-    label: 'Backend & data',
-    skills: ['Supabase', 'PostgreSQL', 'Edge Functions', 'REST APIs'],
+    label: 'Monetization',
+    skills: ['RevenueCat', 'Paywalls', 'In-app subscriptions', 'StoreKit / Play Billing'],
   },
   {
-    label: 'Web',
-    skills: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
+    label: 'Backend & data',
+    skills: ['Supabase', 'PostgreSQL', 'Edge Functions', 'REST APIs'],
   },
   {
     label: 'Craft',

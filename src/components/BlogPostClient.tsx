@@ -195,7 +195,7 @@ function RelatedPosts({
                     fill
                     className="object-cover motion-safe:group-hover:scale-[1.04] transition-transform duration-700 ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
                 <div className="p-5">
                   <div className="flex items-center gap-2 mb-2.5">
@@ -287,7 +287,7 @@ export default function BlogPostClient({ post }: { post: BlogPost }) {
             sizes="100vw"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--cream)] via-[var(--cream)]/40 to-transparent" />
+          <div className="absolute inset-0 bg-[var(--cream)]/75" />
         </div>
 
         <div className="relative -mt-32 md:-mt-44 z-10 px-6 md:px-12">
@@ -317,7 +317,7 @@ export default function BlogPostClient({ post }: { post: BlogPost }) {
                     href="/blog"
                     className={`text-[var(--muted)] hover:text-[var(--atelier-accent)] transition-colors ${focusRing} rounded`}
                   >
-                    Writing
+                    Articles
                   </Link>
                 </li>
                 <li className="text-[var(--muted)]" aria-hidden>

@@ -1,128 +1,63 @@
 'use client';
 
 import Link from 'next/link';
-import { motion, useReducedMotion } from 'framer-motion';
 
 import { footerNav, socialLinks } from '@/config/navigation';
-import { hasCv, siteConfig } from '@/config/site';
+import { contactMailto, hasCv, siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 
 interface FooterProps {
-  /** When true (default), show GitHub / LinkedIn / X. */
   showSocials?: boolean;
-  /** Override default footer destinations (e.g. project legal links). */
   links?: { label: string; href: string }[];
   className?: string;
 }
 
 export default function Footer({ showSocials = true, links, className }: FooterProps) {
-  const year = new Date().getFullYear();
   const footerLinks = links ?? footerNav;
-  const reduceMotion = useReducedMotion();
-
-  const scrollToTop = () => {
-    const lenis = window.__lenis;
-    if (lenis && typeof lenis.scrollTo === 'function') {
-      lenis.scrollTo(0, { immediate: !!reduceMotion });
-    } else {
-      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
-    }
-  };
 
   return (
-    <footer className={cn('relative', className)}>
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-[var(--atelier-accent)] to-transparent opacity-60" />
+    <footer className={cn('border-t border-[var(--line)] bg-[var(--cream)] px-6 py-14 md:px-12 md:py-20', className)}>
+      <div className="mx-auto max-w-[1200px]">
+        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+          <div>
+            <p className="editorial-kicker mb-5">Code with Nabi</p>
+            <p className="editorial-display max-w-[760px] text-[clamp(2.25rem,5vw,4.75rem)] leading-[0.98] text-[var(--ink)]">
+              Building thoughtful mobile experiences with Flutter.
+            </p>
+          </div>
 
-      <div className="bg-[var(--cream-2)] px-6 py-8">
-        <div className="mx-auto max-w-[1100px]">
-          <div className="mb-6 flex flex-col items-center gap-6">
+          <div className="lg:justify-self-end">
             {showSocials && (
-              <div className="flex items-center gap-2">
+              <div className="mb-8 flex flex-wrap gap-x-6 gap-y-3">
                 {socialLinks.map((social) => (
-                  <motion.a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={cn(
-                      'rounded-full border border-[var(--line)] bg-[var(--cream)] p-2.5 text-[var(--muted)]',
-                      'transition-all duration-300 motion-reduce:transition-none',
-                      'hover:border-[var(--atelier-accent)] hover:text-[var(--atelier-accent)]',
-                      'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]',
-                    )}
-                    aria-label={social.label}
-                    whileHover={reduceMotion ? undefined : { scale: 1.1 }}
-                    whileTap={reduceMotion ? undefined : { scale: 0.95 }}
-                  >
-                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
-                      <path d={social.icon} />
-                    </svg>
-                  </motion.a>
+                  <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer" className="text-[0.9rem] font-medium text-[var(--ink)] underline decoration-[var(--atelier-accent)] decoration-2 underline-offset-4">
+                    {social.label}
+                  </a>
                 ))}
+                <a href={contactMailto()} className="text-[0.9rem] font-medium text-[var(--ink)] underline decoration-[var(--atelier-accent)] decoration-2 underline-offset-4">
+                  Email
+                </a>
+                {hasCv() && (
+                  <a href={siteConfig.cvPath} download target="_blank" rel="noopener noreferrer" className="text-[0.9rem] font-medium text-[var(--ink)] underline decoration-[var(--atelier-accent)] decoration-2 underline-offset-4">
+                    Resume
+                  </a>
+                )}
               </div>
             )}
 
-            <div className="flex flex-wrap items-center justify-center gap-4 text-center">
-              <span className="text-[0.875rem] text-[var(--muted)]">
-                Flutter developer · Ankara, Turkey
-              </span>
-              <span className="hidden text-[var(--muted)] opacity-40 sm:inline">·</span>
+            <nav className="flex flex-wrap gap-x-4 gap-y-2" aria-label="Footer">
               {footerLinks.map((link) => (
-                <Link
-                  key={`${link.label}-${link.href}`}
-                  href={link.href}
-                  className="text-[0.8125rem] text-[var(--muted)] no-underline transition-colors duration-200 hover:text-[var(--atelier-accent)] motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-                >
+                <Link key={`${link.label}-${link.href}`} href={link.href} className="text-[0.75rem] text-[var(--muted)] no-underline transition-colors hover:text-[var(--ink)]">
                   {link.label}
                 </Link>
               ))}
-            </div>
-
-            {hasCv() && (
-              <a
-                href={siteConfig.cvPath}
-                download
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[11px] text-[var(--muted)] no-underline transition-colors hover:text-[var(--ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-                style={{ fontFamily: 'var(--font-mono)' }}
-              >
-                Download CV
-              </a>
-            )}
+            </nav>
           </div>
+        </div>
 
-          <div className="flex items-center justify-between border-t border-[var(--line)] pt-4">
-            <span className="text-[0.8125rem] font-medium text-[var(--muted)]">
-              &copy; {year} Muhammad Nabi Rahmani
-            </span>
-
-            <button
-              type="button"
-              onClick={scrollToTop}
-              className={cn(
-                'group flex cursor-pointer items-center gap-1.5 rounded-full border border-[var(--line)] bg-[var(--cream)] px-3 py-1.5 text-[0.75rem] text-[var(--muted)]',
-                'transition-all duration-200 motion-reduce:transition-none',
-                'hover:border-[var(--atelier-accent)] hover:text-[var(--atelier-accent)]',
-                'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]',
-              )}
-              aria-label="Back to top"
-            >
-              <span>Top</span>
-              <svg
-                width="12"
-                height="12"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                className="motion-safe:transition-transform motion-safe:duration-200 motion-safe:group-hover:-translate-y-0.5"
-                aria-hidden
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-              </svg>
-            </button>
-          </div>
+        <div className="mt-14 flex flex-col gap-2 border-t border-[var(--line)] pt-5 text-[0.72rem] text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between">
+          <span>&copy; {new Date().getFullYear()} Muhammad Nabi Rahmani</span>
+          <span>Flutter engineer · Ankara, Turkey</span>
         </div>
       </div>
     </footer>

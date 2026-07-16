@@ -56,7 +56,7 @@ function FeaturedCard({
               sizes="(max-width: 1200px) 100vw, 1100px"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+            <div className="absolute inset-0 bg-black/60" />
 
             <div className="absolute top-5 left-5">
               <span
@@ -149,7 +149,7 @@ function BigCard({
             className="object-cover motion-safe:group-hover:scale-[1.04] transition-transform duration-700 ease-out"
             sizes="(max-width: 768px) 100vw, 1000px"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-black/10" />
         </div>
       </Link>
       <div className="p-7 md:p-10">
@@ -243,7 +243,7 @@ function GridCard({
             className="object-cover motion-safe:group-hover:scale-[1.04] transition-transform duration-700 ease-out"
             sizes="(max-width: 768px) 100vw, 500px"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-black/10" />
         </div>
         <div className="p-6 md:p-7 flex flex-col flex-1">
           <div className="flex items-center gap-2.5 mb-3">
@@ -408,7 +408,7 @@ function WritingContent() {
               animate={{ opacity: 1, y: 0 }}
               transition={enter(0)}
             >
-              [ Writing ]
+              [ Articles ]
             </motion.p>
             <motion.h1
               className="mb-4 leading-tight"

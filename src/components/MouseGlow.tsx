@@ -63,7 +63,8 @@ export default function MouseGlow() {
           width: '400px',
           height: '400px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, oklch(0.58 0.12 40 / 0.12) 0%, transparent 70%)',
+          background: 'var(--accent-soft)',
+          filter: 'blur(48px)',
           willChange: 'transform',
         }}
       />

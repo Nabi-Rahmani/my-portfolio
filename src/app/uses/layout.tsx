@@ -2,10 +2,10 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: 'Uses',
-    description: 'The hardware, editor, Flutter/Dart packages, design tools, web stack, and services Muhammad Nabi Rahmani uses to build and ship mobile apps.',
+    description: 'The hardware, editor, Flutter/Dart packages, design tools, and services Muhammad Nabi Rahmani uses to build and ship mobile apps.',
     openGraph: {
         title: 'Uses — Muhammad Nabi Rahmani',
-        description: 'The hardware, editor, Flutter/Dart packages, design tools, web stack, and services I use to build and ship mobile apps.',
+        description: 'The hardware, editor, Flutter/Dart packages, design tools, and services I use to build and ship mobile apps.',
         url: 'https://codewithnabi.dev/uses',
     },
 };

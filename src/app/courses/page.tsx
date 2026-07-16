@@ -87,7 +87,7 @@ export default function CoursesPage() {
                   sizes="(max-width: 900px) 100vw, 900px"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
+                <div className="absolute inset-0 bg-black/55" />
                 <div className="absolute bottom-5 left-5 right-5 md:bottom-7 md:left-7 md:right-7">
                   <span className="inline-block px-3 py-1 rounded-full bg-[var(--atelier-accent)] text-[var(--cream)] text-[0.75rem] font-semibold mb-3 uppercase tracking-wider">
                     {course.difficulty}

@@ -3138,7 +3138,1328 @@ The architecture supports this incremental approach by design. Your business log
             description: 'Build a type-safe, offline-first data layer with Drift SQLite and Supabase PostgreSQL. Learn sync patterns, dirty tracking, and conflict resolution.',
             keywords: ['Flutter', 'Supabase', 'Drift', 'SQLite', 'Offline-First', 'Data Layer']
         }
-    }
+    },
+    {
+        id: '13',
+        title: 'Force Update in Flutter (Part 1): Why Mobile Apps Need It',
+        slug: 'flutter-force-update-strategy',
+        excerpt:
+            'Part 1 of the Force Update series — why store auto-update is not enough, soft vs hard prompts, and which strategy to pick before you write code.',
+        content: `
+# Force Update in Flutter (Part 1): Why Mobile Apps Need It
+
+> **Force Update series:** [1. Why you need it](/blog/flutter-force-update-strategy) · [2. Upgrader](/blog/flutter-force-update-upgrader) · [3. Remote config intro](/blog/flutter-force-update-remote-config-intro) · [4. force_update_helper](/blog/flutter-force-update-helper) · [5. GitHub Gist](/blog/flutter-force-update-github-gist) · [6. Firebase Remote Config](/blog/flutter-force-update-firebase) · [7. Dart Shelf API](/blog/flutter-force-update-dart-shelf)
+
+Picture this: you ship a build that corrupts local data for a small set of users. On the web you deploy a fix and everyone is healed on refresh. On mobile? Half your users still open last week's binary for days — sometimes weeks — even with "automatic updates" enabled.
+
+That is the moment force update stops being a nice-to-have and becomes production infrastructure.
+
+This post is how I implement force update in Flutter apps: why it exists, the strategies that work, soft vs hard prompts, and how I wire remote minimum versions without turning the app into a nag screen.
+
+## Why Mobile Needs Force Update
+
+iOS and Android can auto-update, but:
+
+- Updates are **not immediate**
+- Many users disable auto-update (storage, data plans, caution)
+- Enterprise / sideloaded devices are even slower
+
+Without a force-update path you cannot honestly assume "everyone is on the latest version." That costs real money:
+
+- Critical security fixes never reach a chunk of the install base
+- Old clients keep calling **deprecated backend endpoints** forever
+- Backend migrations stall because v1.2 still hits the old schema
+- QA has to regression-test every version you ever shipped
+
+A strict force-update policy lets mobile and backend teams support a **window** of versions — not infinite history.
+
+> **Catch that kills teams:** force update logic must ship in a release *before* you need it. Users already stuck on builds that never check versions will never see your prompt. Bake it into v1.0 if you can.
+
+## Force Update vs Code Push
+
+Two tools for two jobs:
+
+| Approach | What it does | When I use it |
+| --- | --- | --- |
+| **Force update** | Block (or strongly nudge) until the user installs a **store** build | Native plugin changes, store policy, schema breaks, security |
+| **Code push (e.g. Shorebird)** | Patch **Dart** over the air without a store round-trip | Logic bugs, UI fixes, non-native hotfixes |
+
+They complement each other. Shorebird cannot replace a store update when you change native code, add plugins, or need a new binary. Force update cannot deliver a same-day Dart fix as fast as OTA. I plan for both; this article focuses on force update. (I wrote more on OTA in my [Shorebird guide](/blog/shorebird-code-push-flutter-guide).)
+
+## Strategies That Work
+
+At the core the algorithm is boring — and that is good:
+
+1. Read **current** app version (\`package_info_plus\`)
+2. Fetch **required** (or supported) version from somewhere remote
+3. Compare with a real semver comparator
+4. If outdated → show a store CTA (hard) or a dismissible nudge (soft)
+
+How you define "outdated" is the product decision:
+
+### 1. Always upgrade to latest store version
+
+Packages like \`upgrader\` compare pubspec / installed version to App Store / Play listing and prompt whenever something newer is live.
+
+**Pros:** Zero backend work, great for consumer apps that always want people current.  
+**Cons:** You cannot say "1.4 is still fine while we stage 1.5." Every store release becomes a potential nag.
+
+Use this when you want constant currency and do not need remote control.
+
+### 2. Minimum required version (my default)
+
+Remote config (or your API) exposes something like \`required_version: 1.4.0\`. If \`current < required\`, force update. Everyone on 1.4.x+ keeps working even if 1.5 is already in the store.
+
+**Pros:** You control the kill switch. Ship freely; only raise \`required_version\` when you must.  
+**Cons:** You own the config and the comparison logic.
+
+This is what I put in production for apps with a real backend.
+
+### 3. Rolling support window
+
+Allow the last *N* store versions (or anything ≥ min and ≤ max). Useful for gradual deprecation.
+
+### Soft vs hard update
+
+- **Hard:** non-dismissible. Only "Update now" → store URL. Use for security, data corruption, broken auth, incompatible API.
+- **Soft:** "Update available" with Later / Ignore. Use for polish releases and features users can live without for a week.
+
+Never hard-block for vanity version bumps. Users hate it, reviews reflect it.
+
+## Option A — \`upgrader\` (store comparison)
+
+Quick path when you mainly care that people match the store.
+
+\`\`\`bash
+dart pub add upgrader package_info_plus url_launcher
+\`\`\`
+
+If you use named routes / GoRouter, wrap with \`MaterialApp.builder\` and pass a root \`navigatorKey\` so the dialog has a navigator:
+
+\`\`\`dart
+final rootNavigatorKey = GlobalKey<NavigatorState>();
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      navigatorKey: rootNavigatorKey,
+      builder: (context, child) {
+        final dialogStyle =
+            defaultTargetPlatform == TargetPlatform.iOS ||
+                    defaultTargetPlatform == TargetPlatform.macOS
+                ? UpgradeDialogStyle.cupertino
+                : UpgradeDialogStyle.material;
+
+        return UpgradeAlert(
+          navigatorKey: rootNavigatorKey,
+          dialogStyle: dialogStyle,
+          // Soft by default — tighten for hard force:
+          // showIgnore: false,
+          // showLater: false,
+          // barrierDismissible: false,
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
+      onGenerateRoute: onGenerateRoute,
+    );
+  }
+}
+\`\`\`
+
+**How to test:** the package compares installed version to the **published** store listing. Use a real published app, drop \`version:\` in \`pubspec.yaml\` below the store version, and test on a device. For local iteration only:
+
+\`\`\`dart
+// DEV ONLY — remove before release
+await Upgrader.clearSavedSettings();
+\`\`\`
+
+**When I reach for it:** simple apps, no custom backend deprecation story.  
+**When I skip it:** I need remote control of *when* a version dies, independent of "is there a newer build on the store."
+
+## Option B — Remote minimum version (recommended)
+
+Pseudocode every production force-update I ship ends up looking like:
+
+\`\`\`dart
+Future<bool> isAppUpdateRequired() async {
+  if (kIsWeb) return false;
+  if (defaultTargetPlatform != TargetPlatform.iOS &&
+      defaultTargetPlatform != TargetPlatform.android) {
+    return false;
+  }
+
+  final required = await fetchRequiredVersion(); // remote
+  final info = await PackageInfo.fromPlatform();
+  return _isLower(info.version, required);
+}
+\`\`\`
+
+Where you store \`required_version\` is a team choice:
+
+| Source | Good when | Watch-outs |
+| --- | --- | --- |
+| **GitHub Gist / static JSON** | Prototypes, indie apps | Rate limits, no auth story |
+| **Firebase Remote Config** | App already on Firebase | Fetch intervals, defaults offline |
+| **Your own API** | Real backend, multi-env | You operate the endpoint |
+
+Packages like \`force_update_helper\` wrap the fetch + compare + store open flow so you are not re-inventing dialogs. The important part is the **policy**, not the package name.
+
+### Firebase Remote Config sketch
+
+\`\`\`dart
+Future<String> fetchRequiredVersion() async {
+  final remoteConfig = FirebaseRemoteConfig.instance;
+  await remoteConfig.setConfigSettings(RemoteConfigSettings(
+    fetchTimeout: const Duration(seconds: 10),
+    minimumFetchInterval: const Duration(hours: 1),
+  ));
+  await remoteConfig.setDefaults(const {
+    'required_version': '1.0.0',
+  });
+  await remoteConfig.fetchAndActivate();
+  return remoteConfig.getString('required_version');
+}
+\`\`\`
+
+Raise \`required_version\` in the Firebase console only after the fixed build is **live** on both stores you care about. Force-updating people into a version that is not downloadable yet is a support nightmare.
+
+### Custom backend sketch (Shelf / any stack)
+
+\`\`\`dart
+// GET /required_version → plain text "1.4.2"
+ForceUpdateClient(
+  fetchRequiredVersion: () async {
+    final response = await dio.get('\$baseUrl/required_version');
+    return response.data as String;
+  },
+  iosAppStoreId: Env.appStoreId, // Android uses package name from the platform
+);
+\`\`\`
+
+Point \`baseUrl\` at env-specific hosts (\`dev\` / \`stg\` / \`prod\`) so QA can force-update staging without bricking production. Backend env var example:
+
+\`\`\`dart
+Response requiredVersion(Request request) {
+  final version = Platform.environment['REQUIRED_VERSION'] ?? '1.0.0';
+  return Response.ok(version);
+}
+\`\`\`
+
+### Opening the right store
+
+Hard prompts must deep-link correctly:
+
+\`\`\`dart
+Future<void> openStoreListing({
+  required String androidPackageId,
+  required String iosAppStoreId,
+}) async {
+  final uri = Platform.isIOS
+      ? Uri.parse('https://apps.apple.com/app/id\$iosAppStoreId')
+      : Uri.parse(
+          'https://play.google.com/store/apps/details?id=\$androidPackageId',
+        );
+
+  if (await canLaunchUrl(uri)) {
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
+}
+\`\`\`
+
+On Android, \`url_launcher\` needs the VIEW intent query in \`AndroidManifest.xml\` or store links silently fail on newer OS versions.
+
+## Semver Comparison — Do Not Hand-Roll Casually
+
+String compare (\`"1.10.0" < "1.9.0"\`) is a classic footgun. Use a small semver helper or a package, and decide how you treat build numbers (\`+42\`) and pre-releases.
+
+\`\`\`dart
+bool isLower(String current, String required) {
+  List<int> parts(String v) => v
+      .split('+')
+      .first
+      .split('-')
+      .first
+      .split('.')
+      .map((p) => int.tryParse(p) ?? 0)
+      .toList();
+
+  final a = parts(current);
+  final b = parts(required);
+  final len = max(a.length, b.length);
+
+  for (var i = 0; i < len; i++) {
+    final x = i < a.length ? a[i] : 0;
+    final y = i < b.length ? b[i] : 0;
+    if (x < y) return true;
+    if (x > y) return false;
+  }
+  return false;
+}
+\`\`\`
+
+Unit-test this harder than the dialog widget. Wrong comparison = either silent non-update or infinite force-update loops.
+
+## Where It Lives in the App Tree
+
+I gate the app **after** splash / startup but **before** authenticated home:
+
+\`\`\`
+App launch
+  → init SDKs / theme
+  → fetch required_version (with timeout + cache)
+  → if required → ForceUpdateScreen (hard) or soft banner
+  → else → normal navigation
+\`\`\`
+
+Failure modes matter:
+
+- **Network down:** do **not** hard-block if you cannot reach config (unless last-known-required already says update). Cache the last successful required version.
+- **Timeout:** fail open for soft policy, fail closed only for known-critical flags you already cached.
+- **Web / desktop:** skip store force update; those platforms redeploy differently.
+
+## Soft Update UI Pattern
+
+Hard screens are easy. Soft updates deserve restraint:
+
+\`\`\`dart
+// Once per version, not every cold start
+final dismissedFor = prefs.getString('soft_update_dismissed_for');
+if (dismissedFor == latestStoreVersion) {
+  // user already said later for this build
+}
+\`\`\`
+
+Show a bottom sheet or banner, not a full-screen wall. One primary CTA ("Update"), one secondary ("Not now"). Track analytics: \`soft_update_shown\`, \`soft_update_accepted\`, \`soft_update_dismissed\`.
+
+## Checklist I Use Before Raising \`required_version\`
+
+1. Fixed build is **approved and available** on Play (and App Store if you ship iOS)
+2. \`required_version\` is **≤** the version users can actually download
+3. Release notes explain *why* (security / data / login) — not "we felt like it"
+4. Support knows the kill switch and how to lower it if a bad store build ships
+5. Staging env already validated the prompt + store deep link
+6. Shorebird / OTA considered first if the fix is Dart-only
+
+## What I Ship in Real Apps
+
+For Focus Flow, Dev Discipline, and similar products my default is:
+
+1. **Remote minimum version** (API or Remote Config) — control stays with me
+2. **Hard update** only for security, data integrity, auth, and API breaks
+3. **Soft update** for normal releases (optional; \`upgrader\` or custom banner)
+4. **Shorebird** for urgent Dart-only patches when a store wait is unacceptable
+5. Force-update client in the **first store build**, not "we'll add it later"
+
+That combo keeps maintenance windows honest without harassing users for every purple-button tweak.
+
+## Summary
+
+- Mobile auto-update is not a force-update strategy.
+- Ship the check early; you cannot retroactively force builds that never ask.
+- Prefer **remote minimum version** over "always newest store build" when you have a backend.
+- Hard block rarely; soft nudge often.
+- Pair with code push for speed, store force update for binary truth.
+
+Next: implement the simplest store-based prompt with the upgrader package.
+
+**Next →** [Part 2: Force Update with the Upgrader Package](/blog/flutter-force-update-upgrader)
+    `,
+        author: {
+            name: 'Muhammad Nabi Rahmani',
+            avatar: '/assets/branding/profile.jpg',
+            bio: 'Flutter Developer passionate about creating beautiful mobile experiences',
+        },
+        publishedAt: '2026-07-15',
+        updatedAt: '2026-07-15',
+        readingTime: 10,
+        category: 'Flutter Development',
+        tags: [
+            'Flutter',
+            'Force Update',
+            'Production',
+            'Mobile',
+            'Series',
+        ],
+        featured: true,
+        coverImage: '/assets/blog/cover-images/tutorial_08.png',
+        seo: {
+            title: 'Flutter Force Update (Part 1): Why Mobile Apps Need It | CodeWithNabi',
+            description:
+                'Part 1 of the Force Update series — why store auto-update fails, soft vs hard prompts, and which Flutter strategy to choose.',
+            keywords: [
+                'Flutter',
+                'Force Update',
+                'Mobile App Updates',
+                'Production Flutter',
+                'Series',
+            ],
+        },
+    },
+    {
+        id: '14',
+        title: 'Force Update in Flutter (Part 2): The Upgrader Package',
+        slug: 'flutter-force-update-upgrader',
+        excerpt:
+            'Part 2 — use the upgrader package to prompt when a newer store build exists. MaterialApp.builder, GoRouter, testing, and when not to use it.',
+        content: `
+# Force Update in Flutter (Part 2): The Upgrader Package
+
+> **Force Update series:** [1. Why you need it](/blog/flutter-force-update-strategy) · [2. Upgrader](/blog/flutter-force-update-upgrader) · [3. Remote config intro](/blog/flutter-force-update-remote-config-intro) · [4. force_update_helper](/blog/flutter-force-update-helper) · [5. GitHub Gist](/blog/flutter-force-update-github-gist) · [6. Firebase Remote Config](/blog/flutter-force-update-firebase) · [7. Dart Shelf API](/blog/flutter-force-update-dart-shelf)
+
+In [Part 1](/blog/flutter-force-update-strategy) we covered *why* force update exists. This part is the fastest path to a real prompt: the **upgrader** package.
+
+It compares the installed app version to what is **published** on the App Store / Play Store and shows an alert when something newer is live.
+
+## When upgrader is the right tool
+
+Use it when:
+
+- You want users on the **latest store build** most of the time
+- You do **not** need a remote "minimum version" kill switch
+- The app is already (or will be) published — store listing is the source of truth
+
+Skip it when you need to retire an API while a newer store build is still rolling out, or when you want to force only on critical releases. That is [remote config](/blog/flutter-force-update-remote-config-intro) territory.
+
+## Install
+
+\`\`\`bash
+dart pub add upgrader package_info_plus url_launcher
+flutter pub get
+\`\`\`
+
+## Minimal example
+
+\`\`\`dart
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Upgrader Example',
+      home: UpgradeAlert(
+        child: Scaffold(
+          appBar: AppBar(title: const Text('Upgrader Example')),
+          body: const Center(child: Text('Checking…')),
+        ),
+      ),
+    );
+  }
+}
+\`\`\`
+
+Fine for demos. Real apps rarely use \`home\` alone.
+
+## Named routes and GoRouter
+
+If you use \`onGenerateRoute\` or GoRouter, put \`UpgradeAlert\` in \`MaterialApp.builder\` and pass a **root navigator key** so the dialog can present:
+
+\`\`\`dart
+final rootNavigatorKey = GlobalKey<NavigatorState>();
+
+class MainApp extends ConsumerWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return MaterialApp(
+      navigatorKey: rootNavigatorKey,
+      builder: (context, child) {
+        return UpgradeAlert(
+          navigatorKey: rootNavigatorKey,
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
+      onGenerateRoute: onGenerateRoute,
+    );
+  }
+}
+\`\`\`
+
+GoRouter variant:
+
+\`\`\`dart
+final rootNavigatorKey = GlobalKey<NavigatorState>();
+final goRouter = GoRouter(
+  navigatorKey: rootNavigatorKey,
+  routes: [ /* … */ ],
+);
+
+MaterialApp.router(
+  routerConfig: goRouter,
+  builder: (context, child) {
+    return UpgradeAlert(
+      navigatorKey: goRouter.routerDelegate.navigatorKey,
+      child: child ?? const SizedBox.shrink(),
+    );
+  },
+);
+\`\`\`
+
+Two rules I do not break:
+
+1. **builder** — alert is an ancestor of every route
+2. **navigatorKey** — alert knows which navigator owns the overlay
+
+## Material vs Cupertino dialog
+
+\`\`\`dart
+builder: (context, child) {
+  final dialogStyle =
+      defaultTargetPlatform == TargetPlatform.iOS ||
+              defaultTargetPlatform == TargetPlatform.macOS
+          ? UpgradeDialogStyle.cupertino
+          : UpgradeDialogStyle.material;
+
+  return UpgradeAlert(
+    navigatorKey: rootNavigatorKey,
+    dialogStyle: dialogStyle,
+    child: child ?? const SizedBox.shrink(),
+  );
+},
+\`\`\`
+
+## Soft vs hard with upgrader flags
+
+| Goal | Knobs |
+| --- | --- |
+| Soft nudge | default / allow Later + Ignore |
+| Hard force | \`showIgnore: false\`, \`showLater: false\`, \`barrierDismissible: false\` |
+
+Hard-blocking every store release is rude. I keep upgrader soft unless the release is critical — and for critical work I often switch to a remote min version instead.
+
+## How to test
+
+upgrader compares **installed version** (from the running app / pubspec packaging) to the **store listing**.
+
+1. App must be published (or use a published package id you control)
+2. Set \`version:\` in \`pubspec.yaml\` **below** the store version
+3. Run on a **real device** for the full "Update now → store" path
+4. Dev-only: clear cached "already prompted" state
+
+\`\`\`dart
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // DEV ONLY — remove before release
+  await Upgrader.clearSavedSettings();
+  runApp(const MainApp());
+}
+\`\`\`
+
+## Limits I hit in production
+
+- No remote control of *when* a version dies — only "is there something newer on the store?"
+- You cannot keep supporting 1.4 while 1.5 is live without users getting nagged
+- Backend deprecation schedules need a **required_version** you own
+
+That is exactly why Part 3 introduces remote config force update.
+
+## Summary
+
+- upgrader = store version comparison + dialog, fast to ship
+- Wire it via \`builder\` + \`navigatorKey\` in real navigation setups
+- Prefer soft prompts; reserve hard for true emergencies
+- For kill-switch control, move on to remote minimum version
+
+**← Previous** [Part 1: Why you need force update](/blog/flutter-force-update-strategy)  
+**Next →** [Part 3: Remote config approach](/blog/flutter-force-update-remote-config-intro)
+    `,
+        author: {
+            name: 'Muhammad Nabi Rahmani',
+            avatar: '/assets/branding/profile.jpg',
+            bio: 'Flutter Developer passionate about creating beautiful mobile experiences',
+        },
+        publishedAt: '2026-07-15',
+        updatedAt: '2026-07-15',
+        readingTime: 8,
+        category: 'Flutter Development',
+        tags: [
+            'Flutter',
+            'Force Update',
+            'upgrader',
+            'Production',
+            'Series',
+        ],
+        featured: false,
+        coverImage: '/assets/blog/cover-images/tutorial_03.png',
+        seo: {
+            title: 'Flutter Force Update (Part 2): Upgrader Package | CodeWithNabi',
+            description:
+                'Use the Flutter upgrader package for store-based update alerts — MaterialApp.builder, GoRouter, testing, soft vs hard.',
+            keywords: [
+                'Flutter',
+                'Force Update',
+                'upgrader',
+                'App Store',
+                'Google Play',
+            ],
+        },
+    },
+
+    {
+        id: '15',
+        title: 'Force Update in Flutter (Part 3): Remote Config Approach',
+        slug: 'flutter-force-update-remote-config-intro',
+        excerpt:
+            'Part 3 — stop nailing every store release. Fetch a remote required_version and only force when you raise the floor.',
+        content: `
+# Force Update in Flutter (Part 3): Remote Config Approach
+
+> **Force Update series:** [1. Why you need it](/blog/flutter-force-update-strategy) · [2. Upgrader](/blog/flutter-force-update-upgrader) · [3. Remote config intro](/blog/flutter-force-update-remote-config-intro) · [4. force_update_helper](/blog/flutter-force-update-helper) · [5. GitHub Gist](/blog/flutter-force-update-github-gist) · [6. Firebase Remote Config](/blog/flutter-force-update-firebase) · [7. Dart Shelf API](/blog/flutter-force-update-dart-shelf)
+
+[Part 2](/blog/flutter-force-update-upgrader) used **store comparison**: "is there a newer build?" This part is the strategy I actually ship on apps with a backend: a **remote minimum version**.
+
+## The idea
+
+\`\`\`dart
+bool isAppUpdateRequired() {
+  // skip web / desktop as needed
+  final requiredVersion = fetchRequiredVersion(); // remote
+  final currentVersion = packageInfo.version;
+  return currentVersion < requiredVersion;
+}
+\`\`\`
+
+On startup (after splash, before main UI):
+
+1. Fetch \`required_version\` from somewhere you control
+2. Compare with \`package_info_plus\`
+3. If outdated → non-dismissible "Update now" → store listing
+4. If OK → enter the app
+
+## upgrader vs remote min version
+
+| | **upgrader** | **Remote required_version** |
+| --- | --- | --- |
+| Trigger | Newer build exists in store | You raised the floor above installed version |
+| Control | App stores | You |
+| Good for | Always stay current | API breaks, security, staged deprecation |
+| Risk | Nags on every release | Mis-set version bricks UX if store build is missing |
+
+I use remote min version when I need to say: *"1.4.2 and below must die; 1.5.0+ is fine even if 1.6 is already live."*
+
+## When remote force update saves you
+
+- Backend contract changed; old clients error in production
+- Security issue in a dependency that needs a binary rebuild
+- Auth / login path broken on older builds
+- You are migrating data models and cannot support infinite client history
+
+Workflow:
+
+1. Ship fixed build to stores
+2. Wait until it is **downloadable**
+3. Raise \`required_version\` remotely
+4. Old clients hit the wall on next open
+
+## What "remote" can mean
+
+You will implement one of these in the next parts:
+
+1. **[GitHub Gist](/blog/flutter-force-update-github-gist)** — static JSON, zero infra, rate limits
+2. **[Firebase Remote Config](/blog/flutter-force-update-firebase)** — ideal if Firebase is already in the app
+3. **[Your API / Dart Shelf](/blog/flutter-force-update-dart-shelf)** — full control, multi-env, no gist limits
+
+The client algorithm stays the same. Only the fetch changes.
+
+## Soft vs hard with remote policy
+
+Remote config can expose more than one field:
+
+\`\`\`json
+{
+  "required_version": "1.4.0",
+  "recommended_version": "1.5.2",
+  "force": true
+}
+\`\`\`
+
+- \`current < required\` → **hard** force
+- \`required <= current < recommended\` → **soft** banner
+- else → nothing
+
+Start with a single \`required_version\` + hard dialog. Add soft later if product wants it.
+
+## Failure modes (design these first)
+
+| Situation | Policy I use |
+| --- | --- |
+| Offline / fetch fails | Use **last cached** required version; if none, fail **open** |
+| Timeout | Same as fail |
+| required > any store build | Do not raise the flag yet — support nightmare |
+| Web | Skip store force path |
+
+## Architecture sketch
+
+\`\`\`
+lib/src/feature/force_update/
+  domain/
+    version_policy.dart      # pure compare
+  data/
+    required_version_source.dart  # gist / RC / API
+  application/
+    force_update_service.dart
+  presentation/
+    force_update_gate.dart   # wraps app or home
+\`\`\`
+
+Keep comparison pure and unit-tested. Network code stays thin.
+
+## Summary
+
+- Remote min version = **you** decide when a binary is dead
+- Fetch once at startup, compare with real semver, then gate UI
+- Same client pattern for Gist, Firebase, or custom API
+- Never raise required_version before the fix is live on stores
+
+**← Previous** [Part 2: Upgrader](/blog/flutter-force-update-upgrader)  
+**Next →** [Part 4: force_update_helper package](/blog/flutter-force-update-helper)
+    `,
+        author: {
+            name: 'Muhammad Nabi Rahmani',
+            avatar: '/assets/branding/profile.jpg',
+            bio: 'Flutter Developer passionate about creating beautiful mobile experiences',
+        },
+        publishedAt: '2026-07-15',
+        updatedAt: '2026-07-15',
+        readingTime: 7,
+        category: 'Flutter Development',
+        tags: [
+            'Flutter',
+            'Force Update',
+            'Remote Config',
+            'Production',
+            'Series',
+        ],
+        featured: false,
+        coverImage: '/assets/blog/cover-images/tutorial_04.png',
+        seo: {
+            title: 'Flutter Force Update (Part 3): Remote Config Approach | CodeWithNabi',
+            description:
+                'Use a remote required_version for Flutter force update — when it beats upgrader and how to design the gate.',
+            keywords: [
+                'Flutter',
+                'Force Update',
+                'Remote Config',
+                'Minimum Version',
+                'Mobile',
+            ],
+        },
+    },
+
+    {
+        id: '16',
+        title: 'Force Update in Flutter (Part 4): force_update_helper',
+        slug: 'flutter-force-update-helper',
+        excerpt:
+            'Part 4 — wire force_update_helper so fetch, compare, and store open are one cohesive flow instead of copy-paste dialogs.',
+        content: `
+# Force Update in Flutter (Part 4): force_update_helper
+
+> **Force Update series:** [1. Why you need it](/blog/flutter-force-update-strategy) · [2. Upgrader](/blog/flutter-force-update-upgrader) · [3. Remote config intro](/blog/flutter-force-update-remote-config-intro) · [4. force_update_helper](/blog/flutter-force-update-helper) · [5. GitHub Gist](/blog/flutter-force-update-github-gist) · [6. Firebase Remote Config](/blog/flutter-force-update-firebase) · [7. Dart Shelf API](/blog/flutter-force-update-dart-shelf)
+
+[Part 3](/blog/flutter-force-update-remote-config-intro) defined the remote min-version policy. This part is the packaging: **\`force_update_helper\`** so you do not re-implement dialogs and store URLs every project.
+
+## What the package is for
+
+You still own:
+
+- **Where** \`required_version\` lives (Gist / Firebase / API)
+- **When** to raise it
+
+The package owns:
+
+- Calling your \`fetchRequiredVersion\` callback
+- Comparing with the installed version
+- Showing the update UI
+- Opening App Store / Play with the right ids
+
+## Dependencies
+
+\`\`\`yaml
+dependencies:
+  force_update_helper: ^0.3.0
+  package_info_plus: ^9.0.0
+  url_launcher: ^6.3.2
+  dio: ^5.9.0   # if you fetch via HTTP
+\`\`\`
+
+Android store links need a query intent in \`AndroidManifest.xml\`:
+
+\`\`\`xml
+<queries>
+  <intent>
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data android:scheme="https" />
+  </intent>
+</queries>
+\`\`\`
+
+Without it, \`url_launcher\` can fail silently on modern Android.
+
+## Client shape
+
+\`\`\`dart
+ForceUpdateClient(
+  fetchRequiredVersion: () async {
+    // Part 5/6/7 plug in here — Gist, Firebase, or Shelf
+    final response = await dio.get('https://example.com/required_version');
+    return response.data as String; // e.g. "1.4.2"
+  },
+  iosAppStoreId: Env.appStoreId, // numeric App Store id
+);
+\`\`\`
+
+Android package name usually comes from the running app; iOS needs the numeric **App Store ID** (not the bundle id).
+
+## Gate the app once
+
+I mount the check at startup — after bindings / env load, before authenticated home:
+
+\`\`\`dart
+class App extends StatelessWidget {
+  const App({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      builder: (context, child) {
+        return ForceUpdateWidget(
+          // package API names vary by version — see README
+          client: forceUpdateClient,
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
+      home: const HomeScreen(),
+    );
+  }
+}
+\`\`\`
+
+Read the package README for the exact widget name and parameters for the version you pin — APIs evolve; the **architecture** above stays stable.
+
+## What I customize
+
+1. **Copy** — "Update required" + one sentence of *why* (security / data / login)
+2. **Hard only** when \`current < required\` — no Later button for true force
+3. **Analytics** — \`force_update_shown\`, \`force_update_opened_store\`
+4. **Timeout** — do not spin forever on a dead endpoint
+
+## Testing checklist
+
+- [ ] Lower \`required_version\` remote value → app opens normally  
+- [ ] Raise above installed version → hard prompt  
+- [ ] Tap Update → correct store listing  
+- [ ] Airplane mode with empty cache → fail open (or cached policy)  
+- [ ] iOS and Android both open the right listing  
+
+## Summary
+
+- \`force_update_helper\` is the glue; **policy and remote source** are still your job
+- Inject different fetch implementations per environment
+- Fix Android queries + iOS App Store id before blaming the package
+
+**← Previous** [Part 3: Remote config intro](/blog/flutter-force-update-remote-config-intro)  
+**Next →** [Part 5: GitHub Gist as remote config](/blog/flutter-force-update-github-gist)
+    `,
+        author: {
+            name: 'Muhammad Nabi Rahmani',
+            avatar: '/assets/branding/profile.jpg',
+            bio: 'Flutter Developer passionate about creating beautiful mobile experiences',
+        },
+        publishedAt: '2026-07-15',
+        updatedAt: '2026-07-15',
+        readingTime: 7,
+        category: 'Flutter Development',
+        tags: [
+            'Flutter',
+            'Force Update',
+            'force_update_helper',
+            'Production',
+            'Series',
+        ],
+        featured: false,
+        coverImage: '/assets/blog/cover-images/tutorial_05.png',
+        seo: {
+            title: 'Flutter Force Update (Part 4): force_update_helper | CodeWithNabi',
+            description:
+                'Use force_update_helper in Flutter for fetch, compare, and store open — wiring, Android queries, testing.',
+            keywords: [
+                'Flutter',
+                'Force Update',
+                'force_update_helper',
+                'url_launcher',
+                'package_info_plus',
+            ],
+        },
+    },
+
+    {
+        id: '17',
+        title: 'Force Update in Flutter (Part 5): GitHub Gist Remote Config',
+        slug: 'flutter-force-update-github-gist',
+        excerpt:
+            'Part 5 — host required_version on a public GitHub Gist. Zero backend, works for indie apps, and you must respect rate limits.',
+        content: `
+# Force Update in Flutter (Part 5): GitHub Gist Remote Config
+
+> **Force Update series:** [1. Why you need it](/blog/flutter-force-update-strategy) · [2. Upgrader](/blog/flutter-force-update-upgrader) · [3. Remote config intro](/blog/flutter-force-update-remote-config-intro) · [4. force_update_helper](/blog/flutter-force-update-helper) · [5. GitHub Gist](/blog/flutter-force-update-github-gist) · [6. Firebase Remote Config](/blog/flutter-force-update-firebase) · [7. Dart Shelf API](/blog/flutter-force-update-dart-shelf)
+
+Fastest remote source for \`required_version\`: a **public GitHub Gist**. No Firebase, no server. Ideal for indie apps and prototypes. Production at scale should plan for [Firebase](/blog/flutter-force-update-firebase) or [your API](/blog/flutter-force-update-dart-shelf).
+
+## Create the Gist
+
+1. github.com → Gist → New
+2. Public gist (private raw URLs need auth)
+3. File e.g. \`force_update.json\`:
+
+\`\`\`json
+{
+  "required_version": "1.0.0"
+}
+\`\`\`
+
+4. Create gist → open **Raw** → copy the raw URL
+
+Raw URLs look like:
+
+\`\`\`text
+https://gist.githubusercontent.com/<user>/<id>/raw/<revision>/force_update.json
+\`\`\`
+
+Prefer a URL that includes a commit revision **or** always hit \`/raw/\` and accept that GitHub CDN may cache briefly after edits.
+
+## Fetch from Flutter
+
+\`\`\`dart
+Future<String> fetchRequiredVersionFromGist(Dio dio) async {
+  const url =
+      'https://gist.githubusercontent.com/you/GIST_ID/raw/force_update.json';
+
+  final response = await dio.get(url);
+  final data = response.data;
+  if (data is String) {
+    // sometimes raw is returned as string
+    final map = jsonDecode(data) as Map<String, dynamic>;
+    return map['required_version'] as String;
+  }
+  return (data as Map<String, dynamic>)['required_version'] as String;
+}
+\`\`\`
+
+Wire into the client from [Part 4](/blog/flutter-force-update-helper):
+
+\`\`\`dart
+ForceUpdateClient(
+  fetchRequiredVersion: () => fetchRequiredVersionFromGist(dio),
+  iosAppStoreId: Env.appStoreId,
+);
+\`\`\`
+
+## Raising the floor
+
+1. Ship and wait for store availability
+2. Edit the gist → bump \`required_version\` to e.g. \`1.2.0\`
+3. Users below 1.2.0 see the force prompt on next successful fetch
+
+No app release required to change the floor.
+
+## Rate limits and reliability
+
+GitHub rate-limits unauthenticated API/raw traffic. For a small user base this is often fine. For large traffic:
+
+- Cache the last successful value on disk (SharedPreferences / secure storage)
+- Fetch at most once per session or every N hours
+- Back off on 403 / 429
+- Have a migration plan to Firebase or your API
+
+\`\`\`dart
+Future<String> fetchWithCache() async {
+  try {
+    final v = await fetchRequiredVersionFromGist(dio);
+    await prefs.setString('required_version_cache', v);
+    return v;
+  } catch (_) {
+    return prefs.getString('required_version_cache') ?? '0.0.0';
+  }
+}
+\`\`\`
+
+Using \`'0.0.0'\` as fallback means fail **open** (never force when unknown). That is usually correct.
+
+## Security notes
+
+- Public gists are **public** — do not put secrets there
+- Anyone can read your required version (that is OK)
+- Anyone could *try* to MITM if you ship cleartext and no pinning — use HTTPS (Gist already does)
+- Attackers cannot lower the floor on *your* gist without your GitHub account; they could still MITM the response on a compromised device network — treat this as best-effort, not DRM
+
+## Summary
+
+- Gist = zero-ops remote config for force update
+- Public raw JSON + Dio + cache
+- Respect rate limits; graduate to Firebase/API when you grow
+- Still never bump required_version before the store build is live
+
+**← Previous** [Part 4: force_update_helper](/blog/flutter-force-update-helper)  
+**Next →** [Part 6: Firebase Remote Config](/blog/flutter-force-update-firebase)
+    `,
+        author: {
+            name: 'Muhammad Nabi Rahmani',
+            avatar: '/assets/branding/profile.jpg',
+            bio: 'Flutter Developer passionate about creating beautiful mobile experiences',
+        },
+        publishedAt: '2026-07-15',
+        updatedAt: '2026-07-15',
+        readingTime: 7,
+        category: 'Flutter Development',
+        tags: [
+            'Flutter',
+            'Force Update',
+            'GitHub Gist',
+            'Remote Config',
+            'Series',
+        ],
+        featured: false,
+        coverImage: '/assets/blog/cover-images/tutorial_06.png',
+        seo: {
+            title: 'Flutter Force Update (Part 5): GitHub Gist | CodeWithNabi',
+            description:
+                'Host Flutter force-update required_version on a GitHub Gist — setup, fetch, caching, and rate limits.',
+            keywords: [
+                'Flutter',
+                'Force Update',
+                'GitHub Gist',
+                'Remote Config',
+                'JSON',
+            ],
+        },
+    },
+
+    {
+        id: '18',
+        title: 'Force Update in Flutter (Part 6): Firebase Remote Config',
+        slug: 'flutter-force-update-firebase',
+        excerpt:
+            'Part 6 — drive required_version with Firebase Remote Config: defaults, fetch intervals, flavors, and production safety.',
+        content: `
+# Force Update in Flutter (Part 6): Firebase Remote Config
+
+> **Force Update series:** [1. Why you need it](/blog/flutter-force-update-strategy) · [2. Upgrader](/blog/flutter-force-update-upgrader) · [3. Remote config intro](/blog/flutter-force-update-remote-config-intro) · [4. force_update_helper](/blog/flutter-force-update-helper) · [5. GitHub Gist](/blog/flutter-force-update-github-gist) · [6. Firebase Remote Config](/blog/flutter-force-update-firebase) · [7. Dart Shelf API](/blog/flutter-force-update-dart-shelf)
+
+If the app already uses Firebase, **Remote Config** is my default home for \`required_version\`. Free tier, console UI, conditions, and no Gist rate limits.
+
+## Why Remote Config fits force update
+
+- Change behavior **without** a store release
+- In-app **defaults** so offline first-launch still has a value
+- Optional conditions (platform, app version, audiences)
+- Pairs cleanly with Analytics / Crashlytics you may already ship
+
+## Dashboard setup
+
+1. Firebase console → **Remote Config**
+2. Add parameter: \`required_version\` (String), default \`1.0.0\`
+3. Publish changes
+
+For multi-flavor apps, use separate Firebase projects or RC conditions so staging can force-update without touching production.
+
+## Packages
+
+\`\`\`bash
+flutter pub add firebase_core firebase_remote_config firebase_analytics
+\`\`\`
+
+Initialize Firebase before reading config (same as any Firebase app).
+
+## Provider / service sketch
+
+\`\`\`dart
+Future<FirebaseRemoteConfig> initRemoteConfig() async {
+  final remoteConfig = FirebaseRemoteConfig.instance;
+
+  await remoteConfig.setConfigSettings(RemoteConfigSettings(
+    fetchTimeout: const Duration(seconds: 10),
+    // Production: hours. Debug: minutes so you can test.
+    minimumFetchInterval: kDebugMode
+        ? const Duration(minutes: 5)
+        : const Duration(hours: 1),
+  ));
+
+  await remoteConfig.setDefaults(const {
+    'required_version': '1.0.0',
+  });
+
+  try {
+    await remoteConfig.fetchAndActivate();
+  } catch (e, st) {
+    // log to Crashlytics; keep defaults / last activate
+  }
+
+  return remoteConfig;
+}
+
+Future<String> fetchRequiredVersion() async {
+  final remoteConfig = FirebaseRemoteConfig.instance;
+  return remoteConfig.getString('required_version');
+}
+\`\`\`
+
+Wire into [force_update_helper](/blog/flutter-force-update-helper):
+
+\`\`\`dart
+ForceUpdateClient(
+  fetchRequiredVersion: fetchRequiredVersion,
+  iosAppStoreId: Env.appStoreId,
+);
+\`\`\`
+
+## Fetch intervals (do not surprise yourself)
+
+Firebase documents a default **minimum fetch interval** (historically 12 hours in some setups). If you raise \`required_version\` in the console and the app "does nothing," you are probably throttled.
+
+- **Debug:** short interval or \`minimumFetchInterval: Duration.zero\` only in debug
+- **Release:** 1 hour is a reasonable compromise for force-update urgency vs battery/network
+- After a critical publish you can temporarily lower interval, ship a build, then raise it again
+
+## Testing without publishing a bad floor
+
+1. Install a build with version \`1.0.0\`
+2. Set RC \`required_version\` to \`2.0.0\` → hard prompt expected
+3. Set back to \`1.0.0\` → app opens
+4. Confirm offline: defaults / last activated values still make sense
+
+Never set production \`required_version\` above what stores actually serve.
+
+## Flavors and environments
+
+| Flavor | Firebase project | required_version purpose |
+| --- | --- | --- |
+| dev | project-dev | Break things freely |
+| stg | project-stg | QA force-update drills |
+| prod | project-prod | Real users |
+
+Do **not** share one RC namespace for prod + experimental kill switches without conditions.
+
+## Summary
+
+- Remote Config = production-grade home for \`required_version\`
+- Always setDefaults + handle fetch failure
+- Debug with short fetch intervals; release with sane throttling
+- Next level of control: your own backend endpoint
+
+**← Previous** [Part 5: GitHub Gist](/blog/flutter-force-update-github-gist)  
+**Next →** [Part 7: Dart Shelf API](/blog/flutter-force-update-dart-shelf)
+    `,
+        author: {
+            name: 'Muhammad Nabi Rahmani',
+            avatar: '/assets/branding/profile.jpg',
+            bio: 'Flutter Developer passionate about creating beautiful mobile experiences',
+        },
+        publishedAt: '2026-07-15',
+        updatedAt: '2026-07-15',
+        readingTime: 8,
+        category: 'Flutter Development',
+        tags: [
+            'Flutter',
+            'Force Update',
+            'Firebase',
+            'Remote Config',
+            'Series',
+        ],
+        featured: false,
+        coverImage: '/assets/blog/cover-images/tutorial_07.png',
+        seo: {
+            title: 'Flutter Force Update (Part 6): Firebase Remote Config | CodeWithNabi',
+            description:
+                'Configure Flutter force update with Firebase Remote Config — defaults, fetch intervals, flavors, production safety.',
+            keywords: [
+                'Flutter',
+                'Force Update',
+                'Firebase Remote Config',
+                'Firebase',
+                'required_version',
+            ],
+        },
+    },
+
+    {
+        id: '19',
+        title: 'Force Update in Flutter (Part 7): Custom API with Dart Shelf',
+        slug: 'flutter-force-update-dart-shelf',
+        excerpt:
+            'Part 7 — own required_version with a tiny Dart Shelf endpoint, multi-env URLs, and production deploy notes.',
+        content: `
+# Force Update in Flutter (Part 7): Custom API with Dart Shelf
+
+> **Force Update series:** [1. Why you need it](/blog/flutter-force-update-strategy) · [2. Upgrader](/blog/flutter-force-update-upgrader) · [3. Remote config intro](/blog/flutter-force-update-remote-config-intro) · [4. force_update_helper](/blog/flutter-force-update-helper) · [5. GitHub Gist](/blog/flutter-force-update-github-gist) · [6. Firebase Remote Config](/blog/flutter-force-update-firebase) · [7. Dart Shelf API](/blog/flutter-force-update-dart-shelf)
+
+Gist is fine for small apps. Firebase is fine when you already pay the Firebase tax. When you have (or want) **your own backend**, a single endpoint is the cleanest source of truth:
+
+\`\`\`http
+GET /required_version
+→ 200 text/plain
+1.4.2
+\`\`\`
+
+This part uses **Dart Shelf** so the whole stack stays in Dart — same language as the Flutter client.
+
+## Why a custom endpoint
+
+- No Gist rate limits
+- No Firebase if you do not need it
+- Easy multi-env (\`dev\` / \`stg\` / \`prod\`) with different floors
+- Can later expand to JSON: soft version, messages, store URLs, kill switches
+- Fits existing auth, logging, and deploy pipelines
+
+## Minimal Shelf server
+
+\`\`\`dart
+import 'dart:io';
+import 'package:shelf/shelf.dart';
+import 'package:shelf/shelf_io.dart' as shelf_io;
+import 'package:shelf_router/shelf_router.dart';
+
+void main() async {
+  final app = Router();
+
+  app.get('/required_version', (Request request) {
+    final version = Platform.environment['REQUIRED_VERSION'] ?? '1.0.0';
+    return Response.ok(
+      version,
+      headers: {'content-type': 'text/plain; charset=utf-8'},
+    );
+  });
+
+  final handler = Pipeline()
+      .addMiddleware(logRequests())
+      .addHandler(app.call);
+
+  final port = int.parse(Platform.environment['PORT'] ?? '8080');
+  final server = await shelf_io.serve(handler, InternetAddress.anyIPv4, port);
+  print('Listening on \${server.address.host}:\${server.port}');
+}
+\`\`\`
+
+## Flutter client
+
+\`\`\`dart
+ForceUpdateClient(
+  fetchRequiredVersion: () async {
+    // TODO: production URL from env / flavor
+    const baseUrl = String.fromEnvironment(
+      'API_BASE_URL',
+      defaultValue: 'http://10.0.2.2:8080', // Android emulator → host
+    );
+    final response = await dio.get('\$baseUrl/required_version');
+    return (response.data as String).trim();
+  },
+  iosAppStoreId: Env.appStoreId,
+);
+\`\`\`
+
+Notes:
+
+- iOS simulator often uses \`http://127.0.0.1:8080\`
+- Android emulator uses \`10.0.2.2\` for host loopback
+- Real devices need your LAN IP or a deployed HTTPS URL
+- Cleartext HTTP needs network security config / ATS exceptions — prefer HTTPS in prod
+
+## Flavors map to base URLs
+
+| Flavor | Base URL example |
+| --- | --- |
+| dev | \`https://dev-api.your-app.com\` |
+| stg | \`https://stg-api.your-app.com\` |
+| prod | \`https://api.your-app.com\` |
+
+Each environment can set \`REQUIRED_VERSION\` independently so QA can force-update staging without bricking production.
+
+## Deploy options (pick one)
+
+- **Globe / edge Dart hosts** — designed for Dart servers
+- **Docker** → Cloud Run, ECS, Azure Container Apps
+- **VM / VPS** — simple \`dart run\` or AOT binary behind Caddy/Nginx
+- **Existing backend** — skip Shelf and add \`GET /required_version\` to Nest, Rails, Go, etc. The Flutter side does not care
+
+Beyond this course-length note: [deploying Dart backends](https://codewithandrea.com) style guides exist; the rule is HTTPS + env vars + health checks.
+
+## Growing the contract
+
+Start with plain text. When product needs more:
+
+\`\`\`json
+{
+  "required_version": "1.4.0",
+  "recommended_version": "1.5.1",
+  "message": "This version can no longer sync. Please update.",
+  "force": true
+}
+\`\`\`
+
+Keep the client tolerant: if JSON parse fails, fall back to safe defaults.
+
+## Production checklist
+
+- [ ] HTTPS only in prod  
+- [ ] \`REQUIRED_VERSION\` set per environment  
+- [ ] Flutter flavor points at correct base URL  
+- [ ] Caching + timeout on the client  
+- [ ] Raise version only after store rollout  
+- [ ] Logging/metrics on the endpoint  
+
+## Series wrap-up
+
+| Part | Tool | Best for |
+| --- | --- | --- |
+| [1](/blog/flutter-force-update-strategy) | Concepts | Policy & soft vs hard |
+| [2](/blog/flutter-force-update-upgrader) | upgrader | Always match store |
+| [3](/blog/flutter-force-update-remote-config-intro) | Remote min version | Kill switch design |
+| [4](/blog/flutter-force-update-helper) | force_update_helper | Client glue |
+| [5](/blog/flutter-force-update-github-gist) | Gist | Zero backend |
+| [6](/blog/flutter-force-update-firebase) | Firebase RC | Existing Firebase apps |
+| **7** | **Shelf / API** | **Own backend, multi-env** |
+
+My default for shipping apps: **remote min version + helper + API or Firebase**, hard only when it matters, Shorebird for Dart-only fire drills.
+
+**← Previous** [Part 6: Firebase Remote Config](/blog/flutter-force-update-firebase)  
+**Series start →** [Part 1: Why force update](/blog/flutter-force-update-strategy)
+    `,
+        author: {
+            name: 'Muhammad Nabi Rahmani',
+            avatar: '/assets/branding/profile.jpg',
+            bio: 'Flutter Developer passionate about creating beautiful mobile experiences',
+        },
+        publishedAt: '2026-07-15',
+        updatedAt: '2026-07-15',
+        readingTime: 9,
+        category: 'Flutter Development',
+        tags: [
+            'Flutter',
+            'Force Update',
+            'Dart Shelf',
+            'Backend',
+            'Series',
+        ],
+        featured: false,
+        coverImage: '/assets/blog/cover-images/tutorial_09.png',
+        seo: {
+            title: 'Flutter Force Update (Part 7): Dart Shelf API | CodeWithNabi',
+            description:
+                'Ship a Dart Shelf required_version endpoint for Flutter force update — multi-env URLs, client wiring, deploy notes.',
+            keywords: [
+                'Flutter',
+                'Force Update',
+                'Dart Shelf',
+                'Backend',
+                'API',
+            ],
+        },
+    },
 ];
 
 export const blogCategories: BlogCategory[] = [
@@ -3147,7 +4468,7 @@ export const blogCategories: BlogCategory[] = [
         name: 'Flutter Development',
         slug: 'flutter-development',
         description: 'Tutorials and insights about Flutter mobile development',
-        count: 6
+        count: 14
     },
     {
         id: '2',

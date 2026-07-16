@@ -248,10 +248,10 @@ export default function CourseOverviewPage() {
                   className="object-cover"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                <div className="absolute inset-0 bg-black/30" />
               </div>
               {/* Quick info overlay */}
-              <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/80 to-transparent">
+              <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-5">
                 <div className="flex flex-wrap gap-2">
                   {course.tags.slice(0, 4).map((tag) => (
                     <span

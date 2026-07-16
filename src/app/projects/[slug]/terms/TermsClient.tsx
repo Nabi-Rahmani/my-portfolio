@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
+import ProjectAppIcon from '@/components/ProjectAppIcon';
 import type { Project } from '@/types/project';
 
 const sectionVariant = {
@@ -38,22 +38,12 @@ export default function TermsClient({ project }: { project: Project }) {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ type: 'spring', stiffness: 180, damping: 14, delay: 0.1 }}
                     >
-                        {project.iconLight && (
-                            <Image
-                                src={project.iconLight}
-                                alt={`${project.title} icon`}
-                                width={48}
-                                height={48}
-                                className="rounded-xl dark:hidden"
-                            />
-                        )}
-                        {project.iconDark && (
-                            <Image
-                                src={project.iconDark}
-                                alt={`${project.title} icon`}
-                                width={48}
-                                height={48}
-                                className="rounded-xl hidden dark:block"
+                        {(project.iconLight || project.iconDark) && (
+                            <ProjectAppIcon
+                                title={project.title}
+                                iconLight={project.iconLight}
+                                iconDark={project.iconDark}
+                                size="sm"
                             />
                         )}
                         <div>

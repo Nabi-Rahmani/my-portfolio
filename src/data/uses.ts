@@ -14,15 +14,19 @@ export const usesCategories: UsesCategory[] = [
     },
     {
         label: 'Flutter / Dart',
-        items: ['Flutter', 'Dart', 'Riverpod', 'Drift', 'Hive', 'RevenueCat', 'Firebase'],
+        items: [
+            'Flutter',
+            'Dart',
+            'Riverpod',
+            'Drift',
+            'Hive',
+            'Firebase',
+            'RevenueCat (paywalls & e2e subscriptions)',
+        ],
     },
     {
         label: 'Design',
         items: ['Figma', 'SF Symbols', 'Material Symbols'],
-    },
-    {
-        label: 'Web stack',
-        items: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
     },
     {
         label: 'Services',

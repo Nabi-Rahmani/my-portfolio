@@ -185,3 +185,9 @@ You `MUST` always use this tool when:
 + Before making architectural decisions to understand existing patterns
 + When debugging issues to check for previous solutions
 + Working with unfamiliar parts of the codebase
+
+## ACT Workflow
+
+ACT workflow storage for new Specs is configured in `.act/config.yaml`.
+
+ACT workflow semantics, Workflow Storage selection, artifact vocabulary, and domain-doc guidance are defined in `.act/workflow.md`.
