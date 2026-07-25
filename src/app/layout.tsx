@@ -1,24 +1,29 @@
 import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
-import { Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { Instrument_Sans, JetBrains_Mono, Playfair_Display } from "next/font/google";
 import StructuredData from "@/components/StructuredData";
 import Navigation from "@/components/Navigation";
 import LenisScroll from "@/components/LenisScroll";
 import "./globals.css";
 
-const instrumentSerif = Instrument_Serif({
-  weight: ["400"],
-  style: ["normal", "italic"],
+const instrumentSans = Instrument_Sans({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-serif",
+  variable: "--font-instrument-sans",
   display: "swap",
 });
 
 const jetbrainsMono = JetBrains_Mono({
-  weight: ["400"],
+  weight: ["400", "500", "700"],
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+});
+
+const playfairDisplay = Playfair_Display({
+  weight: ["700", "900"],
+  style: ["normal", "italic"],
+  subsets: ["latin"],
+  variable: "--font-playfair",
   display: "swap",
 });
 
@@ -95,7 +100,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${instrumentSans.variable} ${jetbrainsMono.variable} ${playfairDisplay.variable}`} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -104,9 +109,7 @@ export default function RootLayout({
         />
         <StructuredData />
       </head>
-      <body
-        className={`${GeistSans.className} antialiased min-h-screen overflow-x-hidden`}
-      >
+      <body className="antialiased min-h-screen overflow-x-hidden">
         <LenisScroll />
         <Navigation />
         <main>{children}</main>

@@ -62,7 +62,6 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
     <div className="min-h-screen bg-[var(--cream)] text-[var(--ink)]">
       {/* Standalone product hero: one identity, one product preview. */}
       <section className="relative overflow-hidden border-b border-[var(--line)] px-6 pb-16 pt-28 md:px-12 md:pb-24 md:pt-36" aria-label={`${project.title} overview`}>
-        <div className="editorial-dots absolute right-[4%] top-[14%] h-32 w-32 opacity-60" aria-hidden />
         <div className="mx-auto max-w-[1200px]">
           <nav className="mb-12 flex items-center gap-2 text-[0.72rem] text-[var(--muted)]" aria-label="Breadcrumb">
             <Link href="/" className="text-inherit no-underline hover:text-[var(--ink)]">Home</Link>
@@ -92,7 +91,6 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: reduceMotion ? 0.01 : 0.65 }}
               >
-                <div className="organic-blob absolute -inset-6" aria-hidden />
                 <Image src={project.heroImage} alt={`${project.title} product preview`} width={841} height={1280} className="relative h-auto w-full rounded-[2rem] border border-[var(--line)] shadow-[var(--shadow-lg)]" sizes="(max-width: 768px) 82vw, 420px" priority />
               </motion.div>
             )}

@@ -50,10 +50,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[var(--cream)] text-[var(--ink)]">
       <section id="home" className="relative flex min-h-[min(940px,100svh)] items-center overflow-hidden px-6 pb-20 pt-28 md:px-12 lg:px-16" aria-label="Introduction">
-        <div className="organic-blob absolute -right-[12vw] top-[15%] h-[45vw] max-h-[620px] w-[45vw] max-w-[620px] opacity-70" aria-hidden />
-        <div className="editorial-dots absolute right-[6%] top-[18%] h-44 w-44" aria-hidden />
-        <div className="editorial-lines absolute bottom-[12%] left-[3%] h-28 w-28 opacity-70" aria-hidden />
-
         <div className="relative z-10 mx-auto w-full max-w-[1320px]">
           <motion.div initial="hidden" animate="visible" variants={reveal} custom={0}>
             <div className="mb-8 flex flex-wrap items-center gap-3">
