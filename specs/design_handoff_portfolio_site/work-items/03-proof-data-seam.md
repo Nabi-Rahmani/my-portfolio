@@ -24,7 +24,7 @@ Types go in `src/types/proof.ts` or inline in the config module, whichever match
 ## Required context
 
 - The real figures must come from the owner reading Play Console. Until they land, `installs`, `rating` and `ratingCount` stay `undefined` and the affected stat cells simply do not render — the 2×2 grid degrades to the cells it can prove.
-- `07-play-console-proof-fetch.md` later fills this same seam from the Play Developer API. Design the module so a build-time fetch can supply values without consumers changing.
+- Keep the module source-agnostic so owner-supplied proof can be updated without consumers changing.
 - `siteConfig` in `src/config/site.ts` is the established pattern for owner-supplied configuration with `has*()` predicates — mirror its shape and comment style.
 - Blog posts live as a static array in `src/data/blog.ts` with helper functions; import the helper rather than the array where one exists.
 

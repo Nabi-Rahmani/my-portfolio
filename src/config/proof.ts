@@ -24,8 +24,8 @@ interface ProofConfig {
 /**
  * Owner-supplied shipping proof.
  *
- * A future build-time Play Console fetch may populate the optional app fields here.
- * Consumers must use the helpers below rather than reading this record directly.
+ * Keep owner-supplied values here. Consumers must use the helpers below rather
+ * than reading this record directly.
  */
 const proofConfig: ProofConfig = {
   apps: {
