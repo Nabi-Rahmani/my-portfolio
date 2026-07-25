@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Projects',
-    description: 'Explore mobile apps built by Muhammad Nabi Rahmani — Focus Flow, Dev Discipline, and Raha — crafted with Flutter, Riverpod, and clean architecture.',
+    title: 'Selected Work',
+    description: 'Explore three shipped Flutter products designed, engineered, released, and maintained by Nabi Rahmani.',
     openGraph: {
-        title: 'Projects - Muhammad Nabi Rahmani',
-        description: 'Explore mobile apps built with Flutter, Riverpod, and clean architecture.',
+        title: 'Selected Work — Nabi Rahmani',
+        description: 'Three shipped Flutter products built from architecture through Play Store release.',
         url: 'https://codewithnabi.dev/projects',
     },
 };

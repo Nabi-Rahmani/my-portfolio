@@ -3,7 +3,13 @@
  * CTA surfaces read from this seam — never invent metrics or dead primary links.
  */
 export const siteConfig = {
-  availability: 'Available for freelance & full-time remote',
+  name: 'Muhammad Nabi Rahmani',
+  shortName: 'Nabi Rahmani',
+  role: 'Flutter product engineer',
+  experienceLabel: '3+ years',
+  location: 'Ankara, Turkey',
+  timezone: 'GMT+3',
+  availability: 'Available for remote Flutter roles',
   contactEmail: 'codewithnabi@gmail.com',
   cvPath: '/Nabi-Rahmani-Flutter-Developer-CV.pdf', // file placed in /public
   cvAvailable: false, // flip to true once the PDF is added

@@ -30,11 +30,11 @@ const playfairDisplay = Playfair_Display({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.codewithnabi.dev'),
   title: {
-    default: "Muhammad Nabi Rahmani - Flutter Developer | codewithnabi",
+    default: "Nabi Rahmani — Flutter Product Engineer",
     template: "%s | Muhammad Nabi Rahmani"
   },
   description:
-    "Muhammad Nabi Rahmani — Flutter / mobile engineer in Ankara. Shipped apps, clean architecture, available for freelance and full-time remote.",
+    "Flutter product engineer with 3+ years of experience shipping dependable, offline-first mobile products from architecture to Play Store release.",
   keywords: ["Flutter Developer", "Mobile App Developer", "Dart", "Firebase", "codewithnabi", "Muhammad Nabi Rahmani", "App Development", "Mobile Development"],
   authors: [{ name: "Muhammad Nabi Rahmani", url: "https://codewithnabi.dev" }],
   creator: "Muhammad Nabi Rahmani",
@@ -52,15 +52,15 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://www.codewithnabi.dev",
     siteName: "codewithnabi",
-    title: "Muhammad Nabi Rahmani - Flutter Developer",
+    title: "Nabi Rahmani — Flutter Product Engineer",
     description:
-      "Flutter / mobile engineer in Ankara — shipped products, honest proof, available for freelance and full-time remote.",
+      "3+ years shipping dependable Flutter products from architecture to Play Store release.",
     images: [
       {
-        url: "https://www.codewithnabi.dev/assets/branding/og-image.jpg",
+        url: "https://www.codewithnabi.dev/og.png",
         width: 1200,
         height: 630,
-        alt: "Muhammad Nabi Rahmani - Flutter Developer",
+        alt: "Nabi Rahmani — Flutter Product Engineer",
       },
     ],
   },
@@ -68,10 +68,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@nabirahmani_dev",
     creator: "@nabirahmani_dev",
-    title: "Muhammad Nabi Rahmani - Flutter Developer",
+    title: "Nabi Rahmani — Flutter Product Engineer",
     description:
-      "Flutter / mobile engineer in Ankara — shipped products, honest proof, available for freelance and full-time remote.",
-    images: ["https://www.codewithnabi.dev/assets/branding/og-image.jpg"],
+      "3+ years shipping dependable Flutter products from architecture to Play Store release.",
+    images: ["https://www.codewithnabi.dev/og.png"],
   },
   alternates: {
     canonical: "https://www.codewithnabi.dev",
@@ -104,7 +104,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');var d=t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d)}catch(e){if(window.matchMedia('(prefers-color-scheme: dark)').matches){document.documentElement.classList.add('dark')}}})()`,
+            __html: `(function(){try{var t=localStorage.getItem('theme');document.documentElement.classList.toggle('dark',t==='dark')}catch(e){document.documentElement.classList.remove('dark')}})()`,
           }}
         />
         <StructuredData />

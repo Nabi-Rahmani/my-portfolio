@@ -45,7 +45,7 @@ export default function ProjectAppIcon({
   return (
     <div
       className={cn(
-        'relative shrink-0 overflow-hidden border border-[var(--line)] shadow-md',
+        'relative shrink-0 overflow-hidden border border-[var(--line)]',
         // Solid plates so dark/light glyphs always clear WCAG contrast
         // Light: white plate + dark glyph; Dark: deep plate + light/gold glyph
         'bg-white dark:bg-[var(--cream-2)]',

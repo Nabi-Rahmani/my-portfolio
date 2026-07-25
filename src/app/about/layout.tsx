@@ -3,11 +3,11 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'About',
   description:
-    'Nabi Rahmani — Flutter developer from Afghanistan based in Ankara. Story, shipped apps, and how to get in touch for freelance or full-time remote.',
+    'Meet Nabi Rahmani, a Flutter product engineer with 3+ years of experience shipping dependable mobile products from Ankara.',
   openGraph: {
-    title: 'About · Muhammad Nabi Rahmani',
+    title: 'About Nabi Rahmani · Flutter Product Engineer',
     description:
-      'Personal story, shipping principles, and a clear path to contact — Flutter / mobile engineer available for freelance and full-time remote.',
+      'Product judgment, engineering principles, shipped work, and a clear path to contact.',
     url: 'https://codewithnabi.dev/about',
   },
 };

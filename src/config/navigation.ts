@@ -1,4 +1,4 @@
-export type NavId = 'projects' | 'articles' | 'github' | 'about' | 'courses';
+export type NavId = 'projects' | 'articles' | 'about';
 
 export interface NavItem {
   id: NavId;
@@ -9,16 +9,9 @@ export interface NavItem {
 }
 
 export const primaryNav: NavItem[] = [
+  { id: 'projects', label: 'Work', href: '/projects' },
   { id: 'articles', label: 'Writing', href: '/blog' },
-  { id: 'projects', label: 'Apps', href: '/projects' },
   { id: 'about', label: 'About', href: '/about' },
-  { id: 'courses', label: 'Courses', href: '/courses' },
-  {
-    id: 'github',
-    label: 'GitHub',
-    href: 'https://github.com/Nabi-Rahmani',
-    external: true,
-  },
 ];
 
 export const footerNav: { label: string; href: string }[] = [

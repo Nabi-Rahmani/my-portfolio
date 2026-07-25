@@ -1,0 +1,159 @@
+import Image from 'next/image';
+import Link from 'next/link';
+
+import ProjectAppIcon from '@/components/ProjectAppIcon';
+import { getProjectScreenshots, getValidStoreUrl } from '@/lib/links';
+import type { Project } from '@/types/project';
+
+function platformLabel(platform: Project['platform']) {
+  if (platform === 'android') return 'Android';
+  if (platform === 'ios') return 'iOS';
+  return 'Android · iOS planned';
+}
+
+function ProductScreens({
+  project,
+  priority,
+}: {
+  project: Project;
+  priority?: boolean;
+}) {
+  const screenshots = getProjectScreenshots(project.screenshots).slice(0, 3);
+
+  if (screenshots.length === 0) {
+    return (
+      <div className="relative aspect-[16/10] overflow-hidden rounded-[18px] border border-[var(--line-18)] bg-[var(--surface-bg)]">
+        <Image
+          src={project.coverImage}
+          alt={`${project.title} product overview`}
+          fill
+          className="object-cover"
+          sizes="(max-width: 1024px) 100vw, 52vw"
+          priority={priority}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-3 items-center gap-2.5 sm:gap-4">
+      {screenshots.map((src, index) => (
+        <div
+          key={src}
+          className={[
+            'relative aspect-[9/19.5] overflow-hidden rounded-[14px] border border-[var(--line-18)] bg-[var(--surface-bg)] sm:rounded-[20px]',
+            index === 1 ? '-translate-y-3 sm:-translate-y-5' : '',
+          ].join(' ')}
+        >
+          <Image
+            src={src}
+            alt={`${project.title} product screen ${index + 1}`}
+            fill
+            className="object-cover object-top"
+            sizes="(max-width: 1024px) 30vw, 180px"
+            priority={priority && index === 1}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default function ProjectShowcase({
+  project,
+  index,
+  priority = false,
+}: {
+  project: Project;
+  index: number;
+  priority?: boolean;
+}) {
+  const playStoreUrl = getValidStoreUrl(project.links.playStore);
+  const visualOrder = index % 2 === 0 ? 'lg:order-1' : 'lg:order-2';
+  const contentOrder = index % 2 === 0 ? 'lg:order-2' : 'lg:order-1';
+
+  return (
+    <article className="grid items-center gap-10 border-t border-[var(--line-16)] py-14 sm:py-18 lg:grid-cols-2 lg:gap-16 lg:py-24">
+      <div
+        className={`rounded-[24px] border border-[var(--line-16)] bg-[var(--accent-soft)] p-4 sm:p-7 lg:p-9 ${visualOrder}`}
+      >
+        <ProductScreens project={project} priority={priority} />
+      </div>
+
+      <div className={contentOrder}>
+        <div className="flex items-center gap-3">
+          <ProjectAppIcon
+            title={project.title}
+            iconLight={project.iconLight}
+            iconDark={project.iconDark}
+            size="sm"
+          />
+          <div>
+            <p className="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-[var(--text-faint)]">
+              0{index + 1} · {platformLabel(project.platform)}
+            </p>
+            <p className="mt-1 text-[0.78rem] font-medium text-[var(--accent)]">
+              {project.caseStudy.role}
+            </p>
+          </div>
+        </div>
+
+        <h3 className="mt-7 text-[clamp(2.55rem,5vw,4.8rem)] font-semibold leading-[0.94] tracking-[-0.06em] text-[var(--text-strong)]">
+          {project.title}
+        </h3>
+        <p className="mt-4 max-w-[34ch] text-[1.05rem] font-medium leading-7 text-[var(--text-body)]">
+          {project.subtitle}
+        </p>
+        <p className="mt-5 max-w-[58ch] text-[0.9rem] leading-7 text-[var(--text-muted)]">
+          {project.description}
+        </p>
+
+        <dl className="mt-8 border-y border-[var(--line-16)]">
+          {project.caseStudy.engineeringHighlights.slice(0, 3).map((highlight) => (
+            <div
+              key={highlight.title}
+              className="grid gap-1 border-b border-[var(--line-16)] py-4 last:border-b-0 sm:grid-cols-[150px_1fr] sm:gap-5"
+            >
+              <dt className="text-[0.78rem] font-semibold text-[var(--text-strong)]">
+                {highlight.title}
+              </dt>
+              <dd className="text-[0.78rem] leading-5 text-[var(--text-muted)]">
+                {highlight.description}
+              </dd>
+            </div>
+          ))}
+        </dl>
+
+        <div className="mt-7 flex flex-wrap gap-2">
+          {project.techStack.slice(0, 5).map((tech) => (
+            <span
+              key={tech}
+              className="rounded-full border border-[var(--line-16)] px-3 py-1.5 font-mono text-[0.62rem] text-[var(--text-muted)]"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <Link
+            href={`/projects/${project.slug}`}
+            className="rounded-full bg-[var(--text-strong)] px-5 py-3 text-[0.82rem] font-semibold text-[var(--page-bg)] no-underline transition-transform duration-150 hover:-translate-y-0.5"
+          >
+            Read case study
+          </Link>
+          {playStoreUrl && (
+            <a
+              href={playStoreUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-[var(--line-24)] px-5 py-3 text-[0.82rem] font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)]"
+            >
+              Google Play ↗
+            </a>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}

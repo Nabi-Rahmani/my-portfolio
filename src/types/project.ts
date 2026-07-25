@@ -22,6 +22,17 @@ export interface ProjectMetric {
     value: string;
 }
 
+export interface ProjectEngineeringHighlight {
+    title: string;
+    description: string;
+}
+
+export interface ProjectCaseStudy {
+    role: string;
+    responsibilities: string[];
+    engineeringHighlights: ProjectEngineeringHighlight[];
+}
+
 export interface Project {
     id: string;
     slug: string;
@@ -50,6 +61,8 @@ export interface Project {
     termsContent?: LegalPage;
     /** True shipping badges only (e.g. Live on Google Play) — not fake metrics. */
     badges?: string[];
+    /** Hiring-focused context backed by the shipped product and its implementation. */
+    caseStudy: ProjectCaseStudy;
     /**
      * Optional real outcomes. Render only when present and owner-supplied.
      * Do not invent downloads, ratings, or social proof.

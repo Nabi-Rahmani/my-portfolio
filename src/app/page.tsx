@@ -1,83 +1,95 @@
 'use client';
 
+import { motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, useReducedMotion } from 'framer-motion';
-import { Fragment } from 'react';
 
 import Footer from '@/components/Footer';
-import {
-  getAppProof,
-  getArticleCount,
-  getAverageRating,
-  getTotalInstalls,
-  getYearsShipping,
-} from '@/config/proof';
-import { contactMailto } from '@/config/site';
+import ProjectShowcase from '@/components/ProjectShowcase';
 import { socialLinks } from '@/config/navigation';
-import { getFeaturedPosts } from '@/data/blog';
-import { nowData } from '@/data/now';
+import { contactMailto, siteConfig } from '@/config/site';
+import { blogPosts, getFeaturedPosts } from '@/data/blog';
 import { getFeaturedProjects } from '@/data/projects';
-import { usesCategories } from '@/data/uses';
 import { fadeUpMotion, staggerMotion } from '@/lib/animations';
 
-const articles = getFeaturedPosts().slice(0, 4);
 const projects = getFeaturedProjects();
-const toolboxItems = usesCategories.find((category) => category.label === 'Flutter / Dart')?.items.slice(0, 6) ?? [];
-const githubUrl = socialLinks.find((link) => link.label === 'GitHub')?.href ?? 'https://github.com/Nabi-Rahmani';
+const featuredPosts = getFeaturedPosts();
+const articles = (featuredPosts.length > 0 ? featuredPosts : blogPosts).slice(0, 4);
+const githubUrl =
+  socialLinks.find((link) => link.label === 'GitHub')?.href ??
+  'https://github.com/Nabi-Rahmani';
+const linkedInUrl =
+  socialLinks.find((link) => link.label === 'LinkedIn')?.href ?? '#';
 
-function formatCompactNumber(value: number): string {
-  return new Intl.NumberFormat('en', {
-    maximumFractionDigits: 1,
-    notation: 'compact',
-  }).format(value);
-}
+const proofItems = [
+  { value: '3', label: 'Live products', note: 'Solo-built and maintained' },
+  { value: siteConfig.experienceLabel, label: 'Flutter experience', note: 'Production mobile work' },
+  { value: 'End to end', label: 'Product ownership', note: 'Architecture through release' },
+  { value: 'Remote', label: 'Availability', note: `${siteConfig.location} · ${siteConfig.timezone}` },
+];
 
-function formatPostDate(date: string): string {
+const engineeringFocus = [
+  {
+    number: '01',
+    title: 'Offline-first systems',
+    body: 'Local data remains useful when the network disappears, then cloud services stay intentionally small.',
+    stack: 'Drift · SQLite · Supabase',
+  },
+  {
+    number: '02',
+    title: 'State with clear boundaries',
+    body: 'Product state is split by responsibility so new features do not turn every screen into a dependency graph.',
+    stack: 'Riverpod · Clean Architecture',
+  },
+  {
+    number: '03',
+    title: 'Store-ready delivery',
+    body: 'Subscriptions, release links, observability, and maintenance are part of the product—not an afterthought.',
+    stack: 'RevenueCat · Sentry · Mixpanel',
+  },
+];
+
+function formatPostDate(date: string) {
   return new Intl.DateTimeFormat('en', {
+    day: '2-digit',
     month: 'short',
     timeZone: 'UTC',
     year: 'numeric',
-  }).format(new Date(`${date}T00:00:00Z`)).toUpperCase();
+  }).format(new Date(`${date}T00:00:00Z`));
 }
 
-function ProjectIcon({
-  title,
-  iconLight,
-  iconDark,
-}: {
-  title: string;
-  iconLight?: string;
-  iconDark?: string;
-}) {
-  const lightSrc = iconLight ?? iconDark;
-  const darkSrc = iconDark ?? iconLight;
-  const sameAsset = lightSrc === darkSrc;
-
-  if (!lightSrc && !darkSrc) return null;
+function ProductRack() {
+  const rackProjects = projects.slice(0, 3);
 
   return (
-    <span className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-tile border border-[var(--line-18)] bg-[var(--tile-bg)]">
-      {lightSrc && (
-        <Image
-          src={lightSrc}
-          alt={`${title} app icon`}
-          width={36}
-          height={36}
-          className={sameAsset ? 'h-full w-full scale-[1.65] object-contain' : 'h-full w-full scale-[1.65] object-contain dark:hidden'}
-        />
-      )}
-      {!sameAsset && darkSrc && (
-        <Image
-          src={darkSrc}
-          alt=""
-          aria-hidden
-          width={36}
-          height={36}
-          className="hidden h-full w-full scale-[1.65] object-contain dark:block"
-        />
-      )}
-    </span>
+    <div className="relative overflow-hidden rounded-[28px] border border-[var(--line-16)] bg-[var(--accent-soft)] px-4 pb-0 pt-8 sm:px-7 sm:pt-12 lg:px-9">
+      <div className="absolute left-6 top-5 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-[var(--accent)]">
+        Shipped products · real screens
+      </div>
+      <div className="grid grid-cols-3 items-end gap-2.5 pt-8 sm:gap-4">
+        {rackProjects.map((project, index) => {
+          const screenshot = project.screenshots[index === 1 ? 1 : 0] ?? project.coverImage;
+          return (
+            <div
+              key={project.slug}
+              className={[
+                'relative aspect-[9/19.5] overflow-hidden rounded-t-[14px] border border-b-0 border-[var(--line-18)] bg-[var(--surface-bg)] sm:rounded-t-[22px]',
+                index === 1 ? 'z-10 -mt-8' : '',
+              ].join(' ')}
+            >
+              <Image
+                src={screenshot}
+                alt={`${project.title} app screen`}
+                fill
+                className="object-cover object-top"
+                sizes="(max-width: 1024px) 30vw, 190px"
+                priority
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
@@ -85,222 +97,228 @@ export default function Home() {
   const reduceMotion = useReducedMotion();
   const reveal = fadeUpMotion(reduceMotion);
   const stagger = staggerMotion(reduceMotion);
-  const stats = [
-    {
-      label: 'TOTAL INSTALLS',
-      value: getTotalInstalls(),
-      format: formatCompactNumber,
-    },
-    {
-      label: 'RATINGS',
-      value: getAverageRating(),
-      format: (value: number) => `${value.toFixed(1)} ★`,
-    },
-    {
-      label: 'YEARS SHIPPING',
-      value: getYearsShipping(),
-      format: String,
-    },
-    {
-      label: 'ARTICLES',
-      value: getArticleCount(),
-      format: String,
-    },
-  ].filter((stat): stat is { label: string; value: number; format: (value: number) => string } => stat.value !== undefined);
 
   return (
-    <div className="min-h-screen bg-[var(--page-bg)] pt-[54px] text-[var(--text-strong)]">
-      <section id="home" className="border-b border-[var(--line-16)]" aria-label="Introduction">
-        <motion.div
-          className="mx-auto grid w-full max-w-[1280px] min-[1120px]:grid-cols-[1.35fr_1fr]"
-          initial="hidden"
-          animate="visible"
-          variants={reveal}
-        >
-          <div className="px-5 pb-10 pt-[46px] min-[760px]:px-10">
-            <div className="mb-5 flex items-center gap-[9px]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[var(--status-ok)]" aria-hidden />
-              <span className="font-mono text-[11.5px] tracking-[0.1em] text-[var(--text-muted)]">
-                AVAILABLE — FREELANCE &amp; FULL-TIME REMOTE
-              </span>
-            </div>
-            <h1 className="type-hero max-w-[19ch]">Flutter apps that hold up after the launch week.</h1>
-            <p className="type-lede mt-[18px] max-w-[52ch] text-[var(--text-muted)]">
-              I&apos;m Nabi — six years of mobile engineering, three of my own apps on the Play Store, and a habit of writing down what broke. Offline-first data, Riverpod at scale, store delivery.
-            </p>
-            <div className="mt-7 flex flex-wrap gap-[10px]">
-              <Link
-                href="/blog"
-                className="type-button rounded-pill bg-[var(--text-strong)] px-[22px] py-[11px] font-semibold text-[var(--on-accent)] no-underline transition-colors duration-[120ms] ease-out hover:bg-[var(--filled-button-hover)]"
-              >
-                Read the writing →
-              </Link>
-              <a
-                href={contactMailto()}
-                className="type-button rounded-pill border border-[var(--outline-border)] px-[22px] py-[11px] text-[var(--text-strong)] no-underline transition-colors duration-[120ms] ease-out hover:border-[var(--line-30)]"
-              >
-                codewithnabi@gmail.com
-              </a>
-            </div>
-          </div>
+    <div className="min-h-screen bg-[var(--page-bg)] pt-[72px] text-[var(--text-strong)]">
+      <main>
+        <section className="border-b border-[var(--line-16)]">
+          <motion.div
+            className="site-container grid gap-12 py-14 sm:py-20 lg:grid-cols-[1.03fr_0.97fr] lg:items-center lg:gap-16 lg:py-24"
+            initial="hidden"
+            animate="visible"
+            variants={stagger}
+          >
+            <motion.div variants={reveal}>
+              <div className="flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.13em] text-[var(--text-faint)]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[var(--status-ok)]" aria-hidden />
+                {siteConfig.role} · Ankara / Remote
+              </div>
+              <h1 className="display-hero mt-7 max-w-[12ch]">
+                I design and ship mobile products people can rely on.
+              </h1>
+              <p className="mt-7 max-w-[610px] text-[1.03rem] leading-8 text-[var(--text-muted)] sm:text-[1.12rem]">
+                I&apos;m Nabi Rahmani, a Flutter engineer with {siteConfig.experienceLabel} of
+                experience taking offline-first products from architecture to Play Store
+                release.
+              </p>
+              <div className="mt-9 flex flex-wrap gap-3">
+                <Link
+                  href="/projects"
+                  className="rounded-full bg-[var(--accent)] px-6 py-3.5 text-[0.86rem] font-semibold text-white no-underline transition-transform duration-150 hover:-translate-y-0.5"
+                >
+                  View selected work
+                </Link>
+                <a
+                  href={contactMailto({ subject: 'Flutter role inquiry' })}
+                  className="rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 py-3.5 text-[0.86rem] font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)]"
+                >
+                  Email me
+                </a>
+              </div>
+              <p className="mt-7 font-mono text-[0.65rem] uppercase tracking-[0.11em] text-[var(--text-faint)]">
+                Flutter · Dart · Riverpod · Drift · Store delivery
+              </p>
+            </motion.div>
 
-          <div className="grid grid-cols-2 border-t border-[var(--line-16)] min-[1120px]:border-l min-[1120px]:border-t-0">
-            {stats.map((stat, index) => (
+            <motion.div variants={reveal}>
+              <ProductRack />
+            </motion.div>
+          </motion.div>
+        </section>
+
+        <section className="border-b border-[var(--line-16)] bg-[var(--surface-bg)]" aria-label="Professional proof">
+          <div className="site-container grid sm:grid-cols-2 lg:grid-cols-4">
+            {proofItems.map((item, index) => (
               <div
-                key={stat.label}
+                key={item.label}
                 className={[
-                  'p-[22px] min-[760px]:px-6',
-                  index % 2 === 0 ? 'border-r border-[var(--line-16)]' : '',
-                  index < stats.length - (stats.length % 2 === 0 ? 2 : 1) ? 'border-b border-[var(--line-16)]' : '',
+                  'border-b border-[var(--line-16)] py-6 sm:px-6 lg:border-b-0 lg:border-r lg:py-8',
+                  index % 2 === 0 ? 'sm:border-r' : '',
+                  index === 0 ? 'sm:pl-0' : '',
+                  index === proofItems.length - 1 ? 'border-r-0 lg:pr-0' : '',
                 ].join(' ')}
               >
-                <div className="type-stat text-[var(--accent)]">{stat.format(stat.value)}</div>
-                <div className="type-meta mt-[5px] text-[var(--text-muted)]">{stat.label}</div>
+                <p className="text-[1.45rem] font-semibold tracking-[-0.04em] text-[var(--text-strong)]">
+                  {item.value}
+                </p>
+                <p className="mt-1 text-[0.76rem] font-semibold text-[var(--text-body)]">
+                  {item.label}
+                </p>
+                <p className="mt-1 text-[0.7rem] text-[var(--text-faint)]">{item.note}</p>
               </div>
             ))}
           </div>
-        </motion.div>
-      </section>
+        </section>
 
-      <section className="border-b border-[var(--line-16)]" aria-label="Writing and current work">
-        <motion.div
-          className="mx-auto grid w-full max-w-[1280px] min-[1120px]:grid-cols-[minmax(0,1fr)_380px]"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          variants={reveal}
-        >
-          <div className="px-5 py-8 min-[760px]:px-10 min-[1120px]:border-r min-[1120px]:border-[var(--line-16)] min-[1120px]:pb-[34px]">
-            <div className="mb-5 flex items-baseline justify-between gap-5">
-              <span className="type-eyebrow text-[var(--text-muted)]">Latest writing</span>
-              <Link href="/blog" className="type-button shrink-0 text-[var(--accent)] no-underline">
-                All {getArticleCount()} posts →
-              </Link>
+        <section id="work" className="site-container py-16 sm:py-22 lg:py-28">
+          <div className="grid gap-6 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
+            <div>
+              <p className="eyebrow">Selected work</p>
+              <h2 className="display-section mt-5 max-w-[10ch]">Products built past the prototype.</h2>
             </div>
-            <motion.div variants={stagger}>
-              {articles.map((post, index) => (
-                <motion.div key={post.id} variants={reveal}>
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    className={`group flex flex-col gap-2 border-t border-[var(--line-13)] px-0 py-4 no-underline transition-colors duration-[120ms] ease-out hover:bg-[var(--row-hover-bg)] min-[760px]:flex-row min-[760px]:gap-5 ${index === articles.length - 1 ? 'border-b' : ''}`}
-                  >
-                    <time dateTime={post.publishedAt} className="type-meta shrink-0 text-[var(--text-faint)] min-[760px]:w-[70px] min-[760px]:pt-[3px]">
-                      {formatPostDate(post.publishedAt)}
-                    </time>
-                    <div className="min-w-0">
-                      <h2 className="type-article-title text-[var(--text-soft)] transition-colors duration-[120ms] ease-out group-hover:text-[var(--text-strong)]">{post.title}</h2>
-                      <p className="type-dek mt-1 max-w-[60ch] text-[var(--text-muted)]">{post.excerpt}</p>
-                    </div>
-                    <span className="type-meta shrink-0 text-[var(--text-faint)] transition-transform duration-[120ms] ease-out group-hover:translate-x-0.5 min-[760px]:ml-auto min-[760px]:pt-[3px]">
-                      {post.readingTime}m
-                    </span>
-                  </Link>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-
-          <aside id="about" className="border-t border-[var(--line-16)] bg-[var(--panel-bg)] px-5 py-8 min-[760px]:px-[30px] min-[1120px]:border-l-0 min-[1120px]:border-t-0 min-[1120px]:pb-[34px]" aria-label="Now and toolbox">
-            <span className="type-eyebrow text-[var(--text-muted)]">Now</span>
-            <p className="mt-[14px] text-[14px] leading-[1.6] text-[var(--text-soft)] [text-wrap:pretty]">
-              {nowData.sections.map((section, index) => (
-                <Fragment key={section.label}>
-                  <span className="font-medium text-[var(--text-strong)]">{section.label}: </span>
-                  {section.items.join(' · ')}
-                  {index < nowData.sections.length - 1 ? ' ' : ''}
-                </Fragment>
-              ))}
+            <p className="max-w-[620px] text-[0.95rem] leading-7 text-[var(--text-muted)] lg:justify-self-end">
+              Three independent products designed, engineered, released, and maintained as
+              complete systems. Each case study focuses on the decisions behind the interface.
             </p>
-            <div className="my-[22px] h-px bg-[var(--line-16)]" />
-            <span className="type-eyebrow text-[var(--text-muted)]">Toolbox</span>
-            <div className="mt-[13px] flex flex-wrap gap-[7px]">
-              {toolboxItems.map((item) => (
-                <span key={item} className="type-meta rounded-chip border border-[var(--line-24)] px-[10px] py-[5px] text-[var(--text-soft)]">
-                  {item}
-                </span>
+          </div>
+
+          <div className="mt-12">
+            {projects.map((project, index) => (
+              <ProjectShowcase
+                key={project.slug}
+                project={project}
+                index={index}
+                priority={index === 0}
+              />
+            ))}
+          </div>
+        </section>
+
+        <section className="border-y border-[var(--line-16)] bg-[var(--surface-bg)]">
+          <div className="site-container grid gap-12 py-16 sm:py-22 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20 lg:py-28">
+            <div>
+              <p className="eyebrow">Engineering focus</p>
+              <h2 className="display-section mt-5 max-w-[10ch]">The work behind a reliable release.</h2>
+              <p className="mt-6 max-w-[43ch] text-[0.9rem] leading-7 text-[var(--text-muted)]">
+                I care about what happens after launch: data integrity, clear state, observable
+                failures, and code another engineer can safely extend.
+              </p>
+            </div>
+
+            <div className="border-t border-[var(--line-16)]">
+              {engineeringFocus.map((item) => (
+                <div
+                  key={item.number}
+                  className="grid gap-4 border-b border-[var(--line-16)] py-7 sm:grid-cols-[52px_180px_1fr] sm:gap-6"
+                >
+                  <span className="font-mono text-[0.66rem] text-[var(--accent)]">{item.number}</span>
+                  <h3 className="text-[0.95rem] font-semibold tracking-[-0.02em]">{item.title}</h3>
+                  <div>
+                    <p className="text-[0.82rem] leading-6 text-[var(--text-muted)]">{item.body}</p>
+                    <p className="mt-3 font-mono text-[0.62rem] uppercase tracking-[0.08em] text-[var(--text-faint)]">
+                      {item.stack}
+                    </p>
+                  </div>
+                </div>
               ))}
             </div>
-          </aside>
-        </motion.div>
-      </section>
-
-      <section id="projects" className="border-b border-[var(--line-16)]" aria-label="Apps I built and maintain alone">
-        <motion.div
-          className="mx-auto w-full max-w-[1280px] px-5 py-8 min-[760px]:px-10 min-[760px]:pb-[38px]"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          variants={reveal}
-        >
-          <span className="type-eyebrow text-[var(--text-muted)]">Apps I built and maintain alone</span>
-          <motion.div className="mt-[18px]" variants={stagger}>
-            {projects.map((project, index) => {
-              const proof = getAppProof(project.slug);
-              return (
-                <motion.div key={project.id} variants={reveal}>
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    className={`group grid grid-cols-1 items-center gap-x-4 gap-y-2 border-t border-[var(--line-13)] py-4 no-underline transition-colors duration-[120ms] ease-out hover:bg-[var(--row-hover-bg)] min-[760px]:grid-cols-[44px_minmax(0,1fr)] min-[1120px]:grid-cols-[44px_190px_minmax(0,1fr)_130px_100px_90px] ${index === projects.length - 1 ? 'border-b' : ''}`}
-                  >
-                    <ProjectIcon title={project.title} iconLight={project.iconLight} iconDark={project.iconDark} />
-                    <span className="text-[17px] font-semibold tracking-[-0.012em] text-[var(--text-strong)] min-[760px]:col-start-2 min-[1120px]:col-auto">{project.title}</span>
-                    <span className="hidden text-[13.5px] text-[var(--text-muted)] max-[759px]:block min-[1120px]:col-auto min-[1120px]:block">{project.subtitle}</span>
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 font-mono min-[760px]:col-start-2 min-[1120px]:contents">
-                      {proof?.installs !== undefined && (
-                        <span className="text-[13px] font-medium text-[var(--accent)]">
-                          {formatCompactNumber(proof.installs)} installs
-                        </span>
-                      )}
-                      {proof?.rating !== undefined && (
-                        <span className="text-[13px] text-[var(--text-muted)]">
-                          {proof.rating.toFixed(1)} ★
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-[12.5px] font-medium text-[var(--text-strong)] group-hover:underline group-hover:underline-offset-4 min-[760px]:col-start-2 min-[1120px]:col-auto min-[1120px]:text-right">
-                      Open ↗
-                    </span>
-                  </Link>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-          {/* Device screenshots supplied by the owner will be added here; marketing cover images intentionally stay off this page. */}
-        </motion.div>
-      </section>
-
-      <section id="contact" aria-label="Contact">
-        <motion.div
-          className="mx-auto flex w-full max-w-[1280px] flex-col gap-10 px-5 py-[44px] min-[760px]:px-10 min-[1120px]:flex-row min-[1120px]:items-end min-[1120px]:justify-between"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          variants={reveal}
-        >
-          <div>
-            <h2 className="max-w-[16ch] font-serif text-[38px] font-bold italic leading-[1.1] tracking-[-0.01em] text-[var(--text-strong)]">
-              Got something worth building properly?
-            </h2>
-            <p className="mt-3 text-[14px] text-[var(--text-muted)]">Ankara, Turkey · works remote · replies within a day</p>
           </div>
-          <div className="flex shrink-0 flex-wrap gap-[10px]">
-            <a
-              href={contactMailto({ subject: 'Portfolio inquiry' })}
-              className="rounded-pill bg-[var(--accent)] px-6 py-3 text-[14px] font-semibold text-[var(--on-accent)] no-underline transition-colors duration-[120ms] ease-out hover:bg-[var(--accent-button-hover)]"
+        </section>
+
+        <section className="site-container py-16 sm:py-22 lg:py-28">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="eyebrow">Writing from production</p>
+              <h2 className="display-section mt-5 max-w-[12ch]">Notes for engineers who ship.</h2>
+            </div>
+            <Link
+              href="/blog"
+              className="text-[0.82rem] font-semibold text-[var(--accent)] no-underline"
             >
-              Write an email ↗
-            </a>
-            <a
-              href={githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-pill border border-[var(--outline-border)] px-6 py-3 text-[14px] font-medium text-[var(--text-strong)] no-underline transition-colors duration-[120ms] ease-out hover:border-[var(--line-30)]"
-            >
-              GitHub
-            </a>
+              Browse all writing →
+            </Link>
           </div>
-        </motion.div>
-      </section>
+
+          <div className="mt-12 border-t border-[var(--line-16)]">
+            {articles.map((post, index) => (
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                className="group grid gap-3 border-b border-[var(--line-16)] py-6 text-[var(--text-strong)] no-underline transition-colors hover:bg-[var(--row-hover-bg)] sm:grid-cols-[56px_120px_1fr_auto] sm:items-start sm:gap-5 sm:px-4"
+              >
+                <span className="font-mono text-[0.65rem] text-[var(--text-faint)]">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <time
+                  dateTime={post.publishedAt}
+                  className="font-mono text-[0.64rem] uppercase tracking-[0.05em] text-[var(--text-faint)]"
+                >
+                  {formatPostDate(post.publishedAt)}
+                </time>
+                <div>
+                  <h3 className="text-[1rem] font-semibold tracking-[-0.02em] transition-colors group-hover:text-[var(--accent)]">
+                    {post.title}
+                  </h3>
+                  <p className="mt-2 max-w-[68ch] text-[0.8rem] leading-6 text-[var(--text-muted)]">
+                    {post.excerpt}
+                  </p>
+                </div>
+                <span className="font-mono text-[0.64rem] text-[var(--text-faint)]">
+                  {post.readingTime} min
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="border-t border-[var(--line-16)] bg-[var(--accent-soft)]">
+          <div className="site-container grid items-center gap-10 py-16 sm:py-20 lg:grid-cols-[220px_1fr_auto] lg:gap-14 lg:py-24">
+            <div className="relative aspect-square w-[170px] overflow-hidden rounded-[24px] border border-[var(--line-18)] bg-[var(--surface-bg)] sm:w-[210px]">
+              <Image
+                src="/assets/branding/profile.jpg"
+                alt="Nabi Rahmani, Flutter product engineer"
+                fill
+                className="object-cover object-[center_30%]"
+                sizes="210px"
+              />
+            </div>
+            <div>
+              <p className="eyebrow text-[var(--accent)]">Open to the right team</p>
+              <h2 className="mt-5 max-w-[14ch] text-[clamp(2.2rem,4.7vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.055em]">
+                Looking for an engineer who owns the product past launch?
+              </h2>
+              <p className="mt-5 max-w-[62ch] text-[0.9rem] leading-7 text-[var(--text-muted)]">
+                I&apos;m available for remote Flutter roles where product judgment, reliable
+                architecture, and shipping discipline matter.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3 lg:flex-col">
+              <a
+                href={contactMailto({ subject: 'Flutter role inquiry' })}
+                className="rounded-full bg-[var(--accent)] px-6 py-3.5 text-center text-[0.84rem] font-semibold text-white no-underline"
+              >
+                Email Nabi
+              </a>
+              <a
+                href={linkedInUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 py-3.5 text-center text-[0.84rem] font-semibold text-[var(--text-strong)] no-underline"
+              >
+                LinkedIn ↗
+              </a>
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-center font-mono text-[0.64rem] uppercase tracking-[0.1em] text-[var(--text-muted)] no-underline"
+              >
+                GitHub ↗
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
 
       <Footer />
     </div>
