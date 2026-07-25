@@ -1,275 +1,300 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
+import { Fragment } from 'react';
 
 import Footer from '@/components/Footer';
-import ProjectAppIcon from '@/components/ProjectAppIcon';
-import CardImage from '@/components/ui/CardImage';
+import {
+  getAppProof,
+  getArticleCount,
+  getAverageRating,
+  getTotalInstalls,
+  getYearsShipping,
+} from '@/config/proof';
+import { contactMailto } from '@/config/site';
+import { socialLinks } from '@/config/navigation';
 import { getFeaturedPosts } from '@/data/blog';
+import { nowData } from '@/data/now';
 import { getFeaturedProjects } from '@/data/projects';
-import { contactMailto, hasCalendly, hasCv, hasWeb3FormsKey, siteConfig } from '@/config/site';
+import { usesCategories } from '@/data/uses';
 import { fadeUpMotion } from '@/lib/animations';
-import { getValidStoreUrl } from '@/lib/links';
-import { cn } from '@/lib/utils';
 
-const ContactForm = dynamic(() => import('@/components/ContactForm'));
-const projects = getFeaturedProjects(3);
-const articles = getFeaturedPosts().slice(0, 3);
+const articles = getFeaturedPosts().slice(0, 4);
+const projects = getFeaturedProjects();
+const toolboxItems = usesCategories.find((category) => category.label === 'Flutter / Dart')?.items.slice(0, 6) ?? [];
+const githubUrl = socialLinks.find((link) => link.label === 'GitHub')?.href ?? 'https://github.com/Nabi-Rahmani';
 
-const principles = [
-  {
-    number: '01',
-    title: 'Quiet by design',
-    body: 'Interfaces should reduce effort, make the next action obvious, and stay out of the user’s way.',
-  },
-  {
-    number: '02',
-    title: 'Local-first foundations',
-    body: 'Core product experiences remain dependable without asking the network for permission.',
-  },
-  {
-    number: '03',
-    title: 'Built to ship',
-    body: 'Architecture, polish, store readiness, and maintenance are treated as one product problem.',
-  },
-];
+function formatCompactNumber(value: number): string {
+  return new Intl.NumberFormat('en', {
+    maximumFractionDigits: 1,
+    notation: 'compact',
+  }).format(value);
+}
 
-function platformLabel(platform: 'ios' | 'android' | 'both') {
-  if (platform === 'android') return 'Android';
-  if (platform === 'ios') return 'iOS';
-  return 'Android · iOS planned';
+function formatPostDate(date: string): string {
+  return new Intl.DateTimeFormat('en', {
+    month: 'short',
+    timeZone: 'UTC',
+    year: 'numeric',
+  }).format(new Date(`${date}T00:00:00Z`)).toUpperCase();
+}
+
+function ProjectIcon({
+  title,
+  iconLight,
+  iconDark,
+}: {
+  title: string;
+  iconLight?: string;
+  iconDark?: string;
+}) {
+  const lightSrc = iconLight ?? iconDark;
+  const darkSrc = iconDark ?? iconLight;
+  const sameAsset = lightSrc === darkSrc;
+
+  if (!lightSrc && !darkSrc) return null;
+
+  return (
+    <span className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-tile border border-[var(--line-18)] bg-[var(--tile-bg)]">
+      {lightSrc && (
+        <Image
+          src={lightSrc}
+          alt={`${title} app icon`}
+          width={36}
+          height={36}
+          className={sameAsset ? 'h-full w-full scale-[1.65] object-contain' : 'h-full w-full scale-[1.65] object-contain dark:hidden'}
+        />
+      )}
+      {!sameAsset && darkSrc && (
+        <Image
+          src={darkSrc}
+          alt=""
+          aria-hidden
+          width={36}
+          height={36}
+          className="hidden h-full w-full scale-[1.65] object-contain dark:block"
+        />
+      )}
+    </span>
+  );
 }
 
 export default function Home() {
   const reduceMotion = useReducedMotion();
   const reveal = fadeUpMotion(reduceMotion);
+  const stats = [
+    {
+      label: 'TOTAL INSTALLS',
+      value: getTotalInstalls(),
+      format: formatCompactNumber,
+    },
+    {
+      label: 'RATINGS',
+      value: getAverageRating(),
+      format: (value: number) => `${value.toFixed(1)} ★`,
+    },
+    {
+      label: 'YEARS SHIPPING',
+      value: getYearsShipping(),
+      format: String,
+    },
+    {
+      label: 'ARTICLES',
+      value: getArticleCount(),
+      format: String,
+    },
+  ].filter((stat): stat is { label: string; value: number; format: (value: number) => string } => stat.value !== undefined);
 
   return (
-    <div className="min-h-screen bg-[var(--cream)] text-[var(--ink)]">
-      <section id="home" className="relative flex min-h-[min(940px,100svh)] items-center overflow-hidden px-6 pb-20 pt-28 md:px-12 lg:px-16" aria-label="Introduction">
-        <div className="relative z-10 mx-auto w-full max-w-[1320px]">
-          <motion.div initial="hidden" animate="visible" variants={reveal} custom={0}>
-            <div className="mb-8 flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--cream)] px-4 py-2 text-[0.72rem] font-medium text-[var(--ink-soft)]">
-                <span className="h-2 w-2 rounded-full bg-[var(--atelier-accent)]" aria-hidden />
-                {siteConfig.availability}
+    <div className="min-h-screen bg-[var(--page-bg)] pt-[54px] text-[var(--text-strong)]">
+      <section id="home" className="border-b border-[var(--line-16)]" aria-label="Introduction">
+        <motion.div
+          className="mx-auto grid w-full max-w-[1280px] lg:grid-cols-[1.35fr_1fr]"
+          initial="hidden"
+          animate="visible"
+          variants={reveal}
+        >
+          <div className="px-5 pb-10 pt-[46px] md:px-10">
+            <div className="mb-5 flex items-center gap-[9px]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--status-ok)]" aria-hidden />
+              <span className="font-mono text-[11.5px] tracking-[0.1em] text-[var(--text-muted)]">
+                AVAILABLE — FREELANCE &amp; FULL-TIME REMOTE
               </span>
-              <span className="editorial-kicker">Flutter · Mobile engineering · Ankara</span>
             </div>
-          </motion.div>
-
-          <motion.h1
-            className="editorial-display max-w-[1120px] text-[clamp(4.3rem,12vw,10.5rem)] leading-[0.78]"
-            initial="hidden"
-            animate="visible"
-            variants={reveal}
-            custom={1}
-          >
-            Nabi
-            <span className="block italic text-[var(--accent-ink)]">Rahmani.</span>
-          </motion.h1>
-
-          <motion.div
-            className="mt-12 grid max-w-[1120px] gap-8 md:grid-cols-[1.3fr_1fr] md:items-end"
-            initial="hidden"
-            animate="visible"
-            variants={reveal}
-            custom={2}
-          >
-            <p className="max-w-[700px] text-[clamp(1.35rem,3vw,2.3rem)] leading-[1.22] tracking-[-0.03em] text-[var(--ink-soft)]">
-              I build thoughtful Flutter products with calm interfaces, local-first foundations, and production architecture.
+            <h1 className="type-hero max-w-[19ch]">Flutter apps that hold up after the launch week.</h1>
+            <p className="type-lede mt-[18px] max-w-[52ch] text-[var(--text-muted)]">
+              I&apos;m Nabi — six years of mobile engineering, three of my own apps on the Play Store, and a habit of writing down what broke. Offline-first data, Riverpod at scale, store delivery.
             </p>
-            <div className="flex flex-wrap gap-3 md:justify-end">
-              <Link href="/projects" className="inline-flex items-center gap-3 rounded-full bg-[var(--ink)] px-6 py-3.5 text-[0.9rem] font-medium text-[var(--cream)] no-underline transition-transform motion-safe:hover:-translate-y-1">
-                Explore the work
-                <span aria-hidden>↗</span>
-              </Link>
-              <Link href="/#contact" className="inline-flex items-center rounded-full border border-[var(--line)] bg-[var(--cream)] px-6 py-3.5 text-[0.9rem] font-medium text-[var(--ink)] no-underline transition-colors hover:border-[var(--atelier-accent)]">
-                Start a conversation
-              </Link>
-            </div>
-          </motion.div>
-
-          <motion.div
-            className="mt-14 flex flex-wrap gap-x-8 gap-y-3 border-t border-[var(--line)] pt-5"
-            initial="hidden"
-            animate="visible"
-            variants={reveal}
-            custom={3}
-          >
-            {['Flutter & Dart', 'Riverpod', 'Offline-first', `${projects.length} shipped apps`].map((item) => (
-              <span key={item} className="text-[0.75rem] text-[var(--muted)]">{item}</span>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      <section id="projects" className="border-t border-[var(--line)] px-6 py-24 md:px-12 md:py-32 lg:px-16" aria-label="Selected projects">
-        <div className="mx-auto max-w-[1320px]">
-          <div className="mb-14 grid gap-6 md:grid-cols-[1fr_1.2fr] md:items-end">
-            <div>
-              <p className="editorial-kicker mb-5">Selected work · 2024—2026</p>
-              <h2 className="editorial-display text-[clamp(3rem,6vw,5.5rem)] leading-[0.92]">Three products.<br />Three stories.</h2>
-            </div>
-            <p className="max-w-[520px] text-[1rem] leading-[1.75] text-[var(--muted)] md:justify-self-end">
-              Each app has its own focused landing page with real screenshots, features, technical stack, and release status.
-            </p>
-          </div>
-
-          <div className="grid gap-7 lg:grid-cols-3">
-            {projects.map((project, index) => {
-              const playStoreUrl = getValidStoreUrl(project.links.playStore);
-              return (
-                <motion.article
-                  key={project.id}
-                  className="group overflow-hidden rounded-[2rem] border border-[var(--line)] bg-[var(--cream)] shadow-[var(--shadow-sm)] transition-[transform,box-shadow] duration-500 motion-safe:hover:-translate-y-2 hover:shadow-[var(--shadow-md)]"
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: '-60px' }}
-                  variants={reveal}
-                  custom={index}
-                >
-                  <Link href={`/projects/${project.slug}`} className="block no-underline">
-                    <CardImage src={project.coverImage} alt={`${project.title} — ${project.subtitle}`} aspectRatio="16/10" sizes="(max-width: 1024px) 100vw, 33vw" priority={index === 0} />
-                  </Link>
-                  <div className="p-7 md:p-8">
-                    <div className="mb-6 flex items-center justify-between gap-4">
-                      <ProjectAppIcon title={project.title} iconLight={project.iconLight} iconDark={project.iconDark} size="sm" />
-                      <span className="editorial-kicker text-right">{platformLabel(project.platform)}</span>
-                    </div>
-                    <Link href={`/projects/${project.slug}`} className="block no-underline">
-                      <h3 className="editorial-display text-[clamp(2.25rem,4vw,3.4rem)] leading-[0.95] text-[var(--ink)]">{project.title}</h3>
-                      <p className="mt-4 min-h-[3.5rem] text-[0.95rem] leading-[1.65] text-[var(--muted)]">{project.subtitle}</p>
-                    </Link>
-                    <div className="mt-6 flex flex-wrap gap-2">
-                      {project.techStack.slice(0, 3).map((tech) => <span key={tech} className="rounded-full border border-[var(--line)] px-3 py-1 text-[0.68rem] text-[var(--muted)]">{tech}</span>)}
-                    </div>
-                    <div className="mt-8 flex items-center justify-between gap-4 border-t border-[var(--line)] pt-5">
-                      <Link href={`/projects/${project.slug}`} aria-label={`View ${project.title} project`} data-testid={`view-project-${project.slug}`} className="text-[0.84rem] font-semibold text-[var(--ink)] underline decoration-[var(--atelier-accent)] decoration-2 underline-offset-4">View project</Link>
-                      {playStoreUrl && <span className="text-[0.68rem] text-[var(--muted)]">Live on Play</span>}
-                    </div>
-                  </div>
-                </motion.article>
-              );
-            })}
-          </div>
-
-          <div className="mt-12 text-center">
-            <Link href="/projects" className="inline-flex items-center gap-2 rounded-full border border-[var(--line)] px-6 py-3 text-[0.85rem] font-medium text-[var(--ink)] no-underline hover:border-[var(--atelier-accent)]">All project details <span aria-hidden>→</span></Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t border-[var(--line)] px-6 py-24 md:px-12 md:py-32 lg:px-16" aria-label="Engineering principles">
-        <div className="mx-auto max-w-[1320px]">
-          <div className="mb-16 grid gap-6 md:grid-cols-2 md:items-end">
-            <div>
-              <p className="editorial-kicker mb-5">How I build</p>
-              <h2 className="editorial-display text-[clamp(3rem,6vw,5.8rem)] leading-[0.92]">Design discipline.<br />Engineering depth.</h2>
-            </div>
-            <p className="max-w-[540px] text-[1.05rem] leading-[1.75] text-[var(--muted)] md:justify-self-end">
-              A senior mobile workflow means thinking beyond screens: data ownership, failure states, maintainability, store delivery, and the feel of every interaction.
-            </p>
-          </div>
-
-          <div className="grid border-y border-[var(--line)] md:grid-cols-3">
-            {principles.map((principle, index) => (
-              <motion.div
-                key={principle.number}
-                className={cn('py-10 md:px-8 md:py-12', index > 0 && 'border-t border-[var(--line)] md:border-l md:border-t-0')}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={reveal}
-                custom={index}
+            <div className="mt-7 flex flex-wrap gap-[10px]">
+              <Link
+                href="/blog"
+                className="type-button rounded-pill bg-[var(--text-strong)] px-[22px] py-[11px] font-semibold text-[var(--on-accent)] no-underline transition-colors duration-[120ms] ease-out hover:brightness-95"
               >
-                <span className="editorial-kicker text-[var(--accent-ink)]">{principle.number}</span>
-                <h3 className="mt-8 text-[1.2rem] font-semibold">{principle.title}</h3>
-                <p className="mt-3 text-[0.9rem] leading-[1.7] text-[var(--muted)]">{principle.body}</p>
-              </motion.div>
+                Read the writing →
+              </Link>
+              <a
+                href={contactMailto()}
+                className="type-button rounded-pill border border-[color:rgba(245,239,227,0.25)] px-[22px] py-[11px] text-[var(--text-strong)] no-underline transition-colors duration-[120ms] ease-out hover:border-[var(--line-30)]"
+              >
+                codewithnabi@gmail.com
+              </a>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 border-t border-[var(--line-16)] lg:border-l lg:border-t-0">
+            {stats.map((stat, index) => (
+              <div
+                key={stat.label}
+                className={[
+                  'p-[22px] md:px-6',
+                  index % 2 === 0 ? 'border-r border-[var(--line-16)]' : '',
+                  index < stats.length - (stats.length % 2 === 0 ? 2 : 1) ? 'border-b border-[var(--line-16)]' : '',
+                ].join(' ')}
+              >
+                <div className="type-stat text-[var(--accent)]">{stat.format(stat.value)}</div>
+                <div className="type-meta mt-[5px] text-[var(--text-muted)]">{stat.label}</div>
+              </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
-      <section id="about" className="border-t border-[var(--line)] bg-[var(--cream-2)] px-6 py-24 md:px-12 md:py-32 lg:px-16" aria-label="About Nabi">
-        <div className="mx-auto grid max-w-[1320px] gap-12 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-          <div>
-            <p className="editorial-kicker mb-6">About</p>
-            <h2 className="editorial-display max-w-[850px] text-[clamp(3.2rem,7vw,7rem)] leading-[0.9]">
-              Product thinking, expressed through Flutter.
-            </h2>
-          </div>
-          <div>
-            <p className="text-[1.05rem] leading-[1.8] text-[var(--ink-soft)]">
-              I’m a Flutter engineer based in Ankara, focused on turning thoughtful ideas into dependable mobile products. My work spans interface design, local-first architecture, subscriptions, analytics, and the final details required to ship.
-            </p>
-            <Link href="/about" className="mt-8 inline-flex items-center gap-2 font-semibold text-[var(--ink)] underline decoration-[var(--atelier-accent)] decoration-2 underline-offset-4">
-              Read my story <span aria-hidden>↗</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {articles.length > 0 && (
-        <section id="blog" className="border-t border-[var(--line)] px-6 py-24 md:px-12 md:py-32 lg:px-16" aria-label="Selected articles">
-          <div className="mx-auto max-w-[1320px]">
-            <div className="mb-14 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="editorial-kicker mb-5">Articles</p>
-                <h2 className="editorial-display text-[clamp(3rem,6vw,5.5rem)] leading-[0.9]">Notes from the work.</h2>
-              </div>
-              <Link href="/blog" className="text-[0.9rem] font-semibold text-[var(--ink)] underline decoration-[var(--atelier-accent)] decoration-2 underline-offset-4">All articles</Link>
+      <section className="border-b border-[var(--line-16)]" aria-label="Writing and current work">
+        <motion.div
+          className="mx-auto grid w-full max-w-[1280px] lg:grid-cols-[minmax(0,1fr)_380px]"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={reveal}
+        >
+          <div className="px-5 py-8 md:px-10 lg:border-r lg:border-[var(--line-16)] lg:pb-[34px]">
+            <div className="mb-5 flex items-baseline justify-between gap-5">
+              <span className="type-eyebrow text-[var(--text-muted)]">Latest writing</span>
+              <Link href="/blog" className="type-button shrink-0 text-[var(--accent)] no-underline">
+                All {getArticleCount()} posts →
+              </Link>
             </div>
-
-            <div className="grid gap-10 md:grid-cols-3">
+            <div>
               {articles.map((post, index) => (
-                <motion.article key={post.id} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={reveal} custom={index}>
-                  <Link href={`/blog/${post.slug}`} className="group block no-underline">
-                    <div className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem] bg-[var(--cream-2)]">
-                      <Image src={post.coverImage} alt={post.title} fill className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.02]" sizes="(max-width: 768px) 100vw, 33vw" />
-                    </div>
-                    <div className="mt-5 flex items-center gap-3 text-[0.7rem] text-[var(--muted)]">
-                      <span>{post.category}</span><span aria-hidden>·</span><span>{post.readingTime} min</span>
-                    </div>
-                    <h3 className="mt-3 text-[1.25rem] font-semibold leading-[1.35] text-[var(--ink)] transition-colors group-hover:text-[var(--accent-ink)]">{post.title}</h3>
-                    <p className="mt-3 line-clamp-3 text-[0.88rem] leading-[1.7] text-[var(--muted)]">{post.excerpt}</p>
-                  </Link>
-                </motion.article>
+                <Link
+                  key={post.id}
+                  href={`/blog/${post.slug}`}
+                  className={`group flex gap-5 border-t border-[var(--line-13)] px-0 py-4 no-underline transition-colors duration-[120ms] ease-out hover:bg-[color-mix(in_srgb,var(--accent)_4%,transparent)] ${index === articles.length - 1 ? 'border-b' : ''}`}
+                >
+                  <time dateTime={post.publishedAt} className="type-meta w-[70px] shrink-0 pt-[3px] text-[var(--text-faint)]">
+                    {formatPostDate(post.publishedAt)}
+                  </time>
+                  <div className="min-w-0">
+                    <h2 className="type-article-title text-[var(--text-strong)]">{post.title}</h2>
+                    <p className="type-dek mt-1 max-w-[60ch] text-[var(--text-muted)]">{post.excerpt}</p>
+                  </div>
+                  <span className="type-meta ml-auto shrink-0 pt-[3px] text-[var(--text-faint)] transition-transform duration-[120ms] ease-out group-hover:translate-x-0.5">
+                    {post.readingTime}m
+                  </span>
+                </Link>
               ))}
             </div>
           </div>
-        </section>
-      )}
 
-      <section id="contact" className="border-t border-[var(--line)] bg-[var(--cream-2)] px-6 py-24 md:px-12 md:py-32 lg:px-16" aria-label="Contact">
-        <div className="mx-auto grid max-w-[1320px] gap-14 lg:grid-cols-[0.9fr_1.1fr]">
-          <div>
-            <p className="editorial-kicker mb-6">Contact</p>
-            <h2 className="editorial-display text-[clamp(3.2rem,7vw,7rem)] leading-[0.88]">Let’s build something considered.</h2>
-            <p className="mt-8 max-w-[500px] text-[1rem] leading-[1.8] text-[var(--muted)]">{siteConfig.availability}. Tell me about the product, team, or problem you’re working on.</p>
-            <div className="mt-8 flex flex-wrap gap-4 text-[0.82rem]">
-              <a href={contactMailto()} className="font-semibold text-[var(--ink)] underline decoration-[var(--atelier-accent)] decoration-2 underline-offset-4">{siteConfig.contactEmail}</a>
-              {hasCalendly() && <a href={siteConfig.calendlyUrl} target="_blank" rel="noopener noreferrer" className="text-[var(--ink)]">Book a call</a>}
-              {hasCv() && <a href={siteConfig.cvPath} target="_blank" rel="noopener noreferrer" className="text-[var(--ink)]">Resume</a>}
+          <aside id="about" className="border-t border-[var(--line-16)] bg-[var(--panel-bg)] px-5 py-8 md:px-[30px] lg:border-l-0 lg:border-t-0 lg:pb-[34px]" aria-label="Now and toolbox">
+            <span className="type-eyebrow text-[var(--text-muted)]">Now</span>
+            <p className="mt-[14px] text-[14px] leading-[1.6] text-[var(--text-soft)] [text-wrap:pretty]">
+              {nowData.sections.map((section, index) => (
+                <Fragment key={section.label}>
+                  <span className="font-medium text-[var(--text-strong)]">{section.label}: </span>
+                  {section.items.join(' · ')}
+                  {index < nowData.sections.length - 1 ? ' ' : ''}
+                </Fragment>
+              ))}
+            </p>
+            <div className="my-[22px] h-px bg-[var(--line-16)]" />
+            <span className="type-eyebrow text-[var(--text-muted)]">Toolbox</span>
+            <div className="mt-[13px] flex flex-wrap gap-[7px]">
+              {toolboxItems.map((item) => (
+                <span key={item} className="type-meta rounded-chip border border-[var(--line-24)] px-[10px] py-[5px] text-[var(--text-soft)]">
+                  {item}
+                </span>
+              ))}
             </div>
+          </aside>
+        </motion.div>
+      </section>
+
+      <section id="projects" className="border-b border-[var(--line-16)]" aria-label="Apps I built and maintain alone">
+        <motion.div
+          className="mx-auto w-full max-w-[1280px] px-5 py-8 md:px-10 md:pb-[38px]"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={reveal}
+        >
+          <span className="type-eyebrow text-[var(--text-muted)]">Apps I built and maintain alone</span>
+          <div className="mt-[18px]">
+            {projects.map((project, index) => {
+              const proof = getAppProof(project.slug);
+              return (
+                <Link
+                  key={project.id}
+                  href={`/projects/${project.slug}`}
+                  className={`group grid grid-cols-[44px_minmax(0,1fr)] items-center gap-x-4 gap-y-2 border-t border-[var(--line-13)] py-4 no-underline transition-colors duration-[120ms] ease-out hover:bg-[color-mix(in_srgb,var(--accent)_4%,transparent)] xl:grid-cols-[44px_190px_minmax(0,1fr)_130px_100px_90px] ${index === projects.length - 1 ? 'border-b' : ''}`}
+                >
+                  <ProjectIcon title={project.title} iconLight={project.iconLight} iconDark={project.iconDark} />
+                  <span className="text-[17px] font-semibold tracking-[-0.012em] text-[var(--text-strong)]">{project.title}</span>
+                  <span className="col-start-2 text-[13.5px] text-[var(--text-muted)] xl:col-start-auto">{project.subtitle}</span>
+                  {proof?.installs !== undefined && (
+                    <span className="col-start-2 font-mono text-[13px] font-medium text-[var(--accent)] xl:col-start-auto">
+                      {formatCompactNumber(proof.installs)} installs
+                    </span>
+                  )}
+                  {proof?.rating !== undefined && (
+                    <span className="col-start-2 font-mono text-[13px] text-[var(--text-muted)] xl:col-start-auto">
+                      {proof.rating.toFixed(1)} ★
+                    </span>
+                  )}
+                  <span className="col-start-2 text-[12.5px] font-medium text-[var(--text-strong)] xl:col-start-auto xl:text-right xl:group-hover:underline xl:group-hover:underline-offset-4">
+                    Open ↗
+                  </span>
+                </Link>
+              );
+            })}
           </div>
-          <div className="rounded-[2rem] border border-[var(--line)] bg-[var(--cream)] p-6 shadow-[var(--shadow-sm)] md:p-10">
-            {hasWeb3FormsKey() ? (
-              <ContactForm />
-            ) : (
-              <div className="flex min-h-[300px] flex-col justify-between">
-                <p className="editorial-display text-[clamp(2rem,4vw,3.4rem)] leading-[1.05]">A direct note is the best place to start.</p>
-                <a href={contactMailto({ subject: 'Portfolio inquiry' })} className="mt-12 inline-flex w-fit items-center gap-3 rounded-full bg-[var(--ink)] px-6 py-3.5 text-[0.9rem] font-medium text-[var(--cream)] no-underline transition-transform motion-safe:hover:-translate-y-1">
-                  Write an email <span aria-hidden>↗</span>
-                </a>
-              </div>
-            )}
+          {/* Device screenshots supplied by the owner will be added here; marketing cover images intentionally stay off this page. */}
+        </motion.div>
+      </section>
+
+      <section id="contact" aria-label="Contact">
+        <motion.div
+          className="mx-auto flex w-full max-w-[1280px] flex-col gap-10 px-5 py-[44px] md:px-10 lg:flex-row lg:items-end lg:justify-between"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={reveal}
+        >
+          <div>
+            <h2 className="max-w-[16ch] font-serif text-[38px] font-bold italic leading-[1.1] tracking-[-0.01em] text-[var(--text-strong)]">
+              Got something worth building properly?
+            </h2>
+            <p className="mt-3 text-[14px] text-[var(--text-muted)]">Ankara, Turkey · works remote · replies within a day</p>
           </div>
-        </div>
+          <div className="flex shrink-0 flex-wrap gap-[10px]">
+            <a
+              href={contactMailto({ subject: 'Portfolio inquiry' })}
+              className="rounded-pill bg-[var(--accent)] px-6 py-3 text-[14px] font-semibold text-[var(--on-accent)] no-underline transition-[filter] duration-[120ms] ease-out hover:brightness-95"
+            >
+              Write an email ↗
+            </a>
+            <a
+              href={githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-pill border border-[color:rgba(245,239,227,0.25)] px-6 py-3 text-[14px] font-medium text-[var(--text-strong)] no-underline transition-colors duration-[120ms] ease-out hover:border-[var(--line-30)]"
+            >
+              GitHub
+            </a>
+          </div>
+        </motion.div>
       </section>
 
       <Footer />
