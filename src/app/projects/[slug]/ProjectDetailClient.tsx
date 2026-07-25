@@ -80,7 +80,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
               <p className="mt-4 max-w-[560px] text-[0.88rem] leading-[1.7] text-[var(--muted)]">{releaseLine}</p>
 
               <div className="mt-8 flex flex-wrap gap-2">
-                {project.techStack.slice(0, 5).map((tech) => <span key={tech} className="rounded-full border border-[var(--line)] px-3 py-1.5 text-[0.68rem] text-[var(--muted)]">{tech}</span>)}
+                {project.techStack.slice(0, 5).map((tech) => <span key={tech} className="rounded-full border border-[var(--line)] px-3 py-1.5 text-[0.6875rem] text-[var(--muted)]">{tech}</span>)}
               </div>
             </motion.div>
 

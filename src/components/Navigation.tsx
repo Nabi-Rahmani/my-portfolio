@@ -78,7 +78,7 @@ export default function Navigation() {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--line-16)] bg-[var(--page-bg)]">
-        <nav className="grid grid-cols-[1fr_auto_1fr] items-center px-5 py-[13px] md:px-10" aria-label="Primary">
+        <nav className="grid grid-cols-[1fr_auto_1fr] items-center px-5 py-[13px] min-[760px]:px-10" aria-label="Primary">
           <Link href="/" className="flex items-center justify-self-start gap-[9px] rounded-sm no-underline">
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" aria-hidden />
             <span className="font-mono text-[12px] font-medium uppercase tracking-[0.12em] text-[var(--accent)]">
@@ -86,7 +86,7 @@ export default function Navigation() {
             </span>
           </Link>
 
-          <div className="hidden items-center gap-6 lg:flex">
+          <div className="hidden items-center gap-6 min-[760px]:flex">
             {primaryNav.map((item) => (
               <Link
                 key={item.id}
@@ -131,7 +131,7 @@ export default function Navigation() {
               onClick={() => setDrawerOpen(true)}
               aria-label="Open menu"
               aria-expanded={drawerOpen}
-              className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-[var(--line-24)] bg-transparent text-[var(--text-strong)] transition-colors duration-[120ms] ease-out hover:border-[var(--line-30)] lg:hidden"
+              className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-[var(--line-24)] bg-transparent text-[var(--text-strong)] transition-colors duration-[120ms] ease-out hover:border-[var(--line-30)] min-[760px]:hidden"
             >
               <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" aria-hidden>
                 <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />

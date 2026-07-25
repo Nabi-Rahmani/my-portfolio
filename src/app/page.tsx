@@ -112,12 +112,12 @@ export default function Home() {
     <div className="min-h-screen bg-[var(--page-bg)] pt-[54px] text-[var(--text-strong)]">
       <section id="home" className="border-b border-[var(--line-16)]" aria-label="Introduction">
         <motion.div
-          className="mx-auto grid w-full max-w-[1280px] lg:grid-cols-[1.35fr_1fr]"
+          className="mx-auto grid w-full max-w-[1280px] min-[1120px]:grid-cols-[1.35fr_1fr]"
           initial="hidden"
           animate="visible"
           variants={reveal}
         >
-          <div className="px-5 pb-10 pt-[46px] md:px-10">
+          <div className="px-5 pb-10 pt-[46px] min-[760px]:px-10">
             <div className="mb-5 flex items-center gap-[9px]">
               <span className="h-1.5 w-1.5 rounded-full bg-[var(--status-ok)]" aria-hidden />
               <span className="font-mono text-[11.5px] tracking-[0.1em] text-[var(--text-muted)]">
@@ -144,12 +144,12 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 border-t border-[var(--line-16)] lg:border-l lg:border-t-0">
+          <div className="grid grid-cols-2 border-t border-[var(--line-16)] min-[1120px]:border-l min-[1120px]:border-t-0">
             {stats.map((stat, index) => (
               <div
                 key={stat.label}
                 className={[
-                  'p-[22px] md:px-6',
+                  'p-[22px] min-[760px]:px-6',
                   index % 2 === 0 ? 'border-r border-[var(--line-16)]' : '',
                   index < stats.length - (stats.length % 2 === 0 ? 2 : 1) ? 'border-b border-[var(--line-16)]' : '',
                 ].join(' ')}
@@ -164,13 +164,13 @@ export default function Home() {
 
       <section className="border-b border-[var(--line-16)]" aria-label="Writing and current work">
         <motion.div
-          className="mx-auto grid w-full max-w-[1280px] lg:grid-cols-[minmax(0,1fr)_380px]"
+          className="mx-auto grid w-full max-w-[1280px] min-[1120px]:grid-cols-[minmax(0,1fr)_380px]"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
           variants={reveal}
         >
-          <div className="px-5 py-8 md:px-10 lg:border-r lg:border-[var(--line-16)] lg:pb-[34px]">
+          <div className="px-5 py-8 min-[760px]:px-10 min-[1120px]:border-r min-[1120px]:border-[var(--line-16)] min-[1120px]:pb-[34px]">
             <div className="mb-5 flex items-baseline justify-between gap-5">
               <span className="type-eyebrow text-[var(--text-muted)]">Latest writing</span>
               <Link href="/blog" className="type-button shrink-0 text-[var(--accent)] no-underline">
@@ -182,16 +182,16 @@ export default function Home() {
                 <motion.div key={post.id} variants={reveal}>
                   <Link
                     href={`/blog/${post.slug}`}
-                    className={`group flex gap-5 border-t border-[var(--line-13)] px-0 py-4 no-underline transition-colors duration-[120ms] ease-out hover:bg-[var(--row-hover-bg)] ${index === articles.length - 1 ? 'border-b' : ''}`}
+                    className={`group flex flex-col gap-2 border-t border-[var(--line-13)] px-0 py-4 no-underline transition-colors duration-[120ms] ease-out hover:bg-[var(--row-hover-bg)] min-[760px]:flex-row min-[760px]:gap-5 ${index === articles.length - 1 ? 'border-b' : ''}`}
                   >
-                    <time dateTime={post.publishedAt} className="type-meta w-[70px] shrink-0 pt-[3px] text-[var(--text-faint)]">
+                    <time dateTime={post.publishedAt} className="type-meta shrink-0 text-[var(--text-faint)] min-[760px]:w-[70px] min-[760px]:pt-[3px]">
                       {formatPostDate(post.publishedAt)}
                     </time>
                     <div className="min-w-0">
                       <h2 className="type-article-title text-[var(--text-soft)] transition-colors duration-[120ms] ease-out group-hover:text-[var(--text-strong)]">{post.title}</h2>
                       <p className="type-dek mt-1 max-w-[60ch] text-[var(--text-muted)]">{post.excerpt}</p>
                     </div>
-                    <span className="type-meta ml-auto shrink-0 pt-[3px] text-[var(--text-faint)] transition-transform duration-[120ms] ease-out group-hover:translate-x-0.5">
+                    <span className="type-meta shrink-0 text-[var(--text-faint)] transition-transform duration-[120ms] ease-out group-hover:translate-x-0.5 min-[760px]:ml-auto min-[760px]:pt-[3px]">
                       {post.readingTime}m
                     </span>
                   </Link>
@@ -200,7 +200,7 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <aside id="about" className="border-t border-[var(--line-16)] bg-[var(--panel-bg)] px-5 py-8 md:px-[30px] lg:border-l-0 lg:border-t-0 lg:pb-[34px]" aria-label="Now and toolbox">
+          <aside id="about" className="border-t border-[var(--line-16)] bg-[var(--panel-bg)] px-5 py-8 min-[760px]:px-[30px] min-[1120px]:border-l-0 min-[1120px]:border-t-0 min-[1120px]:pb-[34px]" aria-label="Now and toolbox">
             <span className="type-eyebrow text-[var(--text-muted)]">Now</span>
             <p className="mt-[14px] text-[14px] leading-[1.6] text-[var(--text-soft)] [text-wrap:pretty]">
               {nowData.sections.map((section, index) => (
@@ -226,7 +226,7 @@ export default function Home() {
 
       <section id="projects" className="border-b border-[var(--line-16)]" aria-label="Apps I built and maintain alone">
         <motion.div
-          className="mx-auto w-full max-w-[1280px] px-5 py-8 md:px-10 md:pb-[38px]"
+          className="mx-auto w-full max-w-[1280px] px-5 py-8 min-[760px]:px-10 min-[760px]:pb-[38px]"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
@@ -240,22 +240,24 @@ export default function Home() {
                 <motion.div key={project.id} variants={reveal}>
                   <Link
                     href={`/projects/${project.slug}`}
-                    className={`group grid grid-cols-[44px_minmax(0,1fr)] items-center gap-x-4 gap-y-2 border-t border-[var(--line-13)] py-4 no-underline transition-colors duration-[120ms] ease-out hover:bg-[var(--row-hover-bg)] xl:grid-cols-[44px_190px_minmax(0,1fr)_130px_100px_90px] ${index === projects.length - 1 ? 'border-b' : ''}`}
+                    className={`group grid grid-cols-1 items-center gap-x-4 gap-y-2 border-t border-[var(--line-13)] py-4 no-underline transition-colors duration-[120ms] ease-out hover:bg-[var(--row-hover-bg)] min-[760px]:grid-cols-[44px_minmax(0,1fr)] min-[1120px]:grid-cols-[44px_190px_minmax(0,1fr)_130px_100px_90px] ${index === projects.length - 1 ? 'border-b' : ''}`}
                   >
                     <ProjectIcon title={project.title} iconLight={project.iconLight} iconDark={project.iconDark} />
-                    <span className="text-[17px] font-semibold tracking-[-0.012em] text-[var(--text-strong)]">{project.title}</span>
-                    <span className="col-start-2 text-[13.5px] text-[var(--text-muted)] xl:col-start-auto">{project.subtitle}</span>
-                    {proof?.installs !== undefined && (
-                      <span className="col-start-2 font-mono text-[13px] font-medium text-[var(--accent)] xl:col-start-auto">
-                        {formatCompactNumber(proof.installs)} installs
-                      </span>
-                    )}
-                    {proof?.rating !== undefined && (
-                      <span className="col-start-2 font-mono text-[13px] text-[var(--text-muted)] xl:col-start-auto">
-                        {proof.rating.toFixed(1)} ★
-                      </span>
-                    )}
-                    <span className="col-start-2 text-[12.5px] font-medium text-[var(--text-strong)] group-hover:underline group-hover:underline-offset-4 xl:col-start-auto xl:text-right">
+                    <span className="text-[17px] font-semibold tracking-[-0.012em] text-[var(--text-strong)] min-[760px]:col-start-2 min-[1120px]:col-auto">{project.title}</span>
+                    <span className="hidden text-[13.5px] text-[var(--text-muted)] max-[759px]:block min-[1120px]:col-auto min-[1120px]:block">{project.subtitle}</span>
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 font-mono min-[760px]:col-start-2 min-[1120px]:contents">
+                      {proof?.installs !== undefined && (
+                        <span className="text-[13px] font-medium text-[var(--accent)]">
+                          {formatCompactNumber(proof.installs)} installs
+                        </span>
+                      )}
+                      {proof?.rating !== undefined && (
+                        <span className="text-[13px] text-[var(--text-muted)]">
+                          {proof.rating.toFixed(1)} ★
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-[12.5px] font-medium text-[var(--text-strong)] group-hover:underline group-hover:underline-offset-4 min-[760px]:col-start-2 min-[1120px]:col-auto min-[1120px]:text-right">
                       Open ↗
                     </span>
                   </Link>
@@ -269,7 +271,7 @@ export default function Home() {
 
       <section id="contact" aria-label="Contact">
         <motion.div
-          className="mx-auto flex w-full max-w-[1280px] flex-col gap-10 px-5 py-[44px] md:px-10 lg:flex-row lg:items-end lg:justify-between"
+          className="mx-auto flex w-full max-w-[1280px] flex-col gap-10 px-5 py-[44px] min-[760px]:px-10 min-[1120px]:flex-row min-[1120px]:items-end min-[1120px]:justify-between"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}

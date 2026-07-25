@@ -105,7 +105,7 @@ export default function Projects() {
                     </Link>
 
                     <div className="mt-6 flex flex-wrap gap-2">
-                      {project.techStack.slice(0, 5).map((tech) => <span key={tech} className="rounded-full border border-[var(--line)] bg-[var(--cream)] px-3 py-1.5 text-[0.68rem] text-[var(--muted)]">{tech}</span>)}
+                      {project.techStack.slice(0, 5).map((tech) => <span key={tech} className="rounded-full border border-[var(--line)] bg-[var(--cream)] px-3 py-1.5 text-[0.6875rem] text-[var(--muted)]">{tech}</span>)}
                     </div>
 
                     <div className="mt-8 flex flex-wrap items-center gap-3">
