@@ -4494,6 +4494,10 @@ export const blogCategories: BlogCategory[] = [
 ];
 
 // Helper functions
+export const getBlogPostCount = (): number => {
+    return blogPosts.length;
+};
+
 export const getFeaturedPosts = (): BlogPost[] => {
     return blogPosts.filter(post => post.featured);
 };
