@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#e9e5dc;font-family:'Instrument Sans',system-ui,sans-serif}
+a{color:inherit;text-decoration:none}a:hover{color:inherit}
+.dv-turn{padding:44px 48px 36px;border-bottom:1px solid rgba(0,0,0,.08)}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 22px}
+.dv-tid{font:600 10px 'JetBrains Mono',monospace;padding:3px 7px;background:#191510;color:#fff;border-radius:4px}
+.dv-tname{font:600 13px/1.2 'Instrument Sans',sans-serif;color:#191510}
+.dv-opts{display:flex;flex-wrap:wrap;gap:34px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:10px}
+.dv-oid{font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.09);color:#191510;border-radius:5px}
+.dv-olabel{display:flex;align-items:baseline;gap:9px;font:400 11.5px/1.3 'Instrument Sans',sans-serif;color:rgba(0,0,0,.55);max-width:1280px}
+.dv-card{max-width:100%;border-radius:10px;overflow:hidden;box-shadow:0 2px 14px rgba(0,0,0,.10)}
+.dv-opt:target .dv-oid{background:#8A6212;color:#fff}
+.dv-next{margin:24px 0 0;font:12px/1.6 'Instrument Sans',sans-serif;color:rgba(0,0,0,.5)}
+</style></helmet>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><span class="dv-tid">1</span><span class="dv-tname">Three home-page directions — denser, article-led, real numbers</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><span class="dv-oid">1a</span>THE INDEX — light, zero decoration, everything is a list. No hero image, no cards. Reads like documentation; the writing is the product.</div>
+<div class="dv-card" style="width:1280px;background:{{ paper }};color:#191510">
+
+<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 40px;border-bottom:1px solid #E4DDCD;background:{{ paper }}">
+<div style="display:flex;align-items:center;gap:10px"><span style="width:7px;height:7px;border-radius:50%;background:#8A6212;display:block"></span><span style="font:500 12.5px 'JetBrains Mono',monospace;letter-spacing:.06em">nabi.dev</span></div>
+<div style="display:flex;gap:26px;font:500 13px 'Instrument Sans',sans-serif;color:#5E5548">
+<span style="color:#191510;border-bottom:1px solid #191510;padding-bottom:2px">Writing</span><span>Apps</span><span>About</span><span>GitHub</span>
+</div>
+<div style="display:flex;align-items:center;gap:14px"><span style="font:400 12px 'JetBrains Mono',monospace;color:#6E6455">↑ 1.4k readers/mo</span><span style="border:1px solid #191510;border-radius:999px;padding:6px 14px;font:500 12.5px 'Instrument Sans',sans-serif">Subscribe</span></div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 300px;gap:0;border-bottom:1px solid #E4DDCD">
+<div style="padding:44px 40px 38px;border-right:1px solid #E4DDCD">
+<div style="font:500 11px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#8A6212;margin-bottom:18px">MUHAMMAD NABI RAHMANI · ANKARA</div>
+<h1 style="margin:0 0 16px;font:600 40px/1.15 'Instrument Sans',sans-serif;letter-spacing:-.022em;max-width:20ch">I write about the parts of Flutter that only show up in production.</h1>
+<p style="margin:0 0 26px;font:400 16px/1.65 'Instrument Sans',sans-serif;color:#5E5548;max-width:58ch;text-wrap:pretty">Six years of shipping mobile apps, three of them my own. Offline sync that survives bad networks, Riverpod graphs that don't leak, store releases that don't get rejected. Notes as I go.</p>
+<div style="display:flex;gap:10px;align-items:center">
+<span style="background:#191510;color:#FBF8F1;border-radius:999px;padding:10px 20px;font:500 13.5px 'Instrument Sans',sans-serif">Read the latest →</span>
+<span style="border:1px solid #D8D0BE;border-radius:999px;padding:10px 20px;font:500 13.5px 'Instrument Sans',sans-serif">Hire me for Flutter work</span>
+</div>
+</div>
+<div style="display:flex;flex-direction:column">
+<div style="padding:18px 24px;border-bottom:1px solid #E4DDCD"><div style="font:500 10px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#8A6212">SHIPPED</div><div style="font:600 24px 'Instrument Sans',sans-serif;letter-spacing:-.02em;margin-top:4px">23,600</div><div style="font:400 12px 'Instrument Sans',sans-serif;color:#6E6455">installs across 3 apps</div></div>
+<div style="padding:18px 24px;border-bottom:1px solid #E4DDCD"><div style="font:500 10px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#8A6212">RATED</div><div style="font:600 24px 'Instrument Sans',sans-serif;letter-spacing:-.02em;margin-top:4px">4.7 ★</div><div style="font:400 12px 'Instrument Sans',sans-serif;color:#6E6455">avg. Play Store, 410 ratings</div></div>
+<div style="padding:18px 24px;border-bottom:1px solid #E4DDCD"><div style="font:500 10px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#8A6212">EXPERIENCE</div><div style="font:600 24px 'Instrument Sans',sans-serif;letter-spacing:-.02em;margin-top:4px">6 yrs</div><div style="font:400 12px 'Instrument Sans',sans-serif;color:#6E6455">Flutter since 1.12</div></div>
+<div style="padding:18px 24px;background:#F3EEE2;flex:1"><div style="font:500 10px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#6E6455">STATUS</div><div style="display:flex;align-items:center;gap:8px;margin-top:6px"><span style="width:7px;height:7px;border-radius:50%;background:#3D8A46;display:block"></span><span style="font:500 13px 'Instrument Sans',sans-serif">Open to freelance</span></div></div>
+</div>
+</div>
+
+<div style="padding:34px 40px 10px;display:flex;align-items:baseline;justify-content:space-between">
+<h2 style="margin:0;font:500 12px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#6E6455">WRITING — 14 POSTS</h2>
+<span style="font:500 12.5px 'Instrument Sans',sans-serif;border-bottom:1px solid #C9BFA9">All posts</span>
+</div>
+<div style="padding:0 40px 34px">
+<div style="display:grid;grid-template-columns:52px 1fr 150px 60px;gap:0;align-items:center;padding:15px 0;border-top:1px solid #E4DDCD" style-hover="background:#F3EEE2">
+<span style="font:400 12px 'JetBrains Mono',monospace;color:#857A66">01</span>
+<div><div style="font:600 16.5px 'Instrument Sans',sans-serif;letter-spacing:-.01em">Riverpod: the five provider types you actually use</div><div style="font:400 13.5px 'Instrument Sans',sans-serif;color:#6E6455;margin-top:3px">Auto-dispose, ref.watch vs ref.read, and the testing story nobody explains.</div></div>
+<span style="font:400 12px 'JetBrains Mono',monospace;color:#6E6455">Sep 10, 2025</span>
+<span style="font:400 12px 'JetBrains Mono',monospace;color:#857A66;text-align:right">12 min</span>
+</div>
+<div style="display:grid;grid-template-columns:52px 1fr 150px 60px;align-items:center;padding:15px 0;border-top:1px solid #E4DDCD">
+<span style="font:400 12px 'JetBrains Mono',monospace;color:#857A66">02</span>
+<div><div style="font:600 16.5px 'Instrument Sans',sans-serif;letter-spacing:-.01em">Feature-first clean architecture that survives 40k lines</div><div style="font:400 13.5px 'Instrument Sans',sans-serif;color:#6E6455;margin-top:3px">Four layers, strict boundaries, and the folder structure I actually ship with.</div></div>
+<span style="font:400 12px 'JetBrains Mono',monospace;color:#6E6455">Aug 2, 2025</span>
+<span style="font:400 12px 'JetBrains Mono',monospace;color:#857A66;text-align:right">8 min</span>
+</div>
+<div style="display:grid;grid-template-columns:52px 1fr 150px 60px;align-items:center;padding:15px 0;border-top:1px solid #E4DDCD">
+<span style="font:400 12px 'JetBrains Mono',monospace;color:#857A66">03</span>
+<div><div style="font:600 16.5px 'Instrument Sans',sans-serif;letter-spacing:-.01em">Drift + SQLite: an offline queue that retries correctly</div><div style="font:400 13.5px 'Instrument Sans',sans-serif;color:#6E6455;margin-top:3px">What happens to a write when the user goes into the metro mid-save.</div></div>
+<span style="font:400 12px 'JetBrains Mono',monospace;color:#6E6455">Jun 19, 2025</span>
+<span style="font:400 12px 'JetBrains Mono',monospace;color:#857A66;text-align:right">15 min</span>
+</div>
+<div style="display:grid;grid-template-columns:52px 1fr 150px 60px;align-items:center;padding:15px 0;border-top:1px solid #E4DDCD;border-bottom:1px solid #E4DDCD">
+<span style="font:400 12px 'JetBrains Mono',monospace;color:#857A66">04</span>
+<div><div style="font:600 16.5px 'Instrument Sans',sans-serif;letter-spacing:-.01em">Firebase is a backend until it isn't</div><div style="font:400 13.5px 'Instrument Sans',sans-serif;color:#6E6455;margin-top:3px">Where Firestore stops being cheap, and what I moved to Supabase.</div></div>
+<span style="font:400 12px 'JetBrains Mono',monospace;color:#6E6455">May 4, 2025</span>
+<span style="font:400 12px 'JetBrains Mono',monospace;color:#857A66;text-align:right">10 min</span>
+</div>
+</div>
+
+<div style="padding:0 40px 40px">
+<h2 style="margin:0 0 14px;font:500 12px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#6E6455">APPS — SOLO-BUILT, ON THE PLAY STORE</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#E4DDCD;border:1px solid #E4DDCD">
+<div style="background:{{ paper }};padding:20px">
+<div style="display:flex;align-items:center;justify-content:space-between"><span style="font:600 16px 'Instrument Sans',sans-serif">Focus Flow</span><span style="font:400 11.5px 'JetBrains Mono',monospace;color:#6E6455">4.7 ★</span></div>
+<div style="font:400 13.5px/1.5 'Instrument Sans',sans-serif;color:#5E5548;margin-top:6px">Guided focus timer. 95+ ambient sounds, heatmaps, RevenueCat subscriptions.</div>
+<div style="display:flex;gap:14px;margin-top:14px;font:400 11.5px 'JetBrains Mono',monospace;color:#8A6212"><span>12,400 installs</span><span style="color:#857A66">Drift · SQLite</span></div>
+</div>
+<div style="background:{{ paper }};padding:20px">
+<div style="display:flex;align-items:center;justify-content:space-between"><span style="font:600 16px 'Instrument Sans',sans-serif">Raha</span><span style="font:400 11.5px 'JetBrains Mono',monospace;color:#6E6455">4.8 ★</span></div>
+<div style="font:400 13.5px/1.5 'Instrument Sans',sans-serif;color:#5E5548;margin-top:6px">Offline-first Islamic companion. Prayer times, Quran audio, full RTL.</div>
+<div style="display:flex;gap:14px;margin-top:14px;font:400 11.5px 'JetBrains Mono',monospace;color:#8A6212"><span>8,100 installs</span><span style="color:#857A66">Supabase · Drift</span></div>
+</div>
+<div style="background:{{ paper }};padding:20px">
+<div style="display:flex;align-items:center;justify-content:space-between"><span style="font:600 16px 'Instrument Sans',sans-serif">Dev Discipline</span><span style="font:400 11.5px 'JetBrains Mono',monospace;color:#6E6455">4.6 ★</span></div>
+<div style="font:400 13.5px/1.5 'Instrument Sans',sans-serif;color:#5E5548;margin-top:6px">A 60-day plan for shipping your first app. Streaks, daily tasks, insights.</div>
+<div style="display:flex;gap:14px;margin-top:14px;font:400 11.5px 'JetBrains Mono',monospace;color:#8A6212"><span>3,100 installs</span><span style="color:#857A66">Riverpod</span></div>
+</div>
+</div>
+</div>
+
+<div style="display:flex;align-items:center;justify-content:space-between;padding:20px 40px;border-top:1px solid #E4DDCD;background:#F3EEE2">
+<span style="font:400 12px 'JetBrains Mono',monospace;color:#6E6455">© 2026 · Flutter engineer, Ankara</span>
+<div style="display:flex;gap:20px;font:500 12.5px 'Instrument Sans',sans-serif"><span>GitHub</span><span>LinkedIn</span><span>codewithnabi@gmail.com</span></div>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><span class="dv-oid">1b</span>THE TERMINAL — keeps your dark brown identity but compresses it. Serif appears exactly once. Live-feeling stat bar, articles as a scannable stack, apps as one dense strip.</div>
+<div class="dv-card" style="width:1280px;background:#17120C;color:#F5EFE3">
+
+<div style="display:flex;align-items:center;justify-content:space-between;padding:13px 40px;border-bottom:1px solid {{ line16 }}">
+<div style="display:flex;align-items:center;gap:9px"><span style="width:6px;height:6px;border-radius:50%;background:{{ acc }};display:block"></span><span style="font:500 12px 'JetBrains Mono',monospace;letter-spacing:.12em;color:{{ acc }}">CODEWITHNABI</span></div>
+<div style="display:flex;gap:24px;font:500 13px 'Instrument Sans',sans-serif;color:#A99B85"><span style="color:#F5EFE3">Writing</span><span>Apps</span><span>About</span><span>GitHub ↗</span></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="border:1px solid {{ line30 }};border-radius:999px;padding:5px 13px;font:500 12px 'Instrument Sans',sans-serif;color:{{ acc }}">Subscribe</span><span style="width:28px;height:28px;border-radius:50%;border:1px solid {{ line30 }};display:flex;align-items:center;justify-content:center;font-size:12px">☾</span></div>
+</div>
+
+<div style="display:grid;grid-template-columns:1.35fr 1fr;gap:0;border-bottom:1px solid {{ line16 }}">
+<div style="padding:46px 40px 40px">
+<div style="display:flex;align-items:center;gap:9px;margin-bottom:20px"><span style="width:6px;height:6px;border-radius:50%;background:#7BC47F;display:block"></span><span style="font:400 11.5px 'JetBrains Mono',monospace;letter-spacing:.1em;color:#A99B85">AVAILABLE — FREELANCE &amp; FULL-TIME REMOTE</span></div>
+<h1 style="margin:0 0 18px;font:600 42px/1.12 'Instrument Sans',sans-serif;letter-spacing:-.025em;max-width:19ch">Flutter apps that hold up after the launch week.</h1>
+<p style="margin:0 0 28px;font:400 16px/1.65 'Instrument Sans',sans-serif;color:#A99B85;max-width:52ch;text-wrap:pretty">I'm Nabi — six years of mobile engineering, three of my own apps on the Play Store, and a habit of writing down what broke. Offline-first data, Riverpod at scale, store delivery.</p>
+<div style="display:flex;gap:10px">
+<span style="background:#F5EFE3;color:#17120C;border-radius:999px;padding:11px 22px;font:600 13.5px 'Instrument Sans',sans-serif">Read the writing →</span>
+<span style="border:1px solid rgba(245,239,227,.25);border-radius:999px;padding:11px 22px;font:500 13.5px 'Instrument Sans',sans-serif">codewithnabi@gmail.com</span>
+</div>
+</div>
+<div style="border-left:1px solid {{ line16 }};display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr">
+<div style="padding:22px 24px;border-bottom:1px solid {{ line16 }};border-right:1px solid {{ line16 }}"><div style="font:600 30px 'Instrument Sans',sans-serif;letter-spacing:-.03em;color:{{ acc }}">23.6k</div><div style="font:400 11.5px 'JetBrains Mono',monospace;color:#A99B85;margin-top:5px">TOTAL INSTALLS</div></div>
+<div style="padding:22px 24px;border-bottom:1px solid {{ line16 }}"><div style="font:600 30px 'Instrument Sans',sans-serif;letter-spacing:-.03em;color:{{ acc }}">4.7★</div><div style="font:400 11.5px 'JetBrains Mono',monospace;color:#A99B85;margin-top:5px">410 RATINGS</div></div>
+<div style="padding:22px 24px;border-right:1px solid {{ line16 }}"><div style="font:600 30px 'Instrument Sans',sans-serif;letter-spacing:-.03em;color:{{ acc }}">6</div><div style="font:400 11.5px 'JetBrains Mono',monospace;color:#A99B85;margin-top:5px">YEARS SHIPPING</div></div>
+<div style="padding:22px 24px"><div style="font:600 30px 'Instrument Sans',sans-serif;letter-spacing:-.03em;color:{{ acc }}">14</div><div style="font:400 11.5px 'JetBrains Mono',monospace;color:#A99B85;margin-top:5px">ARTICLES</div></div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 380px;border-bottom:1px solid {{ line16 }}">
+<div style="padding:32px 40px 34px;border-right:1px solid {{ line16 }}">
+<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px">
+<span style="font:400 11.5px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#A99B85">LATEST WRITING</span>
+<span style="font:500 12.5px 'Instrument Sans',sans-serif;color:{{ acc }}">All 14 posts →</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:0">
+<div style="display:flex;gap:20px;padding:16px 0;border-top:1px solid {{ line13 }}">
+<span style="font:400 11.5px 'JetBrains Mono',monospace;color:#94886F;padding-top:3px;flex:none;width:70px">SEP 2025</span>
+<div><div style="font:600 17px/1.3 'Instrument Sans',sans-serif;letter-spacing:-.012em">Riverpod: the five provider types you actually use</div><div style="font:400 13.5px/1.55 'Instrument Sans',sans-serif;color:#A99B85;margin-top:4px;max-width:60ch">Auto-dispose, ref.watch vs ref.read, and the testing story nobody explains.</div></div>
+<span style="font:400 11.5px 'JetBrains Mono',monospace;color:#94886F;margin-left:auto;padding-top:3px;flex:none">12m</span>
+</div>
+<div style="display:flex;gap:20px;padding:16px 0;border-top:1px solid {{ line13 }}">
+<span style="font:400 11.5px 'JetBrains Mono',monospace;color:#94886F;padding-top:3px;flex:none;width:70px">AUG 2025</span>
+<div><div style="font:600 17px/1.3 'Instrument Sans',sans-serif;letter-spacing:-.012em">Feature-first clean architecture that survives 40k lines</div><div style="font:400 13.5px/1.55 'Instrument Sans',sans-serif;color:#A99B85;margin-top:4px;max-width:60ch">Four layers, strict boundaries, and the folder structure I actually ship with.</div></div>
+<span style="font:400 11.5px 'JetBrains Mono',monospace;color:#94886F;margin-left:auto;padding-top:3px;flex:none">8m</span>
+</div>
+<div style="display:flex;gap:20px;padding:16px 0;border-top:1px solid {{ line13 }}">
+<span style="font:400 11.5px 'JetBrains Mono',monospace;color:#94886F;padding-top:3px;flex:none;width:70px">JUN 2025</span>
+<div><div style="font:600 17px/1.3 'Instrument Sans',sans-serif;letter-spacing:-.012em">Drift + SQLite: an offline queue that retries correctly</div><div style="font:400 13.5px/1.55 'Instrument Sans',sans-serif;color:#A99B85;margin-top:4px;max-width:60ch">What happens to a write when the user goes into the metro mid-save.</div></div>
+<span style="font:400 11.5px 'JetBrains Mono',monospace;color:#94886F;margin-left:auto;padding-top:3px;flex:none">15m</span>
+</div>
+<div style="display:flex;gap:20px;padding:16px 0;border-top:1px solid {{ line13 }};border-bottom:1px solid {{ line13 }}">
+<span style="font:400 11.5px 'JetBrains Mono',monospace;color:#94886F;padding-top:3px;flex:none;width:70px">MAY 2025</span>
+<div><div style="font:600 17px/1.3 'Instrument Sans',sans-serif;letter-spacing:-.012em">Firebase is a backend until it isn't</div><div style="font:400 13.5px/1.55 'Instrument Sans',sans-serif;color:#A99B85;margin-top:4px;max-width:60ch">Where Firestore stops being cheap, and what I moved to Supabase.</div></div>
+<span style="font:400 11.5px 'JetBrains Mono',monospace;color:#94886F;margin-left:auto;padding-top:3px;flex:none">10m</span>
+</div>
+</div>
+</div>
+<div style="padding:32px 30px 34px;background:#1E1710">
+<span style="font:400 11.5px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#A99B85">NOW</span>
+<p style="margin:14px 0 22px;font:400 14px/1.6 'Instrument Sans',sans-serif;color:#CBBFA9;text-wrap:pretty">Rebuilding Raha's sync layer on Drift + Supabase so the whole app works with the plane in airplane mode. Writing it up as I go.</p>
+<div style="height:1px;background:{{ line16 }};margin-bottom:20px"></div>
+<span style="font:400 11.5px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#A99B85">TOOLBOX</span>
+<div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:13px">
+<span style="border:1px solid {{ line24 }};border-radius:5px;padding:5px 10px;font:400 11.5px 'JetBrains Mono',monospace;color:#CBBFA9">Flutter</span>
+<span style="border:1px solid {{ line24 }};border-radius:5px;padding:5px 10px;font:400 11.5px 'JetBrains Mono',monospace;color:#CBBFA9">Dart</span>
+<span style="border:1px solid {{ line24 }};border-radius:5px;padding:5px 10px;font:400 11.5px 'JetBrains Mono',monospace;color:#CBBFA9">Riverpod</span>
+<span style="border:1px solid {{ line24 }};border-radius:5px;padding:5px 10px;font:400 11.5px 'JetBrains Mono',monospace;color:#CBBFA9">Drift</span>
+<span style="border:1px solid {{ line24 }};border-radius:5px;padding:5px 10px;font:400 11.5px 'JetBrains Mono',monospace;color:#CBBFA9">Supabase</span>
+<span style="border:1px solid {{ line24 }};border-radius:5px;padding:5px 10px;font:400 11.5px 'JetBrains Mono',monospace;color:#CBBFA9">RevenueCat</span>
+</div>
+</div>
+</div>
+
+<div style="padding:32px 40px 38px;border-bottom:1px solid {{ line16 }}">
+<span style="font:400 11.5px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#A99B85">APPS I BUILT AND MAINTAIN ALONE</span>
+<div style="margin-top:18px;display:flex;flex-direction:column;gap:0">
+<div style="display:grid;grid-template-columns:44px 190px 1fr 130px 100px 90px;align-items:center;gap:16px;padding:16px 0;border-top:1px solid {{ line13 }}">
+<div style="width:36px;height:36px;border-radius:9px;background:#2A2118;border:1px solid {{ line18 }};display:flex;align-items:center;justify-content:center;font:600 13px 'Instrument Sans',sans-serif;color:{{ acc }}">FF</div>
+<span style="font:600 17px 'Instrument Sans',sans-serif;letter-spacing:-.012em">Focus Flow</span>
+<span style="font:400 13.5px 'Instrument Sans',sans-serif;color:#A99B85">Guided focus timer — 95+ ambient sounds, heatmaps, subscriptions</span>
+<span style="font:500 13px 'JetBrains Mono',monospace;color:{{ acc }}">12,400 installs</span>
+<span style="font:400 13px 'JetBrains Mono',monospace;color:#A99B85">4.7 ★</span>
+<span style="font:500 12.5px 'Instrument Sans',sans-serif;color:#F5EFE3;text-align:right">Open ↗</span>
+</div>
+<div style="display:grid;grid-template-columns:44px 190px 1fr 130px 100px 90px;align-items:center;gap:16px;padding:16px 0;border-top:1px solid {{ line13 }}">
+<div style="width:36px;height:36px;border-radius:9px;background:#2A2118;border:1px solid {{ line18 }};display:flex;align-items:center;justify-content:center;font:600 13px 'Instrument Sans',sans-serif;color:{{ acc }}">R</div>
+<span style="font:600 17px 'Instrument Sans',sans-serif;letter-spacing:-.012em">Raha</span>
+<span style="font:400 13.5px 'Instrument Sans',sans-serif;color:#A99B85">Offline-first Islamic companion — prayer times, Quran audio, full RTL</span>
+<span style="font:500 13px 'JetBrains Mono',monospace;color:{{ acc }}">8,100 installs</span>
+<span style="font:400 13px 'JetBrains Mono',monospace;color:#A99B85">4.8 ★</span>
+<span style="font:500 12.5px 'Instrument Sans',sans-serif;color:#F5EFE3;text-align:right">Open ↗</span>
+</div>
+<div style="display:grid;grid-template-columns:44px 190px 1fr 130px 100px 90px;align-items:center;gap:16px;padding:16px 0;border-top:1px solid {{ line13 }};border-bottom:1px solid {{ line13 }}">
+<div style="width:36px;height:36px;border-radius:9px;background:#2A2118;border:1px solid {{ line18 }};display:flex;align-items:center;justify-content:center;font:600 13px 'Instrument Sans',sans-serif;color:{{ acc }}">DD</div>
+<span style="font:600 17px 'Instrument Sans',sans-serif;letter-spacing:-.012em">Dev Discipline</span>
+<span style="font:400 13.5px 'Instrument Sans',sans-serif;color:#A99B85">A 60-day plan for shipping your first app — streaks, tasks, insights</span>
+<span style="font:500 13px 'JetBrains Mono',monospace;color:{{ acc }}">3,100 installs</span>
+<span style="font:400 13px 'JetBrains Mono',monospace;color:#A99B85">4.6 ★</span>
+<span style="font:500 12.5px 'Instrument Sans',sans-serif;color:#F5EFE3;text-align:right">Open ↗</span>
+</div>
+</div>
+</div>
+
+<div style="padding:44px 40px;display:flex;align-items:flex-end;justify-content:space-between;gap:40px">
+<div>
+<div style="font:italic 700 38px/1.1 'Playfair Display',serif;color:#F5EFE3;letter-spacing:-.01em;max-width:16ch">Got something worth building properly?</div>
+<div style="font:400 14px 'Instrument Sans',sans-serif;color:#A99B85;margin-top:12px">Ankara, Turkey · works remote · replies within a day</div>
+</div>
+<div style="display:flex;gap:10px;flex:none">
+<span style="background:{{ acc }};color:#17120C;border-radius:999px;padding:12px 24px;font:600 14px 'Instrument Sans',sans-serif">Write an email ↗</span>
+<span style="border:1px solid rgba(245,239,227,.25);border-radius:999px;padding:12px 24px;font:500 14px 'Instrument Sans',sans-serif">GitHub</span>
+</div>
+</div>
+
+<div style="display:flex;align-items:center;justify-content:space-between;padding:18px 40px;border-top:1px solid {{ line16 }};background:#120E09">
+<span style="font:400 11.5px 'JetBrains Mono',monospace;color:#94886F">© 2026 MUHAMMAD NABI RAHMANI</span>
+<span style="font:400 11.5px 'JetBrains Mono',monospace;color:#94886F">FLUTTER ENGINEER · ANKARA</span>
+</div>
+</div>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><span class="dv-oid">1c</span>THE JOURNAL — a publication, not a portfolio. Masthead, one lead essay, tight secondary grid. The serif stays but works at magazine scale instead of billboard scale.</div>
+<div class="dv-card" style="width:1280px;background:#FDFBF6;color:#14110C">
+
+<div style="padding:16px 40px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #14110C">
+<div style="display:flex;gap:22px;font:500 12px 'JetBrains Mono',monospace;letter-spacing:.05em;color:#5E5548"><span>ISSUE 14</span><span>ANKARA</span></div>
+<div style="font:900 27px 'Playfair Display',serif;letter-spacing:-.015em">Code With Nabi</div>
+<div style="display:flex;gap:22px;font:500 12.5px 'Instrument Sans',sans-serif;color:#5E5548"><span>Archive</span><span>Apps</span><span>About</span><span style="color:#14110C;font-weight:600">Subscribe</span></div>
+</div>
+<div style="padding:8px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #DED6C4;background:#F6F1E5">
+<span style="font:400 11.5px 'JetBrains Mono',monospace;color:#5E5548">A weekly note on Flutter in production, from someone with three apps in the store.</span>
+<span style="font:400 11.5px 'JetBrains Mono',monospace;color:#8A6212">1,412 SUBSCRIBERS · 23.6K INSTALLS · 4.7★ AVG</span>
+</div>
+
+<div style="display:grid;grid-template-columns:1.5fr 1fr;border-bottom:1px solid #DED6C4">
+<div style="padding:38px 36px 36px;border-right:1px solid #DED6C4">
+<div style="font:500 11px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#8A6212;margin-bottom:14px">THIS WEEK · STATE MANAGEMENT</div>
+<h1 style="margin:0 0 14px;font:700 46px/1.05 'Playfair Display',serif;letter-spacing:-.02em;max-width:16ch">The five Riverpod providers you actually use</h1>
+<p style="margin:0 0 20px;font:400 16.5px/1.6 'Instrument Sans',sans-serif;color:#4E4638;max-width:56ch;text-wrap:pretty">Provider was the go-to. Then Riverpod fixed every problem it had — no BuildContext dependency, compile-time safety, auto-disposal, real testing. Here's how it holds up on a 40k-line app, and the three places it still bites.</p>
+<div style="display:flex;align-items:center;gap:14px;font:400 12.5px 'JetBrains Mono',monospace;color:#7A7062">
+<span style="background:#14110C;color:#FDFBF6;border-radius:999px;padding:9px 18px;font:600 13px 'Instrument Sans',sans-serif">Read · 12 min</span>
+<span>SEP 10, 2025</span><span style="color:#8A6212">4,200 reads</span>
+</div>
+</div>
+<div style="display:flex;flex-direction:column">
+<div style="padding:20px 26px;border-bottom:1px solid #DED6C4">
+<div style="font:500 10.5px 'JetBrains Mono',monospace;letter-spacing:.13em;color:#8A6212;margin-bottom:7px">ARCHITECTURE</div>
+<div style="font:700 20px/1.2 'Playfair Display',serif;letter-spacing:-.01em">Feature-first clean architecture that survives 40k lines</div>
+<div style="font:400 12px 'JetBrains Mono',monospace;color:#7A7062;margin-top:8px">AUG 2 · 8 MIN</div>
+</div>
+<div style="padding:20px 26px;border-bottom:1px solid #DED6C4">
+<div style="font:500 10.5px 'JetBrains Mono',monospace;letter-spacing:.13em;color:#8A6212;margin-bottom:7px">DATA</div>
+<div style="font:700 20px/1.2 'Playfair Display',serif;letter-spacing:-.01em">Drift + SQLite: an offline queue that retries correctly</div>
+<div style="font:400 12px 'JetBrains Mono',monospace;color:#7A7062;margin-top:8px">JUN 19 · 15 MIN</div>
+</div>
+<div style="padding:20px 26px;border-bottom:1px solid #DED6C4">
+<div style="font:500 10.5px 'JetBrains Mono',monospace;letter-spacing:.13em;color:#8A6212;margin-bottom:7px">BACKEND</div>
+<div style="font:700 20px/1.2 'Playfair Display',serif;letter-spacing:-.01em">Firebase is a backend until it isn't</div>
+<div style="font:400 12px 'JetBrains Mono',monospace;color:#7A7062;margin-top:8px">MAY 4 · 10 MIN</div>
+</div>
+<div style="padding:16px 26px;background:#F6F1E5;flex:1;display:flex;align-items:center;justify-content:space-between">
+<span style="font:500 12.5px 'Instrument Sans',sans-serif">Ten more in the archive</span><span style="font:500 12.5px 'Instrument Sans',sans-serif;color:#8A6212">Browse →</span>
+</div>
+</div>
+</div>
+
+<div style="padding:30px 40px 34px;border-bottom:1px solid #DED6C4;background:#F6F1E5">
+<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px">
+<span style="font:500 11px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#5E5548">FIELD NOTES — WHAT I SHIP THE IDEAS ON</span>
+<span style="font:500 12.5px 'Instrument Sans',sans-serif;color:#8A6212">All three apps →</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+<div style="background:#FDFBF6;border:1px solid #DED6C4;border-radius:8px;overflow:hidden">
+<div style="height:6px;background:#2D5FA8"></div>
+<div style="padding:18px 20px 20px">
+<div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font:700 21px 'Playfair Display',serif">Focus Flow</span><span style="font:400 11.5px 'JetBrains Mono',monospace;color:#7A7062">4.7 ★</span></div>
+<div style="font:400 13.5px/1.55 'Instrument Sans',sans-serif;color:#4E4638;margin-top:8px">Guided focus timer. Ambient sound engine, activity heatmaps, RevenueCat paywall.</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:12px;border-top:1px solid #EDE6D6"><span style="font:500 12px 'JetBrains Mono',monospace;color:#8A6212">12,400 installs</span><span style="font:500 12.5px 'Instrument Sans',sans-serif">Case study →</span></div>
+</div>
+</div>
+<div style="background:#FDFBF6;border:1px solid #DED6C4;border-radius:8px;overflow:hidden">
+<div style="height:6px;background:#5B4A86"></div>
+<div style="padding:18px 20px 20px">
+<div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font:700 21px 'Playfair Display',serif">Raha</span><span style="font:400 11.5px 'JetBrains Mono',monospace;color:#7A7062">4.8 ★</span></div>
+<div style="font:400 13.5px/1.55 'Instrument Sans',sans-serif;color:#4E4638;margin-top:8px">Offline-first Islamic companion. Prayer times, Quran audio, full RTL layout.</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:12px;border-top:1px solid #EDE6D6"><span style="font:500 12px 'JetBrains Mono',monospace;color:#8A6212">8,100 installs</span><span style="font:500 12.5px 'Instrument Sans',sans-serif">Case study →</span></div>
+</div>
+</div>
+<div style="background:#FDFBF6;border:1px solid #DED6C4;border-radius:8px;overflow:hidden">
+<div style="height:6px;background:#A8672D"></div>
+<div style="padding:18px 20px 20px">
+<div style="display:flex;align-items:baseline;justify-content:space-between"><span style="font:700 21px 'Playfair Display',serif">Dev Discipline</span><span style="font:400 11.5px 'JetBrains Mono',monospace;color:#7A7062">4.6 ★</span></div>
+<div style="font:400 13.5px/1.55 'Instrument Sans',sans-serif;color:#4E4638;margin-top:8px">A 60-day plan for shipping your first app. Daily tasks, streaks, insights.</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:12px;border-top:1px solid #EDE6D6"><span style="font:500 12px 'JetBrains Mono',monospace;color:#8A6212">3,100 installs</span><span style="font:500 12.5px 'Instrument Sans',sans-serif">Case study →</span></div>
+</div>
+</div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #DED6C4">
+<div style="padding:32px 36px;border-right:1px solid #DED6C4">
+<div style="font:500 11px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#8A6212;margin-bottom:12px">THE AUTHOR</div>
+<p style="margin:0;font:400 15px/1.7 'Instrument Sans',sans-serif;color:#4E4638;text-wrap:pretty">Muhammad Nabi Rahmani. Six years building mobile software, the last three as a solo product engineer in Ankara — design, architecture, subscriptions, store delivery, support email. I write here because the interesting problems never make it into the docs.</p>
+<div style="display:flex;gap:18px;margin-top:16px;font:500 13px 'Instrument Sans',sans-serif"><span style="border-bottom:1px solid #C4B99F">GitHub</span><span style="border-bottom:1px solid #C4B99F">LinkedIn</span><span style="border-bottom:1px solid #C4B99F">Full CV</span></div>
+</div>
+<div style="padding:32px 36px;background:#14110C;color:#FDFBF6">
+<div style="font:500 11px 'JetBrains Mono',monospace;letter-spacing:.14em;color:{{ acc }};margin-bottom:12px">GET IT IN YOUR INBOX</div>
+<div style="font:700 26px/1.15 'Playfair Display',serif;max-width:20ch">One deep Flutter note, every other Tuesday.</div>
+<div style="display:flex;gap:8px;margin-top:18px">
+<div style="flex:1;border:1px solid rgba(253,251,246,.25);border-radius:999px;padding:11px 18px;font:400 13.5px 'Instrument Sans',sans-serif;color:rgba(253,251,246,.45)">you@company.com</div>
+<span style="background:{{ acc }};color:#14110C;border-radius:999px;padding:11px 22px;font:600 13.5px 'Instrument Sans',sans-serif;flex:none">Subscribe</span>
+</div>
+<div style="font:400 11.5px 'JetBrains Mono',monospace;color:rgba(253,251,246,.4);margin-top:12px">NO SPAM · UNSUBSCRIBE ANY TIME</div>
+</div>
+</div>
+
+<div style="padding:18px 40px;display:flex;align-items:center;justify-content:space-between">
+<span style="font:400 11.5px 'JetBrains Mono',monospace;color:#7A7062">© 2026 CODE WITH NABI · ANKARA, TURKEY</span>
+<span style="font:400 11.5px 'JetBrains Mono',monospace;color:#7A7062">codewithnabi@gmail.com</span>
+</div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "build out <a class="dv-oid" href="#1b">1b</a> as the full home page" · "<a class="dv-oid" href="#1a">1a</a> but dark" · "show me the article page and a project page in this direction"</p>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;darkAccent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#F2EDE3&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Dark theme&quot;,&quot;options&quot;:[&quot;#F2EDE3&quot;,&quot;#E5C88A&quot;,&quot;#C9D6D0&quot;,&quot;#D9C4B0&quot;]},&quot;darkRuleStrength&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.16,&quot;min&quot;:0.06,&quot;max&quot;:0.4,&quot;step&quot;:0.01,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Dark theme&quot;},&quot;lightPaper&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#FBF8F1&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Light theme&quot;,&quot;options&quot;:[&quot;#FBF8F1&quot;,&quot;#FFFFFF&quot;,&quot;#F6F3EC&quot;,&quot;#FAF7EE&quot;]}}">
+class Component extends DCLogic {
+  rgba(hex, a) {
+    const h = String(hex || '#E5C88A').replace('#', '');
+    const f = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+    const n = parseInt(f, 16);
+    return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${Math.min(1, Math.max(0, a)).toFixed(3)})`;
+  }
+  renderVals() {
+    const acc = this.props.darkAccent ?? '#E5C88A';
+    const k = this.props.darkRuleStrength ?? 0.16;
+    return {
+      acc,
+      paper: this.props.lightPaper ?? '#FBF8F1',
+      line16: this.rgba(acc, k),
+      line13: this.rgba(acc, k * 0.82),
+      line18: this.rgba(acc, k * 1.13),
+      line24: this.rgba(acc, k * 1.5),
+      line30: this.rgba(acc, k * 1.9)
+    };
+  }
+}
+</script>
+</body>
+</html>
