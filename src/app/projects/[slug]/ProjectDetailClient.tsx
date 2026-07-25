@@ -61,7 +61,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
         <section className="border-b border-[var(--line-16)]">
           <div className="site-container py-8 sm:py-10">
             <nav
-              className="flex flex-wrap items-center gap-2 font-mono text-[0.64rem] uppercase tracking-[0.08em] text-[var(--text-faint)]"
+              className="flex flex-wrap items-center gap-2 font-mono text-xs uppercase tracking-[0.08em] text-[var(--text-faint)]"
               aria-label="Breadcrumb"
             >
               <Link href="/" className="text-inherit no-underline hover:text-[var(--text-strong)]">
@@ -81,7 +81,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
         </section>
 
         <section className="border-b border-[var(--line-16)]">
-          <div className="site-container grid gap-12 py-14 sm:py-20 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-18 lg:py-24">
+          <div className="site-container grid gap-12 py-18 sm:py-22 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-18 lg:py-26">
             <div>
               <div className="flex items-center gap-4">
                 <ProjectAppIcon
@@ -92,7 +92,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 />
                 <div>
                   <p className="eyebrow">{platformLabel(project.platform)}</p>
-                  <p className="mt-1 text-[0.78rem] font-semibold text-[var(--accent)]">
+                  <p className="mt-1 text-sm font-semibold text-[var(--accent)]">
                     {project.caseStudy.role}
                   </p>
                 </div>
@@ -110,7 +110,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 {project.badges?.map((badge) => (
                   <span
                     key={badge}
-                    className="rounded-full border border-[var(--line-16)] bg-[var(--surface-bg)] px-3 py-1.5 font-mono text-[0.62rem] text-[var(--text-muted)]"
+                    className="rounded-full border border-[var(--line-16)] bg-[var(--surface-bg)] px-3 py-1.5 font-mono text-xs text-[var(--text-muted)]"
                   >
                     {badge}
                   </span>
@@ -123,7 +123,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                     href={playStoreUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full bg-[var(--accent)] px-6 py-3.5 text-[0.84rem] font-semibold text-white no-underline"
+                    className="flex h-12 items-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
                   >
                     Google Play ↗
                   </a>
@@ -133,7 +133,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                     href={appStoreUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full bg-[var(--accent)] px-6 py-3.5 text-[0.84rem] font-semibold text-white no-underline"
+                    className="flex h-12 items-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
                   >
                     App Store ↗
                   </a>
@@ -143,7 +143,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                     href={githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-full border border-[var(--line-24)] px-6 py-3.5 text-[0.84rem] font-semibold text-[var(--text-strong)] no-underline"
+                    className="flex h-12 items-center rounded-full border border-[var(--line-24)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none"
                   >
                     GitHub ↗
                   </a>
@@ -198,7 +198,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                     className="flex min-h-24 items-end justify-between bg-[var(--page-bg)] p-5"
                   >
                     <span className="text-[0.88rem] font-semibold">{responsibility}</span>
-                    <span className="font-mono text-[0.62rem] text-[var(--text-faint)]">
+                    <span className="font-mono text-xs text-[var(--text-faint)]">
                       {String(index + 1).padStart(2, '0')}
                     </span>
                   </div>
@@ -211,11 +211,11 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                     key={highlight.title}
                     className="grid gap-3 border-b border-[var(--line-16)] py-6 sm:grid-cols-[48px_180px_1fr] sm:gap-6"
                   >
-                    <span className="font-mono text-[0.64rem] text-[var(--accent)]">
+                    <span className="font-mono text-xs text-[var(--accent)]">
                       0{index + 1}
                     </span>
                     <h3 className="text-[0.9rem] font-semibold">{highlight.title}</h3>
-                    <p className="text-[0.8rem] leading-6 text-[var(--text-muted)]">
+                    <p className="text-sm leading-6 text-[var(--text-muted)]">
                       {highlight.description}
                     </p>
                   </div>
@@ -232,7 +232,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 <p className="eyebrow">Product gallery</p>
                 <h2 className="display-section mt-5">Inside {project.title}.</h2>
               </div>
-              <p className="font-mono text-[0.64rem] uppercase tracking-[0.08em] text-[var(--text-faint)]">
+              <p className="font-mono text-xs uppercase tracking-[0.08em] text-[var(--text-faint)]">
                 Select a screen to inspect
               </p>
             </div>
@@ -281,14 +281,14 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                     key={feature.title}
                     className="min-h-[220px] bg-[var(--surface-bg)] p-6 sm:p-7"
                   >
-                    <span className="font-mono text-[0.63rem] text-[var(--accent)]">
+                    <span className="font-mono text-xs text-[var(--accent)]">
                       {String(index + 1).padStart(2, '0')}
                     </span>
                     <h3 className="mt-12 text-[1.05rem] font-semibold tracking-[-0.025em]">
                       {feature.title}
                     </h3>
                     {feature.description && (
-                      <p className="mt-3 text-[0.8rem] leading-6 text-[var(--text-muted)]">
+                      <p className="mt-3 text-sm leading-6 text-[var(--text-muted)]">
                         {feature.description}
                       </p>
                     )}
@@ -309,7 +309,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
               {project.techStack.map((tech) => (
                 <span
                   key={tech}
-                  className="rounded-full border border-[var(--line-16)] bg-[var(--surface-bg)] px-4 py-2.5 font-mono text-[0.68rem] text-[var(--text-body)]"
+                  className="rounded-full border border-[var(--line-16)] bg-[var(--surface-bg)] px-4 py-2.5 font-mono text-xs text-[var(--text-body)]"
                 >
                   {tech}
                 </span>
@@ -345,7 +345,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                   href={playStoreUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full bg-[var(--accent)] px-6 py-3.5 text-[0.84rem] font-semibold text-white no-underline"
+                  className="flex h-12 items-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
                 >
                   Google Play ↗
                 </a>
@@ -355,14 +355,14 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                   href={appStoreUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full bg-[var(--accent)] px-6 py-3.5 text-[0.84rem] font-semibold text-white no-underline"
+                  className="flex h-12 items-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
                 >
                   App Store ↗
                 </a>
               )}
               <Link
                 href="/projects"
-                className="rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 py-3.5 text-[0.84rem] font-semibold text-[var(--text-strong)] no-underline"
+                className="flex h-12 items-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none"
               >
                 All work
               </Link>
@@ -431,7 +431,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 priority
               />
             </div>
-            <span className="absolute bottom-5 font-mono text-[0.68rem] text-white/70">
+            <span className="absolute bottom-5 font-mono text-xs text-white/70">
               {lightboxIndex + 1} / {screenshots.length}
             </span>
           </motion.div>

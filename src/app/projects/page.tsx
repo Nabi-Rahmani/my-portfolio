@@ -12,7 +12,7 @@ export default function Projects() {
     <div className="min-h-screen bg-[var(--page-bg)] pt-[72px] text-[var(--text-strong)]">
       <main>
         <header className="border-b border-[var(--line-16)]">
-          <div className="site-container grid gap-10 py-16 sm:py-22 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:py-28">
+          <div className="site-container grid gap-10 py-18 sm:py-22 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:py-28">
             <div>
               <p className="eyebrow">Selected work · 2023—Today</p>
               <h1 className="display-page mt-6 max-w-[10ch]">Products I&apos;ve taken to market.</h1>
@@ -58,13 +58,13 @@ export default function Projects() {
             <div className="flex flex-wrap gap-3">
               <a
                 href={contactMailto({ subject: 'Flutter role inquiry' })}
-                className="rounded-full bg-[var(--accent)] px-6 py-3.5 text-[0.84rem] font-semibold text-white no-underline"
+                className="flex h-12 items-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
               >
                 Start a conversation
               </a>
               <Link
                 href="/about"
-                className="rounded-full border border-[var(--line-24)] px-6 py-3.5 text-[0.84rem] font-semibold text-[var(--text-strong)] no-underline"
+                className="flex h-12 items-center rounded-full border border-[var(--line-24)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none"
               >
                 About my approach
               </Link>

@@ -1,6 +1,7 @@
 'use client';
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { Menu, Moon, Sun, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -78,7 +79,7 @@ export default function Navigation() {
         >
           <Link href="/" className="group flex items-center gap-3 no-underline">
             <span
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--text-strong)] font-mono text-[0.72rem] font-semibold tracking-[-0.03em] text-[var(--page-bg)] transition-transform duration-200 group-hover:scale-[1.04]"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--text-strong)] font-mono text-xs font-semibold tracking-[-0.03em] text-[var(--page-bg)] transition-transform duration-200 group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
               aria-hidden
             >
               NR
@@ -87,7 +88,7 @@ export default function Navigation() {
               <span className="text-[0.85rem] font-semibold tracking-[-0.01em] text-[var(--text-strong)]">
                 {siteConfig.shortName}
               </span>
-              <span className="hidden font-mono text-[0.62rem] uppercase tracking-[0.11em] text-[var(--text-faint)] sm:block">
+              <span className="hidden font-mono text-xs uppercase tracking-[0.11em] text-[var(--text-faint)] sm:block">
                 {siteConfig.role}
               </span>
             </span>
@@ -109,7 +110,7 @@ export default function Navigation() {
           <div className="flex items-center gap-2.5">
             <a
               href={contactMailto({ subject: 'Flutter role inquiry' })}
-              className="hidden rounded-full bg-[var(--text-strong)] px-4 py-2 text-[0.78rem] font-semibold text-[var(--page-bg)] no-underline transition-transform duration-150 hover:-translate-y-0.5 sm:inline-flex"
+              className="hidden h-11 items-center rounded-full bg-[var(--text-strong)] px-5 text-sm font-semibold text-[var(--page-bg)] no-underline transition-transform duration-150 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:inline-flex"
             >
               Email me
             </a>
@@ -117,19 +118,24 @@ export default function Navigation() {
               type="button"
               onClick={toggleTheme}
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] font-mono text-[0.68rem] font-medium text-[var(--text-strong)] transition-colors duration-150 hover:border-[var(--accent)]"
+              className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] text-[var(--text-strong)] transition-colors duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none"
             >
-              {isDark ? 'L' : 'D'}
+              <span className="transition-transform duration-200 group-hover:rotate-12 motion-reduce:transition-none motion-reduce:group-hover:rotate-0">
+                {isDark ? (
+                  <Sun size={18} strokeWidth={1.8} aria-hidden />
+                ) : (
+                  <Moon size={18} strokeWidth={1.8} aria-hidden />
+                )}
+              </span>
             </button>
             <button
               type="button"
               onClick={() => setDrawerOpen(true)}
               aria-label="Open menu"
               aria-expanded={drawerOpen}
-              className="flex h-9 w-9 cursor-pointer flex-col items-center justify-center gap-1 rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] md:hidden"
+              className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] text-[var(--text-strong)] transition-colors duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none md:hidden"
             >
-              <span className="h-px w-3.5 bg-[var(--text-strong)]" aria-hidden />
-              <span className="h-px w-3.5 bg-[var(--text-strong)]" aria-hidden />
+              <Menu size={19} strokeWidth={1.8} aria-hidden />
             </button>
           </div>
         </nav>
@@ -162,7 +168,7 @@ export default function Navigation() {
               })}
             >
               <div className="flex items-center justify-between">
-                <span className="font-mono text-[0.68rem] uppercase tracking-[0.14em] text-[var(--text-faint)]">
+                <span className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--text-faint)]">
                   Navigation
                 </span>
                 <button
@@ -170,9 +176,9 @@ export default function Navigation() {
                   type="button"
                   onClick={() => setDrawerOpen(false)}
                   aria-label="Close menu"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--line-24)] bg-transparent text-xl text-[var(--text-strong)]"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--line-24)] bg-transparent text-[var(--text-strong)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none"
                 >
-                  <span aria-hidden>×</span>
+                  <X size={19} strokeWidth={1.8} aria-hidden />
                 </button>
               </div>
 
@@ -205,15 +211,21 @@ export default function Navigation() {
               <div className="mt-auto space-y-4">
                 <a
                   href={contactMailto({ subject: 'Flutter role inquiry' })}
-                  className="flex w-full items-center justify-center rounded-full bg-[var(--accent)] px-5 py-3.5 text-[0.86rem] font-semibold text-white no-underline"
+                  className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-5 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
                 >
                   Start a conversation
                 </a>
                 <button
                   type="button"
                   onClick={toggleTheme}
-                  className="w-full bg-transparent text-center font-mono text-[0.68rem] uppercase tracking-[0.12em] text-[var(--text-muted)]"
+                  aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+                  className="flex h-12 w-full items-center justify-center gap-2 rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-5 font-mono text-xs uppercase tracking-[0.1em] text-[var(--text-muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none"
                 >
+                  {isDark ? (
+                    <Sun size={17} strokeWidth={1.8} aria-hidden />
+                  ) : (
+                    <Moon size={17} strokeWidth={1.8} aria-hidden />
+                  )}
                   {isDark ? 'Use light canvas' : 'Use dark canvas'}
                 </button>
               </div>

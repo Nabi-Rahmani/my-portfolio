@@ -11,6 +11,7 @@ export const siteConfig = {
   timezone: 'GMT+3',
   availability: 'Available for remote Flutter roles',
   contactEmail: 'codewithnabi@gmail.com',
+  portraitPath: '/assets/branding/nabi-night.jpg',
   cvPath: '/Nabi-Rahmani-Flutter-Developer-CV.pdf', // file placed in /public
   cvAvailable: false, // flip to true once the PDF is added
   calendlyUrl: '', // e.g. 'https://cal.com/nabirahmani/15min'; empty hides the CTA

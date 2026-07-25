@@ -74,7 +74,7 @@ function BlogIndex() {
     <>
       {!hasFilters && featuredPost && (
         <section className="border-b border-[var(--line-16)]">
-          <div className="site-container grid gap-8 py-12 sm:py-16 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch lg:gap-12 lg:py-20">
+          <div className="site-container grid gap-8 py-18 sm:py-22 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch lg:gap-12 lg:py-26">
             <Link
               href={`/blog/${featuredPost.slug}`}
               className="relative min-h-[340px] overflow-hidden rounded-[24px] border border-[var(--line-18)] bg-[var(--surface-bg)] no-underline sm:min-h-[460px]"
@@ -89,7 +89,7 @@ function BlogIndex() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/78 via-black/15 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
-                <span className="font-mono text-[0.64rem] uppercase tracking-[0.12em] text-white/70">
+                <span className="font-mono text-xs uppercase tracking-[0.12em] text-white/80">
                   Featured field note
                 </span>
                 <p className="mt-3 max-w-[28ch] text-[1.35rem] font-semibold leading-tight tracking-[-0.035em]">
@@ -101,7 +101,7 @@ function BlogIndex() {
             <div className="flex flex-col justify-between border-t border-[var(--line-16)] pt-7 lg:border-t-0 lg:pt-0">
               <div>
                 <p className="eyebrow">{featuredPost.category}</p>
-                <h2 className="mt-6 text-[clamp(2.5rem,5vw,4.8rem)] font-semibold leading-[0.96] tracking-[-0.06em]">
+                <h2 className="mt-6 text-[clamp(2.5rem,5vw,4.8rem)] font-semibold leading-[0.98] tracking-[-0.052em]">
                   {featuredPost.title}
                 </h2>
                 <p className="mt-6 max-w-[56ch] text-[0.94rem] leading-7 text-[var(--text-muted)]">
@@ -109,13 +109,13 @@ function BlogIndex() {
                 </p>
               </div>
               <div className="mt-10">
-                <div className="flex flex-wrap gap-4 font-mono text-[0.64rem] uppercase tracking-[0.07em] text-[var(--text-faint)]">
+                <div className="flex flex-wrap gap-4 font-mono text-xs uppercase tracking-[0.07em] text-[var(--text-faint)]">
                   <span>{formatDateShort(featuredPost.publishedAt)}</span>
                   <span>{featuredPost.readingTime} min read</span>
                 </div>
                 <Link
                   href={`/blog/${featuredPost.slug}`}
-                  className="mt-6 inline-flex rounded-full bg-[var(--text-strong)] px-6 py-3.5 text-[0.84rem] font-semibold text-[var(--page-bg)] no-underline"
+                  className="mt-6 inline-flex h-12 items-center rounded-full bg-[var(--text-strong)] px-6 text-sm font-semibold text-[var(--page-bg)] no-underline"
                 >
                   Read the article
                 </Link>
@@ -138,11 +138,11 @@ function BlogIndex() {
                 value={searchValue}
                 onChange={(event) => setSearchValue(event.target.value)}
                 placeholder="Search production notes"
-                className="min-w-0 flex-1 rounded-full border border-[var(--line-24)] bg-[var(--page-bg)] px-5 py-3 text-[0.82rem] text-[var(--text-strong)] placeholder:text-[var(--text-faint)]"
+                className="h-12 min-w-0 flex-1 rounded-full border border-[var(--line-24)] bg-[var(--page-bg)] px-5 text-sm text-[var(--text-strong)] placeholder:text-[var(--text-faint)]"
               />
               <button
                 type="submit"
-                className="rounded-full bg-[var(--text-strong)] px-5 py-3 text-[0.78rem] font-semibold text-[var(--page-bg)]"
+                className="h-12 rounded-full bg-[var(--text-strong)] px-5 text-sm font-semibold text-[var(--page-bg)]"
               >
                 Search
               </button>
@@ -153,7 +153,7 @@ function BlogIndex() {
                 type="button"
                 onClick={() => updateParam('category', '')}
                 className={[
-                  'rounded-full border px-3.5 py-2 text-[0.7rem] font-medium',
+                  'h-11 rounded-full border px-4 text-xs font-medium',
                   !activeCategory
                     ? 'border-[var(--text-strong)] bg-[var(--text-strong)] text-[var(--page-bg)]'
                     : 'border-[var(--line-16)] bg-transparent text-[var(--text-muted)]',
@@ -169,7 +169,7 @@ function BlogIndex() {
                     type="button"
                     onClick={() => updateParam('category', category.slug)}
                     className={[
-                      'rounded-full border px-3.5 py-2 text-[0.7rem] font-medium',
+                      'h-11 rounded-full border px-4 text-xs font-medium',
                       activeCategory === category.slug
                         ? 'border-[var(--text-strong)] bg-[var(--text-strong)] text-[var(--page-bg)]'
                         : 'border-[var(--line-16)] bg-transparent text-[var(--text-muted)]',
@@ -182,7 +182,7 @@ function BlogIndex() {
           </div>
 
           <div className="mt-5 flex flex-wrap items-center gap-2">
-            <span className="mr-2 font-mono text-[0.62rem] uppercase tracking-[0.1em] text-[var(--text-faint)]">
+            <span className="mr-2 font-mono text-xs uppercase tracking-[0.1em] text-[var(--text-faint)]">
               Topics
             </span>
             {popularTags.map((tag) => (
@@ -191,7 +191,7 @@ function BlogIndex() {
                 type="button"
                 onClick={() => updateParam('tag', activeTag === tag ? '' : tag)}
                 className={[
-                  'rounded-full border px-3 py-1.5 font-mono text-[0.6rem]',
+                  'h-10 rounded-full border px-3.5 font-mono text-xs',
                   activeTag === tag
                     ? 'border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--accent)]'
                     : 'border-[var(--line-16)] text-[var(--text-faint)]',
@@ -204,7 +204,7 @@ function BlogIndex() {
               <button
                 type="button"
                 onClick={clearFilters}
-                className="ml-auto text-[0.68rem] font-semibold text-[var(--accent)]"
+                className="ml-auto h-10 text-xs font-semibold text-[var(--accent)]"
               >
                 Clear filters
               </button>
@@ -213,15 +213,15 @@ function BlogIndex() {
         </div>
       </section>
 
-      <section className="site-container py-14 sm:py-20 lg:py-24">
+      <section className="site-container py-18 sm:py-22 lg:py-26">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="eyebrow">{hasFilters ? 'Filtered archive' : 'Writing archive'}</p>
-            <h2 className="mt-4 text-[clamp(2.2rem,4vw,3.8rem)] font-semibold tracking-[-0.055em]">
+            <h2 className="mt-4 text-[clamp(2.2rem,4vw,3.8rem)] font-semibold tracking-[-0.05em]">
               {hasFilters ? `${indexPosts.length} matching notes` : 'The complete field log.'}
             </h2>
           </div>
-          <p className="font-mono text-[0.64rem] uppercase tracking-[0.08em] text-[var(--text-faint)]">
+          <p className="font-mono text-xs uppercase tracking-[0.08em] text-[var(--text-faint)]">
             {blogPosts.length} articles · Flutter in production
           </p>
         </div>
@@ -232,7 +232,7 @@ function BlogIndex() {
             <button
               type="button"
               onClick={clearFilters}
-              className="mt-4 text-[0.8rem] font-semibold text-[var(--accent)]"
+              className="mt-4 text-sm font-semibold text-[var(--accent)]"
             >
               Show the complete archive
             </button>
@@ -245,10 +245,10 @@ function BlogIndex() {
                 href={`/blog/${post.slug}`}
                 className="group grid gap-3 border-b border-[var(--line-16)] py-6 text-[var(--text-strong)] no-underline transition-colors hover:bg-[var(--row-hover-bg)] sm:grid-cols-[50px_120px_1fr_auto] sm:gap-5 sm:px-4"
               >
-                <span className="font-mono text-[0.63rem] text-[var(--text-faint)]">
+                <span className="font-mono text-xs text-[var(--text-faint)]">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <div className="font-mono text-[0.62rem] uppercase tracking-[0.05em] text-[var(--text-faint)]">
+                <div className="font-mono text-xs uppercase tracking-[0.05em] text-[var(--text-faint)]">
                   <time dateTime={post.publishedAt}>{formatDateShort(post.publishedAt)}</time>
                   <p className="mt-2 text-[var(--accent)]">{post.category}</p>
                 </div>
@@ -256,11 +256,11 @@ function BlogIndex() {
                   <h3 className="text-[1.03rem] font-semibold tracking-[-0.025em] transition-colors group-hover:text-[var(--accent)]">
                     {post.title}
                   </h3>
-                  <p className="mt-2 max-w-[72ch] text-[0.8rem] leading-6 text-[var(--text-muted)]">
+                  <p className="mt-2 max-w-[72ch] text-sm leading-6 text-[var(--text-muted)]">
                     {post.excerpt}
                   </p>
                 </div>
-                <span className="font-mono text-[0.62rem] text-[var(--text-faint)]">
+                <span className="font-mono text-xs text-[var(--text-faint)]">
                   {post.readingTime} min
                 </span>
               </Link>
@@ -274,7 +274,7 @@ function BlogIndex() {
 
 function BlogLoading() {
   return (
-    <div className="site-container py-24 text-center text-[0.82rem] text-[var(--text-muted)]">
+    <div className="site-container py-24 text-center text-sm text-[var(--text-muted)]">
       Loading writing…
     </div>
   );
@@ -285,7 +285,7 @@ export default function BlogPage() {
     <div className="min-h-screen bg-[var(--page-bg)] pt-[72px] text-[var(--text-strong)]">
       <main>
         <header className="border-b border-[var(--line-16)]">
-          <div className="site-container grid gap-8 py-14 sm:py-20 lg:grid-cols-[1fr_0.72fr] lg:items-end lg:py-24">
+          <div className="site-container grid gap-8 py-18 sm:py-22 lg:grid-cols-[1fr_0.72fr] lg:items-end lg:py-26">
             <div>
               <p className="eyebrow">Writing</p>
               <h1 className="display-page mt-6 max-w-[10ch]">Notes from shipping Flutter.</h1>

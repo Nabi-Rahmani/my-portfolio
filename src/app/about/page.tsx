@@ -49,19 +49,19 @@ export default function About() {
     <div className="min-h-screen bg-[var(--page-bg)] pt-[72px] text-[var(--text-strong)]">
       <main>
         <section className="border-b border-[var(--line-16)]">
-          <div className="site-container grid gap-12 py-14 sm:py-20 lg:grid-cols-[0.72fr_1.28fr] lg:items-end lg:gap-18 lg:py-24">
+          <div className="site-container grid gap-12 py-18 sm:py-22 lg:grid-cols-[0.72fr_1.28fr] lg:items-end lg:gap-18 lg:py-26">
             <div className="relative aspect-[4/5] max-w-[390px] overflow-hidden rounded-[28px] border border-[var(--line-18)] bg-[var(--surface-bg)]">
               <Image
-                src="/assets/branding/profile.jpg"
+                src={siteConfig.portraitPath}
                 alt="Nabi Rahmani, Flutter product engineer"
                 fill
-                className="object-cover object-[center_28%]"
+                className="object-cover object-center"
                 sizes="(max-width: 1024px) 80vw, 390px"
                 priority
               />
               <div className="absolute inset-x-4 bottom-4 flex items-center gap-2 rounded-full bg-black/70 px-4 py-2.5 text-white backdrop-blur-md">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#67C58A]" aria-hidden />
-                <span className="font-mono text-[0.62rem] uppercase tracking-[0.1em]">
+                <span className="font-mono text-xs uppercase tracking-[0.1em]">
                   {siteConfig.availability}
                 </span>
               </div>
@@ -81,13 +81,13 @@ export default function About() {
               <div className="mt-9 flex flex-wrap gap-3">
                 <a
                   href={contactMailto({ subject: 'Flutter role inquiry' })}
-                  className="rounded-full bg-[var(--accent)] px-6 py-3.5 text-[0.84rem] font-semibold text-white no-underline"
+                  className="flex h-12 items-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
                 >
                   Start a conversation
                 </a>
                 <Link
                   href="/projects"
-                  className="rounded-full border border-[var(--line-24)] px-6 py-3.5 text-[0.84rem] font-semibold text-[var(--text-strong)] no-underline"
+                  className="flex h-12 items-center rounded-full border border-[var(--line-24)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none"
                 >
                   View my work
                 </Link>
@@ -157,11 +157,11 @@ export default function About() {
                   key={principle.title}
                   className="grid gap-3 border-b border-[var(--line-16)] py-7 sm:grid-cols-[48px_190px_1fr] sm:gap-6"
                 >
-                  <span className="font-mono text-[0.64rem] text-[var(--accent)]">
+                  <span className="font-mono text-xs text-[var(--accent)]">
                     0{index + 1}
                   </span>
                   <h3 className="text-[0.92rem] font-semibold">{principle.title}</h3>
-                  <p className="text-[0.82rem] leading-6 text-[var(--text-muted)]">
+                  <p className="text-sm leading-6 text-[var(--text-muted)]">
                     {principle.description}
                   </p>
                 </div>
@@ -187,7 +187,7 @@ export default function About() {
                     {group.items.map((item) => (
                       <span
                         key={item}
-                        className="rounded-full border border-[var(--line-16)] bg-[var(--surface-bg)] px-3 py-2 font-mono text-[0.64rem] text-[var(--text-muted)]"
+                        className="rounded-full border border-[var(--line-16)] bg-[var(--surface-bg)] px-3 py-2 font-mono text-xs text-[var(--text-muted)]"
                       >
                         {item}
                       </span>
@@ -214,7 +214,7 @@ export default function About() {
             <div className="flex flex-wrap gap-3 lg:flex-col">
               <a
                 href={contactMailto({ subject: 'Flutter role inquiry' })}
-                className="rounded-full bg-[var(--accent)] px-6 py-3.5 text-center text-[0.84rem] font-semibold text-white no-underline"
+                className="flex h-12 items-center justify-center rounded-full bg-[var(--accent)] px-6 text-center text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
               >
                 {siteConfig.contactEmail}
               </a>
@@ -222,7 +222,7 @@ export default function About() {
                 href={linkedInUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 py-3.5 text-center text-[0.84rem] font-semibold text-[var(--text-strong)] no-underline"
+                className="flex h-12 items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 text-center text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none"
               >
                 LinkedIn ↗
               </a>
@@ -230,7 +230,7 @@ export default function About() {
                 href={githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-center font-mono text-[0.64rem] uppercase tracking-[0.1em] text-[var(--text-muted)] no-underline"
+                className="text-center font-mono text-xs uppercase tracking-[0.1em] text-[var(--text-muted)] no-underline"
               >
                 GitHub ↗
               </a>

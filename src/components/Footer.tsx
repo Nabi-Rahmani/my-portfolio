@@ -29,11 +29,11 @@ export default function Footer({
           <p className="text-[1.15rem] font-semibold tracking-[-0.025em] text-[var(--text-strong)]">
             {siteConfig.name}
           </p>
-          <p className="mt-2 max-w-[34ch] text-[0.86rem] leading-6 text-[var(--text-muted)]">
+          <p className="mt-2 max-w-[34ch] text-sm leading-6 text-[var(--text-muted)]">
             {siteConfig.role} building dependable, offline-first mobile products from
             architecture to release.
           </p>
-          <div className="mt-5 flex items-center gap-2 font-mono text-[0.66rem] uppercase tracking-[0.11em] text-[var(--text-faint)]">
+          <div className="mt-5 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.11em] text-[var(--text-faint)]">
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--status-ok)]" aria-hidden />
             {siteConfig.availability}
           </div>
@@ -46,7 +46,7 @@ export default function Footer({
               <Link
                 key={`${item.label}-${item.href}`}
                 href={item.href}
-                className="text-[0.82rem] text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)]"
+                className="text-sm text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)]"
               >
                 {item.label}
               </Link>
@@ -59,7 +59,7 @@ export default function Footer({
           <div className="mt-4 flex flex-col gap-3">
             <a
               href={contactMailto({ subject: 'Flutter role inquiry' })}
-              className="text-[0.82rem] text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)]"
+              className="text-sm text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)]"
             >
               {siteConfig.contactEmail}
             </a>
@@ -70,7 +70,7 @@ export default function Footer({
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[0.82rem] text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)]"
+                  className="text-sm text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)]"
                 >
                   {item.label} ↗
                 </a>
@@ -80,7 +80,7 @@ export default function Footer({
       </div>
 
       <div className="border-t border-[var(--line-16)]">
-        <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-2 px-5 py-5 font-mono text-[0.64rem] uppercase tracking-[0.1em] text-[var(--text-faint)] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10">
+        <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-2 px-5 py-5 font-mono text-xs uppercase tracking-[0.1em] text-[var(--text-faint)] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10">
           <span>© {new Date().getFullYear()} {siteConfig.shortName}</span>
           <span>{siteConfig.location} · {siteConfig.timezone}</span>
         </div>

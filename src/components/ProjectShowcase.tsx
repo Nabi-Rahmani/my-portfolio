@@ -89,16 +89,16 @@ export default function ProjectShowcase({
             size="sm"
           />
           <div>
-            <p className="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-[var(--text-faint)]">
+            <p className="font-mono text-xs uppercase tracking-[0.12em] text-[var(--text-faint)]">
               0{index + 1} · {platformLabel(project.platform)}
             </p>
-            <p className="mt-1 text-[0.78rem] font-medium text-[var(--accent)]">
+            <p className="mt-1 text-sm font-medium text-[var(--accent)]">
               {project.caseStudy.role}
             </p>
           </div>
         </div>
 
-        <h3 className="mt-7 text-[clamp(2.55rem,5vw,4.8rem)] font-semibold leading-[0.94] tracking-[-0.06em] text-[var(--text-strong)]">
+        <h3 className="mt-7 text-[clamp(2.55rem,5vw,4.8rem)] font-semibold leading-[0.98] tracking-[-0.052em] text-[var(--text-strong)]">
           {project.title}
         </h3>
         <p className="mt-4 max-w-[34ch] text-[1.05rem] font-medium leading-7 text-[var(--text-body)]">
@@ -114,10 +114,10 @@ export default function ProjectShowcase({
               key={highlight.title}
               className="grid gap-1 border-b border-[var(--line-16)] py-4 last:border-b-0 sm:grid-cols-[150px_1fr] sm:gap-5"
             >
-              <dt className="text-[0.78rem] font-semibold text-[var(--text-strong)]">
+              <dt className="text-sm font-semibold text-[var(--text-strong)]">
                 {highlight.title}
               </dt>
-              <dd className="text-[0.78rem] leading-5 text-[var(--text-muted)]">
+              <dd className="text-sm leading-6 text-[var(--text-muted)]">
                 {highlight.description}
               </dd>
             </div>
@@ -128,7 +128,7 @@ export default function ProjectShowcase({
           {project.techStack.slice(0, 5).map((tech) => (
             <span
               key={tech}
-              className="rounded-full border border-[var(--line-16)] px-3 py-1.5 font-mono text-[0.62rem] text-[var(--text-muted)]"
+              className="rounded-full border border-[var(--line-16)] px-3 py-1.5 font-mono text-xs text-[var(--text-muted)]"
             >
               {tech}
             </span>
@@ -138,7 +138,7 @@ export default function ProjectShowcase({
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <Link
             href={`/projects/${project.slug}`}
-            className="rounded-full bg-[var(--text-strong)] px-5 py-3 text-[0.82rem] font-semibold text-[var(--page-bg)] no-underline transition-transform duration-150 hover:-translate-y-0.5"
+            className="flex h-11 items-center rounded-full bg-[var(--text-strong)] px-5 text-sm font-semibold text-[var(--page-bg)] no-underline transition-transform duration-150 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
           >
             Read case study
           </Link>
@@ -147,7 +147,7 @@ export default function ProjectShowcase({
               href={playStoreUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full border border-[var(--line-24)] px-5 py-3 text-[0.82rem] font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)]"
+              className="flex h-11 items-center rounded-full border border-[var(--line-24)] px-5 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none"
             >
               Google Play ↗
             </a>

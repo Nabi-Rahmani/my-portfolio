@@ -36,23 +36,23 @@
   --text-strong: #181817;
   --text-body: #3f3e3a;
   --text-soft: #53514c;
-  --text-muted: #67645e;
-  --text-faint: #89857c;
+  --text-muted: #5f5c55;
+  --text-faint: #6f6b64;
 
-  --accent: #2e57d9;
+  --accent: #244fcb;
   --accent-soft: #e7ecff;
   --on-accent: #ffffff;
   --status-ok: #2f8a52;
 
-  --line-13: #e7e2d8;
-  --line-16: #ddd8ce;
-  --line-18: #d7d2c8;
-  --line-24: #cbc5ba;
-  --line-30: #b9b2a5;
+  --line-13: #ded8cc;
+  --line-16: #d3cdc1;
+  --line-18: #ccc5b9;
+  --line-24: #bdb5a7;
+  --line-30: #a9a092;
   --outline-border: var(--line-24);
   --row-hover-bg: #eeece5;
   --filled-button-hover: #2a2a28;
-  --accent-button-hover: #2448bc;
+  --accent-button-hover: #193da8;
 
   --radius-pill: 999px;
   --radius-card: 20px;
@@ -97,19 +97,19 @@
   --text-strong: #f3f0e8;
   --text-body: #c4c0b7;
   --text-soft: #b6b2a8;
-  --text-muted: #a9a69d;
-  --text-faint: #817f78;
+  --text-muted: #b8b3a8;
+  --text-faint: #97938a;
 
-  --accent: #8ea4ff;
+  --accent: #9bb0ff;
   --accent-soft: #22273a;
   --on-accent: #101218;
   --status-ok: #67c58a;
 
-  --line-13: color-mix(in srgb, var(--text-strong) 10%, transparent);
-  --line-16: color-mix(in srgb, var(--text-strong) 14%, transparent);
-  --line-18: color-mix(in srgb, var(--text-strong) 17%, transparent);
-  --line-24: color-mix(in srgb, var(--text-strong) 23%, transparent);
-  --line-30: color-mix(in srgb, var(--text-strong) 30%, transparent);
+  --line-13: color-mix(in srgb, var(--text-strong) 14%, transparent);
+  --line-16: color-mix(in srgb, var(--text-strong) 18%, transparent);
+  --line-18: color-mix(in srgb, var(--text-strong) 22%, transparent);
+  --line-24: color-mix(in srgb, var(--text-strong) 28%, transparent);
+  --line-30: color-mix(in srgb, var(--text-strong) 34%, transparent);
   --outline-border: var(--line-24);
   --row-hover-bg: #20211e;
   --filled-button-hover: #ffffff;
@@ -155,7 +155,7 @@ h3 {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 3px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -172,7 +172,7 @@ h3 {
   .type-eyebrow {
     color: var(--text-faint);
     font-family: var(--font-mono);
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -183,8 +183,8 @@ h3 {
     font-family: var(--font-sans);
     font-size: clamp(3rem, 7vw, 6.5rem);
     font-weight: 600;
-    letter-spacing: -0.065em;
-    line-height: 0.94;
+    letter-spacing: -0.052em;
+    line-height: 0.96;
     text-wrap: balance;
   }
 
@@ -192,8 +192,8 @@ h3 {
     font-family: var(--font-sans);
     font-size: clamp(3rem, 6vw, 5.8rem);
     font-weight: 600;
-    letter-spacing: -0.06em;
-    line-height: 0.96;
+    letter-spacing: -0.05em;
+    line-height: 0.98;
     text-wrap: balance;
   }
 
@@ -201,8 +201,8 @@ h3 {
     font-family: var(--font-sans);
     font-size: clamp(2.15rem, 4.5vw, 4.4rem);
     font-weight: 600;
-    letter-spacing: -0.055em;
-    line-height: 0.98;
+    letter-spacing: -0.045em;
+    line-height: 1;
     text-wrap: balance;
   }
 
@@ -220,8 +220,8 @@ h3 {
   }
 
   .type-dek {
-    font-size: 0.84rem;
-    line-height: 1.55;
+    font-size: 0.875rem;
+    line-height: 1.6;
   }
 
   .type-stat {
@@ -232,11 +232,11 @@ h3 {
 
   .type-meta {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
   }
 
   .type-button {
-    font-size: 0.84rem;
+    font-size: 0.875rem;
     font-weight: 600;
   }
 

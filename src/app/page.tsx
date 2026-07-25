@@ -63,7 +63,7 @@ function ProductRack() {
 
   return (
     <div className="relative overflow-hidden rounded-[28px] border border-[var(--line-16)] bg-[var(--accent-soft)] px-4 pb-0 pt-8 sm:px-7 sm:pt-12 lg:px-9">
-      <div className="absolute left-6 top-5 font-mono text-[0.62rem] uppercase tracking-[0.12em] text-[var(--accent)]">
+      <div className="absolute left-6 top-5 font-mono text-xs uppercase tracking-[0.12em] text-[var(--accent)]">
         Shipped products · real screens
       </div>
       <div className="grid grid-cols-3 items-end gap-2.5 pt-8 sm:gap-4">
@@ -103,13 +103,13 @@ export default function Home() {
       <main>
         <section className="border-b border-[var(--line-16)]">
           <motion.div
-            className="site-container grid gap-12 py-14 sm:py-20 lg:grid-cols-[1.03fr_0.97fr] lg:items-center lg:gap-16 lg:py-24"
+            className="site-container grid gap-12 py-18 sm:py-22 lg:grid-cols-[1.03fr_0.97fr] lg:items-center lg:gap-16 lg:py-26"
             initial="hidden"
             animate="visible"
             variants={stagger}
           >
             <motion.div variants={reveal}>
-              <div className="flex items-center gap-2 font-mono text-[0.68rem] uppercase tracking-[0.13em] text-[var(--text-faint)]">
+              <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.13em] text-[var(--text-faint)]">
                 <span className="h-1.5 w-1.5 rounded-full bg-[var(--status-ok)]" aria-hidden />
                 {siteConfig.role} · Ankara / Remote
               </div>
@@ -124,18 +124,18 @@ export default function Home() {
               <div className="mt-9 flex flex-wrap gap-3">
                 <Link
                   href="/projects"
-                  className="rounded-full bg-[var(--accent)] px-6 py-3.5 text-[0.86rem] font-semibold text-white no-underline transition-transform duration-150 hover:-translate-y-0.5"
+                  className="flex h-12 items-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-all duration-150 hover:-translate-y-0.5 hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
                 >
                   View selected work
                 </Link>
                 <a
                   href={contactMailto({ subject: 'Flutter role inquiry' })}
-                  className="rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 py-3.5 text-[0.86rem] font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)]"
+                  className="flex h-12 items-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none"
                 >
                   Email me
                 </a>
               </div>
-              <p className="mt-7 font-mono text-[0.65rem] uppercase tracking-[0.11em] text-[var(--text-faint)]">
+              <p className="mt-7 font-mono text-xs uppercase tracking-[0.11em] text-[var(--text-faint)]">
                 Flutter · Dart · Riverpod · Drift · Store delivery
               </p>
             </motion.div>
@@ -161,10 +161,10 @@ export default function Home() {
                 <p className="text-[1.45rem] font-semibold tracking-[-0.04em] text-[var(--text-strong)]">
                   {item.value}
                 </p>
-                <p className="mt-1 text-[0.76rem] font-semibold text-[var(--text-body)]">
+                <p className="mt-1 text-sm font-semibold text-[var(--text-body)]">
                   {item.label}
                 </p>
-                <p className="mt-1 text-[0.7rem] text-[var(--text-faint)]">{item.note}</p>
+                <p className="mt-1 text-xs text-[var(--text-faint)]">{item.note}</p>
               </div>
             ))}
           </div>
@@ -211,11 +211,11 @@ export default function Home() {
                   key={item.number}
                   className="grid gap-4 border-b border-[var(--line-16)] py-7 sm:grid-cols-[52px_180px_1fr] sm:gap-6"
                 >
-                  <span className="font-mono text-[0.66rem] text-[var(--accent)]">{item.number}</span>
+                  <span className="font-mono text-xs text-[var(--accent)]">{item.number}</span>
                   <h3 className="text-[0.95rem] font-semibold tracking-[-0.02em]">{item.title}</h3>
                   <div>
-                    <p className="text-[0.82rem] leading-6 text-[var(--text-muted)]">{item.body}</p>
-                    <p className="mt-3 font-mono text-[0.62rem] uppercase tracking-[0.08em] text-[var(--text-faint)]">
+                    <p className="text-sm leading-6 text-[var(--text-muted)]">{item.body}</p>
+                    <p className="mt-3 font-mono text-xs uppercase tracking-[0.08em] text-[var(--text-faint)]">
                       {item.stack}
                     </p>
                   </div>
@@ -233,7 +233,7 @@ export default function Home() {
             </div>
             <Link
               href="/blog"
-              className="text-[0.82rem] font-semibold text-[var(--accent)] no-underline"
+              className="text-sm font-semibold text-[var(--accent)] no-underline"
             >
               Browse all writing →
             </Link>
@@ -246,12 +246,12 @@ export default function Home() {
                 href={`/blog/${post.slug}`}
                 className="group grid gap-3 border-b border-[var(--line-16)] py-6 text-[var(--text-strong)] no-underline transition-colors hover:bg-[var(--row-hover-bg)] sm:grid-cols-[56px_120px_1fr_auto] sm:items-start sm:gap-5 sm:px-4"
               >
-                <span className="font-mono text-[0.65rem] text-[var(--text-faint)]">
+                <span className="font-mono text-xs text-[var(--text-faint)]">
                   {String(index + 1).padStart(2, '0')}
                 </span>
                 <time
                   dateTime={post.publishedAt}
-                  className="font-mono text-[0.64rem] uppercase tracking-[0.05em] text-[var(--text-faint)]"
+                  className="font-mono text-xs uppercase tracking-[0.05em] text-[var(--text-faint)]"
                 >
                   {formatPostDate(post.publishedAt)}
                 </time>
@@ -259,11 +259,11 @@ export default function Home() {
                   <h3 className="text-[1rem] font-semibold tracking-[-0.02em] transition-colors group-hover:text-[var(--accent)]">
                     {post.title}
                   </h3>
-                  <p className="mt-2 max-w-[68ch] text-[0.8rem] leading-6 text-[var(--text-muted)]">
+                  <p className="mt-2 max-w-[68ch] text-sm leading-6 text-[var(--text-muted)]">
                     {post.excerpt}
                   </p>
                 </div>
-                <span className="font-mono text-[0.64rem] text-[var(--text-faint)]">
+                <span className="font-mono text-xs text-[var(--text-faint)]">
                   {post.readingTime} min
                 </span>
               </Link>
@@ -272,19 +272,19 @@ export default function Home() {
         </section>
 
         <section className="border-t border-[var(--line-16)] bg-[var(--accent-soft)]">
-          <div className="site-container grid items-center gap-10 py-16 sm:py-20 lg:grid-cols-[220px_1fr_auto] lg:gap-14 lg:py-24">
-            <div className="relative aspect-square w-[170px] overflow-hidden rounded-[24px] border border-[var(--line-18)] bg-[var(--surface-bg)] sm:w-[210px]">
+          <div className="site-container grid items-center gap-10 py-18 sm:py-22 lg:grid-cols-[220px_1fr_auto] lg:gap-14 lg:py-26">
+            <div className="relative aspect-[4/5] w-[180px] overflow-hidden rounded-[24px] border border-[var(--line-18)] bg-[var(--surface-bg)] sm:w-[220px]">
               <Image
-                src="/assets/branding/profile.jpg"
+                src={siteConfig.portraitPath}
                 alt="Nabi Rahmani, Flutter product engineer"
                 fill
-                className="object-cover object-[center_30%]"
-                sizes="210px"
+                className="object-cover object-center"
+                sizes="220px"
               />
             </div>
             <div>
               <p className="eyebrow text-[var(--accent)]">Open to the right team</p>
-              <h2 className="mt-5 max-w-[14ch] text-[clamp(2.2rem,4.7vw,4.5rem)] font-semibold leading-[0.98] tracking-[-0.055em]">
+              <h2 className="mt-5 max-w-[14ch] text-[clamp(2.2rem,4.7vw,4.5rem)] font-semibold leading-none tracking-[-0.05em]">
                 Looking for an engineer who owns the product past launch?
               </h2>
               <p className="mt-5 max-w-[62ch] text-[0.9rem] leading-7 text-[var(--text-muted)]">
@@ -295,7 +295,7 @@ export default function Home() {
             <div className="flex flex-wrap gap-3 lg:flex-col">
               <a
                 href={contactMailto({ subject: 'Flutter role inquiry' })}
-                className="rounded-full bg-[var(--accent)] px-6 py-3.5 text-center text-[0.84rem] font-semibold text-white no-underline"
+                className="flex h-12 items-center justify-center rounded-full bg-[var(--accent)] px-6 text-center text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
               >
                 Email Nabi
               </a>
@@ -303,7 +303,7 @@ export default function Home() {
                 href={linkedInUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 py-3.5 text-center text-[0.84rem] font-semibold text-[var(--text-strong)] no-underline"
+                className="flex h-12 items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 text-center text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none"
               >
                 LinkedIn ↗
               </a>
@@ -311,7 +311,7 @@ export default function Home() {
                 href={githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-center font-mono text-[0.64rem] uppercase tracking-[0.1em] text-[var(--text-muted)] no-underline"
+                className="text-center font-mono text-xs uppercase tracking-[0.1em] text-[var(--text-muted)] no-underline"
               >
                 GitHub ↗
               </a>
