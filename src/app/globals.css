@@ -255,6 +255,29 @@ h3 {
   }
 }
 
+@media (max-width: 639px) {
+  @layer components {
+    .display-hero,
+    .type-hero {
+      font-size: clamp(2.75rem, 13vw, 3.25rem);
+      letter-spacing: -0.045em;
+      line-height: 0.98;
+    }
+
+    .display-page {
+      font-size: clamp(2.65rem, 12.5vw, 3.1rem);
+      letter-spacing: -0.043em;
+      line-height: 1;
+    }
+
+    .display-section {
+      font-size: clamp(2.05rem, 10vw, 2.55rem);
+      letter-spacing: -0.04em;
+      line-height: 1.02;
+    }
+  }
+}
+
 @media (min-width: 1024px) {
   @layer components {
     .site-container {

@@ -74,7 +74,7 @@ export default function Navigation() {
     <>
       <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--line-16)] bg-[var(--header-bg)] backdrop-blur-xl">
         <nav
-          className="mx-auto flex h-[72px] w-full max-w-[1280px] items-center justify-between px-5 sm:px-8 lg:px-10"
+          className="mx-auto flex h-[72px] w-full max-w-[1280px] items-center justify-between px-4 sm:px-8 lg:px-10"
           aria-label="Primary"
         >
           <Link href="/" className="group flex items-center gap-3 no-underline">
@@ -158,7 +158,7 @@ export default function Navigation() {
               role="dialog"
               aria-modal="true"
               aria-label="Site menu"
-              className="fixed inset-y-0 right-0 z-[70] flex w-[min(90vw,390px)] flex-col border-l border-[var(--line-16)] bg-[var(--page-bg)] p-6"
+              className="fixed inset-y-0 right-0 z-[70] flex w-[min(92vw,390px)] flex-col overflow-y-auto overscroll-contain border-l border-[var(--line-16)] bg-[var(--page-bg)] px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-[max(1.5rem,env(safe-area-inset-top))] sm:p-6"
               initial={reduceMotion ? { opacity: 0 } : { x: '100%' }}
               animate={reduceMotion ? { opacity: 1 } : { x: 0 }}
               exit={reduceMotion ? { opacity: 0 } : { x: '100%' }}
@@ -182,7 +182,7 @@ export default function Navigation() {
                 </button>
               </div>
 
-              <div className="mt-16 flex flex-col">
+              <div className="mt-12 flex flex-col sm:mt-16">
                 {primaryNav.map((item, index) => (
                   <motion.div
                     key={item.id}
@@ -197,7 +197,7 @@ export default function Navigation() {
                       href={item.href}
                       onClick={() => setDrawerOpen(false)}
                       aria-current={isActive(item) ? 'page' : undefined}
-                      className="flex items-center justify-between border-b border-[var(--line-16)] py-5 text-[1.7rem] font-semibold tracking-[-0.04em] text-[var(--text-strong)] no-underline"
+                      className="flex min-h-16 items-center justify-between border-b border-[var(--line-16)] py-4 text-[1.55rem] font-semibold tracking-[-0.035em] text-[var(--text-strong)] no-underline sm:py-5 sm:text-[1.7rem]"
                     >
                       {item.label}
                       <span className="font-mono text-[0.75rem] text-[var(--text-faint)]">

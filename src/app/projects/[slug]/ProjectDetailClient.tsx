@@ -61,7 +61,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
         <section className="border-b border-[var(--line-16)]">
           <div className="site-container py-8 sm:py-10">
             <nav
-              className="flex flex-wrap items-center gap-2 font-mono text-xs uppercase tracking-[0.08em] text-[var(--text-faint)]"
+              className="scrollbar-hide flex items-center gap-2 overflow-x-auto whitespace-nowrap font-mono text-xs uppercase tracking-[0.08em] text-[var(--text-faint)]"
               aria-label="Breadcrumb"
             >
               <Link href="/" className="text-inherit no-underline hover:text-[var(--text-strong)]">
@@ -81,7 +81,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
         </section>
 
         <section className="border-b border-[var(--line-16)]">
-          <div className="site-container grid gap-12 py-18 sm:py-22 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-18 lg:py-26">
+          <div className="site-container grid gap-9 py-14 sm:gap-12 sm:py-22 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-18 lg:py-26">
             <div>
               <div className="flex items-center gap-4">
                 <ProjectAppIcon
@@ -117,13 +117,13 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 ))}
               </div>
 
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 {playStoreUrl && (
                   <a
                     href={playStoreUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-12 items-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
+                    className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none sm:w-auto"
                   >
                     Google Play ↗
                   </a>
@@ -133,7 +133,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                     href={appStoreUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-12 items-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
+                    className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none sm:w-auto"
                   >
                     App Store ↗
                   </a>
@@ -143,7 +143,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                     href={githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-12 items-center rounded-full border border-[var(--line-24)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none"
+                    className="flex h-12 w-full items-center justify-center rounded-full border border-[var(--line-24)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none sm:w-auto"
                   >
                     GitHub ↗
                   </a>
@@ -151,7 +151,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
               </div>
             </div>
 
-            <div className="rounded-[28px] border border-[var(--line-16)] bg-[var(--accent-soft)] p-4 sm:p-7">
+            <div className="rounded-[20px] border border-[var(--line-16)] bg-[var(--accent-soft)] p-3 sm:rounded-[28px] sm:p-7">
               <div className="grid grid-cols-3 items-center gap-2.5 sm:gap-4">
                 {screenshots.slice(0, 3).map((src, index) => (
                   <button
@@ -180,7 +180,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
         </section>
 
         <section className="border-b border-[var(--line-16)] bg-[var(--surface-bg)]">
-          <div className="site-container grid gap-12 py-16 sm:py-22 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20 lg:py-28">
+          <div className="site-container grid gap-8 py-14 sm:gap-12 sm:py-22 lg:grid-cols-[0.7fr_1.3fr] lg:gap-20 lg:py-28">
             <div>
               <p className="eyebrow">Scope and ownership</p>
               <h2 className="display-section mt-5 max-w-[9ch]">One product, end to end.</h2>
@@ -209,13 +209,13 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 {project.caseStudy.engineeringHighlights.map((highlight, index) => (
                   <div
                     key={highlight.title}
-                    className="grid gap-3 border-b border-[var(--line-16)] py-6 sm:grid-cols-[48px_180px_1fr] sm:gap-6"
+                    className="grid grid-cols-[32px_minmax(0,1fr)] gap-x-3 gap-y-2 border-b border-[var(--line-16)] py-6 sm:grid-cols-[48px_180px_1fr] sm:gap-6"
                   >
                     <span className="font-mono text-xs text-[var(--accent)]">
                       0{index + 1}
                     </span>
                     <h3 className="text-[0.9rem] font-semibold">{highlight.title}</h3>
-                    <p className="text-sm leading-6 text-[var(--text-muted)]">
+                    <p className="col-start-2 text-sm leading-6 text-[var(--text-muted)] sm:col-start-auto">
                       {highlight.description}
                     </p>
                   </div>
@@ -226,7 +226,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
         </section>
 
         {screenshots.length > 0 && (
-          <section className="border-b border-[var(--line-16)] py-16 sm:py-22 lg:py-28" aria-label="Product screens">
+          <section className="border-b border-[var(--line-16)] py-14 sm:py-22 lg:py-28" aria-label="Product screens">
             <div className="site-container flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="eyebrow">Product gallery</p>
@@ -237,7 +237,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
               </p>
             </div>
 
-            <div className="scrollbar-hide mt-10 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-5 sm:gap-5 sm:px-8 lg:px-[max(2.5rem,calc((100vw-1280px)/2+2.5rem))]">
+            <div className="scrollbar-hide mt-8 flex snap-x snap-mandatory scroll-px-5 gap-3 overflow-x-auto px-5 pb-5 sm:mt-10 sm:gap-5 sm:scroll-px-8 sm:px-8 lg:px-[max(2.5rem,calc((100vw-1280px)/2+2.5rem))]">
               {screenshots.map((src, index) => (
                 <button
                   key={`${src}-${index}`}
@@ -260,7 +260,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
         )}
 
         <section className="border-b border-[var(--line-16)] bg-[var(--panel-bg)]">
-          <div className="site-container py-16 sm:py-22 lg:py-28">
+          <div className="site-container py-14 sm:py-22 lg:py-28">
             <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
               <div>
                 <p className="eyebrow">Product capability</p>
@@ -279,12 +279,12 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 (feature, index) => (
                   <article
                     key={feature.title}
-                    className="min-h-[220px] bg-[var(--surface-bg)] p-6 sm:p-7"
+                    className="min-h-[180px] bg-[var(--surface-bg)] p-5 sm:min-h-[220px] sm:p-7"
                   >
                     <span className="font-mono text-xs text-[var(--accent)]">
                       {String(index + 1).padStart(2, '0')}
                     </span>
-                    <h3 className="mt-12 text-[1.05rem] font-semibold tracking-[-0.025em]">
+                    <h3 className="mt-8 text-[1.05rem] font-semibold tracking-[-0.025em] sm:mt-12">
                       {feature.title}
                     </h3>
                     {feature.description && (
@@ -300,7 +300,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
         </section>
 
         <section className="border-b border-[var(--line-16)]">
-          <div className="site-container grid gap-10 py-14 sm:py-18 lg:grid-cols-[0.6fr_1.4fr] lg:items-center">
+          <div className="site-container grid gap-7 py-12 sm:gap-10 sm:py-18 lg:grid-cols-[0.6fr_1.4fr] lg:items-center">
             <div>
               <p className="eyebrow">Technical foundation</p>
               <h2 className="mt-4 text-[2rem] font-semibold tracking-[-0.045em]">Stack</h2>
@@ -320,7 +320,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
 
         {metrics.length > 0 && (
           <section className="border-b border-[var(--line-16)] bg-[var(--surface-bg)]">
-            <div className="site-container grid gap-8 py-14 sm:grid-cols-3 sm:py-18">
+            <div className="site-container grid grid-cols-2 gap-7 py-12 sm:grid-cols-3 sm:gap-8 sm:py-18">
               {metrics.map((metric) => (
                 <div key={`${metric.label}-${metric.value}`}>
                   <p className="text-[2.4rem] font-semibold tracking-[-0.05em] text-[var(--accent)]">
@@ -334,18 +334,18 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
         )}
 
         <section className="bg-[var(--accent-soft)]">
-          <div className="site-container flex flex-col gap-8 py-16 sm:flex-row sm:items-end sm:justify-between sm:py-22">
+          <div className="site-container flex flex-col gap-7 py-14 sm:flex-row sm:items-end sm:justify-between sm:gap-8 sm:py-22">
             <div>
               <p className="eyebrow text-[var(--accent)]">Released product</p>
               <h2 className="display-section mt-5 max-w-[12ch]">Explore {project.title} in the store.</h2>
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
               {playStoreUrl && (
                 <a
                   href={playStoreUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-12 items-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
+                  className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none sm:w-auto"
                 >
                   Google Play ↗
                 </a>
@@ -355,14 +355,14 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                   href={appStoreUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-12 items-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
+                  className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none sm:w-auto"
                 >
                   App Store ↗
                 </a>
               )}
               <Link
                 href="/projects"
-                className="flex h-12 items-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none"
+                className="flex h-12 w-full items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none sm:w-auto"
               >
                 All work
               </Link>

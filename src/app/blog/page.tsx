@@ -74,10 +74,10 @@ function BlogIndex() {
     <>
       {!hasFilters && featuredPost && (
         <section className="border-b border-[var(--line-16)]">
-          <div className="site-container grid gap-8 py-18 sm:py-22 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch lg:gap-12 lg:py-26">
+          <div className="site-container grid gap-7 py-14 sm:gap-8 sm:py-22 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch lg:gap-12 lg:py-26">
             <Link
               href={`/blog/${featuredPost.slug}`}
-              className="relative min-h-[340px] overflow-hidden rounded-[24px] border border-[var(--line-18)] bg-[var(--surface-bg)] no-underline sm:min-h-[460px]"
+              className="relative min-h-[280px] overflow-hidden rounded-[20px] border border-[var(--line-18)] bg-[var(--surface-bg)] no-underline sm:min-h-[460px] sm:rounded-[24px]"
             >
               <Image
                 src={featuredPost.coverImage}
@@ -88,11 +88,11 @@ function BlogIndex() {
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/78 via-black/15 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-8">
+              <div className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-8">
                 <span className="font-mono text-xs uppercase tracking-[0.12em] text-white/80">
                   Featured field note
                 </span>
-                <p className="mt-3 max-w-[28ch] text-[1.35rem] font-semibold leading-tight tracking-[-0.035em]">
+                <p className="mt-3 hidden max-w-[28ch] text-[1.35rem] font-semibold leading-tight tracking-[-0.035em] sm:block">
                   {featuredPost.title}
                 </p>
               </div>
@@ -115,7 +115,7 @@ function BlogIndex() {
                 </div>
                 <Link
                   href={`/blog/${featuredPost.slug}`}
-                  className="mt-6 inline-flex h-12 items-center rounded-full bg-[var(--text-strong)] px-6 text-sm font-semibold text-[var(--page-bg)] no-underline"
+                  className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-[var(--text-strong)] px-6 text-sm font-semibold text-[var(--page-bg)] no-underline sm:w-auto"
                 >
                   Read the article
                 </Link>
@@ -148,12 +148,12 @@ function BlogIndex() {
               </button>
             </form>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="scrollbar-hide -mx-5 flex gap-2 overflow-x-auto px-5 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
               <button
                 type="button"
                 onClick={() => updateParam('category', '')}
                 className={[
-                  'h-11 rounded-full border px-4 text-xs font-medium',
+                  'h-11 shrink-0 rounded-full border px-4 text-xs font-medium',
                   !activeCategory
                     ? 'border-[var(--text-strong)] bg-[var(--text-strong)] text-[var(--page-bg)]'
                     : 'border-[var(--line-16)] bg-transparent text-[var(--text-muted)]',
@@ -169,7 +169,7 @@ function BlogIndex() {
                     type="button"
                     onClick={() => updateParam('category', category.slug)}
                     className={[
-                      'h-11 rounded-full border px-4 text-xs font-medium',
+                      'h-11 shrink-0 rounded-full border px-4 text-xs font-medium',
                       activeCategory === category.slug
                         ? 'border-[var(--text-strong)] bg-[var(--text-strong)] text-[var(--page-bg)]'
                         : 'border-[var(--line-16)] bg-transparent text-[var(--text-muted)]',
@@ -181,8 +181,8 @@ function BlogIndex() {
             </div>
           </div>
 
-          <div className="mt-5 flex flex-wrap items-center gap-2">
-            <span className="mr-2 font-mono text-xs uppercase tracking-[0.1em] text-[var(--text-faint)]">
+          <div className="scrollbar-hide -mx-5 mt-5 flex items-center gap-2 overflow-x-auto px-5 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
+            <span className="mr-2 shrink-0 font-mono text-xs uppercase tracking-[0.1em] text-[var(--text-faint)]">
               Topics
             </span>
             {popularTags.map((tag) => (
@@ -191,7 +191,7 @@ function BlogIndex() {
                 type="button"
                 onClick={() => updateParam('tag', activeTag === tag ? '' : tag)}
                 className={[
-                  'h-10 rounded-full border px-3.5 font-mono text-xs',
+                  'h-11 shrink-0 rounded-full border px-3.5 font-mono text-xs',
                   activeTag === tag
                     ? 'border-[var(--accent)] bg-[var(--accent-soft)] text-[var(--accent)]'
                     : 'border-[var(--line-16)] text-[var(--text-faint)]',
@@ -204,7 +204,7 @@ function BlogIndex() {
               <button
                 type="button"
                 onClick={clearFilters}
-                className="ml-auto h-10 text-xs font-semibold text-[var(--accent)]"
+                className="ml-auto h-11 shrink-0 text-xs font-semibold text-[var(--accent)]"
               >
                 Clear filters
               </button>
@@ -213,7 +213,7 @@ function BlogIndex() {
         </div>
       </section>
 
-      <section className="site-container py-18 sm:py-22 lg:py-26">
+      <section className="site-container py-14 sm:py-22 lg:py-26">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="eyebrow">{hasFilters ? 'Filtered archive' : 'Writing archive'}</p>
@@ -243,16 +243,16 @@ function BlogIndex() {
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="group grid gap-3 border-b border-[var(--line-16)] py-6 text-[var(--text-strong)] no-underline transition-colors hover:bg-[var(--row-hover-bg)] sm:grid-cols-[50px_120px_1fr_auto] sm:gap-5 sm:px-4"
+                className="group grid grid-cols-[32px_minmax(0,1fr)] gap-x-3 gap-y-2 border-b border-[var(--line-16)] py-5 text-[var(--text-strong)] no-underline transition-colors hover:bg-[var(--row-hover-bg)] sm:grid-cols-[50px_120px_1fr_auto] sm:gap-5 sm:px-4 sm:py-6"
               >
-                <span className="font-mono text-xs text-[var(--text-faint)]">
+                <span className="row-span-3 pt-0.5 font-mono text-xs text-[var(--text-faint)] sm:row-span-1 sm:pt-0">
                   {String(index + 1).padStart(2, '0')}
                 </span>
-                <div className="font-mono text-xs uppercase tracking-[0.05em] text-[var(--text-faint)]">
+                <div className="col-start-2 font-mono text-xs uppercase tracking-[0.05em] text-[var(--text-faint)] sm:col-start-auto">
                   <time dateTime={post.publishedAt}>{formatDateShort(post.publishedAt)}</time>
                   <p className="mt-2 text-[var(--accent)]">{post.category}</p>
                 </div>
-                <div>
+                <div className="col-start-2 sm:col-start-auto">
                   <h3 className="text-[1.03rem] font-semibold tracking-[-0.025em] transition-colors group-hover:text-[var(--accent)]">
                     {post.title}
                   </h3>
@@ -260,7 +260,7 @@ function BlogIndex() {
                     {post.excerpt}
                   </p>
                 </div>
-                <span className="font-mono text-xs text-[var(--text-faint)]">
+                <span className="col-start-2 font-mono text-xs text-[var(--text-faint)] sm:col-start-auto">
                   {post.readingTime} min
                 </span>
               </Link>
@@ -285,7 +285,7 @@ export default function BlogPage() {
     <div className="min-h-screen bg-[var(--page-bg)] pt-[72px] text-[var(--text-strong)]">
       <main>
         <header className="border-b border-[var(--line-16)]">
-          <div className="site-container grid gap-8 py-18 sm:py-22 lg:grid-cols-[1fr_0.72fr] lg:items-end lg:py-26">
+          <div className="site-container grid gap-7 py-14 sm:gap-8 sm:py-22 lg:grid-cols-[1fr_0.72fr] lg:items-end lg:py-26">
             <div>
               <p className="eyebrow">Writing</p>
               <h1 className="display-page mt-6 max-w-[10ch]">Notes from shipping Flutter.</h1>

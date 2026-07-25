@@ -49,7 +49,7 @@ export default function About() {
     <div className="min-h-screen bg-[var(--page-bg)] pt-[72px] text-[var(--text-strong)]">
       <main>
         <section className="border-b border-[var(--line-16)]">
-          <div className="site-container grid gap-12 py-18 sm:py-22 lg:grid-cols-[0.72fr_1.28fr] lg:items-end lg:gap-18 lg:py-26">
+          <div className="site-container grid gap-9 py-14 sm:gap-12 sm:py-22 lg:grid-cols-[0.72fr_1.28fr] lg:items-end lg:gap-18 lg:py-26">
             <div className="relative aspect-[4/5] max-w-[390px] overflow-hidden rounded-[28px] border border-[var(--line-18)] bg-[var(--surface-bg)]">
               <Image
                 src={siteConfig.portraitPath}
@@ -59,10 +59,11 @@ export default function About() {
                 sizes="(max-width: 1024px) 80vw, 390px"
                 priority
               />
-              <div className="absolute inset-x-4 bottom-4 flex items-center gap-2 rounded-full bg-black/70 px-4 py-2.5 text-white backdrop-blur-md">
+              <div className="absolute inset-x-3 bottom-3 flex min-h-11 items-center gap-2 rounded-full bg-black/75 px-4 py-2 text-white backdrop-blur-md sm:inset-x-4 sm:bottom-4 sm:py-2.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#67C58A]" aria-hidden />
                 <span className="font-mono text-xs uppercase tracking-[0.1em]">
-                  {siteConfig.availability}
+                  <span className="sm:hidden">Available for remote roles</span>
+                  <span className="hidden sm:inline">{siteConfig.availability}</span>
                 </span>
               </div>
             </div>
@@ -72,22 +73,22 @@ export default function About() {
               <h1 className="display-page mt-6 max-w-[11ch]">
                 Product judgment with engineering follow-through.
               </h1>
-              <p className="mt-7 max-w-[640px] text-[1.05rem] leading-8 text-[var(--text-muted)]">
+              <p className="mt-6 max-w-[640px] text-base leading-7 text-[var(--text-muted)] sm:mt-7 sm:text-[1.05rem] sm:leading-8">
                 I&apos;m a Flutter product engineer from Mazar-i-Sharif, now based in Ankara.
                 For {siteConfig.experienceLabel}, I&apos;ve focused on mobile products that
                 stay dependable after launch: clean state, local data, store delivery, and
                 maintenance that respects the next version.
               </p>
-              <div className="mt-9 flex flex-wrap gap-3">
+              <div className="mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap">
                 <a
                   href={contactMailto({ subject: 'Flutter role inquiry' })}
-                  className="flex h-12 items-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
+                  className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none sm:w-auto"
                 >
                   Start a conversation
                 </a>
                 <Link
                   href="/projects"
-                  className="flex h-12 items-center rounded-full border border-[var(--line-24)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none"
+                  className="flex h-12 w-full items-center justify-center rounded-full border border-[var(--line-24)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none sm:w-auto"
                 >
                   View my work
                 </Link>
@@ -97,7 +98,7 @@ export default function About() {
         </section>
 
         <section className="border-b border-[var(--line-16)] bg-[var(--surface-bg)]">
-          <dl className="site-container grid sm:grid-cols-2 lg:grid-cols-4">
+          <dl className="site-container grid grid-cols-2 lg:grid-cols-4">
             {[
               { label: 'Based', value: `${siteConfig.location} · ${siteConfig.timezone}` },
               { label: 'Experience', value: `${siteConfig.experienceLabel} with Flutter` },
@@ -107,10 +108,11 @@ export default function About() {
               <div
                 key={fact.label}
                 className={[
-                  'border-b border-[var(--line-16)] py-6 sm:px-6 lg:border-b-0 lg:border-r lg:py-8',
-                  index % 2 === 0 ? 'sm:border-r' : '',
-                  index === 0 ? 'sm:pl-0' : '',
-                  index === 3 ? 'lg:border-r-0 lg:pr-0' : '',
+                  'border-b border-[var(--line-16)] px-3 py-5 lg:border-b-0 lg:border-r lg:px-6 lg:py-8',
+                  index % 2 === 0 ? 'border-r border-[var(--line-16)] pl-0' : '',
+                  index === 1 ? 'pr-0 lg:pr-6' : '',
+                  index >= 2 ? 'border-b-0' : '',
+                  index === 3 ? 'border-r-0 pr-0 lg:pr-0' : '',
                 ].join(' ')}
               >
                 <dt className="eyebrow">{fact.label}</dt>
@@ -120,7 +122,7 @@ export default function About() {
           </dl>
         </section>
 
-        <section className="site-container grid gap-12 py-16 sm:py-22 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20 lg:py-28">
+        <section className="site-container grid gap-8 py-14 sm:gap-12 sm:py-22 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20 lg:py-28">
           <div>
             <p className="eyebrow">The path here</p>
             <h2 className="display-section mt-5 max-w-[10ch]">Practical work, built for real conditions.</h2>
@@ -146,7 +148,7 @@ export default function About() {
         </section>
 
         <section className="border-y border-[var(--line-16)] bg-[var(--panel-bg)]">
-          <div className="site-container grid gap-12 py-16 sm:py-22 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20 lg:py-28">
+          <div className="site-container grid gap-8 py-14 sm:gap-12 sm:py-22 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20 lg:py-28">
             <div>
               <p className="eyebrow">Working principles</p>
               <h2 className="display-section mt-5 max-w-[9ch]">How I make decisions.</h2>
@@ -155,13 +157,13 @@ export default function About() {
               {principles.map((principle, index) => (
                 <div
                   key={principle.title}
-                  className="grid gap-3 border-b border-[var(--line-16)] py-7 sm:grid-cols-[48px_190px_1fr] sm:gap-6"
+                  className="grid grid-cols-[32px_minmax(0,1fr)] gap-x-3 gap-y-2 border-b border-[var(--line-16)] py-6 sm:grid-cols-[48px_190px_1fr] sm:gap-6 sm:py-7"
                 >
                   <span className="font-mono text-xs text-[var(--accent)]">
                     0{index + 1}
                   </span>
                   <h3 className="text-[0.92rem] font-semibold">{principle.title}</h3>
-                  <p className="text-sm leading-6 text-[var(--text-muted)]">
+                  <p className="col-start-2 text-sm leading-6 text-[var(--text-muted)] sm:col-start-auto">
                     {principle.description}
                   </p>
                 </div>
@@ -170,7 +172,7 @@ export default function About() {
           </div>
         </section>
 
-        <section className="site-container py-16 sm:py-22 lg:py-28">
+        <section className="site-container py-14 sm:py-22 lg:py-28">
           <div className="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20">
             <div>
               <p className="eyebrow">Capabilities</p>
@@ -200,7 +202,7 @@ export default function About() {
         </section>
 
         <section className="border-t border-[var(--line-16)] bg-[var(--accent-soft)]">
-          <div className="site-container grid gap-10 py-16 sm:py-22 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div className="site-container grid gap-8 py-14 sm:gap-10 sm:py-22 lg:grid-cols-[1fr_auto] lg:items-end">
             <div>
               <p className="eyebrow text-[var(--accent)]">Let&apos;s talk</p>
               <h2 className="display-section mt-5 max-w-[14ch]">
@@ -211,10 +213,10 @@ export default function About() {
                 within one working day.
               </p>
             </div>
-            <div className="flex flex-wrap gap-3 lg:flex-col">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:flex-col">
               <a
                 href={contactMailto({ subject: 'Flutter role inquiry' })}
-                className="flex h-12 items-center justify-center rounded-full bg-[var(--accent)] px-6 text-center text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
+                className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-6 text-center text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none sm:w-auto"
               >
                 {siteConfig.contactEmail}
               </a>
@@ -222,7 +224,7 @@ export default function About() {
                 href={linkedInUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-12 items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 text-center text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none"
+                className="flex h-12 w-full items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 text-center text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none sm:w-auto"
               >
                 LinkedIn ↗
               </a>
@@ -230,7 +232,7 @@ export default function About() {
                 href={githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-center font-mono text-xs uppercase tracking-[0.1em] text-[var(--text-muted)] no-underline"
+                className="flex min-h-11 w-full items-center justify-center text-center font-mono text-xs uppercase tracking-[0.1em] text-[var(--text-muted)] no-underline sm:w-auto"
               >
                 GitHub ↗
               </a>

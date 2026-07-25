@@ -24,7 +24,7 @@ export default function Footer({
         className,
       )}
     >
-      <div className="mx-auto grid w-full max-w-[1280px] gap-10 px-5 py-12 sm:px-8 md:grid-cols-[1.3fr_1fr_1fr] lg:px-10 lg:py-16">
+      <div className="mx-auto grid w-full max-w-[1280px] gap-8 px-5 py-10 sm:gap-10 sm:px-8 sm:py-12 md:grid-cols-[1.3fr_1fr_1fr] lg:px-10 lg:py-16">
         <div>
           <p className="text-[1.15rem] font-semibold tracking-[-0.025em] text-[var(--text-strong)]">
             {siteConfig.name}
@@ -41,12 +41,12 @@ export default function Footer({
 
         <div>
           <p className="eyebrow">Explore</p>
-          <div className="mt-4 grid grid-cols-2 gap-x-5 gap-y-3">
+          <div className="mt-3 grid grid-cols-2 gap-x-5 sm:mt-4 sm:gap-y-3">
             {navigation.map((item) => (
               <Link
                 key={`${item.label}-${item.href}`}
                 href={item.href}
-                className="text-sm text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)]"
+                className="inline-flex min-h-11 items-center text-sm text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)] sm:min-h-0"
               >
                 {item.label}
               </Link>
@@ -56,10 +56,10 @@ export default function Footer({
 
         <div>
           <p className="eyebrow">Connect</p>
-          <div className="mt-4 flex flex-col gap-3">
+          <div className="mt-3 flex flex-col sm:mt-4 sm:gap-3">
             <a
               href={contactMailto({ subject: 'Flutter role inquiry' })}
-              className="text-sm text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)]"
+              className="inline-flex min-h-11 items-center text-sm text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)] sm:min-h-0"
             >
               {siteConfig.contactEmail}
             </a>
@@ -70,7 +70,7 @@ export default function Footer({
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)]"
+                  className="inline-flex min-h-11 items-center text-sm text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)] sm:min-h-0"
                 >
                   {item.label} ↗
                 </a>

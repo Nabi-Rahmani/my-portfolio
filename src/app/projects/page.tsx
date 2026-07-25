@@ -12,7 +12,7 @@ export default function Projects() {
     <div className="min-h-screen bg-[var(--page-bg)] pt-[72px] text-[var(--text-strong)]">
       <main>
         <header className="border-b border-[var(--line-16)]">
-          <div className="site-container grid gap-10 py-18 sm:py-22 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:py-28">
+          <div className="site-container grid gap-8 py-14 sm:gap-10 sm:py-22 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:py-28">
             <div>
               <p className="eyebrow">Selected work · 2023—Today</p>
               <h1 className="display-page mt-6 max-w-[10ch]">Products I&apos;ve taken to market.</h1>
@@ -48,23 +48,23 @@ export default function Projects() {
         </section>
 
         <section className="border-t border-[var(--line-16)] bg-[var(--surface-bg)]">
-          <div className="site-container flex flex-col gap-8 py-14 sm:flex-row sm:items-center sm:justify-between sm:py-18">
+          <div className="site-container flex flex-col gap-7 py-12 sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:py-18">
             <div>
               <p className="eyebrow">Next product</p>
               <h2 className="mt-4 max-w-[18ch] text-[clamp(2rem,4vw,3.6rem)] font-semibold leading-[1] tracking-[-0.05em]">
                 Need a Flutter engineer who stays for the release?
               </h2>
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
               <a
                 href={contactMailto({ subject: 'Flutter role inquiry' })}
-                className="flex h-12 items-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
+                className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none sm:w-auto"
               >
                 Start a conversation
               </a>
               <Link
                 href="/about"
-                className="flex h-12 items-center rounded-full border border-[var(--line-24)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none"
+                className="flex h-12 w-full items-center justify-center rounded-full border border-[var(--line-24)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none sm:w-auto"
               >
                 About my approach
               </Link>

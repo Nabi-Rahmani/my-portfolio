@@ -103,34 +103,34 @@ export default function Home() {
       <main>
         <section className="border-b border-[var(--line-16)]">
           <motion.div
-            className="site-container grid gap-12 py-18 sm:py-22 lg:grid-cols-[1.03fr_0.97fr] lg:items-center lg:gap-16 lg:py-26"
+            className="site-container grid gap-10 py-14 sm:gap-12 sm:py-22 lg:grid-cols-[1.03fr_0.97fr] lg:items-center lg:gap-16 lg:py-26"
             initial="hidden"
             animate="visible"
             variants={stagger}
           >
             <motion.div variants={reveal}>
-              <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.13em] text-[var(--text-faint)]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--status-ok)]" aria-hidden />
+              <div className="flex items-start gap-2 font-mono text-xs uppercase leading-5 tracking-[0.11em] text-[var(--text-faint)] sm:items-center sm:tracking-[0.13em]">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--status-ok)] sm:mt-0" aria-hidden />
                 {siteConfig.role} · Ankara / Remote
               </div>
-              <h1 className="display-hero mt-7 max-w-[12ch]">
+              <h1 className="display-hero mt-6 max-w-[12ch] sm:mt-7">
                 I design and ship mobile products people can rely on.
               </h1>
-              <p className="mt-7 max-w-[610px] text-[1.03rem] leading-8 text-[var(--text-muted)] sm:text-[1.12rem]">
+              <p className="mt-6 max-w-[610px] text-base leading-7 text-[var(--text-muted)] sm:mt-7 sm:text-[1.12rem] sm:leading-8">
                 I&apos;m Nabi Rahmani, a Flutter engineer with {siteConfig.experienceLabel} of
                 experience taking offline-first products from architecture to Play Store
                 release.
               </p>
-              <div className="mt-9 flex flex-wrap gap-3">
+              <div className="mt-8 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap">
                 <Link
                   href="/projects"
-                  className="flex h-12 items-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-all duration-150 hover:-translate-y-0.5 hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                  className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-all duration-150 hover:-translate-y-0.5 hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:w-auto"
                 >
                   View selected work
                 </Link>
                 <a
                   href={contactMailto({ subject: 'Flutter role inquiry' })}
-                  className="flex h-12 items-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none"
+                  className="flex h-12 w-full items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none sm:w-auto"
                 >
                   Email me
                 </a>
@@ -147,15 +147,16 @@ export default function Home() {
         </section>
 
         <section className="border-b border-[var(--line-16)] bg-[var(--surface-bg)]" aria-label="Professional proof">
-          <div className="site-container grid sm:grid-cols-2 lg:grid-cols-4">
+          <div className="site-container grid grid-cols-2 lg:grid-cols-4">
             {proofItems.map((item, index) => (
               <div
                 key={item.label}
                 className={[
-                  'border-b border-[var(--line-16)] py-6 sm:px-6 lg:border-b-0 lg:border-r lg:py-8',
-                  index % 2 === 0 ? 'sm:border-r' : '',
-                  index === 0 ? 'sm:pl-0' : '',
-                  index === proofItems.length - 1 ? 'border-r-0 lg:pr-0' : '',
+                  'border-b border-[var(--line-16)] px-3 py-5 lg:border-b-0 lg:border-r lg:px-6 lg:py-8',
+                  index % 2 === 0 ? 'border-r border-[var(--line-16)] pl-0' : '',
+                  index === 1 ? 'pr-0 lg:pr-6' : '',
+                  index >= 2 ? 'border-b-0' : '',
+                  index === proofItems.length - 1 ? 'border-r-0 pr-0 lg:pr-0' : '',
                 ].join(' ')}
               >
                 <p className="text-[1.45rem] font-semibold tracking-[-0.04em] text-[var(--text-strong)]">
@@ -170,7 +171,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="work" className="site-container py-16 sm:py-22 lg:py-28">
+        <section id="work" className="site-container py-14 sm:py-22 lg:py-28">
           <div className="grid gap-6 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
             <div>
               <p className="eyebrow">Selected work</p>
@@ -182,7 +183,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="mt-12">
+          <div className="mt-9 sm:mt-12">
             {projects.map((project, index) => (
               <ProjectShowcase
                 key={project.slug}
@@ -195,7 +196,7 @@ export default function Home() {
         </section>
 
         <section className="border-y border-[var(--line-16)] bg-[var(--surface-bg)]">
-          <div className="site-container grid gap-12 py-16 sm:py-22 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20 lg:py-28">
+          <div className="site-container grid gap-9 py-14 sm:gap-12 sm:py-22 lg:grid-cols-[0.72fr_1.28fr] lg:gap-20 lg:py-28">
             <div>
               <p className="eyebrow">Engineering focus</p>
               <h2 className="display-section mt-5 max-w-[10ch]">The work behind a reliable release.</h2>
@@ -209,11 +210,11 @@ export default function Home() {
               {engineeringFocus.map((item) => (
                 <div
                   key={item.number}
-                  className="grid gap-4 border-b border-[var(--line-16)] py-7 sm:grid-cols-[52px_180px_1fr] sm:gap-6"
+                  className="grid grid-cols-[32px_minmax(0,1fr)] gap-x-3 gap-y-2 border-b border-[var(--line-16)] py-6 sm:grid-cols-[52px_180px_1fr] sm:gap-6 sm:py-7"
                 >
                   <span className="font-mono text-xs text-[var(--accent)]">{item.number}</span>
                   <h3 className="text-[0.95rem] font-semibold tracking-[-0.02em]">{item.title}</h3>
-                  <div>
+                  <div className="col-start-2 sm:col-start-auto">
                     <p className="text-sm leading-6 text-[var(--text-muted)]">{item.body}</p>
                     <p className="mt-3 font-mono text-xs uppercase tracking-[0.08em] text-[var(--text-faint)]">
                       {item.stack}
@@ -225,7 +226,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="site-container py-16 sm:py-22 lg:py-28">
+        <section className="site-container py-14 sm:py-22 lg:py-28">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="eyebrow">Writing from production</p>
@@ -239,14 +240,14 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="mt-12 border-t border-[var(--line-16)]">
+          <div className="mt-9 border-t border-[var(--line-16)] sm:mt-12">
             {articles.map((post, index) => (
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="group grid gap-3 border-b border-[var(--line-16)] py-6 text-[var(--text-strong)] no-underline transition-colors hover:bg-[var(--row-hover-bg)] sm:grid-cols-[56px_120px_1fr_auto] sm:items-start sm:gap-5 sm:px-4"
+                className="group grid grid-cols-[32px_minmax(0,1fr)] gap-x-3 gap-y-2 border-b border-[var(--line-16)] py-5 text-[var(--text-strong)] no-underline transition-colors hover:bg-[var(--row-hover-bg)] sm:grid-cols-[56px_120px_1fr_auto] sm:items-start sm:gap-5 sm:px-4 sm:py-6"
               >
-                <span className="font-mono text-xs text-[var(--text-faint)]">
+                <span className="row-span-3 pt-0.5 font-mono text-xs text-[var(--text-faint)] sm:row-span-1 sm:pt-0">
                   {String(index + 1).padStart(2, '0')}
                 </span>
                 <time
@@ -255,7 +256,7 @@ export default function Home() {
                 >
                   {formatPostDate(post.publishedAt)}
                 </time>
-                <div>
+                <div className="col-start-2 sm:col-start-auto">
                   <h3 className="text-[1rem] font-semibold tracking-[-0.02em] transition-colors group-hover:text-[var(--accent)]">
                     {post.title}
                   </h3>
@@ -263,7 +264,7 @@ export default function Home() {
                     {post.excerpt}
                   </p>
                 </div>
-                <span className="font-mono text-xs text-[var(--text-faint)]">
+                <span className="col-start-2 font-mono text-xs text-[var(--text-faint)] sm:col-start-auto">
                   {post.readingTime} min
                 </span>
               </Link>
@@ -272,14 +273,14 @@ export default function Home() {
         </section>
 
         <section className="border-t border-[var(--line-16)] bg-[var(--accent-soft)]">
-          <div className="site-container grid items-center gap-10 py-18 sm:py-22 lg:grid-cols-[220px_1fr_auto] lg:gap-14 lg:py-26">
-            <div className="relative aspect-[4/5] w-[180px] overflow-hidden rounded-[24px] border border-[var(--line-18)] bg-[var(--surface-bg)] sm:w-[220px]">
+          <div className="site-container grid items-center gap-8 py-14 sm:gap-10 sm:py-22 lg:grid-cols-[220px_1fr_auto] lg:gap-14 lg:py-26">
+            <div className="relative aspect-[4/3] w-full max-w-[380px] overflow-hidden rounded-[22px] border border-[var(--line-18)] bg-[var(--surface-bg)] sm:aspect-[4/5] sm:w-[220px]">
               <Image
                 src={siteConfig.portraitPath}
                 alt="Nabi Rahmani, Flutter product engineer"
                 fill
-                className="object-cover object-center"
-                sizes="220px"
+                className="object-cover object-[center_44%] sm:object-center"
+                sizes="(max-width: 639px) calc(100vw - 2.5rem), 220px"
               />
             </div>
             <div>
@@ -292,10 +293,10 @@ export default function Home() {
                 architecture, and shipping discipline matter.
               </p>
             </div>
-            <div className="flex flex-wrap gap-3 lg:flex-col">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:flex-col">
               <a
                 href={contactMailto({ subject: 'Flutter role inquiry' })}
-                className="flex h-12 items-center justify-center rounded-full bg-[var(--accent)] px-6 text-center text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
+                className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-6 text-center text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none sm:w-auto"
               >
                 Email Nabi
               </a>
@@ -303,7 +304,7 @@ export default function Home() {
                 href={linkedInUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-12 items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 text-center text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none"
+                className="flex h-12 w-full items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 text-center text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none sm:w-auto"
               >
                 LinkedIn ↗
               </a>
@@ -311,7 +312,7 @@ export default function Home() {
                 href={githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-center font-mono text-xs uppercase tracking-[0.1em] text-[var(--text-muted)] no-underline"
+                className="flex min-h-11 w-full items-center justify-center text-center font-mono text-xs uppercase tracking-[0.1em] text-[var(--text-muted)] no-underline sm:w-auto"
               >
                 GitHub ↗
               </a>
