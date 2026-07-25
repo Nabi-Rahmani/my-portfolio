@@ -8,6 +8,7 @@ export const siteConfig = {
   cvPath: '/Nabi-Rahmani-Flutter-Developer-CV.pdf', // file placed in /public
   cvAvailable: false, // flip to true once the PDF is added
   calendlyUrl: '', // e.g. 'https://cal.com/nabirahmani/15min'; empty hides the CTA
+  subscribeUrl: '', // e.g. 'https://codewithnabi.dev/newsletter'; empty hides the CTA
   web3formsAccessKey: process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? '',
 } as const;
 
@@ -19,6 +20,11 @@ export function hasWeb3FormsKey(): boolean {
 /** True when a booking URL is configured. */
 export function hasCalendly(): boolean {
   return siteConfig.calendlyUrl.trim().length > 0;
+}
+
+/** True when a newsletter subscription URL is configured. */
+export function hasSubscribe(): boolean {
+  return siteConfig.subscribeUrl.trim().length > 0;
 }
 
 /** True when the CV download CTA may render (file intended to exist). */
