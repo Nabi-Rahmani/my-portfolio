@@ -3,7 +3,7 @@
 import type { ReactNode } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
-import { atelierEaseSoft, selectTransition } from '@/lib/animations';
+import { fadeUpMotion, revealStagger } from '@/lib/animations';
 
 interface ScrollRevealProps {
   children: ReactNode;
@@ -13,6 +13,7 @@ interface ScrollRevealProps {
 
 export default function ScrollReveal({ children, delay = 0, className }: ScrollRevealProps) {
   const shouldReduceMotion = useReducedMotion();
+  const reveal = fadeUpMotion(shouldReduceMotion);
 
   if (shouldReduceMotion) {
     return <div className={className}>{children}</div>;
@@ -20,14 +21,11 @@ export default function ScrollReveal({ children, delay = 0, className }: ScrollR
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial="hidden"
+      whileInView="visible"
       viewport={{ once: true, amount: 0.1 }}
-      transition={selectTransition(shouldReduceMotion, {
-        duration: 0.7,
-        ease: atelierEaseSoft,
-        delay,
-      })}
+      variants={reveal}
+      custom={delay / revealStagger}
       className={className}
     >
       {children}

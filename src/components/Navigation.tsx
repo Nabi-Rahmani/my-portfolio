@@ -96,7 +96,7 @@ export default function Navigation() {
                 rel={item.external ? 'noopener noreferrer' : undefined}
                 aria-current={isActive(item) ? 'page' : undefined}
                 className={cn(
-                  'flex items-center gap-1 text-[13px] font-medium no-underline transition-colors duration-200',
+                  'flex items-center gap-1 text-[13px] font-medium no-underline transition-colors duration-[120ms] ease-out',
                   isActive(item) ? 'text-[#F5EFE3] dark:text-[#F5EFE3] text-[var(--text-strong)]' : 'text-[#A99B85] hover:text-[var(--text-strong)]',
                 )}
               >
@@ -112,7 +112,7 @@ export default function Navigation() {
                 href={siteConfig.subscribeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-pill border border-[var(--line-30)] px-[13px] py-[5px] text-[12px] font-medium text-[var(--accent)] no-underline transition-colors hover:border-[var(--accent)]"
+                className="rounded-pill border border-[var(--line-24)] px-[13px] py-[5px] text-[12px] font-medium text-[var(--accent)] no-underline transition-colors duration-[120ms] ease-out hover:border-[var(--line-30)]"
               >
                 Subscribe
               </a>
@@ -121,7 +121,7 @@ export default function Navigation() {
               type="button"
               onClick={toggleTheme}
               aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-[var(--line-30)] bg-transparent font-mono text-[12px] text-[var(--text-strong)] transition-colors hover:border-[var(--accent)]"
+              className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-[var(--line-24)] bg-transparent font-mono text-[12px] text-[var(--text-strong)] transition-colors duration-[120ms] ease-out hover:border-[var(--line-30)]"
             >
               ☾
             </button>
@@ -131,7 +131,7 @@ export default function Navigation() {
               onClick={() => setDrawerOpen(true)}
               aria-label="Open menu"
               aria-expanded={drawerOpen}
-              className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-[var(--line-30)] bg-transparent text-[var(--text-strong)] lg:hidden"
+              className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-[var(--line-24)] bg-transparent text-[var(--text-strong)] transition-colors duration-[120ms] ease-out hover:border-[var(--line-30)] lg:hidden"
             >
               <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" aria-hidden>
                 <path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" />
@@ -166,7 +166,7 @@ export default function Navigation() {
             >
               <div className="flex items-center justify-between border-b border-[var(--line-16)] pb-[13px]">
                 <span className="font-mono text-[11.5px] uppercase tracking-[0.12em] text-[var(--accent)]">Menu</span>
-                <button type="button" onClick={() => setDrawerOpen(false)} aria-label="Close menu" className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--line-30)] bg-transparent text-[var(--text-strong)]">
+                <button type="button" onClick={() => setDrawerOpen(false)} aria-label="Close menu" className="flex h-7 w-7 items-center justify-center rounded-full border border-[var(--line-24)] bg-transparent text-[var(--text-strong)] transition-colors duration-[120ms] ease-out hover:border-[var(--line-30)]">
                   <span aria-hidden>×</span>
                 </button>
               </div>
@@ -195,7 +195,7 @@ export default function Navigation() {
                   </motion.div>
                 ))}
               </div>
-              <button type="button" onClick={toggleTheme} className="flex items-center gap-3 border-t border-[var(--line-16)] bg-transparent pt-[13px] text-left font-mono text-[11.5px] text-[var(--text-muted)]">
+              <button type="button" onClick={toggleTheme} className="flex items-center gap-3 border-t border-[var(--line-16)] bg-transparent pt-[13px] text-left font-mono text-[11.5px] text-[var(--text-muted)] transition-colors duration-[120ms] ease-out hover:text-[var(--text-strong)]">
                 <span aria-hidden>☾</span>
                 {isDark ? 'Use light canvas' : 'Use dark canvas'}
               </button>

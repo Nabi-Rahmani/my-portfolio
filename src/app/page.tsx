@@ -19,7 +19,7 @@ import { getFeaturedPosts } from '@/data/blog';
 import { nowData } from '@/data/now';
 import { getFeaturedProjects } from '@/data/projects';
 import { usesCategories } from '@/data/uses';
-import { fadeUpMotion } from '@/lib/animations';
+import { fadeUpMotion, staggerMotion } from '@/lib/animations';
 
 const articles = getFeaturedPosts().slice(0, 4);
 const projects = getFeaturedProjects();
@@ -84,6 +84,7 @@ function ProjectIcon({
 export default function Home() {
   const reduceMotion = useReducedMotion();
   const reveal = fadeUpMotion(reduceMotion);
+  const stagger = staggerMotion(reduceMotion);
   const stats = [
     {
       label: 'TOTAL INSTALLS',
@@ -130,13 +131,13 @@ export default function Home() {
             <div className="mt-7 flex flex-wrap gap-[10px]">
               <Link
                 href="/blog"
-                className="type-button rounded-pill bg-[var(--text-strong)] px-[22px] py-[11px] font-semibold text-[var(--on-accent)] no-underline transition-colors duration-[120ms] ease-out hover:brightness-95"
+                className="type-button rounded-pill bg-[var(--text-strong)] px-[22px] py-[11px] font-semibold text-[var(--on-accent)] no-underline transition-colors duration-[120ms] ease-out hover:bg-[var(--filled-button-hover)]"
               >
                 Read the writing →
               </Link>
               <a
                 href={contactMailto()}
-                className="type-button rounded-pill border border-[color:rgba(245,239,227,0.25)] px-[22px] py-[11px] text-[var(--text-strong)] no-underline transition-colors duration-[120ms] ease-out hover:border-[var(--line-30)]"
+                className="type-button rounded-pill border border-[var(--outline-border)] px-[22px] py-[11px] text-[var(--text-strong)] no-underline transition-colors duration-[120ms] ease-out hover:border-[var(--line-30)]"
               >
                 codewithnabi@gmail.com
               </a>
@@ -176,26 +177,27 @@ export default function Home() {
                 All {getArticleCount()} posts →
               </Link>
             </div>
-            <div>
+            <motion.div variants={stagger}>
               {articles.map((post, index) => (
-                <Link
-                  key={post.id}
-                  href={`/blog/${post.slug}`}
-                  className={`group flex gap-5 border-t border-[var(--line-13)] px-0 py-4 no-underline transition-colors duration-[120ms] ease-out hover:bg-[color-mix(in_srgb,var(--accent)_4%,transparent)] ${index === articles.length - 1 ? 'border-b' : ''}`}
-                >
-                  <time dateTime={post.publishedAt} className="type-meta w-[70px] shrink-0 pt-[3px] text-[var(--text-faint)]">
-                    {formatPostDate(post.publishedAt)}
-                  </time>
-                  <div className="min-w-0">
-                    <h2 className="type-article-title text-[var(--text-strong)]">{post.title}</h2>
-                    <p className="type-dek mt-1 max-w-[60ch] text-[var(--text-muted)]">{post.excerpt}</p>
-                  </div>
-                  <span className="type-meta ml-auto shrink-0 pt-[3px] text-[var(--text-faint)] transition-transform duration-[120ms] ease-out group-hover:translate-x-0.5">
-                    {post.readingTime}m
-                  </span>
-                </Link>
+                <motion.div key={post.id} variants={reveal}>
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className={`group flex gap-5 border-t border-[var(--line-13)] px-0 py-4 no-underline transition-colors duration-[120ms] ease-out hover:bg-[var(--row-hover-bg)] ${index === articles.length - 1 ? 'border-b' : ''}`}
+                  >
+                    <time dateTime={post.publishedAt} className="type-meta w-[70px] shrink-0 pt-[3px] text-[var(--text-faint)]">
+                      {formatPostDate(post.publishedAt)}
+                    </time>
+                    <div className="min-w-0">
+                      <h2 className="type-article-title text-[var(--text-soft)] transition-colors duration-[120ms] ease-out group-hover:text-[var(--text-strong)]">{post.title}</h2>
+                      <p className="type-dek mt-1 max-w-[60ch] text-[var(--text-muted)]">{post.excerpt}</p>
+                    </div>
+                    <span className="type-meta ml-auto shrink-0 pt-[3px] text-[var(--text-faint)] transition-transform duration-[120ms] ease-out group-hover:translate-x-0.5">
+                      {post.readingTime}m
+                    </span>
+                  </Link>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
 
           <aside id="about" className="border-t border-[var(--line-16)] bg-[var(--panel-bg)] px-5 py-8 md:px-[30px] lg:border-l-0 lg:border-t-0 lg:pb-[34px]" aria-label="Now and toolbox">
@@ -231,35 +233,36 @@ export default function Home() {
           variants={reveal}
         >
           <span className="type-eyebrow text-[var(--text-muted)]">Apps I built and maintain alone</span>
-          <div className="mt-[18px]">
+          <motion.div className="mt-[18px]" variants={stagger}>
             {projects.map((project, index) => {
               const proof = getAppProof(project.slug);
               return (
-                <Link
-                  key={project.id}
-                  href={`/projects/${project.slug}`}
-                  className={`group grid grid-cols-[44px_minmax(0,1fr)] items-center gap-x-4 gap-y-2 border-t border-[var(--line-13)] py-4 no-underline transition-colors duration-[120ms] ease-out hover:bg-[color-mix(in_srgb,var(--accent)_4%,transparent)] xl:grid-cols-[44px_190px_minmax(0,1fr)_130px_100px_90px] ${index === projects.length - 1 ? 'border-b' : ''}`}
-                >
-                  <ProjectIcon title={project.title} iconLight={project.iconLight} iconDark={project.iconDark} />
-                  <span className="text-[17px] font-semibold tracking-[-0.012em] text-[var(--text-strong)]">{project.title}</span>
-                  <span className="col-start-2 text-[13.5px] text-[var(--text-muted)] xl:col-start-auto">{project.subtitle}</span>
-                  {proof?.installs !== undefined && (
-                    <span className="col-start-2 font-mono text-[13px] font-medium text-[var(--accent)] xl:col-start-auto">
-                      {formatCompactNumber(proof.installs)} installs
+                <motion.div key={project.id} variants={reveal}>
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className={`group grid grid-cols-[44px_minmax(0,1fr)] items-center gap-x-4 gap-y-2 border-t border-[var(--line-13)] py-4 no-underline transition-colors duration-[120ms] ease-out hover:bg-[var(--row-hover-bg)] xl:grid-cols-[44px_190px_minmax(0,1fr)_130px_100px_90px] ${index === projects.length - 1 ? 'border-b' : ''}`}
+                  >
+                    <ProjectIcon title={project.title} iconLight={project.iconLight} iconDark={project.iconDark} />
+                    <span className="text-[17px] font-semibold tracking-[-0.012em] text-[var(--text-strong)]">{project.title}</span>
+                    <span className="col-start-2 text-[13.5px] text-[var(--text-muted)] xl:col-start-auto">{project.subtitle}</span>
+                    {proof?.installs !== undefined && (
+                      <span className="col-start-2 font-mono text-[13px] font-medium text-[var(--accent)] xl:col-start-auto">
+                        {formatCompactNumber(proof.installs)} installs
+                      </span>
+                    )}
+                    {proof?.rating !== undefined && (
+                      <span className="col-start-2 font-mono text-[13px] text-[var(--text-muted)] xl:col-start-auto">
+                        {proof.rating.toFixed(1)} ★
+                      </span>
+                    )}
+                    <span className="col-start-2 text-[12.5px] font-medium text-[var(--text-strong)] group-hover:underline group-hover:underline-offset-4 xl:col-start-auto xl:text-right">
+                      Open ↗
                     </span>
-                  )}
-                  {proof?.rating !== undefined && (
-                    <span className="col-start-2 font-mono text-[13px] text-[var(--text-muted)] xl:col-start-auto">
-                      {proof.rating.toFixed(1)} ★
-                    </span>
-                  )}
-                  <span className="col-start-2 text-[12.5px] font-medium text-[var(--text-strong)] xl:col-start-auto xl:text-right xl:group-hover:underline xl:group-hover:underline-offset-4">
-                    Open ↗
-                  </span>
-                </Link>
+                  </Link>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
           {/* Device screenshots supplied by the owner will be added here; marketing cover images intentionally stay off this page. */}
         </motion.div>
       </section>
@@ -281,7 +284,7 @@ export default function Home() {
           <div className="flex shrink-0 flex-wrap gap-[10px]">
             <a
               href={contactMailto({ subject: 'Portfolio inquiry' })}
-              className="rounded-pill bg-[var(--accent)] px-6 py-3 text-[14px] font-semibold text-[var(--on-accent)] no-underline transition-[filter] duration-[120ms] ease-out hover:brightness-95"
+              className="rounded-pill bg-[var(--accent)] px-6 py-3 text-[14px] font-semibold text-[var(--on-accent)] no-underline transition-colors duration-[120ms] ease-out hover:bg-[var(--accent-button-hover)]"
             >
               Write an email ↗
             </a>
@@ -289,7 +292,7 @@ export default function Home() {
               href={githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-pill border border-[color:rgba(245,239,227,0.25)] px-6 py-3 text-[14px] font-medium text-[var(--text-strong)] no-underline transition-colors duration-[120ms] ease-out hover:border-[var(--line-30)]"
+              className="rounded-pill border border-[var(--outline-border)] px-6 py-3 text-[14px] font-medium text-[var(--text-strong)] no-underline transition-colors duration-[120ms] ease-out hover:border-[var(--line-30)]"
             >
               GitHub
             </a>

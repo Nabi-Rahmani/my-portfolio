@@ -1,11 +1,19 @@
 import type { Transition, Variants } from 'framer-motion';
 
-/** Shared easing used by Atelier motion language */
-export const atelierEase = [0.25, 0.4, 0.25, 1] as const;
-export const atelierEaseSoft = [0.2, 0.8, 0.2, 1] as const;
+/** Shared easing for the Terminal motion language. */
+export const revealEase = [0.2, 0.6, 0.2, 1] as const;
+
+/** @deprecated Use `revealEase` for new motion. Kept for legacy route imports. */
+export const atelierEase = revealEase;
+/** @deprecated Use `revealEase` for new motion. Kept for legacy route imports. */
+export const atelierEaseSoft = revealEase;
+
+export const revealDistance = 8;
+export const revealDuration = 0.18;
+export const revealStagger = 0.04;
 
 /** Instant / near-instant transition when motion should be reduced */
-export const reducedTransition: Transition = { duration: 0.01 };
+export const reducedTransition: Transition = { duration: 0 };
 
 /**
  * Pick full vs reduced Framer Motion variants.
@@ -32,53 +40,47 @@ export function selectTransition(
 
 /** Opacity-only enter — safe default when prefers-reduced-motion is set */
 export const fadeIn: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { duration: 0.15 },
-  },
+  hidden: { opacity: 1 },
+  visible: { opacity: 1 },
 };
 
 export const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: revealDistance },
   visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, delay: i * 0.1, ease: atelierEase },
+    transition: { duration: revealDuration, delay: i * revealStagger, ease: revealEase },
   }),
 };
 
 /** Reduced-motion counterpart to fadeUp (no translate) */
 export const fadeUpReduced: Variants = {
-  hidden: { opacity: 0 },
-  visible: (i: number = 0) => ({
-    opacity: 1,
-    transition: { duration: 0.15, delay: Math.min(i * 0.02, 0.08) },
-  }),
+  hidden: { opacity: 1 },
+  visible: { opacity: 1 },
 };
 
 export const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 },
+    transition: { staggerChildren: revealStagger },
   },
 };
 
 export const staggerContainerReduced: Variants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 1 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.02, delayChildren: 0 },
+    transition: { staggerChildren: 0, delayChildren: 0 },
   },
 };
 
 export const springCard: Variants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: revealDistance },
   visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { type: 'spring', stiffness: 120, damping: 18, delay: i * 0.1 },
+    transition: { type: 'spring', stiffness: 120, damping: 18, delay: i * revealStagger },
   }),
 };
 

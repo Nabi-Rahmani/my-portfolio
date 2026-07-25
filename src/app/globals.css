@@ -80,8 +80,11 @@
   --line-16: #e4ddcd;
   --line-18: #e4ddcd;
   --line-24: #d8d0be;
-  --line-30: #d8d0be;
-  --outline-border: #d8d0be;
+  --line-30: #c4b99f;
+  --outline-border: var(--line-24);
+  --row-hover-bg: #f3eee2;
+  --filled-button-hover: color-mix(in srgb, var(--text-strong) 94%, white);
+  --accent-button-hover: color-mix(in srgb, var(--accent) 94%, white);
 
   /* ── Geometry ─────────────────────────────────────────────────────── */
   --radius-pill: 999px;
@@ -153,6 +156,9 @@
 
   /* Outline buttons are drawn from the text colour, not the accent. */
   --outline-border: color-mix(in srgb, var(--text-strong) 25%, transparent);
+  --row-hover-bg: color-mix(in srgb, var(--accent) 4%, transparent);
+  --filled-button-hover: color-mix(in srgb, var(--text-strong) 94%, black);
+  --accent-button-hover: color-mix(in srgb, var(--accent) 94%, black);
 }
 
 html {
