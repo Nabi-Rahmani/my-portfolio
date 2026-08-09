@@ -8,7 +8,7 @@ import { contactMailto, siteConfig } from '@/config/site';
 import { blogPosts, getFeaturedPosts } from '@/data/blog';
 import { getFeaturedProjects } from '@/data/projects';
 import { getAppCount, getArticleCount } from '@/config/proof';
-import { getProjectImages, getProjectLeadImage } from '@/lib/links';
+import { getProjectLeadImage } from '@/lib/links';
 import type { Project } from '@/types/project';
 
 const projects = getFeaturedProjects();
@@ -32,36 +32,86 @@ function formatPostDate(date: string) {
   }).format(new Date(`${date}T00:00:00Z`));
 }
 
+function platformLabel(platform: Project['platform']) {
+  if (platform === 'android') return 'Android';
+  if (platform === 'ios') return 'iOS';
+  return 'Android · iOS planned';
+}
+
 function ProductRack() {
+  const rackProjects = projects.slice(0, 3);
+  const [primary, ...supporting] = rackProjects;
+
+  if (!primary) return null;
+
+  const primaryLead = getProjectLeadImage(primary);
+  const primarySrc = primaryLead?.src ?? primary.coverImage;
+  const primaryAlt = primaryLead?.alt ?? `${primary.title} product overview`;
+
   return (
-    <div className="overflow-hidden rounded-[var(--radius-card)] border border-[var(--line-16)] bg-[var(--accent-soft)] px-4 pt-8 sm:px-7 sm:pt-10 lg:px-9">
-      <div className="grid grid-cols-3 items-end gap-2.5 sm:gap-4">
-        {projects.slice(0, 3).map((project, index) => {
-          const images = getProjectImages(project.media);
-          // Position-based variety only — never slug-specific media picks.
-          const lead = images[index === 1 ? 1 : 0] ?? images[0];
-          const src = lead?.src ?? project.coverImage;
-          const alt = lead?.alt ?? `${project.title} product overview`;
-          return (
-            <div
-              key={project.slug}
-              className={[
-                'relative aspect-[9/19.5] overflow-hidden rounded-t-[14px] border border-b-0 border-[var(--line-18)] bg-[var(--surface-bg)] sm:rounded-t-[22px]',
-                index === 1 ? 'z-10 -mt-8' : '',
-              ].join(' ')}
-            >
-              <Image
-                src={src}
-                alt={alt}
-                fill
-                className="object-cover object-top"
-                sizes="(max-width: 1024px) 30vw, 190px"
-                priority
-              />
-            </div>
-          );
-        })}
-      </div>
+    <div
+      className="grid gap-2.5 sm:gap-3"
+      aria-label="Featured project previews"
+    >
+      <Link
+        href={`/projects/${primary.slug}`}
+        className={[
+          'group relative block aspect-video overflow-hidden rounded-[var(--radius-card)] border border-[var(--line-16)] bg-[var(--surface-bg)] no-underline transition-[border-color,transform] duration-150',
+          'hover:-translate-y-0.5 hover:border-[var(--line-24)]',
+          'focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[var(--accent)]',
+          'motion-reduce:transition-none motion-reduce:hover:translate-y-0',
+        ].join(' ')}
+      >
+        <Image
+          src={primarySrc}
+          alt={primaryAlt}
+          fill
+          className="object-cover object-center transition-opacity duration-150 group-hover:opacity-95 motion-reduce:transition-none"
+          sizes="(max-width: 1024px) 100vw, 46vw"
+          priority
+        />
+        <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--page-bg)_88%,transparent)] to-transparent px-3 pb-2.5 pt-8 sm:px-3.5 sm:pb-3">
+          <span className="block text-sm font-semibold tracking-[-0.02em] text-[var(--text-strong)]">
+            {primary.title}
+          </span>
+        </span>
+      </Link>
+
+      {supporting.length > 0 && (
+        <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-3">
+          {supporting.map((project) => {
+            const lead = getProjectLeadImage(project);
+            const src = lead?.src ?? project.coverImage;
+            const alt = lead?.alt ?? `${project.title} product overview`;
+
+            return (
+              <Link
+                key={project.slug}
+                href={`/projects/${project.slug}`}
+                className={[
+                  'group relative block aspect-video overflow-hidden rounded-[var(--radius-card)] border border-[var(--line-16)] bg-[var(--surface-bg)] no-underline transition-[border-color,transform] duration-150',
+                  'hover:-translate-y-0.5 hover:border-[var(--line-24)]',
+                  'focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[var(--accent)]',
+                  'motion-reduce:transition-none motion-reduce:hover:translate-y-0',
+                ].join(' ')}
+              >
+                <Image
+                  src={src}
+                  alt={alt}
+                  fill
+                  className="object-cover object-center transition-opacity duration-150 group-hover:opacity-95 motion-reduce:transition-none"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 22vw"
+                />
+                <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[color-mix(in_srgb,var(--page-bg)_88%,transparent)] to-transparent px-3 pb-2.5 pt-8 sm:px-3 sm:pb-2.5">
+                  <span className="block text-sm font-semibold tracking-[-0.02em] text-[var(--text-strong)]">
+                    {project.title}
+                  </span>
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
@@ -70,38 +120,61 @@ function WorkCard({ project, index }: { project: Project; index: number }) {
   const lead = getProjectLeadImage(project);
   const src = lead?.src ?? project.coverImage;
   const alt = lead?.alt ?? `${project.title} product overview`;
+  const cues = (project.features.length > 0
+    ? project.features
+    : project.techStack
+  ).slice(0, 3);
 
   return (
-    <article className="group editorial-card flex h-full flex-col overflow-hidden">
+    <article className="h-full">
       <Link
         href={`/projects/${project.slug}`}
-        className="relative block aspect-[16/10] overflow-hidden border-b border-[var(--line-16)] bg-[var(--accent-soft)] no-underline"
+        className={[
+          'group editorial-card flex h-full flex-col overflow-hidden no-underline transition-[border-color,transform] duration-150',
+          'hover:-translate-y-0.5 hover:border-[var(--line-24)]',
+          'focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[var(--accent)]',
+          'motion-reduce:transition-none motion-reduce:hover:translate-y-0',
+        ].join(' ')}
       >
-        <div className="absolute inset-x-[25%] bottom-[-16%] top-[10%] overflow-hidden rounded-t-[24px] border border-b-0 border-[var(--line-18)] bg-[var(--surface-bg)] transition-transform duration-300 group-hover:-translate-y-2 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0">
+        <div className="relative aspect-video overflow-hidden border-b border-[var(--line-16)] bg-[var(--panel-bg)]">
           <Image
             src={src}
             alt={alt}
             fill
-            className="object-cover object-top"
-            sizes="(max-width: 1024px) 70vw, 360px"
+            className="object-cover object-center"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         </div>
-      </Link>
-      <div className="flex flex-1 flex-col p-5 sm:p-6">
-        <p className="meta-label">0{index + 1} / {project.subtitle}</p>
-        <h3 className="mt-3 text-[1.5rem] font-semibold tracking-[-0.04em]">{project.title}</h3>
-        <div className="mt-auto flex items-center justify-between gap-4 pt-6">
-          <span className="font-mono text-xs text-[var(--text-faint)]">
-            {project.features.slice(0, 3).join(' · ') || project.techStack.slice(0, 2).join(' · ')}
+        <div className="flex flex-1 flex-col p-5 sm:p-6">
+          <p className="meta-label">
+            0{index + 1} · {platformLabel(project.platform)}
+          </p>
+          <h3 className="mt-3 text-[1.5rem] font-semibold tracking-[-0.04em] text-[var(--text-strong)]">
+            {project.title}
+          </h3>
+          <p className="mt-2 text-sm leading-6 text-[var(--text-body)]">
+            {project.subtitle}
+          </p>
+          <p className="mt-3 text-sm font-medium text-[var(--text-muted)]">
+            {project.caseStudy.role}
+          </p>
+          {cues.length > 0 && (
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {cues.map((cue) => (
+                <li
+                  key={cue}
+                  className="rounded-full border border-[var(--line-16)] px-2.5 py-1 font-mono text-xs leading-4 text-[var(--text-muted)]"
+                >
+                  {cue}
+                </li>
+              ))}
+            </ul>
+          )}
+          <span className="mt-auto pt-6 text-sm font-semibold text-[var(--accent)]">
+            Read case study →
           </span>
-          <Link
-            href={`/projects/${project.slug}`}
-            className="text-sm font-semibold text-[var(--accent)] no-underline"
-          >
-            View →
-          </Link>
         </div>
-      </div>
+      </Link>
     </article>
   );
 }
