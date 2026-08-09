@@ -31,7 +31,36 @@ export interface ProjectCaseStudy {
     role: string;
     responsibilities: string[];
     engineeringHighlights: ProjectEngineeringHighlight[];
+    /** Concise product problem — evidence-backed, non-empty. */
+    challenge: string;
+    /** How the product was shaped/built — evidence-backed, non-empty. */
+    approach: string;
+    /**
+     * Honest shipped narrative proof (not an unverified metric).
+     * Non-empty and distinct per project.
+     */
+    outcome: string;
 }
+
+/** Still image entry in ordered project media. */
+export interface ProjectImageMedia {
+    type: 'image';
+    src: string;
+    /** Describes the visible product capability (not “screenshot 1”). */
+    alt: string;
+}
+
+/** Demo video entry in ordered project media. */
+export interface ProjectVideoMedia {
+    type: 'video';
+    src: string;
+    poster: string;
+    /** Accessible name for the demo control / element. */
+    label: string;
+}
+
+/** Discriminated media union — renderers switch on `type`. */
+export type ProjectMedia = ProjectImageMedia | ProjectVideoMedia;
 
 export interface Project {
     id: string;
@@ -40,11 +69,15 @@ export interface Project {
     /** Short hiring-manager value line (cards + detail hero). */
     subtitle: string;
     description: string;
+    /** Dedicated 1200×630 metadata/social fallback. */
     coverImage: string;
     iconLight?: string;
     iconDark?: string;
-    heroImage?: string;
-    screenshots: string[];
+    /**
+     * Ordered typed media (stills + optional demo).
+     * Lead still is first image; components select generically — no slug branches.
+     */
+    media: ProjectMedia[];
     features: string[];
     featureDetails?: ProjectFeatureDetail[];
     featureSubtitle?: string;

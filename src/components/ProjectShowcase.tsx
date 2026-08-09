@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import ProjectAppIcon from '@/components/ProjectAppIcon';
-import { getProjectScreenshots, getValidStoreUrl } from '@/lib/links';
+import { getProjectImages, getValidStoreUrl } from '@/lib/links';
 import type { Project } from '@/types/project';
 
 function platformLabel(platform: Project['platform']) {
@@ -18,9 +18,9 @@ function ProductScreens({
   project: Project;
   priority?: boolean;
 }) {
-  const screenshots = getProjectScreenshots(project.screenshots).slice(0, 3);
+  const images = getProjectImages(project.media).slice(0, 3);
 
-  if (screenshots.length === 0) {
+  if (images.length === 0) {
     return (
       <div className="relative aspect-[16/10] overflow-hidden rounded-[18px] border border-[var(--line-18)] bg-[var(--surface-bg)]">
         <Image
@@ -37,17 +37,17 @@ function ProductScreens({
 
   return (
     <div className="grid grid-cols-3 items-center gap-2.5 sm:gap-4">
-      {screenshots.map((src, index) => (
+      {images.map((image, index) => (
         <div
-          key={src}
+          key={image.src}
           className={[
             'relative aspect-[9/19.5] overflow-hidden rounded-[14px] border border-[var(--line-18)] bg-[var(--surface-bg)] sm:rounded-[20px]',
             index === 1 ? '-translate-y-3 sm:-translate-y-5' : '',
           ].join(' ')}
         >
           <Image
-            src={src}
-            alt={`${project.title} product screen ${index + 1}`}
+            src={image.src}
+            alt={image.alt}
             fill
             className="object-cover object-top"
             sizes="(max-width: 1024px) 30vw, 180px"
@@ -125,12 +125,12 @@ export default function ProjectShowcase({
         </dl>
 
         <div className="mt-7 flex flex-wrap gap-2">
-          {project.techStack.slice(0, 5).map((tech) => (
+          {project.features.slice(0, 3).map((feature) => (
             <span
-              key={tech}
+              key={feature}
               className="rounded-full border border-[var(--line-16)] px-3 py-1.5 font-mono text-xs text-[var(--text-muted)]"
             >
-              {tech}
+              {feature}
             </span>
           ))}
         </div>

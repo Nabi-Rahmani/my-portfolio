@@ -5,49 +5,52 @@ export const projects: Project[] = [
         id: '1',
         slug: 'focus-flow',
         title: 'Focus Flow',
-        subtitle: 'A calm, guided focus timer for deep work',
+        subtitle: 'Calm focus timer, ambient soundscape, and session reflection',
         description:
-            'Focus Flow is a beautifully crafted focus timer app designed to help you build deep focus habits. It features ambient sounds, customizable session modes, guided breathing exercises, and detailed analytics — all wrapped in a calming, minimal UI that keeps distractions away and lets you concentrate on what matters.',
-        coverImage: '/assets/projects/focus-flow/project-cover/focusflow_hero_1920x1080.png',
+            'Focus Flow is a Flutter focus product built around a calm timer, ambient soundscape, and insight/reflection views. Sessions, preferences, and progress stay local-first so deep work remains reliable offline, while optional sound packs load on demand.',
+        coverImage: '/assets/projects/focus-flow/cover.webp',
         iconLight: '/assets/projects/focus-flow/app-icon.png',
         iconDark: '/assets/projects/focus-flow/app-icon.png',
-        heroImage: '/assets/projects/focus-flow/Main-image/header.png',
-        screenshots: [
-            '/assets/projects/focus-flow/screenshots/01.png',
-            '/assets/projects/focus-flow/screenshots/02.png',
-            '/assets/projects/focus-flow/screenshots/03.png',
-            '/assets/projects/focus-flow/screenshots/04.png',
-            '/assets/projects/focus-flow/screenshots/05.png',
-            '/assets/projects/focus-flow/screenshots/06.png',
-            '/assets/projects/focus-flow/screenshots/07.png',
-            '/assets/projects/focus-flow/screenshots/08.png',
+        media: [
+            {
+                type: 'image',
+                src: '/assets/projects/focus-flow/home.webp',
+                alt: 'Focus Flow home screen with an active focus timer session',
+            },
+            {
+                type: 'image',
+                src: '/assets/projects/focus-flow/sounds.webp',
+                alt: 'Focus Flow ambient soundscape mixer and playback controls',
+            },
+            {
+                type: 'image',
+                src: '/assets/projects/focus-flow/insights.webp',
+                alt: 'Focus Flow insights view summarizing session reflection and progress',
+            },
+            {
+                type: 'video',
+                src: '/assets/projects/focus-flow/demo.mp4',
+                poster: '/assets/projects/focus-flow/poster.webp',
+                label: 'Focus Flow product demo video',
+            },
         ],
-        features: ['Focus timer', 'Session modes', '95+ sounds', 'Analytics', 'Breathing exercises', 'Pro tier'],
-        featureSubtitle: 'Everything you need to stay focused',
+        features: ['Focus timer', 'Ambient soundscape', 'Session insights'],
+        featureSubtitle: 'Timer, soundscape, and reflection in one calm product',
         featureDetails: [
             {
-                title: 'Pomodoro Focus Timer',
-                description: 'A beautifully designed Pomodoro timer with customizable focus and break durations. Stay in the zone with visual progress and gentle transitions between sessions.',
+                title: 'Focus timer',
+                description:
+                    'Run structured focus sessions with clear visual progress and gentle transitions between work and rest.',
             },
             {
-                title: 'Multiple Session Modes',
-                description: 'Choose from Pomodoro, custom timer, or stopwatch modes. Each mode adapts to your workflow — whether you need structured intervals or free-flow deep work.',
+                title: 'Ambient soundscape',
+                description:
+                    'Set the atmosphere with ambient audio controls designed to support concentration without cluttering the session UI.',
             },
             {
-                title: '95+ Ambient Sounds',
-                description: 'Immerse yourself in a library of 95+ high-quality ambient sounds — rain, forest, cafe, ocean, and more. Mix and match to create your perfect focus atmosphere.',
-            },
-            {
-                title: 'Deep Analytics & Insights',
-                description: 'Track your focus sessions with detailed daily and weekly analytics. See completion rates, total focus time, streak history, and trends that reveal your productivity patterns.',
-            },
-            {
-                title: 'Guided Breathing Exercises',
-                description: 'Reset your mind between sessions with built-in guided breathing exercises. Choose from multiple patterns designed to reduce stress and sharpen concentration.',
-            },
-            {
-                title: 'Tasks & To-Do Integration',
-                description: 'Plan your focus sessions with an integrated task manager. Create tasks, track completion, and tie your timer sessions directly to what you need to accomplish.',
+                title: 'Session insights',
+                description:
+                    'Review completed sessions and reflection cues so progress stays visible after the timer ends.',
             },
         ],
         techStack: ['Flutter', 'Dart', 'Riverpod', 'Drift', 'SQLite', 'RevenueCat'],
@@ -86,6 +89,12 @@ export const projects: Project[] = [
                         'RevenueCat supports subscriptions while Supabase delivers optional ambient sound packs on demand.',
                 },
             ],
+            challenge:
+                'Build a focus product that feels calm in daily use while keeping core timer sessions reliable without requiring a constant network connection.',
+            approach:
+                'Ship a local-first Flutter architecture with clear boundaries for timer state, ambient audio, and session insights, plus production store delivery and optional cloud-hosted sound packs.',
+            outcome:
+                'Focus Flow is live on Google Play as a solo-built, actively maintained product with a complete timer, soundscape, and reflection experience.',
         },
         privacyContent: {
             lastUpdated: 'May 23, 2026',
@@ -230,47 +239,52 @@ export const projects: Project[] = [
         id: '2',
         slug: 'dev-discipline',
         title: 'Dev Discipline',
-        subtitle: 'Build better habits, stay consistent, become unstoppable',
+        subtitle: 'Guided 60-day execution system with daily progress and insights',
         description:
-            'Dev Discipline is a discipline-focused productivity app that helps you stay consistent, build powerful habits, and track your progress with a clean, motivating UI. Featuring structured daily plans, habit tracking, deep progress insights, streak building, and journaling — everything you need to stay accountable and on track every single day.',
-        coverImage: '/assets/projects/dev-discipline/project-cover/devdiscipline-cover.png',
+            'Dev Discipline is a Flutter product for building consistency through a guided 60-day plan, day-to-day execution tracking, and progress insights. Plans, streaks, and history stay local so accountability remains available offline, with store delivery and subscriptions handled in production.',
+        coverImage: '/assets/projects/dev-discipline/cover.webp',
         iconLight: '/assets/projects/dev-discipline/app-icon.png',
         iconDark: '/assets/projects/dev-discipline/app-icon.png',
-        heroImage: '/assets/projects/dev-discipline/Main-image/header.png',
-        screenshots: [
-            '/assets/projects/dev-discipline/screenshots/devdiscipline_01.png',
-            '/assets/projects/dev-discipline/screenshots/devdiscipline_02.png',
-            '/assets/projects/dev-discipline/screenshots/devdiscipline_03.png',
-            '/assets/projects/dev-discipline/screenshots/devdiscipline_04.png',
-            '/assets/projects/dev-discipline/screenshots/devdiscipline_05.png',
-            '/assets/projects/dev-discipline/screenshots/devdiscipline_06.png',
+        media: [
+            {
+                type: 'image',
+                src: '/assets/projects/dev-discipline/home.webp',
+                alt: 'Dev Discipline home screen showing the guided daily execution overview',
+            },
+            {
+                type: 'image',
+                src: '/assets/projects/dev-discipline/plan.webp',
+                alt: 'Dev Discipline 60-day plan view with structured daily tasks',
+            },
+            {
+                type: 'image',
+                src: '/assets/projects/dev-discipline/insights.webp',
+                alt: 'Dev Discipline insights screen with progress trends and completion history',
+            },
+            {
+                type: 'video',
+                src: '/assets/projects/dev-discipline/demo.mp4',
+                poster: '/assets/projects/dev-discipline/poster.webp',
+                label: 'Dev Discipline product demo video',
+            },
         ],
-        features: ['60-Day Plans', 'Daily Tasks', 'Streak Tracking', 'Progress Insights', 'Journaling', 'Gamification'],
-        featureSubtitle: 'Everything you need to stay disciplined',
+        features: ['60-day plans', 'Daily execution', 'Progress insights'],
+        featureSubtitle: 'Guided plans, daily follow-through, and visible progress',
         featureDetails: [
             {
-                title: 'Structured 60-Day Plans',
-                description: 'Follow a curated 60-day discipline journey with daily tasks designed to build consistency. Each day brings focused challenges that compound into real habits.',
+                title: 'Guided 60-day plans',
+                description:
+                    'Follow a structured 60-day discipline journey with clear daily tasks that compound into consistent habits.',
             },
             {
-                title: 'Daily Task Tracking',
-                description: 'Check off your daily tasks with a satisfying tap. See your progress for each day at a glance and never lose track of where you stand.',
+                title: 'Daily execution',
+                description:
+                    'Check off each day\'s work at a glance so progress and accountability stay visible throughout the plan.',
             },
             {
-                title: 'Streak Building',
-                description: 'Build and maintain streaks that keep you motivated. Miss a day? Streak freezes have your back. Watch your consistency grow day by day.',
-            },
-            {
-                title: 'Deep Progress Insights',
-                description: 'Visualize your journey with detailed analytics — completion rates, streak history, and performance trends that show how far you have come.',
-            },
-            {
-                title: 'Daily Journaling',
-                description: 'Reflect on your day with built-in journaling. Track your mood, write notes, and build self-awareness alongside your discipline habits.',
-            },
-            {
-                title: 'Gamification & Badges',
-                description: 'Earn badges and celebrations as you hit milestones. Every achievement is a reminder of your growth and dedication.',
+                title: 'Progress insights',
+                description:
+                    'Review completion trends and history that show how the 60-day system is actually going over time.',
             },
         ],
         techStack: ['Flutter', 'Dart', 'Riverpod', 'Drift', 'SQLite', 'RevenueCat'],
@@ -309,6 +323,12 @@ export const projects: Project[] = [
                         'The product combines RevenueCat subscriptions with production Play Store delivery and maintenance.',
                 },
             ],
+            challenge:
+                'Turn long-horizon discipline into a product people can execute day by day without losing the plan, streaks, or history when they are offline.',
+            approach:
+                'Design a guided 60-day system in Flutter with local persistence for plans and progress, explicit Riverpod boundaries, and a complete Play Store release loop including subscriptions.',
+            outcome:
+                'Dev Discipline ships on Google Play as a solo-built Android product that couples guided plans with daily execution tracking and progress insights.',
         },
         privacyContent: {
             lastUpdated: 'February 06, 2026',
@@ -413,47 +433,52 @@ export const projects: Project[] = [
         id: '3',
         slug: 'mihrab-by-raha',
         title: 'Raha',
-        subtitle: 'A peaceful Islamic companion for your daily worship',
+        subtitle: 'Prayer times, Quran, and Qibla for a daily worship routine',
         description:
-            'Raha is a thoughtfully designed Islamic lifestyle app to support your daily spiritual routine. From accurate prayer times and Quran reading to dhikr, Islamic calendar guidance, and a curated library, it brings your essentials into one calm, focused experience.',
-        coverImage: '/assets/projects/mihrab-by-raha/project-cover/cover_mihrab_by_raha.png',
+            'Raha is a Flutter companion for daily worship: prayer times on the home routine, Qibla guidance when you need direction, and a calm Quran read/listen experience. Preferences and daily state stay local, with optional audio delivered on demand in production.',
+        coverImage: '/assets/projects/mihrab-by-raha/cover.webp',
         iconLight: '/assets/projects/mihrab-by-raha/app-icon.png',
         iconDark: '/assets/projects/mihrab-by-raha/app-icon.png',
-        heroImage: '/assets/projects/mihrab-by-raha/main-image/Raha%20Mihrab.png',
-        screenshots: [
-            '/assets/projects/mihrab-by-raha/screenshots/01_prayer_times.png',
-            '/assets/projects/mihrab-by-raha/screenshots/02_quran.png',
-            '/assets/projects/mihrab-by-raha/screenshots/03_calendar.png',
-            '/assets/projects/mihrab-by-raha/screenshots/04_dhikr.png',
-            '/assets/projects/mihrab-by-raha/screenshots/05_library.png',
-            '/assets/projects/mihrab-by-raha/screenshots/06_themes.png',
+        media: [
+            {
+                type: 'image',
+                src: '/assets/projects/mihrab-by-raha/home.webp',
+                alt: 'Raha home screen with prayer times for the daily worship routine',
+            },
+            {
+                type: 'image',
+                src: '/assets/projects/mihrab-by-raha/qibla.webp',
+                alt: 'Raha Qibla guidance screen for finding prayer direction',
+            },
+            {
+                type: 'image',
+                src: '/assets/projects/mihrab-by-raha/quran.webp',
+                alt: 'Raha Quran read and listen screen in a calm reading layout',
+            },
+            {
+                type: 'video',
+                src: '/assets/projects/mihrab-by-raha/demo.mp4',
+                poster: '/assets/projects/mihrab-by-raha/poster.webp',
+                label: 'Raha product demo video',
+            },
         ],
-        features: ['Prayer Times', 'Quran Reader', 'Hijri Calendar', 'Daily Dhikr', 'Islamic Library', 'Themes'],
-        featureSubtitle: 'Everything you need for a consistent spiritual routine',
+        features: ['Prayer times', 'Quran', 'Qibla'],
+        featureSubtitle: 'Core daily worship tools in one calm product',
         featureDetails: [
             {
-                title: 'Accurate Prayer Times',
-                description: 'Stay connected with timely prayer reminders and a clean overview of all five daily prayers based on your location and selected method.',
+                title: 'Prayer times',
+                description:
+                    'See the day\'s prayer schedule in a clean home overview so the routine stays easy to return to.',
             },
             {
-                title: 'Beautiful Quran Reading',
-                description: 'Read the Quran in a clear, distraction-free interface designed for comfort and reflection, whether you are reading daily or revisiting selected surahs.',
+                title: 'Quran read and listen',
+                description:
+                    'Open a distraction-free Quran experience designed for comfortable reading and listening.',
             },
             {
-                title: 'Hijri Calendar Guidance',
-                description: 'Track Islamic dates and upcoming occasions with an easy-to-read Hijri calendar that helps you plan meaningful days and worship moments.',
-            },
-            {
-                title: 'Dhikr and Remembrance',
-                description: 'Build consistency in remembrance with dedicated dhikr flows that are simple, calming, and easy to return to throughout the day.',
-            },
-            {
-                title: 'Curated Islamic Library',
-                description: 'Access a growing collection of essential Islamic content in one place so you can learn, revisit, and reflect without jumping between multiple apps.',
-            },
-            {
-                title: 'Personal Themes and Mood',
-                description: 'Customize the look and feel with soothing themes that match your preference and keep your spiritual routine visually calm and personal.',
+                title: 'Qibla guidance',
+                description:
+                    'Find prayer direction with a focused Qibla flow when you need orientation on the go.',
             },
         ],
         techStack: ['Flutter', 'Dart', 'Riverpod', 'Drift', 'SQLite'],
@@ -479,7 +504,7 @@ export const projects: Project[] = [
                 {
                     title: 'Daily use without friction',
                     description:
-                        'Prayer, Quran, calendar, and dhikr experiences are structured to stay useful with local data.',
+                        'Prayer, Quran, and Qibla experiences are structured to stay useful with local data.',
                 },
                 {
                     title: 'Clear application boundaries',
@@ -492,6 +517,12 @@ export const projects: Project[] = [
                         'Supabase serves optional audio while Mixpanel and Sentry support product learning and reliability.',
                 },
             ],
+            challenge:
+                'Support a daily worship routine with prayer times, Quran access, and Qibla guidance without forcing account-first complexity for core use.',
+            approach:
+                'Build a local-first Flutter product with clear boundaries for prayer, Quran, and Qibla flows, while shipping optional cloud audio and production monitoring around the store release.',
+            outcome:
+                'Raha is live on Google Play as a solo-built, actively maintained worship companion centered on prayer times, Quran, and Qibla.',
         },
         privacyContent: {
             lastUpdated: 'May 23, 2026',

@@ -8,6 +8,7 @@ import { contactMailto, siteConfig } from '@/config/site';
 import { blogPosts, getFeaturedPosts } from '@/data/blog';
 import { getFeaturedProjects } from '@/data/projects';
 import { getAppCount, getArticleCount } from '@/config/proof';
+import { getProjectImages, getProjectLeadImage } from '@/lib/links';
 import type { Project } from '@/types/project';
 
 const projects = getFeaturedProjects();
@@ -36,7 +37,11 @@ function ProductRack() {
     <div className="overflow-hidden rounded-[var(--radius-card)] border border-[var(--line-16)] bg-[var(--accent-soft)] px-4 pt-8 sm:px-7 sm:pt-10 lg:px-9">
       <div className="grid grid-cols-3 items-end gap-2.5 sm:gap-4">
         {projects.slice(0, 3).map((project, index) => {
-          const screenshot = project.screenshots[index === 1 ? 1 : 0] ?? project.coverImage;
+          const images = getProjectImages(project.media);
+          // Position-based variety only — never slug-specific media picks.
+          const lead = images[index === 1 ? 1 : 0] ?? images[0];
+          const src = lead?.src ?? project.coverImage;
+          const alt = lead?.alt ?? `${project.title} product overview`;
           return (
             <div
               key={project.slug}
@@ -46,8 +51,8 @@ function ProductRack() {
               ].join(' ')}
             >
               <Image
-                src={screenshot}
-                alt={`${project.title} app screen`}
+                src={src}
+                alt={alt}
                 fill
                 className="object-cover object-top"
                 sizes="(max-width: 1024px) 30vw, 190px"
@@ -62,7 +67,9 @@ function ProductRack() {
 }
 
 function WorkCard({ project, index }: { project: Project; index: number }) {
-  const screenshot = project.screenshots[index === 1 ? 1 : 0] ?? project.coverImage;
+  const lead = getProjectLeadImage(project);
+  const src = lead?.src ?? project.coverImage;
+  const alt = lead?.alt ?? `${project.title} product overview`;
 
   return (
     <article className="group editorial-card flex h-full flex-col overflow-hidden">
@@ -72,8 +79,8 @@ function WorkCard({ project, index }: { project: Project; index: number }) {
       >
         <div className="absolute inset-x-[25%] bottom-[-16%] top-[10%] overflow-hidden rounded-t-[24px] border border-b-0 border-[var(--line-18)] bg-[var(--surface-bg)] transition-transform duration-300 group-hover:-translate-y-2 motion-reduce:transition-none motion-reduce:group-hover:translate-y-0">
           <Image
-            src={screenshot}
-            alt={`${project.title} product screen`}
+            src={src}
+            alt={alt}
             fill
             className="object-cover object-top"
             sizes="(max-width: 1024px) 70vw, 360px"
@@ -85,7 +92,7 @@ function WorkCard({ project, index }: { project: Project; index: number }) {
         <h3 className="mt-3 text-[1.5rem] font-semibold tracking-[-0.04em]">{project.title}</h3>
         <div className="mt-auto flex items-center justify-between gap-4 pt-6">
           <span className="font-mono text-xs text-[var(--text-faint)]">
-            {project.techStack.slice(0, 2).join(' · ')}
+            {project.features.slice(0, 3).join(' · ') || project.techStack.slice(0, 2).join(' · ')}
           </span>
           <Link
             href={`/projects/${project.slug}`}

@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import Footer from '@/components/Footer';
 import ProjectAppIcon from '@/components/ProjectAppIcon';
-import { getProjectScreenshots, getValidProjectGithubUrl, getValidStoreUrl } from '@/lib/links';
+import { getProjectImages, getValidProjectGithubUrl, getValidStoreUrl } from '@/lib/links';
 import type { Project } from '@/types/project';
 
 function platformLabel(platform: Project['platform']) {
@@ -18,7 +18,7 @@ function platformLabel(platform: Project['platform']) {
 
 export default function ProjectDetailClient({ project }: { project: Project }) {
   const reduceMotion = useReducedMotion();
-  const screenshots = getProjectScreenshots(project.screenshots);
+  const images = getProjectImages(project.media);
   const playStoreUrl = getValidStoreUrl(project.links.playStore);
   const appStoreUrl = getValidStoreUrl(project.links.appStore);
   const githubUrl = getValidProjectGithubUrl(project.links.github);
@@ -35,14 +35,14 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
   const closeLightbox = useCallback(() => setLightboxIndex(null), []);
   const goPrevious = useCallback(() => {
     setLightboxIndex((current) =>
-      current === null ? null : (current - 1 + screenshots.length) % screenshots.length,
+      current === null ? null : (current - 1 + images.length) % images.length,
     );
-  }, [screenshots.length]);
+  }, [images.length]);
   const goNext = useCallback(() => {
     setLightboxIndex((current) =>
-      current === null ? null : (current + 1) % screenshots.length,
+      current === null ? null : (current + 1) % images.length,
     );
-  }, [screenshots.length]);
+  }, [images.length]);
 
   useEffect(() => {
     if (lightboxIndex === null) return;
@@ -177,20 +177,20 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
 
             <div className="rounded-[20px] border border-[var(--line-16)] bg-[var(--accent-soft)] p-3 sm:rounded-[28px] sm:p-7">
               <div className="grid grid-cols-3 items-center gap-2.5 sm:gap-4">
-                {screenshots.slice(0, 3).map((src, index) => (
+                {images.slice(0, 3).map((image, index) => (
                   <button
-                    key={src}
+                    key={image.src}
                     type="button"
                     onClick={() => openLightbox(index)}
-                    aria-label={`Open ${project.title} screen ${index + 1}`}
+                    aria-label={`Open ${image.alt}`}
                     className={[
                       'relative aspect-[9/19.5] cursor-zoom-in overflow-hidden rounded-[14px] border border-[var(--line-18)] bg-[var(--surface-bg)] p-0 sm:rounded-[20px]',
                       index === 1 ? '-translate-y-3 sm:-translate-y-5' : '',
                     ].join(' ')}
                   >
                     <Image
-                      src={src}
-                      alt={`${project.title} app screen ${index + 1}`}
+                      src={image.src}
+                      alt={image.alt}
                       fill
                       className="object-cover object-top"
                       sizes="(max-width: 1024px) 30vw, 200px"
@@ -249,7 +249,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
           </div>
         </section>
 
-        {screenshots.length > 0 && (
+        {images.length > 0 && (
           <section className="border-b border-[var(--line-16)] py-14 sm:py-22 lg:py-28" aria-label="Product screens">
             <div className="site-container flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -262,17 +262,17 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
             </div>
 
             <div className="scrollbar-hide mt-8 flex snap-x snap-mandatory scroll-px-5 gap-3 overflow-x-auto px-5 pb-5 sm:mt-10 sm:gap-5 sm:scroll-px-8 sm:px-8 lg:px-[max(2.5rem,calc((100vw-1280px)/2+2.5rem))]">
-              {screenshots.map((src, index) => (
+              {images.map((image, index) => (
                 <button
-                  key={`${src}-${index}`}
+                  key={`${image.src}-${index}`}
                   type="button"
                   onClick={() => openLightbox(index)}
-                  aria-label={`Open ${project.title} screenshot ${index + 1}`}
+                  aria-label={`Open ${image.alt}`}
                   className="relative aspect-[9/19.5] w-[180px] shrink-0 snap-center cursor-zoom-in overflow-hidden rounded-[18px] border border-[var(--line-18)] bg-[var(--surface-bg)] p-0 sm:w-[230px]"
                 >
                   <Image
-                    src={src}
-                    alt={`${project.title} screenshot ${index + 1}`}
+                    src={image.src}
+                    alt={image.alt}
                     fill
                     className="object-cover object-top transition-transform duration-300 hover:scale-[1.015]"
                     sizes="230px"
@@ -406,13 +406,13 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
       />
 
       <AnimatePresence>
-        {lightboxIndex !== null && screenshots[lightboxIndex] && (
+        {lightboxIndex !== null && images[lightboxIndex] && (
           <motion.div
             ref={lightboxRef}
             className="fixed inset-0 z-[80] flex items-center justify-center bg-black/92 p-5"
             role="dialog"
             aria-modal="true"
-            aria-label={`${project.title} screenshot viewer`}
+            aria-label={`${project.title} media viewer`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -422,17 +422,17 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
               ref={closeButtonRef}
               type="button"
               onClick={closeLightbox}
-              aria-label="Close screenshot viewer"
+              aria-label="Close media viewer"
               className="absolute right-5 top-5 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-black text-xl text-white"
             >
               ×
             </button>
-            {screenshots.length > 1 && (
+            {images.length > 1 && (
               <>
                 <button
                   type="button"
                   onClick={goPrevious}
-                  aria-label="Previous screenshot"
+                  aria-label="Previous image"
                   className="absolute left-3 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-black text-white md:left-7"
                 >
                   ←
@@ -440,7 +440,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 <button
                   type="button"
                   onClick={goNext}
-                  aria-label="Next screenshot"
+                  aria-label="Next image"
                   className="absolute right-3 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-black text-white md:right-7"
                 >
                   →
@@ -449,8 +449,8 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
             )}
             <div className="relative h-[85vh] w-[min(88vw,440px)]">
               <Image
-                src={screenshots[lightboxIndex]}
-                alt={`${project.title} screenshot ${lightboxIndex + 1}`}
+                src={images[lightboxIndex].src}
+                alt={images[lightboxIndex].alt}
                 fill
                 className="rounded-[1.5rem] object-contain"
                 sizes="(max-width: 768px) 88vw, 440px"
@@ -458,7 +458,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
               />
             </div>
             <span className="absolute bottom-5 font-mono text-xs text-white/70">
-              {lightboxIndex + 1} / {screenshots.length}
+              {lightboxIndex + 1} / {images.length}
             </span>
           </motion.div>
         )}

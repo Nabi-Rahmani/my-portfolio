@@ -1,6 +1,14 @@
 /**
  * Honest link helpers — primary CTAs must never navigate to dead targets.
+ * Project media selectors stay generic (no slug branches).
  */
+
+import type {
+  Project,
+  ProjectImageMedia,
+  ProjectMedia,
+  ProjectVideoMedia,
+} from '@/types/project';
 
 /**
  * True when a store / external download URL is safe to use as a primary link.
@@ -46,8 +54,35 @@ export function getValidProjectGithubUrl(
   }
 }
 
-/** Non-empty screenshot paths for galleries (skips blanks / broken entries). */
-export function getProjectScreenshots(screenshots: string[] | undefined): string[] {
-  if (!screenshots?.length) return [];
-  return screenshots.filter((src) => typeof src === 'string' && src.trim().length > 0);
+function hasNonEmptySrc(src: string | undefined): src is string {
+  return typeof src === 'string' && src.trim().length > 0;
+}
+
+/** Image entries from ordered project media (skips blanks / non-image kinds). */
+export function getProjectImages(
+  media: ProjectMedia[] | undefined,
+): ProjectImageMedia[] {
+  if (!media?.length) return [];
+  return media.filter(
+    (item): item is ProjectImageMedia =>
+      item.type === 'image' && hasNonEmptySrc(item.src),
+  );
+}
+
+/** First still — default card, list, and cover-art source. */
+export function getProjectLeadImage(
+  project: Pick<Project, 'media'>,
+): ProjectImageMedia | undefined {
+  return getProjectImages(project.media)[0];
+}
+
+/** First video entry (demo), when present. */
+export function getProjectDemo(
+  media: ProjectMedia[] | undefined,
+): ProjectVideoMedia | undefined {
+  if (!media?.length) return undefined;
+  return media.find(
+    (item): item is ProjectVideoMedia =>
+      item.type === 'video' && hasNonEmptySrc(item.src),
+  );
 }

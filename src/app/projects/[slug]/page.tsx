@@ -25,12 +25,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
             description: project.subtitle,
             url: `https://codewithnabi.dev/projects/${project.slug}`,
             type: 'website',
-            images: [{ url: project.coverImage }],
+            images: [{ url: project.coverImage, width: 1200, height: 630, alt: project.title }],
         },
         twitter: {
             card: 'summary_large_image',
             title: project.title,
             description: project.subtitle,
+            images: [project.coverImage],
         },
     };
 }
