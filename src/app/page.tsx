@@ -314,29 +314,57 @@ export default function Home() {
               </div>
               <div className="mt-6 flex items-center justify-between gap-4">
                 <Link href="/blog" className="text-sm font-semibold text-[var(--accent)] no-underline">
-                  All {getArticleCount()} articles →
+                  All {getArticleCount()} articles
+                  <span aria-hidden className="ms-1">
+                    →
+                  </span>
                 </Link>
-                <Link href="/feed.xml" className="font-mono text-xs uppercase tracking-[0.08em] text-[var(--text-faint)] no-underline">
-                  RSS ↗
+                <Link
+                  href="/feed.xml"
+                  className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-[0.08em] text-[var(--text-faint)] no-underline transition-colors hover:text-[var(--text-strong)]"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="h-3.5 w-3.5"
+                    fill="currentColor"
+                    aria-hidden
+                  >
+                    <path d="M5 3a1 1 0 0 0 0 2c7.18 0 13 5.82 13 13a1 1 0 1 0 2 0C20 9.716 13.284 3 5 3ZM5 8a1 1 0 0 0 0 2 8 8 0 0 1 8 8 1 1 0 1 0 2 0A10 10 0 0 0 5 8Zm1 8a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" />
+                  </svg>
+                  RSS
                 </Link>
               </div>
             </ScrollReveal>
           </div>
         </section>
 
-        <section className="bg-[var(--accent-soft)]">
-          <div className="site-container flex flex-col gap-6 py-10 sm:gap-7 sm:py-16 lg:flex-row lg:items-end lg:justify-between lg:gap-12 lg:py-20">
+        <section className="border-t border-[var(--line-16)] bg-[var(--accent-soft)]">
+          <div className="site-container flex flex-col gap-6 py-12 sm:gap-8 sm:py-16 lg:flex-row lg:items-end lg:justify-between lg:gap-12 lg:py-20">
             <ScrollReveal>
               <p className="eyebrow">Available for remote roles</p>
-              <h2 className="display-section mt-4 max-w-[12ch]">Let&apos;s build something dependable.</h2>
-              <p className="mt-5 max-w-[54ch] text-sm leading-7 text-[var(--text-muted)]">
+              <h2 className="display-section mt-4 max-w-[12ch]">
+                Let&apos;s build something dependable.
+              </h2>
+              <p className="mt-4 max-w-[54ch] text-sm leading-7 text-[var(--text-muted)] sm:mt-5">
                 Looking for a Flutter engineer who cares about the product before and after launch?
               </p>
             </ScrollReveal>
-            <ScrollReveal delay={40}>
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <a href={contactMailto({ subject: 'Flutter role inquiry' })} className="button-primary w-full sm:w-auto">Email Nabi</a>
-                <a href={linkedInUrl} target="_blank" rel="noopener noreferrer" className="button-secondary w-full sm:w-auto">LinkedIn ↗</a>
+            <ScrollReveal delay={40} className="w-full lg:w-auto">
+              <div className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end">
+                <a
+                  href={contactMailto({ subject: 'Flutter role inquiry' })}
+                  className="button-primary w-full sm:w-auto"
+                >
+                  Email Nabi
+                </a>
+                <a
+                  href={linkedInUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button-secondary w-full sm:w-auto"
+                >
+                  LinkedIn
+                </a>
               </div>
             </ScrollReveal>
           </div>
