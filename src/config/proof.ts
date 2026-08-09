@@ -8,9 +8,9 @@ export interface AppProof {
 }
 
 const appProofSlugs = [
+  'mihrab-by-raha',
   'focus-flow',
   'dev-discipline',
-  'mihrab-by-raha',
 ] as const;
 
 export type AppProofSlug = (typeof appProofSlugs)[number];
