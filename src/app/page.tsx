@@ -184,7 +184,7 @@ export default function Home() {
     <div className="min-h-screen bg-[var(--page-bg)] pt-[72px] text-[var(--text-strong)]">
       <main>
         <section id="home" className="scroll-mt-[72px] border-b border-[var(--line-16)]">
-          <div className="site-container grid gap-10 py-12 sm:py-16 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:gap-14 lg:py-20">
+          <div className="site-container grid gap-8 py-10 sm:gap-10 sm:py-16 lg:grid-cols-[1.08fr_0.92fr] lg:items-center lg:gap-14 lg:py-20">
             <ScrollReveal>
               <div className="flex items-start gap-2 font-mono text-xs uppercase leading-5 tracking-[0.11em] text-[var(--text-faint)] sm:items-center sm:tracking-[0.13em]">
                 <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--status-ok)] sm:mt-0" aria-hidden />
@@ -233,9 +233,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="work" className="site-container py-14 sm:py-20 lg:py-24">
+        <section id="work" className="site-container py-10 sm:py-20 lg:py-24">
           <ScrollReveal>
-            <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+            <div className="grid gap-4 sm:gap-5 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
               <div>
                 <p className="eyebrow">Selected work</p>
                 <h2 className="display-section mt-4 max-w-[10ch]">Work that shipped.</h2>
@@ -245,7 +245,7 @@ export default function Home() {
               </p>
             </div>
           </ScrollReveal>
-          <div className="mt-8 grid gap-5 md:grid-cols-2 lg:mt-10 lg:grid-cols-3">
+          <div className="mt-6 grid gap-4 sm:mt-8 sm:gap-5 md:grid-cols-2 lg:mt-10 lg:grid-cols-3">
             {projects.map((project, index) => (
               <ScrollReveal key={project.slug} delay={index * 40} className="h-full">
                 <WorkCard project={project} index={index} />
@@ -260,7 +260,7 @@ export default function Home() {
         </section>
 
         <section className="border-y border-[var(--line-16)] bg-[var(--surface-bg)]">
-          <div className="site-container grid gap-8 py-14 sm:py-20 lg:grid-cols-[0.72fr_1.28fr] lg:gap-14 lg:py-24">
+          <div className="site-container grid gap-6 py-10 sm:gap-8 sm:py-20 lg:grid-cols-[0.72fr_1.28fr] lg:gap-14 lg:py-24">
             <ScrollReveal>
               <p className="eyebrow">Writing</p>
               <h2 className="display-section mt-4 max-w-[8ch]">Notes from the work.</h2>
@@ -303,7 +303,7 @@ export default function Home() {
         </section>
 
         <section className="bg-[var(--accent-soft)]">
-          <div className="site-container flex flex-col gap-7 py-14 sm:py-16 lg:flex-row lg:items-end lg:justify-between lg:gap-12 lg:py-20">
+          <div className="site-container flex flex-col gap-6 py-10 sm:gap-7 sm:py-16 lg:flex-row lg:items-end lg:justify-between lg:gap-12 lg:py-20">
             <ScrollReveal>
               <p className="eyebrow">Available for remote roles</p>
               <h2 className="display-section mt-4 max-w-[12ch]">Let&apos;s build something dependable.</h2>

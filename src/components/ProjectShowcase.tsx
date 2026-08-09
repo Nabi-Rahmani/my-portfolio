@@ -76,7 +76,7 @@ export default function ProjectShowcase({
   ).slice(0, 3);
 
   return (
-    <article className="grid items-center gap-8 border-t border-[var(--line-16)] py-12 sm:gap-10 sm:py-18 lg:grid-cols-2 lg:gap-14 lg:py-24">
+    <article className="grid items-center gap-6 border-t border-[var(--line-16)] py-10 sm:gap-10 sm:py-18 lg:grid-cols-2 lg:gap-14 lg:py-24">
       <div
         className={`rounded-[var(--radius-card)] border border-[var(--line-16)] bg-[var(--panel-bg)] p-3 sm:p-5 lg:p-6 ${visualOrder}`}
       >

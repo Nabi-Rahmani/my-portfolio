@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Menu, Moon, Sun, X } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from 'react';
 
 import { primaryNav, type NavItem } from '@/config/navigation';
@@ -11,11 +11,20 @@ import { contactMailto, siteConfig } from '@/config/site';
 import { revealEase, selectTransition } from '@/lib/animations';
 import { cn } from '@/lib/utils';
 
+function scrollDocumentTop(behavior: ScrollBehavior) {
+  window.scrollTo({ top: 0, left: 0, behavior });
+  // iOS Safari can keep the previous page's offset on soft navigations.
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+}
+
 export default function Navigation() {
   const pathname = usePathname();
+  const router = useRouter();
   const reduceMotion = useReducedMotion();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
+  const pendingHomeScroll = useRef(false);
   const [isDark, setIsDark] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -23,7 +32,20 @@ export default function Navigation() {
     setIsDark(document.documentElement.classList.contains('dark'));
   }, []);
 
-  useEffect(() => setDrawerOpen(false), [pathname]);
+  useEffect(() => {
+    setDrawerOpen(false);
+    // Always restore scroll locking when the route changes (drawer may have been open).
+    document.body.style.overflow = '';
+  }, [pathname]);
+
+  useEffect(() => {
+    if (pathname !== '/' || !pendingHomeScroll.current) return;
+    pendingHomeScroll.current = false;
+    scrollDocumentTop('auto');
+    // One more frame after paint — mobile WebKit often restores scroll late.
+    const id = window.requestAnimationFrame(() => scrollDocumentTop('auto'));
+    return () => window.cancelAnimationFrame(id);
+  }, [pathname]);
 
   useEffect(() => {
     if (!drawerOpen) return;
@@ -78,20 +100,26 @@ export default function Navigation() {
 
   const handleBrandClick = useCallback(
     (event: MouseEvent<HTMLAnchorElement>) => {
-      // Already on home: scroll to top of the hero instead of re-navigating.
+      event.preventDefault();
+      setDrawerOpen(false);
+      document.body.style.overflow = '';
+
+      const behavior: ScrollBehavior = reduceMotion ? 'auto' : 'smooth';
+
+      // Already home — jump to the top without a soft-nav hash hop.
       if (pathname === '/') {
-        event.preventDefault();
-        document.getElementById('home')?.scrollIntoView({
-          behavior: reduceMotion ? 'auto' : 'smooth',
-          block: 'start',
-        });
-        if (typeof window !== 'undefined' && window.location.hash) {
+        if (window.location.hash) {
           window.history.replaceState(null, '', '/');
         }
+        scrollDocumentTop(behavior);
+        return;
       }
-      // From any other route, Link href="/" performs a normal home navigation.
+
+      // From Work / Writing / About / etc.: go home and land at the top.
+      pendingHomeScroll.current = true;
+      router.push('/');
     },
-    [pathname, reduceMotion],
+    [pathname, reduceMotion, router],
   );
 
   const isActive = (item: NavItem) => {
@@ -118,6 +146,7 @@ export default function Navigation() {
         >
           <Link
             href="/"
+            scroll
             onClick={handleBrandClick}
             aria-label={`${siteConfig.brandName} home`}
             className="group inline-flex min-h-11 items-center justify-self-start no-underline"
@@ -218,7 +247,7 @@ export default function Navigation() {
                 </button>
               </div>
 
-              <div className="mt-12 flex flex-col sm:mt-16">
+              <div className="mt-8 flex flex-col">
                 {primaryNav.map((item, index) => (
                   <motion.div
                     key={item.id}
@@ -233,7 +262,7 @@ export default function Navigation() {
                       href={item.href}
                       onClick={() => setDrawerOpen(false)}
                       aria-current={isActive(item) ? 'page' : undefined}
-                      className="flex min-h-16 items-center justify-between border-b border-[var(--line-16)] py-4 text-[1.55rem] font-semibold tracking-[-0.035em] text-[var(--text-strong)] no-underline sm:py-5 sm:text-[1.7rem]"
+                      className="flex min-h-12 items-center justify-between border-b border-[var(--line-16)] py-3.5 text-[1.35rem] font-semibold tracking-[-0.035em] text-[var(--text-strong)] no-underline sm:min-h-14 sm:py-4 sm:text-[1.55rem]"
                     >
                       {item.label}
                       <span className="font-mono text-[0.75rem] text-[var(--text-faint)]">
@@ -244,7 +273,7 @@ export default function Navigation() {
                 ))}
               </div>
 
-              <div className="mt-auto space-y-4">
+              <div className="mt-8 space-y-3 sm:mt-10">
                 <a
                   href={contactMailto({ subject: 'Flutter role inquiry' })}
                   className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-5 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
