@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 
-import { fadeUpMotion, revealStagger } from '@/lib/animations';
+import { revealDistance, revealDuration, revealEase } from '@/lib/animations';
 
 interface ScrollRevealProps {
   children: ReactNode;
@@ -13,41 +13,48 @@ interface ScrollRevealProps {
 }
 
 /**
- * Subtle enter animation that must never leave large invisible layout holes.
- * Soft client navigations (brand → home) and mobile scroll can miss IO ticks,
- * so we force-visible quickly and expand the intersection root downward.
+ * Progressive-enhancement scroll settle.
+ *
+ * Never paints `opacity: 0` into SSR HTML. The live homepage previously shipped
+ * with Framer `initial="hidden"` styles, so first open looked blank until JS
+ * hydrated — while client navigations to About/Work (no ScrollReveal) looked fine.
+ *
+ * Opacity is always 1. After hydration, below-fold blocks may ease up slightly
+ * when they enter the viewport; content remains readable even if JS is slow.
  */
 export default function ScrollReveal({ children, delay = 0, className }: ScrollRevealProps) {
   const shouldReduceMotion = useReducedMotion();
-  const reveal = fadeUpMotion(shouldReduceMotion);
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, {
-    once: true,
-    amount: 0.01,
-    // Reveal before the block is fully on screen so mobile scroll doesn't show empty gaps.
-    margin: '0px 0px 35% 0px',
-  });
-  const [forceVisible, setForceVisible] = useState(false);
+  const isInView = useInView(ref, { once: true, amount: 0.15 });
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Failsafe: never stay opacity-0 after a soft navigation / IO race.
-    const timer = window.setTimeout(() => setForceVisible(true), 120);
-    return () => window.clearTimeout(timer);
+    setMounted(true);
   }, []);
 
-  if (shouldReduceMotion) {
-    return <div className={className}>{children}</div>;
+  // SSR + first paint + reduced motion: plain visible DOM (no Framer styles).
+  if (!mounted || shouldReduceMotion) {
+    return (
+      <div ref={ref} className={className}>
+        {children}
+      </div>
+    );
   }
-
-  const show = isInView || forceVisible;
 
   return (
     <motion.div
       ref={ref}
-      initial="hidden"
-      animate={show ? 'visible' : 'hidden'}
-      variants={reveal}
-      custom={delay / revealStagger}
+      // initial={false} + opacity always 1 → no invisible first paint after mount
+      initial={false}
+      animate={{
+        opacity: 1,
+        y: isInView ? 0 : revealDistance,
+      }}
+      transition={{
+        duration: revealDuration,
+        delay: delay / 1000,
+        ease: revealEase,
+      }}
       className={className}
     >
       {children}
