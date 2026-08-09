@@ -14,11 +14,6 @@ interface ProjectAppIconProps {
   priority?: boolean;
 }
 
-/**
- * App-store style plate for adaptive-icon *foreground* assets.
- * Those PNGs are mostly transparent padding (~15% glyph fill), so raw
- * Image tags look tiny and can fail color-contrast on cream/ink surfaces.
- */
 const sizeConfig: Record<
   IconSize,
   { box: string; rounded: string; px: number }
@@ -35,50 +30,28 @@ export default function ProjectAppIcon({
   className,
   priority = false,
 }: ProjectAppIconProps) {
-  const lightSrc = iconLight ?? iconDark;
-  const darkSrc = iconDark ?? iconLight;
-  if (!lightSrc && !darkSrc) return null;
+  const src = iconLight ?? iconDark;
+  if (!src) return null;
 
   const { box, rounded, px } = sizeConfig[size];
-  const sameAsset = lightSrc === darkSrc;
 
   return (
     <div
       className={cn(
-        'relative shrink-0 overflow-hidden border border-[var(--line)]',
-        // Solid plates so dark/light glyphs always clear WCAG contrast
-        // Light: white plate + dark glyph; Dark: deep plate + light/gold glyph
-        'bg-white dark:bg-[var(--cream-2)]',
+        'relative shrink-0 overflow-hidden',
         box,
         rounded,
         className,
       )}
     >
-      {lightSrc && (
-        <Image
-          src={lightSrc}
-          alt={`${title} app icon`}
-          width={px}
-          height={px}
-          priority={priority}
-          className={cn(
-            'absolute inset-0 h-full w-full object-contain',
-            // Zoom adaptive-icon safe-zone padding so the mark fills the plate
-            'scale-[2.05]',
-            sameAsset ? undefined : 'dark:hidden',
-          )}
-        />
-      )}
-      {!sameAsset && darkSrc && (
-        <Image
-          src={darkSrc}
-          alt={`${title} app icon`}
-          width={px}
-          height={px}
-          priority={priority}
-          className="absolute inset-0 hidden h-full w-full scale-[2.05] object-contain dark:block"
-        />
-      )}
+      <Image
+        src={src}
+        alt={`${title} app icon`}
+        width={px}
+        height={px}
+        priority={priority}
+        className="absolute inset-0 h-full w-full object-contain"
+      />
     </div>
   );
 }

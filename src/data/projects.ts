@@ -9,8 +9,8 @@ export const projects: Project[] = [
         description:
             'Focus Flow is a beautifully crafted focus timer app designed to help you build deep focus habits. It features ambient sounds, customizable session modes, guided breathing exercises, and detailed analytics — all wrapped in a calming, minimal UI that keeps distractions away and lets you concentrate on what matters.',
         coverImage: '/assets/projects/focus-flow/project-cover/focusflow_hero_1920x1080.png',
-        iconLight: '/assets/projects/focus-flow/icons/icon-dark.png',
-        iconDark: '/assets/projects/focus-flow/icons/icon-light.png',
+        iconLight: '/assets/projects/focus-flow/app-icon.png',
+        iconDark: '/assets/projects/focus-flow/app-icon.png',
         heroImage: '/assets/projects/focus-flow/Main-image/header.png',
         screenshots: [
             '/assets/projects/focus-flow/screenshots/01.png',
@@ -234,8 +234,8 @@ export const projects: Project[] = [
         description:
             'Dev Discipline is a discipline-focused productivity app that helps you stay consistent, build powerful habits, and track your progress with a clean, motivating UI. Featuring structured daily plans, habit tracking, deep progress insights, streak building, and journaling — everything you need to stay accountable and on track every single day.',
         coverImage: '/assets/projects/dev-discipline/project-cover/devdiscipline-cover.png',
-        iconLight: '/assets/projects/dev-discipline/icons/android-icon-foreground-dark.png',
-        iconDark: '/assets/projects/dev-discipline/icons/android-icon-foreground-light.png',
+        iconLight: '/assets/projects/dev-discipline/app-icon.png',
+        iconDark: '/assets/projects/dev-discipline/app-icon.png',
         heroImage: '/assets/projects/dev-discipline/Main-image/header.png',
         screenshots: [
             '/assets/projects/dev-discipline/screenshots/devdiscipline_01.png',
@@ -417,8 +417,8 @@ export const projects: Project[] = [
         description:
             'Raha is a thoughtfully designed Islamic lifestyle app to support your daily spiritual routine. From accurate prayer times and Quran reading to dhikr, Islamic calendar guidance, and a curated library, it brings your essentials into one calm, focused experience.',
         coverImage: '/assets/projects/mihrab-by-raha/project-cover/cover_mihrab_by_raha.png',
-        iconLight: '/assets/projects/mihrab-by-raha/icon/icon-android-foreground-1024.png',
-        iconDark: '/assets/projects/mihrab-by-raha/icon/icon-android-foreground-1024.png',
+        iconLight: '/assets/projects/mihrab-by-raha/app-icon.png',
+        iconDark: '/assets/projects/mihrab-by-raha/app-icon.png',
         heroImage: '/assets/projects/mihrab-by-raha/main-image/Raha%20Mihrab.png',
         screenshots: [
             '/assets/projects/mihrab-by-raha/screenshots/01_prayer_times.png',
