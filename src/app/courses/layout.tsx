@@ -1,9 +1,13 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+
+import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = {
   title: 'Courses',
   description:
     'Flutter courses from Muhammad Nabi Rahmani — production patterns, architecture, and shipping real apps.',
+  alternates: { canonical: '/courses' },
   openGraph: {
     title: 'Courses — Muhammad Nabi Rahmani',
     description:
@@ -18,5 +22,7 @@ export default function CoursesLayout({
 }: {
   children: React.ReactNode;
 }) {
+  if (!siteConfig.learningEnabled) notFound();
+
   return <>{children}</>;
 }

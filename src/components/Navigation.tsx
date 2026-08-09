@@ -15,6 +15,7 @@ export default function Navigation() {
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
   const [isDark, setIsDark] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -32,14 +33,33 @@ export default function Navigation() {
     document.body.style.overflow = 'hidden';
     closeButtonRef.current?.focus();
 
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setDrawerOpen(false);
+    const handleDrawerKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setDrawerOpen(false);
+        return;
+      }
+
+      if (event.key !== 'Tab') return;
+      const focusable = drawerRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (!focusable?.length) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
 
-    window.addEventListener('keydown', closeOnEscape);
+    window.addEventListener('keydown', handleDrawerKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', closeOnEscape);
+      window.removeEventListener('keydown', handleDrawerKeyDown);
       previouslyFocused?.focus();
     };
   }, [drawerOpen]);
@@ -56,9 +76,19 @@ export default function Navigation() {
     }
   }, []);
 
+  const handleBrandClick = useCallback(() => {
+    if (pathname !== '/') return;
+
+    document.getElementById('home')?.scrollIntoView({
+      behavior: reduceMotion ? 'auto' : 'smooth',
+      block: 'start',
+    });
+  }, [pathname, reduceMotion]);
+
   const isActive = (item: NavItem) => {
     if (item.id === 'projects') return pathname.startsWith('/projects');
     if (item.id === 'articles') return pathname.startsWith('/blog');
+    if (item.id === 'learn') return pathname.startsWith('/courses');
     return pathname.startsWith('/about');
   };
 
@@ -74,69 +104,65 @@ export default function Navigation() {
     <>
       <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--line-16)] bg-[var(--header-bg)] backdrop-blur-xl">
         <nav
-          className="mx-auto flex h-[72px] w-full max-w-[1280px] items-center justify-between px-4 sm:px-8 lg:px-10"
+          className="flex h-[72px] w-full items-center justify-between px-4 sm:px-6 lg:px-8"
           aria-label="Primary"
         >
-          <Link href="/" className="group flex items-center gap-3 no-underline">
-            <span
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--text-strong)] font-mono text-xs font-semibold tracking-[-0.03em] text-[var(--page-bg)] transition-transform duration-200 group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-              aria-hidden
-            >
-              NR
-            </span>
-            <span className="flex flex-col">
-              <span className="text-[0.85rem] font-semibold tracking-[-0.01em] text-[var(--text-strong)]">
-                {siteConfig.shortName}
-              </span>
-              <span className="hidden font-mono text-xs uppercase tracking-[0.11em] text-[var(--text-faint)] sm:block">
-                {siteConfig.role}
-              </span>
+          <Link
+            href="/#home"
+            onClick={handleBrandClick}
+            aria-label={`${siteConfig.brandName} home`}
+            className="group inline-flex min-h-11 items-center justify-self-start no-underline"
+          >
+            <span className="text-[1.08rem] font-semibold leading-none tracking-[-0.055em] text-[var(--text-strong)] transition-opacity duration-150 group-hover:opacity-65 sm:text-[1.14rem]">
+              codewith<span className="font-extrabold">nabi</span>
             </span>
           </Link>
 
-          <div className="hidden items-center gap-7 md:flex">
-            {primaryNav.map((item) => (
-              <Link
-                key={item.id}
-                href={item.href}
-                aria-current={isActive(item) ? 'page' : undefined}
-                className={navLinkClass(item)}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
+          <div className="flex items-center gap-7 lg:gap-10">
+            <div className="hidden items-center gap-6 md:flex lg:gap-8">
+              {primaryNav.map((item) => (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  aria-current={isActive(item) ? 'page' : undefined}
+                  className={navLinkClass(item)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
 
-          <div className="flex items-center gap-2.5">
-            <a
-              href={contactMailto({ subject: 'Flutter role inquiry' })}
-              className="hidden h-11 items-center rounded-full bg-[var(--text-strong)] px-5 text-sm font-semibold text-[var(--page-bg)] no-underline transition-transform duration-150 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:inline-flex"
-            >
-              Email me
-            </a>
-            <button
-              type="button"
-              onClick={toggleTheme}
-              aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] text-[var(--text-strong)] transition-colors duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none"
-            >
-              <span className="transition-transform duration-200 group-hover:rotate-12 motion-reduce:transition-none motion-reduce:group-hover:rotate-0">
-                {isDark ? (
-                  <Sun size={18} strokeWidth={1.8} aria-hidden />
-                ) : (
-                  <Moon size={18} strokeWidth={1.8} aria-hidden />
-                )}
-              </span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setDrawerOpen(true)}
-              aria-label="Open menu"
-              aria-expanded={drawerOpen}
-              className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] text-[var(--text-strong)] transition-colors duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none md:hidden"
-            >
-              <Menu size={19} strokeWidth={1.8} aria-hidden />
-            </button>
+            <div className="flex items-center gap-2.5">
+              <a
+                href={contactMailto({ subject: 'Flutter role inquiry' })}
+                className="hidden min-h-11 items-center text-[0.82rem] font-medium text-[var(--text-muted)] no-underline transition-colors duration-150 hover:text-[var(--text-strong)] sm:inline-flex"
+              >
+                Contact
+              </a>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+                className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] text-[var(--text-strong)] transition-colors duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none"
+              >
+                <span className="transition-transform duration-200 group-hover:rotate-12 motion-reduce:transition-none motion-reduce:group-hover:rotate-0">
+                  {isDark ? (
+                    <Sun size={18} strokeWidth={1.8} aria-hidden />
+                  ) : (
+                    <Moon size={18} strokeWidth={1.8} aria-hidden />
+                  )}
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setDrawerOpen(true)}
+                aria-label="Open menu"
+                aria-expanded={drawerOpen}
+                className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] text-[var(--text-strong)] transition-colors duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none md:hidden"
+              >
+                <Menu size={19} strokeWidth={1.8} aria-hidden />
+              </button>
+            </div>
           </div>
         </nav>
       </header>
@@ -155,6 +181,7 @@ export default function Navigation() {
               onClick={() => setDrawerOpen(false)}
             />
             <motion.div
+              ref={drawerRef}
               role="dialog"
               aria-modal="true"
               aria-label="Site menu"

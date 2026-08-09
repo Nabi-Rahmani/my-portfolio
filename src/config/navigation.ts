@@ -1,4 +1,6 @@
-export type NavId = 'projects' | 'articles' | 'about';
+import { siteConfig } from '@/config/site';
+
+export type NavId = 'projects' | 'articles' | 'learn' | 'about';
 
 export interface NavItem {
   id: NavId;
@@ -11,6 +13,9 @@ export interface NavItem {
 export const primaryNav: NavItem[] = [
   { id: 'projects', label: 'Work', href: '/projects' },
   { id: 'articles', label: 'Writing', href: '/blog' },
+  ...(siteConfig.learningEnabled
+    ? [{ id: 'learn' as const, label: 'Learn', href: '/courses' }]
+    : []),
   { id: 'about', label: 'About', href: '/about' },
 ];
 
@@ -18,7 +23,7 @@ export const footerNav: { label: string; href: string }[] = [
   { label: 'Projects', href: '/projects' },
   { label: 'Articles', href: '/blog' },
   { label: 'About', href: '/about' },
-  { label: 'Courses', href: '/courses' },
+  ...(siteConfig.learningEnabled ? [{ label: 'Courses', href: '/courses' }] : []),
   { label: 'Now', href: '/now' },
   { label: 'Uses', href: '/uses' },
 ];
@@ -40,27 +45,12 @@ export const socialLinks: {
   },
 ];
 
-declare global {
-  interface Window {
-    __lenis?: {
-      scrollTo: (
-        target: HTMLElement | string | number,
-        options?: { offset?: number; immediate?: boolean },
-      ) => void;
-    };
-  }
-}
-
 export function scrollToHash(hash: string, reduceMotion?: boolean | null): boolean {
   if (typeof window === 'undefined' || !hash) return false;
   const target = document.querySelector(hash) as HTMLElement | null;
   if (!target) return false;
 
-  if (window.__lenis) {
-    window.__lenis.scrollTo(target, { offset: -80, immediate: !!reduceMotion });
-  } else {
-    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
-  }
+  target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
 
   if (window.location.hash !== hash) window.history.pushState(null, '', hash);
   return true;

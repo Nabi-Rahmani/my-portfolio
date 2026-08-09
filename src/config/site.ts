@@ -3,41 +3,23 @@
  * CTA surfaces read from this seam — never invent metrics or dead primary links.
  */
 export const siteConfig = {
+  siteUrl: 'https://codewithnabi.dev',
+  brandName: 'codewithnabi',
   name: 'Muhammad Nabi Rahmani',
   shortName: 'Nabi Rahmani',
   role: 'Flutter product engineer',
+  tagline: 'Dependable Flutter products and practical notes from shipping them.',
+  learningEnabled: false,
   experienceLabel: '3+ years',
   location: 'Ankara, Turkey',
   timezone: 'GMT+3',
   availability: 'Available for remote Flutter roles',
   contactEmail: 'codewithnabi@gmail.com',
   portraitPath: '/assets/branding/nabi-night.jpg',
-  cvPath: '/Nabi-Rahmani-Flutter-Developer-CV.pdf', // file placed in /public
-  cvAvailable: false, // flip to true once the PDF is added
-  calendlyUrl: '', // e.g. 'https://cal.com/nabirahmani/15min'; empty hides the CTA
-  subscribeUrl: '', // e.g. 'https://codewithnabi.dev/newsletter'; empty hides the CTA
-  web3formsAccessKey: process.env.NEXT_PUBLIC_WEB3FORMS_KEY ?? '',
 } as const;
 
-/** True when a Web3Forms access key is configured (form may render). */
-export function hasWeb3FormsKey(): boolean {
-  return siteConfig.web3formsAccessKey.trim().length > 0;
-}
-
-/** True when a booking URL is configured. */
-export function hasCalendly(): boolean {
-  return siteConfig.calendlyUrl.trim().length > 0;
-}
-
-/** True when a newsletter subscription URL is configured. */
-export function hasSubscribe(): boolean {
-  return siteConfig.subscribeUrl.trim().length > 0;
-}
-
-/** True when the CV download CTA may render (file intended to exist). */
-export function hasCv(): boolean {
-  // Read via boolean cast so flipping cvAvailable remains type-safe under `as const`.
-  return Boolean(siteConfig.cvAvailable);
+export function absoluteUrl(path = '/'): string {
+  return new URL(path, siteConfig.siteUrl).toString();
 }
 
 /** mailto: href for direct email; optional subject/body for fallbacks. */

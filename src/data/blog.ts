@@ -1,4 +1,4 @@
-import { BlogPost, BlogCategory } from '@/types/blog';
+import type { BlogCategory, BlogPost, BlogPostSummary } from '@/types/blog';
 
 export const blogPosts: BlogPost[] = [
     {
@@ -4496,6 +4496,28 @@ export const blogCategories: BlogCategory[] = [
 // Helper functions
 export const getBlogPostCount = (): number => {
     return blogPosts.length;
+};
+
+const toBlogPostSummary = (post: BlogPost): BlogPostSummary => ({
+    id: post.id,
+    title: post.title,
+    slug: post.slug,
+    excerpt: post.excerpt,
+    publishedAt: post.publishedAt,
+    updatedAt: post.updatedAt,
+    readingTime: post.readingTime,
+    category: post.category,
+    tags: post.tags,
+    featured: post.featured,
+    coverImage: post.coverImage,
+});
+
+export const getBlogPostSummaries = (): BlogPostSummary[] => {
+    return blogPosts.map(toBlogPostSummary);
+};
+
+export const getRelatedPostSummaries = (postId: string, limit: number = 3): BlogPostSummary[] => {
+    return getRelatedPosts(postId, limit).map(toBlogPostSummary);
 };
 
 export const getFeaturedPosts = (): BlogPost[] => {

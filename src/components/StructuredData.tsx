@@ -1,68 +1,40 @@
+import { socialLinks } from '@/config/navigation';
+import { absoluteUrl, siteConfig } from '@/config/site';
+
 export default function StructuredData() {
-    const personData = {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Muhammad Nabi Rahmani",
-        "alternateName": "codewithnabi",
-        "url": "https://codewithnabi.dev",
-        "image": [
-            "https://codewithnabi.dev/assets/branding/profile.jpg",
-            "https://codewithnabi.dev/assets/branding/youtube-logo.png"
-        ],
-        "logo": "https://codewithnabi.dev/assets/branding/youtube-logo.png",
-        "jobTitle": "Flutter Developer",
-        "description": "Flutter Developer crafting beautiful mobile experiences with clean code and intuitive design",
-        "email": "codewithnabi@gmail.com",
-        "sameAs": [
-            "https://github.com/Nabi-Rahmani",
-            "https://www.linkedin.com/in/muhammad-nabi-rahmani-%F0%9F%87%B5%F0%9F%87%B8-8945b21ba/",
-            "https://x.com/nabirahmani_dev"
-        ],
-        "knowsAbout": [
-            "Flutter Development",
-            "Dart Programming",
-            "Mobile App Development",
-            "Firebase",
-            "UI/UX Design",
-            "Cross-platform Development"
-        ],
-        "hasOccupation": {
-            "@type": "Occupation",
-            "name": "Flutter Developer",
-            "description": "Mobile application developer specializing in Flutter framework"
-        }
-    };
+  const personData = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: siteConfig.name,
+    alternateName: 'codewithnabi',
+    url: siteConfig.siteUrl,
+    image: absoluteUrl(siteConfig.portraitPath),
+    jobTitle: siteConfig.role,
+    description: siteConfig.tagline,
+    email: siteConfig.contactEmail,
+    sameAs: socialLinks.map((link) => link.href),
+    knowsAbout: [
+      'Flutter',
+      'Dart',
+      'Riverpod',
+      'Offline-first mobile applications',
+      'Mobile application delivery',
+    ],
+  };
 
-    const brandData = {
-        "@context": "https://schema.org",
-        "@type": "Brand",
-        "name": "codewithnabi",
-        "alternateName": "Muhammad Nabi Rahmani",
-        "url": "https://codewithnabi.dev",
-        "logo": "https://codewithnabi.dev/assets/branding/youtube-logo.png",
-        "image": "https://codewithnabi.dev/assets/branding/youtube-logo.png",
-        "description": "Personal brand of Muhammad Nabi Rahmani, Flutter Developer",
-        "sameAs": [
-            "https://github.com/Nabi-Rahmani",
-            "https://www.linkedin.com/in/muhammad-nabi-rahmani-%F0%9F%87%B5%F0%9F%87%B8-8945b21ba/",
-            "https://x.com/nabirahmani_dev"
-        ]
-    };
+  const websiteData = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'codewithnabi',
+    url: siteConfig.siteUrl,
+    description: siteConfig.tagline,
+    author: { '@type': 'Person', name: siteConfig.name },
+  };
 
-    return (
-        <>
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(personData, null, 2),
-                }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify(brandData, null, 2),
-                }}
-            />
-        </>
-    );
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personData) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteData) }} />
+    </>
+  );
 }

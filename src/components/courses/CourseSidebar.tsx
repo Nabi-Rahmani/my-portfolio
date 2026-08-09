@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import type { Course, Module, Lesson } from '@/types/course';
@@ -27,6 +27,8 @@ export function CourseSidebar({
   onClose,
 }: CourseSidebarProps) {
   const [expandedModules, setExpandedModules] = useState<string[]>([]);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (currentLessonId) {
@@ -38,6 +40,43 @@ export function CourseSidebar({
       }
     }
   }, [currentLessonId, course.modules, expandedModules]);
+
+  useEffect(() => {
+    if (!isMobile || !isOpen) return;
+
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose?.();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable = drawerRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (!focusable?.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+      previouslyFocused?.focus();
+    };
+  }, [isMobile, isOpen, onClose]);
 
   const toggleModule = (moduleId: string) => {
     setExpandedModules((prev) =>
@@ -65,6 +104,7 @@ export function CourseSidebar({
           </Link>
           {isMobile && onClose && (
             <button
+              ref={closeButtonRef}
               type="button"
               onClick={onClose}
               aria-label="Close course menu"
@@ -116,13 +156,14 @@ export function CourseSidebar({
         {isOpen && (
           <div
             onClick={onClose}
-            className="fixed inset-x-0 bottom-0 top-14 z-[250] bg-black/50 md:hidden"
+            className="fixed inset-x-0 bottom-0 top-[72px] z-[250] bg-black/50 md:hidden"
             aria-hidden
           />
         )}
         <div
+          ref={drawerRef}
           className={cn(
-            'fixed bottom-0 left-0 top-14 z-[251] w-[85%] max-w-[320px] overflow-y-auto border-r border-[var(--line)] bg-[var(--cream)] shadow-[var(--shadow-lg)] transition-transform duration-300 motion-reduce:transition-none md:hidden',
+            'fixed bottom-0 left-0 top-[72px] z-[251] w-[85%] max-w-[320px] overflow-y-auto border-r border-[var(--line)] bg-[var(--cream)] transition-transform duration-300 motion-reduce:transition-none md:hidden',
             isOpen ? 'translate-x-0' : '-translate-x-full',
           )}
           role="dialog"
@@ -136,7 +177,7 @@ export function CourseSidebar({
   }
 
   return (
-    <aside className="hidden h-[calc(100vh-3.5rem)] w-[280px] min-w-[280px] overflow-hidden border-r border-[var(--line)] md:block sticky top-14">
+    <aside className="sticky top-[72px] hidden h-[calc(100vh-72px)] w-[280px] min-w-[280px] overflow-hidden border-r border-[var(--line)] md:block">
       {sidebarContent}
     </aside>
   );
@@ -198,7 +239,7 @@ function ModuleAccordion({
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                className="shrink-0 text-emerald-500"
+                className="shrink-0 text-[var(--status-ok)]"
                 aria-hidden
               >
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
@@ -271,13 +312,13 @@ function LessonItem({
         className={cn(
           'flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full',
           isCompleted
-            ? 'border-none bg-emerald-500'
+            ? 'border-none bg-[var(--status-ok)]'
             : 'border-2 border-[var(--line)] bg-transparent',
         )}
         aria-hidden
       >
         {isCompleted && (
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--on-accent)" strokeWidth="3">
             <polyline points="20 6 9 17 4 12" />
           </svg>
         )}

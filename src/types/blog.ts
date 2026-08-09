@@ -23,6 +23,21 @@ export interface BlogPost {
     };
 }
 
+export type BlogPostSummary = Pick<
+    BlogPost,
+    | 'id'
+    | 'title'
+    | 'slug'
+    | 'excerpt'
+    | 'publishedAt'
+    | 'updatedAt'
+    | 'readingTime'
+    | 'category'
+    | 'tags'
+    | 'featured'
+    | 'coverImage'
+>;
+
 export interface BlogCategory {
     id: string;
     name: string;

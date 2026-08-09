@@ -1,4 +1,5 @@
 import type { Project } from '@/types/project';
+import { absoluteUrl } from '@/config/site';
 import { getValidStoreUrl } from '@/lib/links';
 
 const platformToOS: Record<Project['platform'], string> = {
@@ -28,8 +29,8 @@ export default function ProjectStructuredData({ project }: { project: Project })
         description: project.subtitle,
         operatingSystem,
         applicationCategory: 'ProductivityApplication',
-        url: `https://codewithnabi.dev/projects/${project.slug}`,
-        image: `https://codewithnabi.dev${project.coverImage}`,
+        url: absoluteUrl(`/projects/${project.slug}`),
+        image: absoluteUrl(project.coverImage),
         offers: {
             '@type': 'Offer',
             price: '0',

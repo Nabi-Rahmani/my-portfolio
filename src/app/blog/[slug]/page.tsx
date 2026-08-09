@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { blogPosts, getPostBySlug } from '@/data/blog';
+import { blogPosts, getPostBySlug, getRelatedPostSummaries } from '@/data/blog';
 import BlogStructuredData from '@/components/BlogStructuredData';
 import BlogPostClient from '@/components/BlogPostClient';
 
@@ -18,6 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         // absolute: root title.template does not apply to generateMetadata on this route
         title: { absolute: `${post.title} | Muhammad Nabi Rahmani` },
         description: post.excerpt,
+        alternates: { canonical: `/blog/${post.slug}` },
         keywords: [post.category, ...post.tags, 'Flutter development', 'Programming tutorial'],
         authors: [{ name: post.author.name }],
         openGraph: {
@@ -53,10 +54,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         notFound();
     }
 
+    const relatedPosts = getRelatedPostSummaries(post.id);
+
     return (
         <>
             <BlogStructuredData post={post} />
-            <BlogPostClient post={post} />
+            <BlogPostClient post={post} relatedPosts={relatedPosts} />
         </>
     );
 }

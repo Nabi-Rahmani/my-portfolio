@@ -115,7 +115,7 @@ export default function CourseOverviewPage() {
                   {course.difficulty}
                 </span>
                 {course.price === 'free' && (
-                  <span className="px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider border border-emerald-500/20">
+                  <span className="rounded-full border border-[var(--line)] bg-[var(--accent-soft)] px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[var(--ink)]">
                     Free
                   </span>
                 )}
@@ -402,7 +402,7 @@ export default function CourseOverviewPage() {
                       {/* Module number / check */}
                       <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 text-sm font-bold ${
                         isModuleComplete
-                          ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400'
+                          ? 'bg-[var(--status-ok)] text-[var(--on-accent)]'
                           : 'bg-[var(--accent-soft)] text-[var(--atelier-accent)]'
                       }`}>
                         {isModuleComplete ? (
@@ -477,7 +477,7 @@ export default function CourseOverviewPage() {
                                 {/* Lesson number / completion */}
                                 <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
                                   isCompleted
-                                    ? 'bg-emerald-500 text-white'
+                                    ? 'bg-[var(--status-ok)] text-[var(--on-accent)]'
                                     : 'border-2 border-[var(--line)]'
                                 }`}>
                                   {isCompleted ? (

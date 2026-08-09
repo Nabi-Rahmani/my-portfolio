@@ -24,24 +24,18 @@ export default function Footer({
         className,
       )}
     >
-      <div className="mx-auto grid w-full max-w-[1280px] gap-8 px-5 py-10 sm:gap-10 sm:px-8 sm:py-12 md:grid-cols-[1.3fr_1fr_1fr] lg:px-10 lg:py-16">
-        <div>
-          <p className="text-[1.15rem] font-semibold tracking-[-0.025em] text-[var(--text-strong)]">
-            {siteConfig.name}
-          </p>
-          <p className="mt-2 max-w-[34ch] text-sm leading-6 text-[var(--text-muted)]">
-            {siteConfig.role} building dependable, offline-first mobile products from
-            architecture to release.
-          </p>
-          <div className="mt-5 flex items-center gap-2 font-mono text-xs uppercase tracking-[0.11em] text-[var(--text-faint)]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[var(--status-ok)]" aria-hidden />
-            {siteConfig.availability}
+      <div className="mx-auto w-full max-w-[1280px] px-5 py-8 sm:px-8 sm:py-10 lg:px-10">
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
+          <div>
+            <p className="text-[1.08rem] font-semibold tracking-[-0.055em] text-[var(--text-strong)]">
+              codewith<span className="font-extrabold">nabi</span>
+            </p>
+            <p className="mt-2 max-w-[38ch] text-sm leading-6 text-[var(--text-muted)]">
+              {siteConfig.tagline}
+            </p>
           </div>
-        </div>
 
-        <div>
-          <p className="eyebrow">Explore</p>
-          <div className="mt-3 grid grid-cols-2 gap-x-5 sm:mt-4 sm:gap-y-3">
+          <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-1 lg:justify-end">
             {navigation.map((item) => (
               <Link
                 key={`${item.label}-${item.href}`}
@@ -51,17 +45,17 @@ export default function Footer({
                 {item.label}
               </Link>
             ))}
-          </div>
+          </nav>
         </div>
 
-        <div>
-          <p className="eyebrow">Connect</p>
-          <div className="mt-3 flex flex-col sm:mt-4 sm:gap-3">
+        <div className="mt-6 flex flex-col gap-4 border-t border-[var(--line-16)] pt-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
             <a
               href={contactMailto({ subject: 'Flutter role inquiry' })}
-              className="inline-flex min-h-11 items-center text-sm text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)] sm:min-h-0"
+              aria-label={`Email ${siteConfig.name} at ${siteConfig.contactEmail}`}
+              className="inline-flex min-h-11 items-center text-xs text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)] sm:min-h-0"
             >
-              {siteConfig.contactEmail}
+              Email
             </a>
             {showSocials &&
               socialLinks.map((item) => (
@@ -70,19 +64,22 @@ export default function Footer({
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-11 items-center text-sm text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)] sm:min-h-0"
+                  className="inline-flex min-h-11 items-center text-xs text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)] sm:min-h-0"
                 >
                   {item.label} ↗
                 </a>
               ))}
+            <Link
+              href="/feed.xml"
+              className="inline-flex min-h-11 items-center text-xs text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--text-strong)] sm:min-h-0"
+            >
+              RSS ↗
+            </Link>
           </div>
-        </div>
-      </div>
 
-      <div className="border-t border-[var(--line-16)]">
-        <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-2 px-5 py-5 font-mono text-xs uppercase tracking-[0.1em] text-[var(--text-faint)] sm:flex-row sm:items-center sm:justify-between sm:px-8 lg:px-10">
-          <span>© {new Date().getFullYear()} {siteConfig.shortName}</span>
-          <span>{siteConfig.location} · {siteConfig.timezone}</span>
+          <p className="font-mono text-xs uppercase tracking-[0.08em] text-[var(--text-faint)]">
+            © {new Date().getFullYear()} {siteConfig.shortName} · {siteConfig.location}
+          </p>
         </div>
       </div>
     </footer>

@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { projects, getProjectBySlug } from '@/data/projects';
-import TermsClient from './TermsClient';
+import LegalDocument from '@/components/LegalDocument';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
@@ -12,7 +12,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     return {
         title: `Terms of Use - ${project.title}`,
-        description: `Terms of Use for ${project.title} by Mohammad Nabi Rahmani.`,
+        description: `Terms of Use for ${project.title} by Muhammad Nabi Rahmani.`,
+        alternates: { canonical: `/projects/${project.slug}/terms` },
     };
 }
 
@@ -30,5 +31,5 @@ export default async function TermsPage({ params }: { params: Promise<{ slug: st
         notFound();
     }
 
-    return <TermsClient project={project} />;
+    return <LegalDocument project={project} kind="terms" />;
 }
