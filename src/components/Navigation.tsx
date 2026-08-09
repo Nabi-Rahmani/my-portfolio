@@ -4,7 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Menu, Moon, Sun, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from 'react';
 
 import { primaryNav, type NavItem } from '@/config/navigation';
 import { contactMailto, siteConfig } from '@/config/site';
@@ -76,14 +76,23 @@ export default function Navigation() {
     }
   }, []);
 
-  const handleBrandClick = useCallback(() => {
-    if (pathname !== '/') return;
-
-    document.getElementById('home')?.scrollIntoView({
-      behavior: reduceMotion ? 'auto' : 'smooth',
-      block: 'start',
-    });
-  }, [pathname, reduceMotion]);
+  const handleBrandClick = useCallback(
+    (event: MouseEvent<HTMLAnchorElement>) => {
+      // Already on home: scroll to top of the hero instead of re-navigating.
+      if (pathname === '/') {
+        event.preventDefault();
+        document.getElementById('home')?.scrollIntoView({
+          behavior: reduceMotion ? 'auto' : 'smooth',
+          block: 'start',
+        });
+        if (typeof window !== 'undefined' && window.location.hash) {
+          window.history.replaceState(null, '', '/');
+        }
+      }
+      // From any other route, Link href="/" performs a normal home navigation.
+    },
+    [pathname, reduceMotion],
+  );
 
   const isActive = (item: NavItem) => {
     if (item.id === 'projects') return pathname.startsWith('/projects');
@@ -108,7 +117,7 @@ export default function Navigation() {
           aria-label="Primary"
         >
           <Link
-            href="/#home"
+            href="/"
             onClick={handleBrandClick}
             aria-label={`${siteConfig.brandName} home`}
             className="group inline-flex min-h-11 items-center justify-self-start no-underline"
