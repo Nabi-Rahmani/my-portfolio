@@ -70,7 +70,7 @@ export default function LessonPage() {
   const isComplete = isLessonComplete(lesson.id);
 
   return (
-    <div className="flex min-h-screen bg-[var(--cream)] text-[var(--ink)] pt-14">
+    <div className="flex min-h-screen bg-[var(--page-bg)] pt-[72px] text-[var(--text-strong)]">
       {/* Sidebar - Desktop */}
       {!isMobile && (
         <CourseSidebar
@@ -194,7 +194,7 @@ export default function LessonPage() {
                 'inline-flex cursor-pointer items-center gap-3 rounded-full px-6 py-3.5 text-[1rem] font-medium transition-colors duration-200 motion-reduce:transition-none',
                 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]',
                 isComplete
-                  ? 'border-none bg-emerald-500 text-white'
+                  ? 'border-none bg-[var(--status-ok)] text-[var(--on-accent)]'
                   : 'border border-[var(--line)] bg-[var(--cream-2)] text-[var(--ink)] hover:border-[var(--atelier-accent)]/40',
               )}
             >
@@ -234,7 +234,6 @@ export default function LessonPage() {
                   `/courses/${course.slug}/${navigation.previousLesson!.lesson.slug}`,
                 );
               }}
-              data-lenis-prevent
               className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--cream-2)] px-4 py-2.5 text-[0.875rem] font-medium text-[var(--ink)] transition-colors hover:border-[var(--atelier-accent)]/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
@@ -256,7 +255,6 @@ export default function LessonPage() {
               onClick={() => {
                 router.push(`/courses/${course.slug}/${navigation.nextLesson!.lesson.slug}`);
               }}
-              data-lenis-prevent
               className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-[var(--ink)] px-5 py-2.5 text-[0.9375rem] font-semibold text-[var(--cream)] transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
             >
               <span>Next</span>
@@ -270,8 +268,7 @@ export default function LessonPage() {
               onClick={() => {
                 router.push(`/courses/${course.slug}`);
               }}
-              data-lenis-prevent
-              className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-emerald-500 px-5 py-2.5 text-[0.9375rem] font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
+              className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-[var(--status-ok)] px-5 py-2.5 text-[0.9375rem] font-semibold text-[var(--on-accent)] transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
             >
               <span>Finish</span>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>

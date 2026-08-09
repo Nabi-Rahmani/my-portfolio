@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import Footer from '@/components/Footer';
 import ProjectAppIcon from '@/components/ProjectAppIcon';
@@ -24,7 +24,14 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
   const githubUrl = getValidProjectGithubUrl(project.links.github);
   const metrics = project.metrics?.filter((metric) => metric.label && metric.value) ?? [];
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const lightboxRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const lastFocusedRef = useRef<HTMLElement | null>(null);
 
+  const openLightbox = useCallback((index: number) => {
+    lastFocusedRef.current = document.activeElement as HTMLElement | null;
+    setLightboxIndex(index);
+  }, []);
   const closeLightbox = useCallback(() => setLightboxIndex(null), []);
   const goPrevious = useCallback(() => {
     setLightboxIndex((current) =>
@@ -42,16 +49,33 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    closeButtonRef.current?.focus();
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') closeLightbox();
       if (event.key === 'ArrowLeft') goPrevious();
       if (event.key === 'ArrowRight') goNext();
+      if (event.key === 'Tab') {
+        const focusable = lightboxRef.current?.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
+        );
+        if (!focusable?.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', handleKeyDown);
+      lastFocusedRef.current?.focus();
     };
   }, [closeLightbox, goNext, goPrevious, lightboxIndex]);
 
@@ -157,7 +181,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                   <button
                     key={src}
                     type="button"
-                    onClick={() => setLightboxIndex(index)}
+                    onClick={() => openLightbox(index)}
                     aria-label={`Open ${project.title} screen ${index + 1}`}
                     className={[
                       'relative aspect-[9/19.5] cursor-zoom-in overflow-hidden rounded-[14px] border border-[var(--line-18)] bg-[var(--surface-bg)] p-0 sm:rounded-[20px]',
@@ -242,7 +266,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
                 <button
                   key={`${src}-${index}`}
                   type="button"
-                  onClick={() => setLightboxIndex(index)}
+                  onClick={() => openLightbox(index)}
                   aria-label={`Open ${project.title} screenshot ${index + 1}`}
                   className="relative aspect-[9/19.5] w-[180px] shrink-0 snap-center cursor-zoom-in overflow-hidden rounded-[18px] border border-[var(--line-18)] bg-[var(--surface-bg)] p-0 sm:w-[230px]"
                 >
@@ -384,6 +408,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
       <AnimatePresence>
         {lightboxIndex !== null && screenshots[lightboxIndex] && (
           <motion.div
+            ref={lightboxRef}
             className="fixed inset-0 z-[80] flex items-center justify-center bg-black/92 p-5"
             role="dialog"
             aria-modal="true"
@@ -394,6 +419,7 @@ export default function ProjectDetailClient({ project }: { project: Project }) {
             transition={{ duration: reduceMotion ? 0.01 : 0.18 }}
           >
             <button
+              ref={closeButtonRef}
               type="button"
               onClick={closeLightbox}
               aria-label="Close screenshot viewer"

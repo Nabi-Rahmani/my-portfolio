@@ -60,7 +60,7 @@ export default function About() {
                 priority
               />
               <div className="absolute inset-x-3 bottom-3 flex min-h-11 items-center gap-2 rounded-full bg-black/75 px-4 py-2 text-white backdrop-blur-md sm:inset-x-4 sm:bottom-4 sm:py-2.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#67C58A]" aria-hidden />
+                <span className="h-1.5 w-1.5 rounded-full bg-white" aria-hidden />
                 <span className="font-mono text-xs uppercase tracking-[0.1em]">
                   <span className="sm:hidden">Available for remote roles</span>
                   <span className="hidden sm:inline">{siteConfig.availability}</span>

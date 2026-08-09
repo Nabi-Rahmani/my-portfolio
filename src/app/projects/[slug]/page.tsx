@@ -18,6 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         // absolute: root title.template does not apply to generateMetadata on this route
         title: { absolute: `${project.title} | Muhammad Nabi Rahmani` },
         description: project.subtitle,
+        alternates: { canonical: `/projects/${project.slug}` },
         keywords: [...project.techStack, ...project.features, 'Flutter', 'Mobile App'],
         openGraph: {
             title: project.title,

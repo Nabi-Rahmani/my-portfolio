@@ -4,8 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { motion, useScroll, useSpring, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import type { BlogPost } from '@/types/blog';
-import { getRelatedPosts } from '@/data/blog';
+import type { BlogPost, BlogPostSummary } from '@/types/blog';
 import ShareButtons from '@/components/ShareButtons';
 import ArticleContent from '@/components/ArticleContent';
 import Footer from '@/components/Footer';
@@ -136,15 +135,13 @@ function TableOfContents({
 
 /* ─── Related Posts ─── */
 function RelatedPosts({
-  currentPost,
+  posts,
   reduceMotion,
 }: {
-  currentPost: BlogPost;
+  posts: BlogPostSummary[];
   reduceMotion: boolean | null;
 }) {
-  const relatedPosts = getRelatedPosts(currentPost.id);
-
-  if (relatedPosts.length === 0) return null;
+  if (posts.length === 0) return null;
 
   return (
     <motion.section
@@ -171,7 +168,7 @@ function RelatedPosts({
         More articles you might enjoy
       </p>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {relatedPosts.map((post: BlogPost, i: number) => (
+        {posts.map((post, i) => (
           <motion.div
             key={post.id}
             initial={reduceMotion ? false : { opacity: 0, y: 20 }}
@@ -251,7 +248,13 @@ function ReadTimeVisual({ minutes }: { minutes: number }) {
 }
 
 /* ─── Main Blog Post Client ─── */
-export default function BlogPostClient({ post }: { post: BlogPost }) {
+export default function BlogPostClient({
+  post,
+  relatedPosts,
+}: {
+  post: BlogPost;
+  relatedPosts: BlogPostSummary[];
+}) {
   const [copied, setCopied] = useState(false);
   const reduceMotion = useReducedMotion();
 
@@ -488,7 +491,7 @@ export default function BlogPostClient({ post }: { post: BlogPost }) {
               <ShareButtons post={post} />
             </motion.div>
 
-            <RelatedPosts currentPost={post} reduceMotion={reduceMotion} />
+            <RelatedPosts posts={relatedPosts} reduceMotion={reduceMotion} />
           </article>
 
           <motion.aside

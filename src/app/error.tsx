@@ -2,42 +2,18 @@
 
 import { useEffect } from 'react';
 
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
     console.error(error);
   }, [error]);
 
   return (
-    <main className="min-h-screen bg-[var(--cream)] text-[var(--ink)] flex items-center justify-center px-6">
-      <div className="text-center max-w-[480px]">
-        <span className="text-[4rem] md:text-[5rem] font-bold text-[var(--atelier-accent)] leading-none block mb-4">
-          Oops
-        </span>
-
-        <h1
-          className="text-[1.5rem] md:text-[2rem] font-bold tracking-tight mb-3"
-          style={{ fontFamily: 'var(--font-serif)' }}
-        >
-          Something went wrong
-        </h1>
-
-        <p className="text-[0.9375rem] md:text-[1rem] text-[var(--muted)] leading-relaxed mb-8">
-          An unexpected error occurred. Please try again.
-        </p>
-
-        <button
-          type="button"
-          onClick={() => reset()}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--ink)] text-[var(--cream)] rounded-full text-[0.9375rem] font-semibold cursor-pointer border-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--atelier-accent)]"
-        >
-          Try again
-        </button>
+    <main className="grid min-h-screen place-items-center bg-[var(--page-bg)] px-5 pt-[72px] text-[var(--text-strong)]">
+      <div className="w-full max-w-[680px] py-20 text-center">
+        <p className="font-mono text-xs uppercase tracking-[0.15em] text-[var(--accent)]">Unexpected error</p>
+        <h1 className="display-page mt-6">Something failed to render.</h1>
+        <p className="mx-auto mt-6 max-w-[48ch] text-base leading-7 text-[var(--text-muted)]">Try the request again. Your saved theme and course progress will not be affected.</p>
+        <button type="button" onClick={reset} className="button-primary mt-9 cursor-pointer border-0">Try again</button>
       </div>
     </main>
   );

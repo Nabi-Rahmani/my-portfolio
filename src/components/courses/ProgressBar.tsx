@@ -46,7 +46,7 @@ export function ProgressBar({
         <div
           className={cn(
             'h-full rounded-full transition-[width] duration-300 motion-reduce:transition-none',
-            isComplete ? 'bg-emerald-500' : 'bg-[var(--atelier-accent)]',
+            isComplete ? 'bg-[var(--status-ok)]' : 'bg-[var(--atelier-accent)]',
           )}
           style={{ width: `${clampedPercentage}%` }}
         />

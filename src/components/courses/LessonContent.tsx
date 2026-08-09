@@ -160,7 +160,7 @@ export function LessonContent({ content }: LessonContentProps) {
           pre: ({ children }) => (
             <pre
               style={{
-                backgroundColor: '#1e1e1e',
+                backgroundColor: '#111111',
                 padding: '1rem',
                 borderRadius: '8px',
                 overflow: 'auto',

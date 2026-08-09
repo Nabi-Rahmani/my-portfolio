@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { projects, getProjectBySlug } from '@/data/projects';
-import PrivacyClient from './PrivacyClient';
+import LegalDocument from '@/components/LegalDocument';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
@@ -12,7 +12,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     return {
         title: `Privacy Policy - ${project.title}`,
-        description: `Privacy Policy for ${project.title} by Mohammad Nabi Rahmani.`,
+        description: `Privacy Policy for ${project.title} by Muhammad Nabi Rahmani.`,
+        alternates: { canonical: `/projects/${project.slug}/privacy` },
     };
 }
 
@@ -30,5 +31,5 @@ export default async function PrivacyPage({ params }: { params: Promise<{ slug: 
         notFound();
     }
 
-    return <PrivacyClient project={project} />;
+    return <LegalDocument project={project} kind="privacy" />;
 }
