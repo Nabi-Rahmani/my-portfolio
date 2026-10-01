@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
-import { siteConfig } from '@/config/site';
-import { courses, getCourseBySlug } from '@/data/courses';
+import { siteConfig } from '@/core/config/site';
+import { courses, getCourseBySlug } from '@/features/courses/data/courses';
 
 export function generateStaticParams() {
   if (!siteConfig.learningEnabled) return [];

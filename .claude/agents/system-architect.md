@@ -11,13 +11,13 @@ You are a system architect for a Next.js 15 App Router portfolio/blog/course pla
 
 ## Architecture Overview
 
+Canonical rules: `.claude/agents/nextjs-architect.md` (FORCE folders, 4 layers).
+
 ```
 src/
-  app/          → Pages, layouts, route handlers (App Router)
-  components/   → Shared React components
-  data/         → Static content arrays + helper functions
-  hooks/        → Custom React hooks
-  types/        → TypeScript interfaces
+  core/         → shared config, lib, layout, site SEO
+  features/     → each feature: domain / data / application / presentation
+  app/          → thin App Router routes
 ```
 
 Content-driven site. All data is static TypeScript. No database, no API, no CMS.
@@ -43,42 +43,36 @@ Content-driven site. All data is static TypeScript. No database, no API, no CMS.
 
 ## Content System
 
-```
-src/types/*.ts   → Shape definitions
-src/data/*.ts    → Static arrays + helper functions
-```
+Each feature owns `domain/` + `data/` with exported helpers.
 
 **Rules:**
-- One type file and one data file per content domain.
 - Pages consume data through helper functions only.
-- New content type: type → data + helpers → pages.
+- New feature: four layer folders under `src/features/<name>/`, then a thin `app/` route.
 
 ## Shared Infrastructure
 
 | Concern | Implementation |
 |---------|---------------|
 | Theme | CSS custom properties in `globals.css`, `.dark` class, localStorage `'theme'` |
-| Navigation | Desktop floating pill + mobile bottom bar (`Navigation.tsx`) |
-| Smooth scroll | Lenis via `LenisScroll.tsx`, global `window.__lenis` |
-| Animations | Framer Motion, spring transitions |
-| Markdown | `react-markdown` + rehype/remark (two renderers: `ArticleContent`, `LessonContent`) |
-| SEO | Metadata API + Schema.org JSON-LD + `robots.ts` + `sitemap.ts` |
-| Course progress | `useCourseProgress` hook → localStorage `'course_progress'` |
+| Navigation | `core/presentation/layout` — fixed top bar + mobile drawer |
+| Animations | Framer Motion via `core/lib/animations.ts` |
+| Markdown | `react-markdown` + rehype/remark (`ArticleContent`, `LessonContent`) |
+| SEO | Metadata API + JSON-LD in `core/presentation/seo` and feature `presentation/seo/` |
+| Course progress | `features/courses/application/useCourseProgress` → localStorage `'course_progress'` |
 
 ## Adding New Features
 
 ### New Content Section
-1. Define interface in `src/types/newtype.ts`
-2. Create data + helpers in `src/data/newtype.ts`
-3. Create listing page at `src/app/section/page.tsx`
-4. Create detail pages at `src/app/section/[slug]/page.tsx` + `SectionClient.tsx`
+1. `src/features/<name>/{domain,data,application,presentation}/`
+2. Types in `domain/`, catalog + helpers in `data/`
+3. Thin listing page at `src/app/section/page.tsx`
+4. Detail: `src/app/section/[slug]/page.tsx` + presentation `*Client.tsx`
 5. Add to Navigation, sitemap, and structured data
 
 ### New Shared Component
-1. Create in `src/components/ComponentName.tsx`
-2. Server component by default; `'use client'` only if needed
-3. Tailwind + CSS custom properties for styling
-4. Framer Motion animations following existing spring patterns
+1. Site-wide chrome → `src/core/presentation/`
+2. Feature-only UI → `src/features/<name>/presentation/`
+3. Server component by default; `'use client'` only if needed
 
 ## Deployment
 

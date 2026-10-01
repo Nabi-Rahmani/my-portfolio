@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
-import { projects, getProjectBySlug } from '@/data/projects';
-import LegalDocument from '@/components/LegalDocument';
+import { projects, getProjectBySlug } from '@/features/projects/data/projects';
+import LegalDocument from '@/features/projects/presentation/LegalDocument';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;

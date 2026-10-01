@@ -44,13 +44,13 @@ After:  page.tsx (server, metadata) + PageClient.tsx (client, rendering)
 ```
 
 ### Extract Custom Hook
-When a component has 5+ useState/useEffect calls, extract to `src/hooks/use*.ts`.
+When a component has 5+ useState/useEffect calls, extract to `features/<name>/application/use*.ts`.
 
 ### Extract Data Helper
-Add queries against static data to `src/data/*.ts` alongside existing helpers.
+Add queries against static data to `features/<name>/data/*.ts` alongside existing helpers.
 
 ### Consolidate Duplicate UI
-Similar card/badge/button patterns in multiple files → extract to `src/components/`.
+Feature-only widgets → `features/<name>/presentation/`. Site-wide chrome → `core/presentation/`.
 
 ## Safe Refactoring Checklist
 
@@ -63,7 +63,8 @@ Similar card/badge/button patterns in multiple files → extract to `src/compone
 
 ## Project-Specific Notes
 
-- No test suite — `npm run build` is the primary validation.
-- `page-new.tsx` and `about/page-clean.tsx` are unused; safe to delete.
-- Course components use inline styles — migrating to Tailwind is welcome.
-- `lucide-react` is installed but unused — inline SVGs are the pattern.
+- No test suite — `npm run arch`, `npm run lint`, and `npm run build` are the validation gates.
+- Folder FORCE rules and layer map: `.claude/agents/nextjs-architect.md`.
+- Course components still use some inline styles — migrating to Tailwind is welcome.
+- Inline SVGs only — do not reintroduce `lucide-react`.
+- Do not add Supabase until a real data backend exists.

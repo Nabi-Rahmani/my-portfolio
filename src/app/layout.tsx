@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
-import Navigation from "@/components/Navigation";
-import StructuredData from "@/components/StructuredData";
-import { absoluteUrl, siteConfig } from "@/config/site";
+import Navigation from "@/core/presentation/layout/Navigation";
+import StructuredData from "@/core/presentation/seo/StructuredData";
+import { absoluteUrl, siteConfig } from "@/core/config/site";
 import "./globals.css";
 
 const instrumentSans = Instrument_Sans({

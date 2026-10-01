@@ -1,9 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import Footer from '@/components/Footer';
-import { socialLinks } from '@/config/navigation';
-import { contactMailto, siteConfig } from '@/config/site';
+import Footer from '@/core/presentation/layout/Footer';
+import TestBuildsSection from '@/features/test-builds/presentation';
+import { socialLinks } from '@/core/config/navigation';
+import { contactMailto, siteConfig } from '@/core/config/site';
+import { testBuildApps } from '@/features/test-builds/data/test-builds';
+import { assertValidTestBuilds } from '@/features/test-builds/application/validate-test-builds';
 
 const principles = [
   {
@@ -39,6 +42,11 @@ const capabilities = [
 ];
 
 export default function About() {
+  // Fails `npm run build` and the dev render when an entry is invalid or
+  // still points at a local-only file (server-only validator, never ships
+  // to the client bundle).
+  assertValidTestBuilds(testBuildApps);
+
   const githubUrl =
     socialLinks.find((link) => link.label === 'GitHub')?.href ??
     'https://github.com/Nabi-Rahmani';
@@ -200,6 +208,8 @@ export default function About() {
             </div>
           </div>
         </section>
+
+        <TestBuildsSection />
 
         <section className="border-t border-[var(--line-16)] bg-[var(--accent-soft)]">
           <div className="site-container grid gap-8 py-14 sm:gap-10 sm:py-22 lg:grid-cols-[1fr_auto] lg:items-end">

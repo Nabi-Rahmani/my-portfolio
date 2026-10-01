@@ -1,9 +1,9 @@
 import type { MetadataRoute } from 'next';
 
-import { siteConfig } from '@/config/site';
-import { blogPosts } from '@/data/blog';
-import { courses, getAllLessons } from '@/data/courses';
-import { projects } from '@/data/projects';
+import { siteConfig } from '@/core/config/site';
+import { blogPosts } from '@/features/blog/data/blog';
+import { courses, getAllLessons } from '@/features/courses/data/courses';
+import { projects } from '@/features/projects/data/projects';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const url = (path = '') => `${siteConfig.siteUrl}${path}`;

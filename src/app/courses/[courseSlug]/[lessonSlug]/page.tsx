@@ -3,13 +3,13 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { notFound, useParams, useRouter } from 'next/navigation';
-import { getLessonBySlug, getCourseNavigation } from '@/data/courses';
-import { CourseSidebar } from '@/components/courses/CourseSidebar';
-import { VideoPlayer } from '@/components/courses/VideoPlayer';
-import { LessonContent } from '@/components/courses/LessonContent';
-import { ProgressBar } from '@/components/courses/ProgressBar';
-import { useCourseProgress } from '@/hooks/useCourseProgress';
-import { cn } from '@/lib/utils';
+import { getLessonBySlug, getCourseNavigation } from '@/features/courses/data/courses';
+import { CourseSidebar } from '@/features/courses/presentation/CourseSidebar';
+import { VideoPlayer } from '@/features/courses/presentation/VideoPlayer';
+import { LessonContent } from '@/features/courses/presentation/LessonContent';
+import { ProgressBar } from '@/features/courses/presentation/ProgressBar';
+import { useCourseProgress } from '@/features/courses/application/useCourseProgress';
+import { cn } from '@/core/lib/utils';
 
 export default function LessonPage() {
   const params = useParams<{ courseSlug?: string | string[]; lessonSlug?: string | string[] }>();

@@ -3,7 +3,8 @@ import type { Config } from 'tailwindcss'
 const config: Config = {
     content: [
         './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-        './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+        './src/core/**/*.{js,ts,jsx,tsx,mdx}',
+        './src/features/**/*.{js,ts,jsx,tsx,mdx}',
         './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     ],
     darkMode: 'class',
@@ -22,8 +23,8 @@ const config: Config = {
                 border: 'var(--border-color)',
             },
             fontFamily: {
-                sans: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
-                mono: ['var(--font-geist-mono)', 'monospace'],
+                sans: ['var(--font-instrument-sans)', 'system-ui', 'sans-serif'],
+                mono: ['var(--font-jetbrains-mono)', 'monospace'],
             },
             fontSize: {
                 'display': ['4rem', { lineHeight: '1.1', fontWeight: '700' }],

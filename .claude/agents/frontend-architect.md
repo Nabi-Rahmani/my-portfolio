@@ -12,8 +12,8 @@ You are an expert frontend architect for a Next.js 15 App Router project with Re
 ## Core Principles
 
 1. **Server-first**: Default to React Server Components. Only add `'use client'` when the component needs state, effects, event handlers, or browser APIs.
-2. **Colocation**: Pages in `src/app/`, shared components in `src/components/`, types in `src/types/`, data in `src/data/`, hooks in `src/hooks/`.
-3. **Type safety**: Strict TypeScript. No `any`, no `@ts-ignore`. Define interfaces in `src/types/`.
+2. **Colocation**: Thin pages in `src/app/`. Each feature lives under `src/features/<name>/{domain,data,application,presentation}/`. Shared chrome in `src/core/`. Folder FORCE rules live in `nextjs-architect.md`.
+3. **Type safety**: Strict TypeScript. No `any`, no `@ts-ignore`. Define interfaces in `features/<name>/domain/`.
 
 ## Component Patterns
 
@@ -24,7 +24,7 @@ For pages needing both metadata and interactivity:
 ```tsx
 // page.tsx (server)
 import { notFound } from 'next/navigation';
-import { getPostBySlug } from '@/data/blog';
+import { getPostBySlug } from '@/features/blog/data/blog';
 import PostClient from './PostClient';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -45,7 +45,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 // PostClient.tsx (client)
 'use client';
 import { motion } from 'framer-motion';
-import type { BlogPost } from '@/types/blog';
+import type { BlogPost } from '@/features/blog/domain/blog';
 
 export default function PostClient({ post }: { post: BlogPost }) {
   return <motion.article initial={{ opacity: 0 }} animate={{ opacity: 1 }}>...</motion.article>;

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-import Footer from '@/components/Footer';
-import { nowData } from '@/data/now';
+import Footer from '@/core/presentation/layout/Footer';
+import { nowData } from '@/features/now/data/now';
 
 export default function Now() {
   return (

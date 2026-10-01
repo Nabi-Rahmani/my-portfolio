@@ -2,10 +2,10 @@ import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import BlogArchive from '@/components/BlogArchive';
-import Footer from '@/components/Footer';
-import { blogCategories, getAllTags, getBlogPostSummaries } from '@/data/blog';
-import { formatDateShort } from '@/lib/utils';
+import BlogArchive from '@/features/blog/presentation/BlogArchive';
+import Footer from '@/core/presentation/layout/Footer';
+import { blogCategories, getAllTags, getBlogPostSummaries } from '@/features/blog/data/blog';
+import { formatDateShort } from '@/core/lib/utils';
 
 export default function BlogPage() {
   const posts = getBlogPostSummaries();

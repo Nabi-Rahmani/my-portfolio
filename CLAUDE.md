@@ -9,8 +9,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run build` — Production build
 - `npm run start` — Run production server
 - `npm run lint` — ESLint (extends next/core-web-vitals and next/typescript)
+- `npm run arch` — Feature-folder / layer floors
 
-No test framework is configured.
+No test framework is configured. Architecture: `.claude/agents/nextjs-architect.md`.
 
 ## Architecture
 
@@ -24,24 +25,24 @@ Next.js 15 App Router with React 19, TypeScript (strict), and Tailwind CSS v4.
 - `/courses`, `/courses/[courseSlug]`, `/courses/[courseSlug]/[lessonSlug]` — Course platform with nested dynamic routes
 
 ### Content System
-Blog posts and courses are defined as static arrays in `src/data/blog.ts` and `src/data/courses.ts`. Each file exports helper functions (`getPostBySlug`, `getCourseBySlug`, `searchPosts`, etc.) — always use these rather than filtering arrays directly.
+Feature-First: `src/core/` (shared) + `src/features/<name>/{domain,data,application,presentation}/`.
+Blog/course/project catalogs live in `features/<name>/data/` with helpers (`getPostBySlug`, `getCourseBySlug`). Types live in `features/<name>/domain/`. Always use helpers rather than filtering arrays in pages.
 
-Types are centralized in `src/types/blog.ts` and `src/types/course.ts`.
+Canonical rules: `.claude/agents/nextjs-architect.md`.
 
 ### Styling
 - Tailwind CSS v4 with `@tailwindcss/postcss` plugin
 - Dark/light theme via CSS custom properties in `src/app/globals.css` toggled by `.dark` class on `<html>`
 - Theme preference stored in localStorage (`'theme'` key)
-- Brand accent color: `#fcb4b0` (peachy-pink)
 
 ### Key Patterns
+- **Layers**: per feature `domain/` → `data/` → `application/` → `presentation/`; shared kit in `core/`
 - **Client vs Server**: Root layout is a server component. Interactive components use `'use client'`. Prefer server components where possible.
 - **Path alias**: `@/*` maps to `./src/*` (tsconfig)
-- **Smooth scrolling**: Lenis library via `LenisScroll` component. Global instance at `window.__lenis`. Disabled on lesson pages.
 - **Animations**: Framer Motion for component animations
-- **Course progress**: `useCourseProgress` hook manages progress in localStorage (no backend)
-- **Navigation**: Desktop uses top floating glassmorphism bar; mobile uses bottom floating bar. Hash-based section scrolling on home page.
-- **SEO**: Next.js Metadata API in layouts + Schema.org JSON-LD via `StructuredData` component. Sitemap and robots.txt as route handlers.
+- **Course progress**: `features/courses/application/useCourseProgress` (localStorage, no backend)
+- **Navigation**: Fixed top bar in `core/presentation/layout`; mobile right drawer
+- **SEO**: Metadata API + JSON-LD in `core/presentation/seo` and feature `presentation/seo/`
 - **Markdown rendering**: `react-markdown` with `rehype-highlight`, `rehype-raw`, and `remark-gfm`
 
 [byterover-mcp]

@@ -5,8 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound, useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import Footer from '@/components/Footer';
-import { getCourseBySlug, formatDuration, getFirstLesson, getAllLessons } from '@/data/courses';
+import Footer from '@/core/presentation/layout/Footer';
+import { getCourseBySlug, formatDuration, getFirstLesson, getAllLessons } from '@/features/courses/data/courses';
 
 export default function CourseOverviewPage() {
   const [completedLessons, setCompletedLessons] = useState<string[]>([]);

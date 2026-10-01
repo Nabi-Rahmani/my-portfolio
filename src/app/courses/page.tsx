@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import Footer from '@/components/Footer';
-import { courses, formatDuration, getFirstLesson } from '@/data/courses';
+import Footer from '@/core/presentation/layout/Footer';
+import { courses, formatDuration, getFirstLesson } from '@/features/courses/data/courses';
 
 export default function CoursesPage() {
   return (

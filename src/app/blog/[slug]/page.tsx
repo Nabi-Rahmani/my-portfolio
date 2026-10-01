@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
-import { blogPosts, getPostBySlug, getRelatedPostSummaries } from '@/data/blog';
-import BlogStructuredData from '@/components/BlogStructuredData';
-import BlogPostClient from '@/components/BlogPostClient';
+import { blogPosts, getPostBySlug, getRelatedPostSummaries } from '@/features/blog/data/blog';
+import BlogStructuredData from '@/features/blog/presentation/seo/BlogStructuredData';
+import BlogPostClient from '@/features/blog/presentation/BlogPostClient';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;

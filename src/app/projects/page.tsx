@@ -1,9 +1,9 @@
 import Link from 'next/link';
 
-import Footer from '@/components/Footer';
-import ProjectShowcase from '@/components/ProjectShowcase';
-import { contactMailto, siteConfig } from '@/config/site';
-import { getAllProjects } from '@/data/projects';
+import Footer from '@/core/presentation/layout/Footer';
+import ProjectShowcase from '@/features/projects/presentation/ProjectShowcase';
+import { contactMailto, siteConfig } from '@/core/config/site';
+import { getAllProjects } from '@/features/projects/data/projects';
 
 const projects = getAllProjects();
 

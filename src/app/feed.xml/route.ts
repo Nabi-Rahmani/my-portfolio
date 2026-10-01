@@ -1,5 +1,5 @@
-import { siteConfig } from '@/config/site';
-import { getBlogPostSummaries } from '@/data/blog';
+import { siteConfig } from '@/core/config/site';
+import { getBlogPostSummaries } from '@/features/blog/data/blog';
 
 export const dynamic = 'force-static';
 

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { siteConfig } from '@/config/site';
+import { siteConfig } from '@/core/config/site';
 
 export const metadata: Metadata = {
   title: 'Courses',

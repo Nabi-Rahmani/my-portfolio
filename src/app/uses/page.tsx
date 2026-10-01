@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-import Footer from '@/components/Footer';
-import { usesCategories } from '@/data/uses';
+import Footer from '@/core/presentation/layout/Footer';
+import { usesCategories } from '@/features/uses/data/uses';
 
 export default function Uses() {
   return (

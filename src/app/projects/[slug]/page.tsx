@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
-import { projects, getProjectBySlug } from '@/data/projects';
-import ProjectDetailClient from './ProjectDetailClient';
-import ProjectStructuredData from '@/components/ProjectStructuredData';
+import { projects, getProjectBySlug } from '@/features/projects/data/projects';
+import ProjectDetailClient from '@/features/projects/presentation/ProjectDetailClient';
+import ProjectStructuredData from '@/features/projects/presentation/seo/ProjectStructuredData';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;

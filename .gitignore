@@ -44,6 +44,10 @@ GLOSSARY.md
 # vercel
 .vercel
 
+# client test builds — binaries stay local unless explicitly allowlisted
+public/test-builds/*
+!public/test-builds/LabelStudio-prod-1.0.0.1-setup.exe
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
