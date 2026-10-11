@@ -27,7 +27,7 @@ export const testBuildApps: TestBuildApp[] = [
             format: 'exe',
             url: '/test-builds/LabelStudio-prod-1.0.0.1-setup.exe',
             fileName: 'LabelStudio-prod-1.0.0.1-setup.exe',
-            sizeBytes: 14096730,
+            sizeBytes: 14099770,
           },
         ],
       },
