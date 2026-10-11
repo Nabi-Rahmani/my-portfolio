@@ -19,7 +19,7 @@ export const testBuildApps: TestBuildApp[] = [
     releases: [
       {
         version: '1.0.0.1',
-        releasedAt: '2026-10-01',
+        releasedAt: '2026-10-11',
         changes: ['Production Windows setup installer.'],
         artifacts: [
           {
@@ -27,7 +27,7 @@ export const testBuildApps: TestBuildApp[] = [
             format: 'exe',
             url: '/test-builds/LabelStudio-prod-1.0.0.1-setup.exe',
             fileName: 'LabelStudio-prod-1.0.0.1-setup.exe',
-            sizeBytes: 13755383,
+            sizeBytes: 14096730,
           },
         ],
       },
