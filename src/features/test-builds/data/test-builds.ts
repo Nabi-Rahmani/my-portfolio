@@ -18,16 +18,23 @@ export const testBuildApps: TestBuildApp[] = [
       'Windows production installer for LabelStudio. Download and run the setup file on a Windows PC.',
     releases: [
       {
-        version: '1.0.0.1',
-        releasedAt: '2026-10-11',
-        changes: ['Production Windows setup installer.'],
+        version: '1.1.0.2',
+        releasedAt: '2026-10-15',
+        changes: [
+          'New Full details label: TETT date, allergen badge, and storage line.',
+          'Row or Column label design and any custom label size when printing.',
+          'Portrait labels laid out top to bottom at a readable size.',
+          'Printer-style label preview on the Print screen.',
+        ],
         artifacts: [
           {
             platform: 'windows',
             format: 'exe',
-            url: '/test-builds/LabelStudio-prod-1.0.0.1-setup.exe',
-            fileName: 'LabelStudio-prod-1.0.0.1-setup.exe',
-            sizeBytes: 14099770,
+            arch: 'x64',
+            url: '/test-builds/LabelStudio-prod-1.1.0.2-setup.exe',
+            fileName: 'LabelStudio-prod-1.1.0.2-setup.exe',
+            sizeBytes: 14132617,
+            sha256: '1d8083cfd46954e6c60ed32483eecdd6827c9ab904d932c557a6d976664dd18c',
           },
         ],
       },
