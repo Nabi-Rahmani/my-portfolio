@@ -2,9 +2,9 @@ import { getAppCount, getArticleCount } from '@/core/config/proof';
 import { siteConfig } from '@/core/config/site';
 
 const proofItems = [
-  { value: String(getAppCount()), label: 'Shipped products' },
-  { value: String(getArticleCount()), label: 'Technical articles' },
-  { value: siteConfig.experienceLabel, label: 'Flutter experience' },
+  { value: String(getAppCount()), label: 'Apps shipped' },
+  { value: String(getArticleCount()), label: 'Articles written' },
+  { value: siteConfig.experienceLabel, label: 'With Flutter' },
 ];
 
 /**
@@ -13,27 +13,21 @@ const proofItems = [
  */
 export default function ProofStrip({ className = '' }: { className?: string }) {
   return (
-    <div
-      className={['grid grid-cols-3', className].filter(Boolean).join(' ')}
-      aria-label="Professional proof"
+    <dl
+      className={['grid max-w-[540px] grid-cols-3 gap-3', className].filter(Boolean).join(' ')}
+      aria-label="Quick facts"
     >
-      {proofItems.map((item, index) => (
+      {proofItems.map((item) => (
         <div
           key={item.label}
-          className={[
-            'border-r border-[var(--line-16)] px-2 py-4 text-center sm:px-6 sm:py-6',
-            index === 0 ? 'pl-0' : '',
-            index === proofItems.length - 1 ? 'border-r-0 pr-0' : '',
-          ].join(' ')}
+          className="editorial-card flex flex-col-reverse justify-end px-3 py-4 sm:px-5"
         >
-          <p className="text-[1.25rem] font-semibold tracking-[-0.04em] sm:text-[1.45rem]">
+          <dt className="mt-1 text-[0.8125rem] leading-5 text-[var(--text-muted)]">{item.label}</dt>
+          <dd className="text-[1.375rem] font-semibold tracking-[-0.03em] sm:text-[1.6rem]">
             {item.value}
-          </p>
-          <p className="mt-1 text-[0.7rem] leading-4 text-[var(--text-muted)] sm:text-sm sm:leading-5">
-            {item.label}
-          </p>
+          </dd>
         </div>
       ))}
-    </div>
+    </dl>
   );
 }

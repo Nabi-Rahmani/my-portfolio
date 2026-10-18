@@ -11,8 +11,8 @@ export interface NavItem {
 }
 
 export const primaryNav: NavItem[] = [
-  { id: 'projects', label: 'Work', href: '/projects' },
-  { id: 'articles', label: 'Writing', href: '/blog' },
+  { id: 'projects', label: 'Projects', href: '/projects' },
+  { id: 'articles', label: 'Blog', href: '/blog' },
   ...(siteConfig.learningEnabled
     ? [{ id: 'learn' as const, label: 'Learn', href: '/courses' }]
     : []),
@@ -21,7 +21,7 @@ export const primaryNav: NavItem[] = [
 
 export const footerNav: { label: string; href: string }[] = [
   { label: 'Projects', href: '/projects' },
-  { label: 'Articles', href: '/blog' },
+  { label: 'Blog', href: '/blog' },
   { label: 'About', href: '/about' },
   ...(siteConfig.learningEnabled ? [{ label: 'Courses', href: '/courses' }] : []),
   { label: 'Now', href: '/now' },

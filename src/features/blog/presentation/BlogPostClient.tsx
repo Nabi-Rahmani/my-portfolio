@@ -54,20 +54,8 @@ export default function BlogPostClient({
     <div className="min-h-screen bg-[var(--cream)] text-[var(--ink)]">
       <ReadingProgress reduceMotion={reduceMotion} />
 
-      <section className="relative">
-        <div className="relative h-[300px] overflow-hidden md:h-[450px]">
-          <Image
-            src={post.coverImage}
-            alt={post.title}
-            fill
-            className="object-cover"
-            sizes="100vw"
-            priority
-          />
-          <div className="absolute inset-0 bg-[var(--cream)]/75" />
-        </div>
-
-        <div className="relative z-10 -mt-32 px-6 md:-mt-44 md:px-12">
+      <section className="border-b border-[var(--line)] bg-[var(--surface-bg)] pb-8 pt-[calc(72px+2.5rem)] md:pt-[calc(72px+3.5rem)]">
+        <div className="px-6 md:px-12">
           <div className="mx-auto max-w-[800px]">
             <motion.nav
               className="mb-6"
@@ -93,7 +81,7 @@ export default function BlogPostClient({
                     href="/blog"
                     className={`rounded text-[var(--muted)] transition-colors hover:text-[var(--atelier-accent)] ${focusRing}`}
                   >
-                    Articles
+                    Blog
                   </Link>
                 </li>
                 <li className="text-[var(--muted)]" aria-hidden>
@@ -119,7 +107,7 @@ export default function BlogPostClient({
             </motion.div>
 
             <motion.h1
-              className="mb-6 font-[family-name:var(--font-serif)] text-[clamp(1.75rem,4.5vw,2.75rem)] leading-[1.15] tracking-tight text-[var(--ink)]"
+              className="mb-5 font-[family-name:var(--font-serif)] text-[clamp(1.875rem,4.5vw,3rem)] leading-[1.12] tracking-[-0.03em] text-[var(--ink)]"
               initial={reduceMotion ? false : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={enter(0.14)}
@@ -177,7 +165,7 @@ export default function BlogPostClient({
                 <Link
                   key={tag}
                   href={`/blog?tag=${encodeURIComponent(tag)}`}
-                  className={`rounded-full border border-[var(--line)] px-3 py-1 font-mono text-[0.75rem] text-[var(--muted)] no-underline transition-colors hover:border-[var(--atelier-accent)]/40 hover:text-[var(--atelier-accent)] ${focusRing}`}
+                  className={`rounded-full bg-[var(--panel-bg)] px-3 py-1 text-[0.8125rem] text-[var(--muted)] no-underline transition-colors hover:bg-[var(--accent-soft)] hover:text-[var(--atelier-accent)] ${focusRing}`}
                 >
                   {tag}
                 </Link>
@@ -188,8 +176,8 @@ export default function BlogPostClient({
       </section>
 
       <div className="mx-auto max-w-6xl px-6 pb-16 pt-12 md:px-12">
-        <div className="grid gap-12 lg:grid-cols-[1fr_240px]">
-          <article>
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_240px]">
+          <article className="min-w-0">
             <motion.div
               initial={reduceMotion ? false : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}

@@ -16,6 +16,8 @@ export const siteConfig = {
   availability: 'Available for remote Flutter roles',
   contactEmail: 'codewithnabi@gmail.com',
   portraitPath: '/assets/branding/nabi-night.jpg',
+  /** Square face crop for the small round avatar in the home hero. */
+  avatarPath: '/assets/branding/avatar.jpg',
 } as const;
 
 export function absoluteUrl(path = '/'): string {

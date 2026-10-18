@@ -132,10 +132,10 @@ export default function Navigation() {
 
   const navLinkClass = (item: NavItem) =>
     cn(
-      'relative py-2 text-[0.82rem] font-medium no-underline transition-colors duration-150',
+      'inline-flex min-h-10 items-center rounded-full px-4 text-[0.9rem] font-medium no-underline transition-colors duration-150',
       isActive(item)
-        ? 'text-[var(--text-strong)] after:absolute after:inset-x-0 after:-bottom-px after:h-px after:bg-[var(--accent)]'
-        : 'text-[var(--text-muted)] hover:text-[var(--text-strong)]',
+        ? 'bg-[var(--accent-soft)] text-[var(--accent)]'
+        : 'text-[var(--text-muted)] hover:bg-[var(--panel-bg)] hover:text-[var(--text-strong)]',
     );
 
   return (
@@ -152,13 +152,13 @@ export default function Navigation() {
             aria-label={`${siteConfig.brandName} home`}
             className="group inline-flex min-h-11 items-center justify-self-start no-underline"
           >
-            <span className="text-[1.08rem] font-semibold leading-none tracking-[-0.055em] text-[var(--text-strong)] transition-opacity duration-150 group-hover:opacity-65 sm:text-[1.14rem]">
-              codewith<span className="font-extrabold">nabi</span>
+            <span className="text-[1.08rem] font-semibold leading-none tracking-[-0.04em] text-[var(--text-strong)] transition-opacity duration-150 group-hover:opacity-65 sm:text-[1.14rem]">
+              codewith<span className="text-[var(--accent)]">nabi</span>
             </span>
           </Link>
 
-          <div className="flex items-center gap-7 lg:gap-10">
-            <div className="hidden items-center gap-6 md:flex lg:gap-8">
+          <div className="flex items-center gap-4 lg:gap-6">
+            <div className="hidden items-center gap-1 md:flex">
               {primaryNav.map((item) => (
                 <Link
                   key={item.id}
@@ -174,9 +174,9 @@ export default function Navigation() {
             <div className="flex items-center gap-2.5">
               <a
                 href={contactMailto({ subject: 'Flutter role inquiry' })}
-                className="hidden min-h-11 items-center text-[0.82rem] font-medium text-[var(--text-muted)] no-underline transition-colors duration-150 hover:text-[var(--text-strong)] sm:inline-flex"
+                className="hidden min-h-10 items-center rounded-full bg-[var(--accent)] px-4 text-[0.875rem] font-semibold text-[var(--on-accent)] no-underline transition-colors duration-150 hover:bg-[var(--accent-button-hover)] sm:inline-flex"
               >
-                Contact
+                Contact me
               </a>
               <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
               <button

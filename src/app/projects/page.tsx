@@ -12,31 +12,22 @@ export default function Projects() {
     <div className="min-h-screen bg-[var(--page-bg)] pt-[72px] text-[var(--text-strong)]">
       <main>
         <header className="border-b border-[var(--line-16)]">
-          <div className="site-container grid gap-8 py-14 sm:gap-10 sm:py-22 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:py-28">
-            <div>
-              <p className="eyebrow">Selected work · 2023—Today</p>
-              <h1 className="display-page mt-6 max-w-[10ch]">Products I&apos;ve taken to market.</h1>
-            </div>
-            <div className="lg:pb-2">
-              <p className="max-w-[58ch] text-[1rem] leading-8 text-[var(--text-muted)]">
-                Three independent Flutter products, each designed, engineered, released, and
-                maintained as a complete system—not a portfolio concept.
-              </p>
-              <dl className="mt-8 grid grid-cols-2 gap-6 border-t border-[var(--line-16)] pt-6">
-                <div>
-                  <dt className="eyebrow">Role</dt>
-                  <dd className="mt-2 text-[0.86rem] font-semibold">Independent product engineer</dd>
-                </div>
-                <div>
-                  <dt className="eyebrow">Experience</dt>
-                  <dd className="mt-2 text-[0.86rem] font-semibold">{siteConfig.experienceLabel}</dd>
-                </div>
-              </dl>
-            </div>
+          <div className="site-container py-12 sm:py-16 lg:py-20">
+            <p className="eyebrow">Projects · 2023 to today</p>
+            <h1 className="display-page mt-3 max-w-[18ch]">Apps I&apos;ve built and taken to market</h1>
+            <p className="mt-5 max-w-[60ch] text-[1.05rem] leading-8 text-[var(--text-muted)]">
+              {projects.length} real Flutter apps, live on Google Play. For each one I did the
+              design, the code, the store release, and the updates since—on my own.
+            </p>
+            <ul className="mt-6 flex flex-wrap gap-2" aria-label="At a glance">
+              <li className="chip">Solo-built</li>
+              <li className="chip">{siteConfig.experienceLabel} with Flutter</li>
+              <li className="chip">Actively maintained</li>
+            </ul>
           </div>
         </header>
 
-        <section className="site-container">
+        <section className="site-container" aria-label="All projects">
           {projects.map((project, index) => (
             <ProjectShowcase
               key={project.slug}
@@ -48,25 +39,22 @@ export default function Projects() {
         </section>
 
         <section className="border-t border-[var(--line-16)] bg-[var(--surface-bg)]">
-          <div className="site-container flex flex-col gap-7 py-12 sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:py-18">
+          <div className="site-container flex flex-col gap-7 py-12 sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:py-16">
             <div>
-              <p className="eyebrow">Next product</p>
-              <h2 className="mt-4 max-w-[18ch] text-[clamp(2rem,4vw,3.6rem)] font-semibold leading-[1] tracking-[-0.05em]">
-                Need a Flutter engineer who stays for the release?
+              <p className="eyebrow">Your app next?</p>
+              <h2 className="display-section mt-2 max-w-[22ch]">
+                Need a Flutter developer who stays after launch?
               </h2>
             </div>
             <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
               <a
                 href={contactMailto({ subject: 'Flutter role inquiry' })}
-                className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none sm:w-auto"
+                className="button-primary w-full sm:w-auto"
               >
-                Start a conversation
+                Contact me
               </a>
-              <Link
-                href="/about"
-                className="flex h-12 w-full items-center justify-center rounded-full border border-[var(--line-24)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none sm:w-auto"
-              >
-                About my approach
+              <Link href="/about" className="button-secondary w-full sm:w-auto">
+                More about me
               </Link>
             </div>
           </div>

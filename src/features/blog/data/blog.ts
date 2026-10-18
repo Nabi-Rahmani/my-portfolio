@@ -246,7 +246,7 @@ Start with one feature. Create an \`AsyncNotifierProvider\` for it. Use \`.when(
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-09-10',
@@ -535,7 +535,7 @@ Firebase is the fastest way to go from zero to a production backend. Auth, datab
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-09-05',
@@ -766,7 +766,7 @@ Shorebird adds a safety net to your release process. Ship to the store normally,
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-09-01',
@@ -1093,7 +1093,7 @@ The SQL editor has AI assistance built in — describe what you want in plain En
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-08-28',
@@ -1290,7 +1290,7 @@ Clean architecture isn't about perfection. It's about having a place for everyth
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-10-15',
@@ -1562,7 +1562,7 @@ Each pattern is independent. You don't need to adopt them all at once. But once 
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-10-08',
@@ -1794,7 +1794,7 @@ Offline-first isn't a nice-to-have. In a world where users expect apps to work i
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-10-01',
@@ -2080,7 +2080,7 @@ Error handling isn't glamorous. But it's the difference between an app that feel
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-09-25',
@@ -2415,7 +2415,7 @@ Testing isn't about 100% coverage. It's about testing the code that breaks. Busi
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-09-20',
@@ -2664,7 +2664,7 @@ RevenueCat turns what used to be months of IAP plumbing into a weekend project. 
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-09-15',
@@ -2848,7 +2848,7 @@ The initial setup takes about an hour. After that, every release takes zero manu
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-09-12',
@@ -3125,7 +3125,7 @@ The architecture supports this incremental approach by design. Your business log
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences'
         },
         publishedAt: '2025-09-08',
@@ -3471,7 +3471,7 @@ Next: implement the simplest store-based prompt with the upgrader package.
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences',
         },
         publishedAt: '2026-07-15',
@@ -3671,7 +3671,7 @@ That is exactly why Part 3 introduces remote config force update.
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences',
         },
         publishedAt: '2026-07-15',
@@ -3822,7 +3822,7 @@ Keep comparison pure and unit-tested. Network code stays thin.
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences',
         },
         publishedAt: '2026-07-15',
@@ -3970,7 +3970,7 @@ Read the package README for the exact widget name and parameters for the version
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences',
         },
         publishedAt: '2026-07-15',
@@ -4112,7 +4112,7 @@ Using \`'0.0.0'\` as fallback means fail **open** (never force when unknown). Th
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences',
         },
         publishedAt: '2026-07-15',
@@ -4259,7 +4259,7 @@ Do **not** share one RC namespace for prod + experimental kill switches without 
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences',
         },
         publishedAt: '2026-07-15',
@@ -4433,7 +4433,7 @@ My default for shipping apps: **remote min version + helper + API or Firebase**,
     `,
         author: {
             name: 'Muhammad Nabi Rahmani',
-            avatar: '/assets/branding/profile.jpg',
+            avatar: '/assets/branding/avatar.jpg',
             bio: 'Flutter Developer passionate about creating beautiful mobile experiences',
         },
         publishedAt: '2026-07-15',

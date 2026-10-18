@@ -60,9 +60,7 @@ export function MobileNavDrawer({
         })}
       >
         <div className="flex items-center justify-between">
-          <span className="font-mono text-xs uppercase tracking-[0.14em] text-[var(--text-faint)]">
-            Navigation
-          </span>
+          <span className="text-sm font-semibold text-[var(--text-strong)]">Menu</span>
           <button
             ref={closeButtonRef}
             type="button"
@@ -74,7 +72,7 @@ export function MobileNavDrawer({
           </button>
         </div>
 
-        <div className="mt-8 flex flex-col">
+        <div className="mt-6 flex flex-col gap-1">
           {primaryNav.map((item, index) => (
             <motion.div
               key={item.id}
@@ -89,11 +87,15 @@ export function MobileNavDrawer({
                 href={item.href}
                 onClick={onClose}
                 aria-current={isActive(item) ? 'page' : undefined}
-                className="flex min-h-12 items-center justify-between border-b border-[var(--line-16)] py-3.5 text-[1.35rem] font-semibold tracking-[-0.035em] text-[var(--text-strong)] no-underline sm:min-h-14 sm:py-4 sm:text-[1.55rem]"
+                className={
+                  isActive(item)
+                    ? 'flex min-h-14 items-center justify-between rounded-2xl bg-[var(--accent-soft)] px-4 text-[1.25rem] font-semibold tracking-[-0.02em] text-[var(--accent)] no-underline'
+                    : 'flex min-h-14 items-center justify-between rounded-2xl px-4 text-[1.25rem] font-semibold tracking-[-0.02em] text-[var(--text-strong)] no-underline transition-colors hover:bg-[var(--panel-bg)]'
+                }
               >
                 {item.label}
-                <span className="font-mono text-[0.75rem] text-[var(--text-faint)]">
-                  0{index + 1}
+                <span className="text-[var(--text-faint)]" aria-hidden>
+                  →
                 </span>
               </Link>
             </motion.div>
@@ -105,7 +107,7 @@ export function MobileNavDrawer({
             href={contactMailto({ subject: 'Flutter role inquiry' })}
             className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-5 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
           >
-            Start a conversation
+            Contact me
           </a>
           <ThemeToggle isDark={isDark} onToggle={onToggleTheme} variant="row" />
         </div>

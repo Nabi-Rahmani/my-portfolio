@@ -19,15 +19,10 @@ export default function ProductRack({ projects }: { projects: Project[] }) {
   const primaryAlt = primaryLead?.alt ?? `${primary.title} product overview`;
 
   return (
-    <div className="grid gap-2 sm:gap-3" aria-label="Featured project previews">
+    <div className="grid gap-3" aria-label="Featured project previews">
       <Link
         href={`/projects/${primary.slug}`}
-        className={[
-          'group relative block aspect-video overflow-hidden rounded-[var(--radius-card)] border border-[var(--line-16)] bg-[var(--surface-bg)] no-underline transition-[border-color,transform] duration-150',
-          'hover:-translate-y-0.5 hover:border-[var(--line-24)]',
-          'focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[var(--accent)]',
-          'motion-reduce:transition-none motion-reduce:hover:translate-y-0',
-        ].join(' ')}
+        className="group editorial-card hover-card relative block aspect-video overflow-hidden no-underline motion-reduce:hover:translate-y-0"
       >
         <Image
           src={primarySrc}
@@ -45,7 +40,7 @@ export default function ProductRack({ projects }: { projects: Project[] }) {
       </Link>
 
       {supporting.length > 0 && (
-        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+        <div className="grid grid-cols-2 gap-3">
           {supporting.map((project) => {
             const lead = getProjectLeadImage(project);
             const src = lead?.src ?? project.coverImage;
@@ -55,12 +50,7 @@ export default function ProductRack({ projects }: { projects: Project[] }) {
               <Link
                 key={project.slug}
                 href={`/projects/${project.slug}`}
-                className={[
-                  'group relative block aspect-video overflow-hidden rounded-[var(--radius-card)] border border-[var(--line-16)] bg-[var(--surface-bg)] no-underline transition-[border-color,transform] duration-150',
-                  'hover:-translate-y-0.5 hover:border-[var(--line-24)]',
-                  'focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-[var(--accent)]',
-                  'motion-reduce:transition-none motion-reduce:hover:translate-y-0',
-                ].join(' ')}
+                className="group editorial-card hover-card relative block aspect-video overflow-hidden no-underline motion-reduce:hover:translate-y-0"
               >
                 <Image
                   src={src}
