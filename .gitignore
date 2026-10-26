@@ -46,6 +46,7 @@ GLOSSARY.md
 
 # client test builds — binaries stay local unless explicitly allowlisted
 public/test-builds/*
+!public/test-builds/LabelStudio-prod-1.1.1.1-setup.exe
 !public/test-builds/LabelStudio-prod-1.1.0.2-setup.exe
 
 # typescript

@@ -18,6 +18,27 @@ export const testBuildApps: TestBuildApp[] = [
       'Windows production installer for LabelStudio. Download and run the setup file on a Windows PC.',
     releases: [
       {
+        version: '1.1.1.1',
+        releasedAt: '2026-10-26',
+        changes: [
+          'The Perkon PR-470B is recognized and prints the whole label in TSPL.',
+          'A label that does not fit the page fails before anything is sent.',
+          'The Zebra TLP 2844 shows Printer ready when Windows reports it ready.',
+        ],
+        artifacts: [
+          {
+            platform: 'windows',
+            format: 'exe',
+            arch: 'x64',
+            url: '/test-builds/LabelStudio-prod-1.1.1.1-setup.exe',
+            fileName: 'LabelStudio-prod-1.1.1.1-setup.exe',
+            sizeBytes: 14186782,
+            sha256:
+              '83a4bdc13f6ba1f07a8a5356a6fbe5b85cfa3e425a945c89c60a066adbc0fa6e',
+          },
+        ],
+      },
+      {
         version: '1.1.0.2',
         releasedAt: '2026-10-15',
         changes: [
@@ -34,7 +55,8 @@ export const testBuildApps: TestBuildApp[] = [
             url: '/test-builds/LabelStudio-prod-1.1.0.2-setup.exe',
             fileName: 'LabelStudio-prod-1.1.0.2-setup.exe',
             sizeBytes: 14132617,
-            sha256: '1d8083cfd46954e6c60ed32483eecdd6827c9ab904d932c557a6d976664dd18c',
+            sha256:
+              '1d8083cfd46954e6c60ed32483eecdd6827c9ab904d932c557a6d976664dd18c',
           },
         ],
       },
