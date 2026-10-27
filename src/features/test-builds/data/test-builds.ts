@@ -18,6 +18,26 @@ export const testBuildApps: TestBuildApp[] = [
       'Windows production installer for LabelStudio. Download and run the setup file on a Windows PC.',
     releases: [
       {
+        version: '1.1.2.1',
+        releasedAt: '2026-10-27',
+        changes: [
+          'Perkon TSPL prints black on white, not a fully dark negative.',
+          'A recognized printer fills in its language, resolution, and widest label.',
+        ],
+        artifacts: [
+          {
+            platform: 'windows',
+            format: 'exe',
+            arch: 'x64',
+            url: '/test-builds/LabelStudio-prod-1.1.2.1-setup.exe',
+            fileName: 'LabelStudio-prod-1.1.2.1-setup.exe',
+            sizeBytes: 14188626,
+            sha256:
+              '9d740ca838a76f3e59203c59024dbf4bd697ca99ad2ca04d7f7f33360e934d69',
+          },
+        ],
+      },
+      {
         version: '1.1.1.1',
         releasedAt: '2026-10-26',
         changes: [
