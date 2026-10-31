@@ -26,41 +26,41 @@
 }
 
 :root {
-  --page-bg: #fafafa;
-  --surface-bg: #ffffff;
-  --panel-bg: #f4f4f5;
-  --footer-bg: #f4f4f5;
-  --tile-bg: #ffffff;
-  --header-bg: color-mix(in srgb, #fafafa 88%, transparent);
+  --page-bg: #f6f3ec;
+  --surface-bg: #fffdf8;
+  --panel-bg: #efeae1;
+  --footer-bg: #f6f3ec;
+  --tile-bg: #fffdf8;
+  --header-bg: #f6f3ec;
 
-  --text-strong: #111111;
-  --text-body: #262626;
-  --text-soft: #3f3f3f;
-  --text-muted: #4f4f55;
-  --text-faint: #6b6b72;
+  --text-strong: #1a1714;
+  --text-body: #2c2824;
+  --text-soft: #3a342e;
+  --text-muted: #5c564e;
+  --text-faint: #6e675f;
 
-  /* One friendly accent: used for links, primary actions, and active states. */
-  --accent: #2563eb;
-  --accent-soft: #eef4ff;
-  --on-accent: #ffffff;
-  --status-ok: #16a34a;
+  /* Brass from the Raha mark. Dark enough for small text, light enough to read as gold. */
+  --accent: #8a5a22;
+  --accent-soft: #f3ead8;
+  --on-accent: #f7f4ee;
+  --status-ok: #3d7a45;
 
-  --line-13: #efeff1;
-  --line-16: #e6e6e9;
-  --line-18: #dedee2;
-  --line-24: #d1d1d6;
-  --line-30: #b8b8be;
+  --line-13: #f0ebe3;
+  --line-16: #e3dcd0;
+  --line-18: #d9d0c2;
+  --line-24: #c9bfae;
+  --line-30: #b3a794;
   --outline-border: var(--line-24);
-  --row-hover-bg: #f4f4f5;
-  --filled-button-hover: #262626;
-  --accent-button-hover: #1d4ed8;
+  --row-hover-bg: #efeae1;
+  --filled-button-hover: #1a1714;
+  --accent-button-hover: #6e4a1c;
 
   /* Big call-to-action panel (home contact card). */
-  --cta-bg: #2563eb;
-  --on-cta: #ffffff;
+  --cta-bg: #8a5a22;
+  --on-cta: #f7f4ee;
 
-  --card-shadow: 0 1px 2px rgb(16 16 24 / 0.04), 0 1px 1px rgb(16 16 24 / 0.02);
-  --card-shadow-hover: 0 12px 32px -12px rgb(16 16 24 / 0.18), 0 2px 6px rgb(16 16 24 / 0.05);
+  --card-shadow: none;
+  --card-shadow-hover: none;
 
   --radius-pill: 999px;
   --radius-card: 16px;
@@ -95,23 +95,23 @@
 }
 
 .dark {
-  --page-bg: #0b0b0d;
-  --surface-bg: #131316;
-  --panel-bg: #18181b;
-  --footer-bg: #0b0b0d;
-  --tile-bg: #18181b;
-  --header-bg: color-mix(in srgb, #0b0b0d 85%, transparent);
+  --page-bg: #0e141b;
+  --surface-bg: #161d27;
+  --panel-bg: #161d27;
+  --footer-bg: #0e141b;
+  --tile-bg: #161d27;
+  --header-bg: #0e141b;
 
-  --text-strong: #f5f5f7;
-  --text-body: #e4e4e7;
-  --text-soft: #d4d4d8;
-  --text-muted: #b4b4bb;
-  --text-faint: #8e8e96;
+  --text-strong: #f3efe6;
+  --text-body: #e6e0d6;
+  --text-soft: #d4cdc2;
+  --text-muted: #b7b0a4;
+  --text-faint: #8d857b;
 
-  --accent: #6ea8fe;
-  --accent-soft: #111c33;
-  --on-accent: #0b0b0d;
-  --status-ok: #4ade80;
+  --accent: #e7c98a;
+  --accent-soft: #2a2418;
+  --on-accent: #1a140c;
+  --status-ok: #8dce96;
 
   --line-13: color-mix(in srgb, var(--text-strong) 8%, transparent);
   --line-16: color-mix(in srgb, var(--text-strong) 11%, transparent);
@@ -119,15 +119,15 @@
   --line-24: color-mix(in srgb, var(--text-strong) 20%, transparent);
   --line-30: color-mix(in srgb, var(--text-strong) 28%, transparent);
   --outline-border: var(--line-24);
-  --row-hover-bg: #18181b;
-  --filled-button-hover: #ffffff;
-  --accent-button-hover: #9cc3ff;
+  --row-hover-bg: #1c2530;
+  --filled-button-hover: #f3efe6;
+  --accent-button-hover: #f0d7a2;
 
-  --cta-bg: #1e3a8a;
-  --on-cta: #ffffff;
+  --cta-bg: #e7c98a;
+  --on-cta: #1a140c;
 
   --card-shadow: none;
-  --card-shadow-hover: 0 16px 40px -16px rgb(0 0 0 / 0.7);
+  --card-shadow-hover: none;
 }
 
 html {
@@ -196,15 +196,16 @@ h3 {
     width: 100%;
   }
 
-  /* Small label above a heading. Sentence case reads friendlier than mono caps. */
+  /* Section label. Mono caps sit on the editorial rail. */
   .eyebrow,
   .editorial-kicker,
   .type-eyebrow {
-    color: var(--accent);
-    font-family: var(--font-sans);
-    font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: 0;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
   }
 
   .display-hero,
@@ -283,8 +284,8 @@ h3 {
   .editorial-card {
     background: var(--surface-bg);
     border: 1px solid var(--line-16);
-    border-radius: var(--radius-card);
-    box-shadow: var(--card-shadow);
+    border-radius: 0;
+    box-shadow: none;
   }
 
   /* Card that lifts slightly on hover — used for anything clickable. */
@@ -295,16 +296,17 @@ h3 {
   }
 
   .hover-card:hover {
-    border-color: var(--line-24);
-    box-shadow: var(--card-shadow-hover);
-    transform: translateY(-2px);
+    border-color: var(--text-strong);
+    background: var(--surface-bg);
+    box-shadow: none;
+    transform: none;
   }
 
   /* Small rounded tag, e.g. a feature or a blog category. */
   .chip {
     align-items: center;
     background: var(--panel-bg);
-    border-radius: var(--radius-pill);
+    border-radius: 0;
     color: var(--text-muted);
     display: inline-flex;
     font-size: 0.75rem;
@@ -317,7 +319,7 @@ h3 {
   .button-secondary {
     align-items: center;
     border: 1px solid transparent;
-    border-radius: var(--radius-pill);
+    border-radius: 0;
     display: inline-flex;
     font-size: 0.9375rem;
     font-weight: 600;

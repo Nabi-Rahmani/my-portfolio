@@ -24,7 +24,7 @@ export function ThemeToggle({
         type="button"
         onClick={onToggle}
         aria-label={label}
-        className="flex h-12 w-full items-center justify-center gap-2 rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-5 text-sm font-medium text-[var(--text-muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none"
+        className="flex h-12 w-full items-center justify-center gap-2 border border-[var(--line-16)] bg-[var(--page-bg)] px-5 font-mono text-xs uppercase tracking-widest text-[var(--text-muted)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none"
       >
         {isDark ? <IconSun size={17} /> : <IconMoon size={17} />}
         {isDark ? 'Switch to light mode' : 'Switch to dark mode'}
@@ -38,7 +38,7 @@ export function ThemeToggle({
       onClick={onToggle}
       aria-label={label}
       className={cn(
-        'group flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] text-[var(--text-strong)]',
+        'group flex h-11 w-11 cursor-pointer items-center justify-center border border-[var(--line-16)] bg-[var(--page-bg)] text-[var(--text-strong)]',
         'transition-colors duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none',
       )}
     >

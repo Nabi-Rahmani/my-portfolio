@@ -104,7 +104,7 @@ export default function RootLayout({
         />
         <StructuredData />
       </head>
-      <body className="antialiased min-h-screen overflow-x-hidden">
+      <body className="min-h-screen overflow-x-hidden tracking-tight antialiased">
         <Navigation />
         {children}
       </body>

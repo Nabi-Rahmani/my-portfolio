@@ -1,6 +1,7 @@
 'use client';
 
 import { AnimatePresence, useReducedMotion } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from 'react';
@@ -9,7 +10,7 @@ import { MobileNavDrawer } from '@/core/presentation/layout/MobileNavDrawer';
 import { IconMenu } from '@/core/presentation/layout/NavIcons';
 import { ThemeToggle } from '@/core/presentation/layout/ThemeToggle';
 import { primaryNav, type NavItem } from '@/core/config/navigation';
-import { contactMailto, siteConfig } from '@/core/config/site';
+import { siteConfig } from '@/core/config/site';
 import { cn } from '@/core/lib/utils';
 
 function scrollDocumentTop(behavior: ScrollBehavior) {
@@ -132,33 +133,41 @@ export default function Navigation() {
 
   const navLinkClass = (item: NavItem) =>
     cn(
-      'inline-flex min-h-10 items-center rounded-full px-4 text-[0.9rem] font-medium no-underline transition-colors duration-150',
+      'inline-flex min-h-10 items-center px-3 font-mono text-xs uppercase tracking-widest no-underline transition-colors duration-150',
       isActive(item)
-        ? 'bg-[var(--accent-soft)] text-[var(--accent)]'
-        : 'text-[var(--text-muted)] hover:bg-[var(--panel-bg)] hover:text-[var(--text-strong)]',
+        ? 'text-[var(--accent)]'
+        : 'text-[var(--text-muted)] hover:text-[var(--text-strong)]',
     );
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--line-16)] bg-[var(--header-bg)] backdrop-blur-xl">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--line-16)] bg-[var(--header-bg)]">
         <nav
-          className="flex h-[72px] w-full items-center justify-between px-4 sm:px-6 lg:px-8"
+          className="mx-auto flex h-[72px] w-full max-w-6xl items-center justify-between px-4 sm:px-6"
           aria-label="Primary"
         >
           <Link
             href="/"
             scroll
             onClick={handleBrandClick}
-            aria-label={`${siteConfig.brandName} home`}
-            className="group inline-flex min-h-11 items-center justify-self-start no-underline"
+            aria-label={`${siteConfig.name} home`}
+            className="inline-flex min-h-11 items-center gap-3 no-underline"
           >
-            <span className="text-[1.08rem] font-semibold leading-none tracking-[-0.04em] text-[var(--text-strong)] transition-opacity duration-150 group-hover:opacity-65 sm:text-[1.14rem]">
-              codewith<span className="text-[var(--accent)]">nabi</span>
+            <Image
+              src={siteConfig.avatarPath}
+              alt=""
+              width={32}
+              height={32}
+              priority
+              className="size-8 border border-[var(--line-16)] object-cover"
+            />
+            <span className="font-mono text-xs uppercase tracking-widest text-[var(--text-strong)]">
+              {siteConfig.shortName}
             </span>
           </Link>
 
-          <div className="flex items-center gap-4 lg:gap-6">
-            <div className="hidden items-center gap-1 md:flex">
+          <div className="flex items-center gap-3 sm:gap-5">
+            <div className="hidden items-center md:flex">
               {primaryNav.map((item) => (
                 <Link
                   key={item.id}
@@ -171,24 +180,23 @@ export default function Navigation() {
               ))}
             </div>
 
-            <div className="flex items-center gap-2.5">
-              <a
-                href={contactMailto({ subject: 'Flutter role inquiry' })}
-                className="hidden min-h-10 items-center rounded-full bg-[var(--accent)] px-4 text-[0.875rem] font-semibold text-[var(--on-accent)] no-underline transition-colors duration-150 hover:bg-[var(--accent-button-hover)] sm:inline-flex"
-              >
-                Contact me
-              </a>
-              <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
-              <button
-                type="button"
-                onClick={() => setDrawerOpen(true)}
-                aria-label="Open menu"
-                aria-expanded={drawerOpen}
-                className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] text-[var(--text-strong)] transition-colors duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none md:hidden"
-              >
-                <IconMenu />
-              </button>
-            </div>
+            <Link
+              href="/#contact"
+              className="hidden items-center gap-2 font-mono text-xs uppercase tracking-widest text-[var(--accent)] no-underline sm:inline-flex"
+            >
+              <span className="size-1.5 bg-[var(--accent)]" aria-hidden />
+              Open to work
+            </Link>
+            <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
+            <button
+              type="button"
+              onClick={() => setDrawerOpen(true)}
+              aria-label="Open menu"
+              aria-expanded={drawerOpen}
+              className="flex h-11 w-11 cursor-pointer items-center justify-center border border-[var(--line-16)] bg-[var(--page-bg)] text-[var(--text-strong)] transition-colors duration-150 hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none md:hidden"
+            >
+              <IconMenu />
+            </button>
           </div>
         </nav>
       </header>

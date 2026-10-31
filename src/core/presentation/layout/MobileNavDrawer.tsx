@@ -66,7 +66,7 @@ export function MobileNavDrawer({
             type="button"
             onClick={onClose}
             aria-label="Close menu"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--line-24)] bg-transparent text-[var(--text-strong)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none"
+            className="flex h-11 w-11 items-center justify-center border border-[var(--line-16)] bg-transparent text-[var(--text-strong)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none"
           >
             <IconClose />
           </button>
@@ -89,8 +89,8 @@ export function MobileNavDrawer({
                 aria-current={isActive(item) ? 'page' : undefined}
                 className={
                   isActive(item)
-                    ? 'flex min-h-14 items-center justify-between rounded-2xl bg-[var(--accent-soft)] px-4 text-[1.25rem] font-semibold tracking-[-0.02em] text-[var(--accent)] no-underline'
-                    : 'flex min-h-14 items-center justify-between rounded-2xl px-4 text-[1.25rem] font-semibold tracking-[-0.02em] text-[var(--text-strong)] no-underline transition-colors hover:bg-[var(--panel-bg)]'
+                    ? 'flex min-h-14 items-center justify-between border border-[var(--line-16)] px-4 font-mono text-xs uppercase tracking-widest text-[var(--accent)] no-underline'
+                    : 'flex min-h-14 items-center justify-between px-4 font-mono text-xs uppercase tracking-widest text-[var(--text-strong)] no-underline transition-colors hover:bg-[var(--surface-bg)]'
                 }
               >
                 {item.label}
@@ -105,9 +105,9 @@ export function MobileNavDrawer({
         <div className="mt-8 space-y-3 sm:mt-10">
           <a
             href={contactMailto({ subject: 'Flutter role inquiry' })}
-            className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-5 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none"
+            className="flex h-12 w-full items-center justify-center bg-[var(--accent)] px-5 font-mono text-xs uppercase tracking-widest text-[var(--on-accent)] no-underline transition-opacity hover:opacity-90 motion-reduce:transition-none"
           >
-            Contact me
+            work with me
           </a>
           <ThemeToggle isDark={isDark} onToggle={onToggleTheme} variant="row" />
         </div>

@@ -58,7 +58,7 @@ export default function About() {
       <main>
         <section className="border-b border-[var(--line-16)]">
           <div className="site-container grid gap-9 py-12 sm:gap-12 sm:py-16 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-16 lg:py-20">
-            <div className="relative aspect-[4/5] max-w-[390px] overflow-hidden rounded-[28px] border border-[var(--line-18)] bg-[var(--surface-bg)] shadow-[var(--card-shadow-hover)]">
+            <div className="relative aspect-[4/5] max-w-[390px] overflow-hidden border border-[var(--line-16)] bg-[var(--surface-bg)]">
               <Image
                 src={siteConfig.portraitPath}
                 alt="Nabi Rahmani, Flutter product engineer"
@@ -67,7 +67,7 @@ export default function About() {
                 sizes="(max-width: 1024px) 80vw, 390px"
                 priority
               />
-              <div className="absolute inset-x-3 bottom-3 flex min-h-11 items-center gap-2 rounded-full bg-black/70 px-4 py-2 text-white backdrop-blur-md sm:inset-x-4 sm:bottom-4 sm:py-2.5">
+              <div className="absolute inset-x-0 bottom-0 flex min-h-11 items-center gap-2 bg-black/70 px-4 py-2 text-white">
                 <span className="h-2 w-2 rounded-full bg-[#4ade80]" aria-hidden />
                 <span className="text-sm font-medium">
                   <span className="sm:hidden">Available for remote roles</span>

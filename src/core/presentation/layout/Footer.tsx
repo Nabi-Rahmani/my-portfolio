@@ -29,8 +29,8 @@ function SocialIconButton({
   internal?: boolean;
 }) {
   const className = cn(
-    'inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full',
-    'border border-[var(--line-24)] bg-[var(--surface-bg)] text-[var(--text-strong)]',
+    'inline-flex h-11 w-11 shrink-0 items-center justify-center',
+    'border border-[var(--line-16)] bg-[var(--page-bg)] text-[var(--text-strong)]',
     'transition-[border-color,background-color,color] duration-150',
     'hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)]',
     'focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]',
@@ -91,8 +91,8 @@ export default function Footer({
       <div className="site-container py-10 sm:py-12 lg:py-14">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-start lg:gap-16">
           <div>
-            <p className="text-[1.1rem] font-semibold tracking-[-0.04em] text-[var(--text-strong)]">
-              codewith<span className="text-[var(--accent)]">nabi</span>
+            <p className="font-mono text-xs uppercase tracking-widest text-[var(--text-strong)]">
+              {siteConfig.shortName}
             </p>
             <p className="mt-3 max-w-[42ch] text-[0.9375rem] leading-6 text-[var(--text-muted)]">
               {siteConfig.tagline}

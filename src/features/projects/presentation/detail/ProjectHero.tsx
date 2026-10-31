@@ -83,7 +83,7 @@ export function ProjectHero({
               {project.badges?.map((badge) => (
                 <span
                   key={badge}
-                  className="rounded-full border border-[var(--line-16)] bg-[var(--surface-bg)] px-3 py-1.5 font-mono text-xs text-[var(--text-muted)]"
+                  className="border border-[var(--line-16)] px-2 py-1 font-mono text-xs uppercase tracking-widest text-[var(--text-muted)]"
                 >
                   {badge}
                 </span>
@@ -99,13 +99,13 @@ export function ProjectHero({
             </div>
           </div>
 
-          <div className="rounded-[20px] border border-[var(--line-16)] bg-[var(--accent-soft)] p-3 sm:rounded-[28px] sm:p-5">
+          <div className="border border-[var(--line-16)] bg-[var(--surface-bg)]">
             {leadImage ? (
               <button
                 type="button"
                 onClick={() => onOpenLightbox(0)}
                 aria-label={`Open ${leadImage.alt}`}
-                className="relative aspect-video w-full cursor-zoom-in overflow-hidden rounded-[14px] border border-[var(--line-18)] bg-[var(--surface-bg)] p-0 sm:rounded-[20px]"
+                className="relative aspect-video w-full cursor-zoom-in overflow-hidden bg-[var(--surface-bg)] p-0"
               >
                 <Image
                   src={leadImage.src}
@@ -117,7 +117,7 @@ export function ProjectHero({
                 />
               </button>
             ) : demo ? (
-              <div className="relative aspect-video overflow-hidden rounded-[14px] border border-[var(--line-18)] bg-[var(--surface-bg)] sm:rounded-[20px]">
+              <div className="relative aspect-video overflow-hidden bg-[var(--surface-bg)]">
                 <Image
                   src={demo.poster}
                   alt={`${project.title} product demo poster`}
@@ -128,7 +128,7 @@ export function ProjectHero({
                 />
               </div>
             ) : (
-              <div className="relative aspect-video overflow-hidden rounded-[14px] border border-[var(--line-18)] bg-[var(--surface-bg)] sm:rounded-[20px]">
+              <div className="relative aspect-video overflow-hidden bg-[var(--surface-bg)]">
                 <Image
                   src={project.coverImage}
                   alt={`${project.title} product overview`}

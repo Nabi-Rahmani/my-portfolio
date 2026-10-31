@@ -22,7 +22,7 @@ export function ProjectStoreCtas({
           href={playStoreUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none sm:w-auto"
+          className="inline-flex h-10 w-full items-center justify-center bg-[var(--accent)] px-4 font-mono text-xs text-[var(--on-accent)] no-underline transition-opacity hover:opacity-90 motion-reduce:transition-none sm:w-auto"
         >
           Google Play ↗
         </a>
@@ -32,7 +32,7 @@ export function ProjectStoreCtas({
           href={appStoreUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex h-12 w-full items-center justify-center rounded-full bg-[var(--accent)] px-6 text-sm font-semibold text-[var(--on-accent)] no-underline transition-colors hover:bg-[var(--accent-button-hover)] motion-reduce:transition-none sm:w-auto"
+          className="inline-flex h-10 w-full items-center justify-center bg-[var(--accent)] px-4 font-mono text-xs text-[var(--on-accent)] no-underline transition-opacity hover:opacity-90 motion-reduce:transition-none sm:w-auto"
         >
           App Store ↗
         </a>
@@ -42,7 +42,7 @@ export function ProjectStoreCtas({
           href={githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex h-12 w-full items-center justify-center rounded-full border border-[var(--line-24)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none sm:w-auto"
+          className="inline-flex h-10 w-full items-center justify-center border border-[var(--line-16)] px-4 font-mono text-xs text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none sm:w-auto"
         >
           GitHub ↗
         </a>

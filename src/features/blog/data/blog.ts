@@ -4526,6 +4526,14 @@ export const getFeaturedPosts = (): BlogPost[] => {
     return blogPosts.filter(post => post.featured);
 };
 
+/** Featured writing for index surfaces. Summaries only — no markdown body. */
+export const getFeaturedPostSummaries = (limit = 5): BlogPostSummary[] => {
+    return blogPosts
+        .filter((post) => post.featured)
+        .slice(0, limit)
+        .map(toBlogPostSummary);
+};
+
 export const getPostBySlug = (slug: string): BlogPost | undefined => {
     return blogPosts.find(post => post.slug === slug);
 };

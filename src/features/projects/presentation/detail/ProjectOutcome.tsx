@@ -61,7 +61,7 @@ export function ProjectOutcome({
             extra={
               <Link
                 href="/projects"
-                className="flex h-12 w-full items-center justify-center rounded-full border border-[var(--line-24)] bg-[var(--surface-bg)] px-6 text-sm font-semibold text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] motion-reduce:transition-none sm:w-auto"
+                className="inline-flex h-10 w-full items-center justify-center border border-[var(--line-16)] px-4 font-mono text-xs text-[var(--text-strong)] no-underline transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)] motion-reduce:transition-none sm:w-auto"
               >
                 All work
               </Link>

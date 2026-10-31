@@ -40,6 +40,11 @@ yarn-error.log*
 ai_specs/
 GLOSSARY.md
 *.png
+specs/*.exe
+specs/**/*.mp4
+specs/Raha/
+specs/devdiscipine/
+specs/focus/
 
 # vercel
 .vercel
